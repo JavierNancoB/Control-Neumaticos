@@ -1,8 +1,6 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
-import 'bitacora/informacion_neumatico.dart';
+import '../../../services/stock_service.dart';
+import '../bitacora/informacion_neumatico.dart';
 
 class StockPage extends StatefulWidget {
   @override
@@ -52,7 +50,6 @@ class _StockPageState extends State<StockPage> {
                         title: Text('Código: ${neumatico['codigo']}'),
                         subtitle: Text('Estado: ${neumatico['estado'] ?? 'Desconocido'}'),
                         onTap: () {
-                          // Redirigir a la página de Información del Neumático
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -72,29 +69,5 @@ class _StockPageState extends State<StockPage> {
         ],
       ),
     );
-  }
-}
-
-Future<List<dynamic>> fetchNeumaticos() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  String? token = prefs.getString('token');
-
-  if (token == null) {
-    throw Exception('Token not found');
-  }
-
-  final response = await http.get(
-    Uri.parse('http://localhost:5062/api/Neumaticos/GetNeumaticoByMovilNULL'),
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer $token',
-    },
-  );
-
-  if (response.statusCode == 200) {
-    List<dynamic> neumaticos = json.decode(response.body);
-    return neumaticos.where((neumatico) => neumatico['estado'] == 1).toList();
-  } else {
-    throw Exception('Failed to load neumaticos');
   }
 }
