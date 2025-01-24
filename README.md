@@ -34,7 +34,7 @@ git clone https://github.com/JavierNancoB/Control-Neumaticos.git
 ```
 
 ### 2. Configurar la API
-En caso de no tener instalado ASP.NET Core, [haz clic aquí](./api_control_neumaticos) para seguir las instrucciones de instalación. Caso contrario, sigue los pasos a continuación:
+En caso de no tener instalado ASP.NET Core, [haz clic aquí](./api_control_neumaticos/README.md) para seguir las instrucciones de instalación. Caso contrario, sigue los pasos a continuación:
 1. Dirígete a la carpeta `aspnet-core-api`.
 2. Configura la cadena de conexión a la base de datos en el archivo `appsettings.json`.
 3. Ejecuta la API utilizando Visual Studio o la CLI de .NET:
@@ -52,7 +52,7 @@ En caso de no tener instalado Flutter, [haz clic aquí](./flutter_control_neumat
    ```
 
 ## Recursos de Documentación
-En la carpeta [resources](./resources) encontrarás:
+En la carpeta [resources](./resources/README.md) encontrarás:
 
 1. **Colección de Postman:** Permite probar los endpoints de la API de forma sencilla.
 2. **Diagrama de flujo:** Describe el flujo de la base de datos.
