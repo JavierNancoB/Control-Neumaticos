@@ -3,7 +3,7 @@ import 'admin/usuario/añadir_usuario.dart';
 import 'admin/movil/añadir_movil.dart';
 import 'admin/neumatico/nfc_neumatico.dart'; // Página única para manejar neumáticos
 import 'admin/usuario/ingresar_correo.dart';
-import 'admin/movil/modificar_movil.dart';
+//import 'admin/movil/modificar_movil.dart';
 import 'admin/usuario/inhabilitar_usuario.dart';
 import 'admin/movil/inhabilitar_movil.dart';
 

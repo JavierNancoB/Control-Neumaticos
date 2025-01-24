@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 import 'añadir_neumatico.dart';
-import 'modificar_neumatico.dart';
+//import 'modificar_neumatico.dart';
 import 'inhabilitar_neumatico.dart';
 
 class NfcNeumaticoPage extends StatefulWidget {
