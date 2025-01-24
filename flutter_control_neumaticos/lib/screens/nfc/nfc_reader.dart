@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:nfc_manager/nfc_manager.dart';
-// Aquí agregamos las diferentes pantallas a las que se puede redirigir
-import '../../funciones/admin/neumatico/añadir_neumatico.dart';
-import '../../funciones/admin/neumatico/inhabilitar_neumatico.dart';
+
 import '../menu/bitacora/informacion_neumatico.dart';
+import '../menu/admin/neumatico/añadir_neumatico_screen.dart';
+import '../menu/admin/neumatico/deshabilitar_neumatico_screen.dart';
 
 
 class NFCReader extends StatefulWidget {
@@ -91,7 +91,7 @@ class _NFCReaderState extends State<NFCReader> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Bitacora')),
+      appBar: AppBar(title: const Text('Lector NFC')),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -114,21 +114,21 @@ class _NFCReaderState extends State<NFCReader> {
                                 builder: (context) => InformacionNeumatico(nfcData: nfcData),
                               ),
                             );
-                          } else if (widget.action == 'anadir') {
+                          } else if (widget.action == 'Añadir') {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => AnadirNeumaticoPage(nfcData: nfcData)
+                                builder: (context) => AnadirNeumaticoScreen(nfcData: nfcData)
                               ),
                             );
-                          } else if (widget.action == 'modificar') {
+                          } else if (widget.action == 'Modificar') {
                             //Navigator.push(
                               //context,
                               //MaterialPageRoute(
                                 //builder: (context) => ModificarNeumaticoPage(nfcData: nfcData),
                               //),
                             //);
-                          } else if (widget.action == 'deshabilitar') {
+                          } else if (widget.action == 'Deshabilitar') {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -140,11 +140,11 @@ class _NFCReaderState extends State<NFCReader> {
                       : _startNFC,
               child: Text(
                 nfcData != 'Acerca tu dispositivo NFC para leerlo...'
-                    ? widget.action == 'anadir'
+                    ? widget.action == 'Añadir'
                         ? 'Añadir Neumático'
-                        : widget.action == 'modificar'
+                        : widget.action == 'Modificar'
                             ? 'Modificar Neumático'
-                            : widget.action == 'deshabilitar'
+                            : widget.action == 'Deshabilitar'
                                 ? 'Deshabilitar Neumático'
                                 : 'Visualizar Información'
                     : 'Leer Chip Neumatico',
