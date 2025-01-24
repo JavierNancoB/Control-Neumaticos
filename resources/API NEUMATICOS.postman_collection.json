@@ -1,0 +1,864 @@
+{
+	"info": {
+		"_postman_id": "2788164a-4ded-4c70-82cb-3b6931a81ade",
+		"name": "API NEUMATICOS",
+		"description": "1. **Inicio de sesión (POST /login)**  \n    El proceso de autenticación comienza con la solicitud de inicio de sesión mediante el método `POST` al endpoint `/login`. En esta solicitud:\n    \n\n- Se debe enviar un cuerpo con los campos `usuario` y `contraseña` en formato plano .JSON (sin codificar).\n    \n- Si las credenciales son correctas, el servidor retornará un **token** de autenticación en la respuesta (Este tiene una duracion de 15 minutos y posterior a esto debe ser renovada, la respuesta del por que es tan corta es principalmente para evitar abusos de terceros, para facilitar las cosas, la aplicacion se encargara de actualizar el token a su debido tiempo).\n    \n\n2\\. **Incluir el token en las solicitudes subsiguientes**\n\n- Para incluir el token en cada solicitud se debe ajustar, para este proceso en la solicitud se debe marcar **AUTHORIZATION**, posteriormente en el desplegable **AUTH TYPE** se marca **Bearer Token**, y en el campo que aparece se inserta el token anteriormente retornado por login",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33000682"
+	},
+	"item": [
+		{
+			"name": "Bodegas",
+			"item": [
+				{
+					"name": "Bodegas",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5062/api/Bodega/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"Bodega",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Bodegas",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombrE_BODEGA\": \"PentaCrom\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5062/api/Bodega",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"Bodega"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Bodegas",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombrE_BODEGA\": \"PENTACROM\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5062/api/Bodega/42",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"Bodega",
+								"42"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Bodegas",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5062/api/Bodega/42",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"Bodega",
+								"42"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{authToken}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Usuarios",
+			"item": [
+				{
+					"name": "Usuarios",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5062/api/usuarios",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Usuarios",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombres\": \"Pedro Cristian\",\r\n  \"apellidos\": \"Jorquera Robles\",\r\n  \"correo\": \"pedro.jorquera@gmail.com\",\r\n  \"clave\": \"StringString\",\r\n  \"codigO_PERFIL\": 1,\r\n  \"coD_ESTADO\": 1,\r\n  \"iD_BODEGA\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5062/api/usuarios",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Usuarios",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"iD_USUARIO\": 4,\r\n  \"nombres\": \"Javier Alfonso\",\r\n  \"apellidos\": \"Nanco Becerra\",\r\n  \"correo\": \"javiernancob@gmail.com\",\r\n  \"clave\": \"SalchichaSureña\",\r\n  \"codigO_PERFIL\": 1,\r\n  \"coD_ESTADO\": 1,\r\n  \"iD_BODEGA\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5062/api/Usuarios/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"Usuarios",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Usuarios",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5062/api/Usuarios/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"Usuarios",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Neumaticos",
+			"item": [
+				{
+					"name": "Neumaticos",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5062/api/neumaticos/9",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"neumaticos",
+								"9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Neumaticos",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"codigo\": 662212,\r\n  \"ubicacion\": \"Delante\",\r\n  \"iD_BODEGA\": 10,\r\n  \"fechA_INGRESO\": \"2025-01-22T12:54:43.862Z\",\r\n  \"estado\": \"Activo\",\r\n  \"kM_TOTAL\": 1600,\r\n  \"tipO_NEUMATICO\": \"Traccion\",\r\n  \"moviL_ASIGNADO\": 5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5062/api/Neumaticos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"Neumaticos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Neumaticos",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"codigo\": 654321,\r\n  \"ubicacion\": \"Trasero Derecho\",\r\n  \"iD_BODEGA\": 2,\r\n  \"fechA_SALIDA\": \"2025-01-22T14:17:53.732Z\",\r\n  \"estado\": \"Inactivo\",\r\n  \"kM_TOTAL\": 1700,\r\n  \"tipO_NEUMATICO\": \"Diagonal\",\r\n  \"moviL_ASIGNADO\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5062/api/neumaticos/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"neumaticos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Neumaticos",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5062/api/neumaticos/9",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"neumaticos",
+								"9"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Movil",
+			"item": [
+				{
+					"name": "Movil",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5062/api/Movil/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"Movil",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Movil",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"ID_MOVIL\": 1,\r\n  \"PATENTE\": \"GH7890\",\r\n  \"MARCA\": \"SCANIA\",\r\n  \"MODELO\": \"SCANIA SUPER\",\r\n  \"EJES\": 4,\r\n  \"TIPO_MOVIL\": 1,\r\n  \"ID_BODEGA\": 4,\r\n  \"CANTIDAD_NEUMATICOS\": 18,\r\n  \"ESTADO\": \"Activo\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5062/api/Movil",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"Movil"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Movil",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"ID_MOVIL\": 48,\r\n  \"PATENTE\": \"GH7891\",\r\n  \"MARCA\": \"SCANIA\",\r\n  \"MODELO\": \"SCANIA SUPER\",\r\n  \"EJES\": 4,\r\n  \"TIPO_MOVIL\": 1,\r\n  \"ID_BODEGA\": 4,\r\n  \"CANTIDAD_NEUMATICOS\": 18,\r\n  \"ESTADO\": \"Activo\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5062/api/Movil/48",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"Movil",
+								"48"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Movil",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5062/api/Movil/48",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"Movil",
+								"48"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Kilometros",
+			"item": [
+				{
+					"name": "Kilometros",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5062/api/Kilometros",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"Kilometros"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Kilometros",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"iD_MOVIL\": 40,\r\n  \"fechA_REGISTRO\": \"2025-01-22T13:31:48.061Z\",\r\n  \"kilometro\": 200\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5062/api/Kilometros",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"Kilometros"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Kilometros",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"iD_KILOMETRO_DIARIO\": 40,\r\n  \"iD_MOVIL\": 40,\r\n  \"fechA_REGISTRO\": \"2025-01-22T13:37:04.988Z\",\r\n  \"kilometro\": 200\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5062/api/Kilometros/40",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"Kilometros",
+								"40"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Kilometros",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5062/api/Kilometros/42",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"Kilometros",
+								"42"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"try {\r",
+							"    // Intenta obtener la respuesta como JSON\r",
+							"    const response = pm.response.json();\r",
+							"\r",
+							"    // Verifica si el token está presente en la respuesta\r",
+							"    if (response.token) {\r",
+							"        pm.environment.set(\"authToken\", response.token);\r",
+							"        console.log(\"Token guardado:\", response.token);\r",
+							"    } else {\r",
+							"        console.error(\"El token no está presente en la respuesta.\");\r",
+							"    }\r",
+							"} catch (error) {\r",
+							"    // Maneja errores si la respuesta no es JSON\r",
+							"    console.error(\"Error al procesar la respuesta:\", error);\r",
+							"    console.error(\"Respuesta del servidor:\", pm.response.text());\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjY2E5MDVmYS0xZTg3LTQyYmMtODE2ZC04MzhjN2MyMDgwZjEiLCJlbWFpbCI6ImpuYW5jb0B1dGVtLmNsIiwibmJmIjoxNzM3NDk2MzM1LCJleHAiOjE3Mzc0OTcyMzUsImlhdCI6MTczNzQ5NjMzNX0.Xd2kImP60KEsQ5k7r-WPSRw5koq6ySa0bK9afFuPniM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Correo\": \"jnanco@utem.cl\",\r\n    \"Clave\": \"PerroSalchicha\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5062/api/Auth/Login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5062",
+					"path": [
+						"api",
+						"Auth",
+						"Login"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{authToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
