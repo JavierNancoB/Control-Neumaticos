@@ -189,6 +189,7 @@ namespace api_control_neumaticos.Controllers
 
             usuario.Nombres = nombres;
             usuario.Apellidos = apellidos;
+            usuario.Correo = mail;
             usuario.CodigoPerfil = codigoPerfil;
             _context.Entry(usuario).State = EntityState.Modified;
             await _context.SaveChangesAsync();

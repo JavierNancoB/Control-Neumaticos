@@ -184,6 +184,33 @@ namespace api_control_neumaticos.Controllers
         }
 
 
+        // PUT: api para modificar movil por patente, solo se modificara patente, marca, modelo, ejes, neumaticos, tipo movil
+        // se envia con la url api/Movil/ModificarMovilPorPatente?patente=patente&marca=marca&modelo=modelo&ejes=ejes&cantidadNeumaticos=cantidadNeumaticos&tipoMovil=tipoMovil
+        [HttpPut("ModificarMovilPorPatente")]
+        public async Task<IActionResult> ModificarMovilPorPatente(string patenteActual, string patenteNueva, string marca, string modelo, int ejes, int cantidadNeumaticos, int tipoMovil)
+        {
+            var movil = await _context.Movils.FirstOrDefaultAsync(m => m.Patente == patenteActual);
+
+            if (movil == null)
+            {
+                return NotFound();
+            }
+
+            movil.Patente = patenteNueva;
+            movil.Marca = marca;
+            movil.Modelo = modelo;
+            movil.Ejes = ejes;
+            movil.CantidadNeumaticos = cantidadNeumaticos;
+            movil.TipoMovil = tipoMovil;
+
+            _context.Entry(movil).State = EntityState.Modified;
+
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        
         // ESTA FUNCION SIRVE PARA VERIFICAR SI EXISTE UN MOVIL CON UN ID DADO
 
         private bool MovilExists(int id)
