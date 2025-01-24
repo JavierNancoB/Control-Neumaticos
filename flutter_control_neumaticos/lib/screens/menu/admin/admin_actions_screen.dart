@@ -5,6 +5,7 @@ import 'usuario/deshabilitar_usuario_screen.dart';
 import 'usuario/añadir_usuario_screen.dart';
 import 'movil/añadir_movil_screen.dart';
 import 'movil/deshabilitar_movil_screen.dart';
+import 'movil/ingresar_patente.dart';
 
 
 class OptionActions extends StatelessWidget {
@@ -52,9 +53,9 @@ class OptionActions extends StatelessWidget {
   Widget _getMovilPage(String action) {
     switch (action) {
       case 'Añadir':
-        return AnadirMovilPage();/*
+        return AnadirMovilPage();
       case 'Modificar':
-        throw UnimplementedError('Página de modificar móvil aún no implementada');*/
+        return IngresarPatentePage();
       case 'Deshabilitar':
         return CambiarEstadoMovilPage();
       default:

@@ -217,6 +217,56 @@ namespace api_control_neumaticos.Controllers
             return NoContent();
         }
 
+        // PUT: api para modificar neumatico por codigo
+        // solo se va a modificar la ubicacion, movil asigando, fecha ingreso, fecha salida, estado, km total, tipo neumatico
+        // se envia con la url api/Neumaticos/ModificarNeumaticoPorCodigo?codigo=codigo&ubicacion=ubicacion&idMovil=idMovil&fechaIngreso=fechaIngreso&fechaSalida=fechaSalida&estado=estado&kmTotal=kmTotal&tipoNeumatico=tipoNeumatico
+        // pero para modificar el movil se manda por patente
+        [HttpPut("ModificarNeumaticoPorCodigo")]
+        public async Task<IActionResult> ModificarNeumaticoPorCodigo(
+            int codigo, 
+            int ubicacion, 
+            string patente, // Cambié idMovil por patente
+            DateTime fechaIngreso, 
+            DateTime? fechaSalida, 
+            int estado, 
+            int kmTotal, 
+            int tipoNeumatico)
+        {
+            var neumatico = await _context.Neumaticos.FirstOrDefaultAsync(n => n.CODIGO == codigo);
+
+            if (neumatico == null)
+            {
+                return NotFound();
+            }
+
+            var movil = await _context.Movils.FirstOrDefaultAsync(m => m.Patente == patente); // Encontramos el móvil por patente
+            if (movil == null)
+            {
+                return NotFound("Móvil no encontrado con esa patente.");
+            }
+
+            neumatico.UBICACION = ubicacion;
+            neumatico.ID_MOVIL = movil.IdMovil; // Asignamos el ID del móvil al neumático
+            neumatico.FECHA_INGRESO = fechaIngreso;
+            neumatico.FECHA_SALIDA = fechaSalida;
+            neumatico.ESTADO = estado;
+            neumatico.KM_TOTAL = kmTotal;
+            neumatico.TIPO_NEUMATICO = tipoNeumatico;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return Conflict("Hubo un problema al intentar actualizar el neumático. Puede haber un conflicto de concurrencia.");
+            }
+
+            return NoContent();
+        }
+
+
+
         private bool NeumaticoExists(int id)
         {
             return _context.Neumaticos.Any(e => e.ID_NEUMATICO == id);
