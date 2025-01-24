@@ -43,7 +43,7 @@ En caso de no tener instalado ASP.NET Core, [haz clic aquí](./api_control_neuma
    ```
 
 ### 3. Configurar la aplicación Flutter
-En caso de no tener instalado Flutter, [haz clic aquí](./flutter_control_neumaticos) para seguir las instrucciones de instalación. Caso contrario, sigue los pasos a continuación:
+En caso de no tener instalado Flutter, [haz clic aquí](./flutter_control_neumaticos/README.md) para seguir las instrucciones de instalación. Caso contrario, sigue los pasos a continuación:
 1. Dirígete a la carpeta `flutter-app`.
 2. Asegúrate de tener Flutter configurado.
 3. Ejecuta la aplicación:
