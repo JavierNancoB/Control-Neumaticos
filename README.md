@@ -30,10 +30,11 @@ El repositorio está organizado de la siguiente manera:
 
 ### 1. Clonar el repositorio
 ```bash
-git clone [URL-del-repositorio]
+git clone https://github.com/JavierNancoB/Control-Neumaticos.git
 ```
 
 ### 2. Configurar la API
+En caso de no tener instalado ASP.NET Core, [haz clic aquí](./api_control_neumaticos/README.md) para seguir las instrucciones de instalación. Caso contrario, sigue los pasos a continuación:
 1. Dirígete a la carpeta `aspnet-core-api`.
 2. Configura la cadena de conexión a la base de datos en el archivo `appsettings.json`.
 3. Ejecuta la API utilizando Visual Studio o la CLI de .NET:
@@ -42,19 +43,19 @@ git clone [URL-del-repositorio]
    ```
 
 ### 3. Configurar la aplicación Flutter
+En caso de no tener instalado Flutter, [haz clic aquí](./flutter_control_neumaticos/README.md) para seguir las instrucciones de instalación. Caso contrario, sigue los pasos a continuación:
 1. Dirígete a la carpeta `flutter-app`.
-2. Asegúrate de tener Flutter instalado y configurado.
+2. Asegúrate de tener Flutter configurado.
 3. Ejecuta la aplicación:
    ```bash
    flutter run
    ```
 
 ## Recursos de Documentación
-En la carpeta `documentation` encontrarás:
+En la carpeta [resources](./resources/README.md) encontrarás:
 
 1. **Colección de Postman:** Permite probar los endpoints de la API de forma sencilla.
-2. **Diagrama de flujo:** Describe el flujo de información y las operaciones clave del sistema.
+2. **Diagrama de flujo:** Describe el flujo de la base de datos.
 
 ## Contacto
 Si tienes dudas se encuentra mas documentación en las carpetas de las aplicacions o si necesitas más información, no dudes en contactarme a través de mi correo personal javiernancob@gmail.com.
-
