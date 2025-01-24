@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'modificar_usuario.dart';
 
 class IngresarCorreoPage extends StatefulWidget {
   @override
@@ -11,12 +10,12 @@ class _IngresarCorreoPageState extends State<IngresarCorreoPage> {
 
   void buscarUsuario() {
     if (emailController.text.isNotEmpty) {
-      Navigator.push(
+      /*Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => ModificarUsuarioPage(email: emailController.text),
         ),
-      );
+      );*/
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Por favor, ingrese un correo válido')));
     }

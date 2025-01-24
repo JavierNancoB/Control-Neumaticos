@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../widgets/button.dart'; 
-///////////////////////////////////////
-import '../../funciones/admin.dart';
-///////////////////////////////////////
 import '../../screens/nfc/nfc_reader.dart';
 import 'stock/stock_page.dart';
 import 'patentes/patente_screen.dart';
 import 'alertas/alertas_screen.dart';
+import 'admin/admin_menu_screen.dart';
 
 
 class MenuScreen extends StatelessWidget {
