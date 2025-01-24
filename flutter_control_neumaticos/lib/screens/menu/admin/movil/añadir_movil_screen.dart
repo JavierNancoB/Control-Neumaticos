@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert'; // Para manejar JSON
-import 'package:shared_preferences/shared_preferences.dart';
+import '../../../../models/movil.dart';
+import '../../../../services/admin/movil/añadir_movil_service.dart';
 
 class AnadirMovilPage extends StatefulWidget {
   const AnadirMovilPage({super.key});
@@ -17,12 +16,13 @@ class _AnadirMovilPageState extends State<AnadirMovilPage> {
   final TextEditingController _ejesController = TextEditingController();
   final TextEditingController _neumaticosController = TextEditingController();
 
-  int _tipoSeleccionado = 1; // Valor inicial
-  int _estadoSeleccionado = 1; // Valor inicial
+  int _tipoSeleccionado = 1;
+  int _estadoSeleccionado = 1;
 
   final List<int> _tipos = List<int>.generate(10, (i) => i + 1); // 1 al 10
   final List<int> _estados = [1, 2]; // 1 y 2
 
+  // Método para guardar el móvil
   Future<void> _guardarMovil() async {
     final String patente = _patenteController.text;
     final String marca = _marcaController.text;
@@ -39,66 +39,41 @@ class _AnadirMovilPageState extends State<AnadirMovilPage> {
       return;
     }
 
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? token = prefs.getString('token');
-
-    if (token == null) {
-      _redirigirAlLogin();
-      return;
-    }
-
-    final String apiUrl = 'http://localhost:5062/api/Movil';
-    final body = json.encode({
-      'PATENTE': patente,
-      'MARCA': marca,
-      'MODELO': modelo,
-      'EJES': ejes,
-      'TIPO_MOVIL': tipoMovil,
-      'ID_BODEGA': 1,
-      'CANTIDAD_NEUMATICOS': neumaticos,
-      'ESTADO': estado,
-    });
+    // Crear un nuevo móvil
+    final movil = Movil(
+      patente: patente,
+      marca: marca,
+      modelo: modelo,
+      ejes: ejes,
+      cantidadNeumaticos: neumaticos,
+      tipoMovil: tipoMovil,
+      estado: estado,
+      bodega: 1, // Cambiar según sea necesario
+    );
 
     try {
-      final response = await http.post(
-        Uri.parse(apiUrl),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
-        body: body,
-      );
+      // Llamar al servicio para crear el móvil
+      await MovilService.crearMovil(movil);
 
-      if (response.statusCode == 201) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Móvil creado con éxito')),
-        );
-        Navigator.pop(context); // Regresa a la página anterior
-      } else if (response.statusCode == 401) {
-        _redirigirAlLogin();
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: ${response.body}')),
-        );
-      }
-    } catch (e) {
+      // Si la creación fue exitosa
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Error al conectar con el servidor')),
+        const SnackBar(content: Text('Móvil creado con éxito')),
+      );
+      Navigator.pop(context); // Regresa a la página anterior
+    } catch (e) {
+      // Manejo de errores
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: ${e.toString()}')),
       );
     }
-  }
-
-  void _redirigirAlLogin() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Sesión expirada. Por favor, inicia sesión de nuevo.')),
-    );
-    Navigator.pushReplacementNamed(context, '/login'); // Reemplaza por tu ruta de login
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Añadir Móvil')),
+      appBar: AppBar(
+        title: Text('Añadir Móvil'),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
