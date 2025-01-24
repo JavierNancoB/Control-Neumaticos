@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "api_control_neumaticos", "api_control_neumaticos.csproj", "{08EE3E76-3C71-AB82-A7B4-7184A024F3FA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{08EE3E76-3C71-AB82-A7B4-7184A024F3FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08EE3E76-3C71-AB82-A7B4-7184A024F3FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08EE3E76-3C71-AB82-A7B4-7184A024F3FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08EE3E76-3C71-AB82-A7B4-7184A024F3FA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0D68813F-E95F-4D9D-B192-38A7E0F89827}
+	EndGlobalSection
+EndGlobal
