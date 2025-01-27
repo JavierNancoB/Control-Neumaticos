@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using api_control_neumaticos.Models;
 
@@ -11,9 +12,11 @@ using api_control_neumaticos.Models;
 namespace api_control_neumaticos.Migrations
 {
     [DbContext(typeof(ControlNeumaticosContext))]
-    partial class ControlNeumaticosContextModelSnapshot : ModelSnapshot
+    [Migration("20250127140911_AlertasModificaciones")]
+    partial class AlertasModificaciones
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,14 +66,20 @@ namespace api_control_neumaticos.Migrations
                         .HasColumnType("int")
                         .HasColumnName("ID_USUARIO_LEIDO");
 
+                    b.Property<int?>("UsuarioAtendidoIdUsuario")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UsuarioLeidoIdUsuario")
+                        .HasColumnType("int");
+
                     b.HasKey("Id")
                         .HasName("PK__ALERTA__3214EC07");
 
                     b.HasIndex("ID_NEUMATICO");
 
-                    b.HasIndex("USUARIO_ATENDIDO_ID");
+                    b.HasIndex("UsuarioAtendidoIdUsuario");
 
-                    b.HasIndex("USUARIO_LEIDO_ID");
+                    b.HasIndex("UsuarioLeidoIdUsuario");
 
                     b.ToTable("ALERTA", (string)null);
                 });
@@ -374,11 +383,11 @@ namespace api_control_neumaticos.Migrations
 
                     b.HasOne("api_control_neumaticos.Models.Usuario", "UsuarioAtendido")
                         .WithMany()
-                        .HasForeignKey("USUARIO_ATENDIDO_ID");
+                        .HasForeignKey("UsuarioAtendidoIdUsuario");
 
                     b.HasOne("api_control_neumaticos.Models.Usuario", "UsuarioLeido")
                         .WithMany()
-                        .HasForeignKey("USUARIO_LEIDO_ID");
+                        .HasForeignKey("UsuarioLeidoIdUsuario");
 
                     b.Navigation("Neumatico");
 

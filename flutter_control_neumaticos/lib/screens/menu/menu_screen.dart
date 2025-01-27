@@ -3,7 +3,7 @@ import '../../widgets/button.dart';
 import '../../screens/nfc/nfc_reader.dart';
 import 'stock/stock_page.dart';
 import 'patentes/patente_screen.dart';
-import 'alertas/alertas_screen.dart';
+import 'alertas/alertas_menu.dart';
 import 'admin/admin_menu_screen.dart';
 
 
@@ -43,7 +43,7 @@ class MenuScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => AlertasPage()),
+                  MaterialPageRoute(builder: (context) => AlertasMenu()),
                 );
               },
             ),

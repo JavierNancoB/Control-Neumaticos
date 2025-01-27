@@ -49,7 +49,7 @@ class _ModificarUsuarioPageState extends State<ModificarUsuarioPage> {
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error al cargar los datos del usuario')),
+        SnackBar(content: Text('Error al cargar los datos del usuario'), backgroundColor: Colors.red),
       );
     }
   }
@@ -66,7 +66,7 @@ class _ModificarUsuarioPageState extends State<ModificarUsuarioPage> {
       } catch (e) {
         print("Error: Código de Perfil no es un entero válido: $e");
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Código de Perfil no es válido')),
+          SnackBar(content: Text('Código de Perfil no es válido'), backgroundColor: Colors.red),
         );
         return; // No enviar el formulario si el código no es válido
       }
@@ -89,17 +89,17 @@ class _ModificarUsuarioPageState extends State<ModificarUsuarioPage> {
 
       if (success) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Datos modificados con éxito')),
+          SnackBar(content: Text('Datos modificados con éxito'), backgroundColor: Colors.green),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error al modificar los datos')),
+          SnackBar(content: Text('Error al modificar los datos'), backgroundColor: Colors.red),
         );
       }
     } catch (e) {
       print("Error al guardar los cambios: $e");
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error al guardar los cambios')),
+        SnackBar(content: Text('Error al guardar los cambios'), backgroundColor: Colors.red),
       );
     }
   }
