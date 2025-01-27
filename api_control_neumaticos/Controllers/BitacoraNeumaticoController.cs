@@ -92,5 +92,22 @@ namespace api_control_neumaticos.Controllers
             var bitacorasDto = _mapper.Map<List<BitacoraNeumaticoDto>>(bitacoras);
             return Ok(bitacorasDto);
         }
+
+        // un put que cambie solo el estado recibiendo el id de la bitacora
+        [HttpPut("UpdateEstadoBitacora/{id}")]
+        public async Task<IActionResult> UpdateEstadoBitacora(int id, int estado)
+        {
+            var bitacora = await _context.BitacoraNeumaticos.FindAsync(id);
+            if (bitacora == null)
+            {
+                return NotFound();
+            }
+
+            bitacora.ESTADO = estado;
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
     }
 }

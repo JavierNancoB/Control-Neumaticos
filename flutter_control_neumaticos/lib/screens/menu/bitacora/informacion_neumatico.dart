@@ -16,6 +16,7 @@ class InformacionNeumatico extends StatefulWidget {
 
 class _InformacionNeumaticoState extends State<InformacionNeumatico> {
   Map<String, dynamic>? _neumaticoInfo;
+  String? _bodegaName;
   bool _isLoading = true;
   String? _errorMessage;
 
@@ -31,8 +32,14 @@ class _InformacionNeumaticoState extends State<InformacionNeumatico> {
       print("Buscando datos para el neumático con código: ${widget.nfcData}");  // Verificar el código utilizado
       final data = await fetchNeumaticoData(widget.nfcData);
       print("Datos recibidos: $data");  // Verificar los datos recibidos
+
+      // Obtener el nombre de la bodega
+      final idBodega = data["iD_BODEGA"].toString();
+      final bodegaName = await fetchBodegaName(idBodega);
+
       setState(() {
         _neumaticoInfo = data;
+        _bodegaName = bodegaName;  // Actualizar con el nombre de la bodega
         _isLoading = false;
       });
     } catch (e) {
@@ -82,7 +89,8 @@ class _InformacionNeumaticoState extends State<InformacionNeumatico> {
             InfoRow(label: "Código", value: _neumaticoInfo!["codigo"].toString()),
             InfoRow(label: "Ubicación", value: _neumaticoInfo!["ubicacion"].toString()),
             InfoRow(label: "ID Móvil", value: _neumaticoInfo!["iD_MOVIL"]?.toString() ?? "N/A"),
-            InfoRow(label: "ID Bodega", value: _neumaticoInfo!["iD_BODEGA"].toString()),
+            // Mostrar el nombre de la bodega en lugar del ID
+            InfoRow(label: "Bodega", value: _bodegaName ?? "Cargando..."),
             InfoRow(label: "Fecha Ingreso", value: _formatFecha(_neumaticoInfo!["fechA_INGRESO"].toString())),
             InfoRow(
                 label: "Fecha Salida", value: _neumaticoInfo!["fechA_SALIDA"] != null ? _formatFecha(_neumaticoInfo!["fechA_SALIDA"].toString()) : "N/A"),
