@@ -4,6 +4,7 @@ import 'package:nfc_manager/nfc_manager.dart';
 import '../menu/bitacora/informacion_neumatico.dart';
 import '../menu/admin/neumatico/añadir_neumatico_screen.dart';
 import '../menu/admin/neumatico/deshabilitar_neumatico_screen.dart';
+import '../menu/admin/neumatico/modifcar_neumatico_screen.dart';
 
 
 class NFCReader extends StatefulWidget {
@@ -122,12 +123,12 @@ class _NFCReaderState extends State<NFCReader> {
                               ),
                             );
                           } else if (widget.action == 'Modificar') {
-                            //Navigator.push(
-                              //context,
-                              //MaterialPageRoute(
-                                //builder: (context) => ModificarNeumaticoPage(nfcData: nfcData),
-                              //),
-                            //);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ModificarNeumaticoScreen(nfcData: nfcData)
+                              ),
+                            );
                           } else if (widget.action == 'Deshabilitar') {
                             Navigator.push(
                               context,

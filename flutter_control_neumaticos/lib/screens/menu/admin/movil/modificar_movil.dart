@@ -17,6 +17,14 @@ class _ModificarMovilPageState extends State<ModificarMovilPage> {
   late Movil _movil;
   bool _isLoading = true;
 
+  // Añadimos un bool para comprobar su ha habido una modificacion por campo
+
+  bool _isMarcaModified = false;
+  bool _isModeloModified = false;
+  bool _isEjesModified = false;
+  bool _isCantidadNeumaticosModified = false;
+  bool _isTipoMovilModified = false;
+
   final TextEditingController _marcaController = TextEditingController();
   final TextEditingController _modeloController = TextEditingController();
   final TextEditingController _ejesController = TextEditingController();
@@ -40,7 +48,7 @@ class _ModificarMovilPageState extends State<ModificarMovilPage> {
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error al cargar los datos del móvil')),
+        SnackBar(content: Text('Error al cargar los datos del móvil'), backgroundColor: Colors.red),
       );
     }
   }
@@ -59,16 +67,16 @@ class _ModificarMovilPageState extends State<ModificarMovilPage> {
 
     if (success) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Móvil modificado con éxito')),
+        SnackBar(content: Text('Móvil modificado con éxito'), backgroundColor: Colors.green),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error al modificar el móvil')),
+        SnackBar(content: Text('Error al modificar el móvil'), backgroundColor: Colors.red),
       );
     }
   } catch (e) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Error al modificar los datos del móvil')),
+      SnackBar(content: Text('Error al modificar los datos del móvil'), backgroundColor: Colors.red),
     );
   }
 }
@@ -95,26 +103,51 @@ class _ModificarMovilPageState extends State<ModificarMovilPage> {
                 children: [
                   TextField(
                     controller: _marcaController,
-                    decoration: InputDecoration(labelText: 'Marca'),
+                    decoration: InputDecoration(
+                      labelText: 'Marca',
+                      filled: _isMarcaModified ? true : false,
+                      fillColor: _isMarcaModified ? Colors.yellow : null,
+                    ),
+                    onChanged: (_) => setState(() => _isMarcaModified = true),
                   ),
                   TextField(
                     controller: _modeloController,
-                    decoration: InputDecoration(labelText: 'Modelo'),
+                    decoration: InputDecoration(
+                      labelText: 'Modelo',
+                      filled: _isModeloModified ? true : false,
+                      fillColor: _isModeloModified ? Colors.yellow : null,
+                    ),
+                    onChanged: (_) => setState(() => _isModeloModified = true),
                   ),
                   TextField(
                     controller: _ejesController,
                     keyboardType: TextInputType.number,
-                    decoration: InputDecoration(labelText: 'Ejes'),
+                    decoration: InputDecoration(
+                      labelText: 'Ejes',
+                      filled: _isEjesModified ? true : false,
+                      fillColor: _isEjesModified ? Colors.yellow : null,
+                      ),
+                      onChanged: (_) => setState(() => _isEjesModified = true),
                   ),
                   TextField(
                     controller: _cantidadNeumaticosController,
                     keyboardType: TextInputType.number,
-                    decoration: InputDecoration(labelText: 'Cantidad Neumáticos'),
+                    decoration: InputDecoration(
+                      labelText: 'Cantidad Neumáticos',
+                      filled: _isCantidadNeumaticosModified ? true : false,
+                      fillColor: _isCantidadNeumaticosModified ? Colors.yellow : null,
+                      ),
+                      onChanged: (_) => setState(() => _isCantidadNeumaticosModified = true),
                   ),
                   TextField(
                     controller: _tipoMovilController,
                     keyboardType: TextInputType.number,
-                    decoration: InputDecoration(labelText: 'Tipo de Móvil'),
+                    decoration: InputDecoration(
+                      labelText: 'Tipo de Móvil',
+                      filled: _isTipoMovilModified ? true : false,
+                      fillColor: _isTipoMovilModified ? Colors.yellow : null,
+                      ),
+                      onChanged: (_) => setState(() => _isTipoMovilModified = true)
                   ),
                   SizedBox(height: 20),
                   ElevatedButton(
