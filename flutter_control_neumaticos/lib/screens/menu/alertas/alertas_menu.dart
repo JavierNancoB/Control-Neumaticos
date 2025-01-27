@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'alertas_pendientes.dart';
-import 'alertas_atendidas.dart';
+import 'alertas_listas.dart';
 
 class AlertasMenu extends StatelessWidget {
   @override
@@ -17,7 +16,7 @@ class AlertasMenu extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => AlertasPendientesScreen()),
+                  MaterialPageRoute(builder: (context) => AlertListPage(endpoint:  "GetAlertasByEstadoAlerta1&2")),
                 );
               },
               child: Text('Alertas Pendientes'),
@@ -27,7 +26,7 @@ class AlertasMenu extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => AlertasAtendidasScreen()),
+                  MaterialPageRoute(builder: (context) => AlertListPage(endpoint: "GetAlertasByEstadoAlerta3")),
                 );
               },
               child: Text('Alertas Atendidas'),

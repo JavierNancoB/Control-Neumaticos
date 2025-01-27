@@ -193,6 +193,7 @@ namespace api_control_neumaticos.Controllers
 
         // PUT: api/Neumaticos/ModificarEstadoPorCodigo
         // Esta función modifica el campo Estado de un neumático por su código
+        // fecha salida se cambia a hoy si estado es 2, en caso de ser 1 se pone null
         [HttpPut("ModificarEstadoPorCodigo")]
         public async Task<IActionResult> ModificarEstadoPorCodigo(int codigo, int estado)
         {
@@ -204,6 +205,14 @@ namespace api_control_neumaticos.Controllers
             }
 
             neumatico.ESTADO = estado;
+            if (estado == 2)
+            {
+                neumatico.FECHA_SALIDA = DateTime.Now;
+            }
+            else if (estado == 1)
+            {
+                neumatico.FECHA_SALIDA = null;
+            }
 
             try
             {
@@ -216,7 +225,6 @@ namespace api_control_neumaticos.Controllers
 
             return NoContent();
         }
-
         // PUT: api para modificar neumatico por codigo
         // solo se va a modificar la ubicacion, movil asigando, fecha ingreso, fecha salida, estado, km total, tipo neumatico
         // se envia con la url api/Neumaticos/ModificarNeumaticoPorCodigo?codigo=codigo&ubicacion=ubicacion&idMovil=idMovil&fechaIngreso=fechaIngreso&fechaSalida=fechaSalida&estado=estado&kmTotal=kmTotal&tipoNeumatico=tipoNeumatico
