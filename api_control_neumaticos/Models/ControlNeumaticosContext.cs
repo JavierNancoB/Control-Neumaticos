@@ -181,9 +181,18 @@ public partial class ControlNeumaticosContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.ID_NEUMATICO).HasColumnName("ID_NEUMATICO");
-            entity.Property(e => e.FECHA_ALERTA).HasColumnName("FECHA_ALERTA");
-            entity.Property(e => e.CODIGO_ALERTA)
-                .IsUnicode(false)
+            entity.Property(e => e.USUARIO_LEIDO_ID).HasColumnName("ID_USUARIO_LEIDO");
+            entity.Property(e => e.USUARIO_ATENDIDO_ID).HasColumnName("ID_USUARIO_ATENDIDO");
+            entity.Property(e => e.FECHA_INGRESO)
+                .IsRequired()
+                .HasColumnName("FECHA_INGRESO");
+            entity.Property(e => e.FECHA_LEIDO)
+                .HasColumnName("FECHA_LEIDO");
+            entity.Property(e => e.FECHA_ATENDIDO)
+                .HasColumnName("FECHA_ATENDIDO");
+            entity.Property(e => e.ESTADO_ALERTA).IsRequired()
+                .HasColumnName("ESTADO_ALERTA");
+            entity.Property(e => e.CODIGO_ALERTA).IsRequired()
                 .HasColumnName("CODIGO_ALERTA");
 
             entity.HasOne(e => e.Neumatico)
