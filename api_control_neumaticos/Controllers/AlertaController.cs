@@ -109,6 +109,7 @@ namespace api_control_neumaticos.Controllers
 
         // GET: api/Alerta/CambiarEstado
         // esta funcion cambiara el estado de la alerta y ademas la fecha de atencion
+        // si cambia a estado 1 es fecha ingreso
         // si cambia a estado 2 es fecha leido
         // si cambia a estado 3 es fecha atendido
 
@@ -120,6 +121,16 @@ namespace api_control_neumaticos.Controllers
             {
                 return NotFound();
             }
+            if(estado == 1)
+            {
+                alerta.ESTADO_ALERTA = 1;
+                alerta.FECHA_INGRESO = System.DateTime.Now;
+                // FECHA LEIDO NULL
+                alerta.FECHA_LEIDO = null;
+                alerta.FECHA_ATENDIDO = null;
+                alerta.USUARIO_LEIDO_ID = null;
+                alerta.USUARIO_ATENDIDO_ID = null;
+            }
 
             if (estado == 2)
             {
@@ -128,6 +139,7 @@ namespace api_control_neumaticos.Controllers
                 // FECHA ATENDIDO NULL
                 alerta.FECHA_ATENDIDO = null;
                 alerta.USUARIO_LEIDO_ID = idUsuario;
+                alerta.USUARIO_ATENDIDO_ID = null;
             }
             else if (estado == 3)
             {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../services/bitacora_service.dart';
+import '../../../services/bitacora/bitacora_service.dart';
 import '../../../widgets/bitacora/codigo_dropdown.dart';
 import '../../../widgets/bitacora/estado_dropdown.dart';
 import '../../../widgets/bitacora/observacion_field.dart';
