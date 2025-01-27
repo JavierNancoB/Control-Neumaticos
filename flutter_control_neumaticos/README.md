@@ -58,7 +58,7 @@ La aplicación utiliza varias dependencias para implementar funcionalidades espe
 ## Screens
 Aqui se encuentran las pantallas de la aplicación, a continuacion explicaré en detalle cada una.
 
-### login
+### Login
 La funcionalidad de login de la aplicación permite a los usuarios autenticarse y acceder a las funcionalidades protegidas del sistema. A continuación, se describen las principales características de esta pantalla y su implementación.
 
 El login se encuentra implementado en el widget HomePage, que utiliza un diseño basado en un formulario sencillo con los siguientes elementos:
@@ -74,10 +74,10 @@ El login se encuentra implementado en el widget HomePage, que utiliza un diseño
 
 El estado y lógica del formulario están manejados dentro del widget HomePage:
 
-Autocompletar: Si el usuario seleccionó "Recordarme" en un inicio previo, los datos se cargan automáticamente desde el almacenamiento local.
-Validación: Se valida que el usuario complete todos los campos antes de proceder.
-Autenticación: Se conecta con el servicio AuthService para realizar la autenticación.
-Redirección: Si las credenciales son correctas, se guarda el token y el ID del usuario, y el usuario es redirigido al menú principal.
+- Autocompletar: Si el usuario seleccionó "Recordarme" en un inicio previo, los datos se cargan automáticamente desde el almacenamiento local.
+- Validación: Se valida que el usuario complete todos los campos antes de proceder.
+- Autenticación: Se conecta con el servicio AuthService para realizar la autenticación.
+- Redirección: Si las credenciales son correctas, se guarda el token y el ID del usuario, y el usuario es redirigido al menú principal.
 
 ### Menu
 
