@@ -233,7 +233,7 @@ namespace api_control_neumaticos.Controllers
         public async Task<IActionResult> ModificarNeumaticoPorCodigo(
             int codigo, 
             int ubicacion, 
-            string patente, // Cambié idMovil por patente
+            string? patente, // Ahora es nullable (string?)
             DateTime fechaIngreso, 
             DateTime? fechaSalida, 
             int estado, 
@@ -247,14 +247,26 @@ namespace api_control_neumaticos.Controllers
                 return NotFound();
             }
 
-            var movil = await _context.Movils.FirstOrDefaultAsync(m => m.Patente == patente); // Encontramos el móvil por patente
-            if (movil == null)
+            // Si patente es nula, no buscamos un móvil, solo dejamos el ID_MOVIL en null o un valor por defecto
+            if (!string.IsNullOrEmpty(patente))
             {
-                return NotFound("Móvil no encontrado con esa patente.");
+                var movil = await _context.Movils.FirstOrDefaultAsync(m => m.Patente == patente); // Buscamos el móvil por patente
+                if (movil == null)
+                {
+                    return NotFound("Móvil no encontrado con esa patente.");
+                }
+
+                // Asignamos el ID del móvil al neumático solo si se encontró un móvil
+                neumatico.ID_MOVIL = movil.IdMovil;
+            }
+            else
+            {
+                // Si la patente es nula, dejamos el ID_MOVIL en null o lo asignamos a un valor predeterminado
+                neumatico.ID_MOVIL = null; // O podrías asignar 0 dependiendo de tu base de datos
             }
 
+            // Modificamos el resto de los campos
             neumatico.UBICACION = ubicacion;
-            neumatico.ID_MOVIL = movil.IdMovil; // Asignamos el ID del móvil al neumático
             neumatico.FECHA_INGRESO = fechaIngreso;
             neumatico.FECHA_SALIDA = fechaSalida;
             neumatico.ESTADO = estado;
@@ -272,6 +284,7 @@ namespace api_control_neumaticos.Controllers
 
             return NoContent();
         }
+
 
 
 

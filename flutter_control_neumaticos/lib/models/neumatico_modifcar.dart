@@ -1,59 +1,53 @@
 class Neumatico {
-  final int id;
-  final int codigo;
-  final int ubicacion;
-  final int? idMovil;
-  final String fechaIngreso;
-  final String? fechaSalida;
-  final int estado;
-  final int kmTotal;
-  final int tipoNeumatico;
-  final String? patente;
+  String codigo;
+  int ubicacion;
+  int? idMovil;
+  int idBodega;
+  DateTime fechaIngreso; // Cambiado a DateTime
+  DateTime? fechaSalida; // Nullable y también tipo DateTime
+  int estado;
+  int kmTotal;
+  int tipoNeumatico;
 
   Neumatico({
-    required this.id,
     required this.codigo,
     required this.ubicacion,
     this.idMovil,
+    required this.idBodega,
     required this.fechaIngreso,
     this.fechaSalida,
     required this.estado,
     required this.kmTotal,
     required this.tipoNeumatico,
-    this.patente,
   });
 
   factory Neumatico.fromJson(Map<String, dynamic> json) {
-    try {
-      return Neumatico(
-        id: json['iD_NEUMATICO'] as int,
-        codigo: json['codigo'] as int,
-        ubicacion: json['ubicacion'] as int,
-        idMovil: json['iD_MOVIL'] as int?,
-        fechaIngreso: json['fechA_INGRESO'] as String,
-        fechaSalida: json['fechA_SALIDA']?.toString(),
-        estado: json['estado'] as int,
-        kmTotal: json['kM_TOTAL'] as int,
-        tipoNeumatico: json['tipO_NEUMATICO'] as int,
-      );
-    } catch (e) {
-      print('Error al parsear el JSON: $e');
-      print('JSON recibido: $json');
-      rethrow;
-    }
-  }
-}
-
-class Movil {
-  final int idMovil;
-  final String patente;
-
-  Movil({required this.idMovil, required this.patente});
-
-  factory Movil.fromJson(Map<String, dynamic> json) {
-    return Movil(
-      idMovil: json['iD_MOVIL'] as int,
-      patente: json['patente'] as String,
+    return Neumatico(
+      codigo: json['codigo'].toString(),
+      ubicacion: json['ubicacion'],
+      idMovil: json['iD_MOVIL'], // Verifica si es null
+      idBodega: json['iD_BODEGA'],
+      fechaIngreso: DateTime.parse(json['fechA_INGRESO']), // Parseo a DateTime
+      fechaSalida: json['fechA_SALIDA'] != null
+          ? DateTime.parse(json['fechA_SALIDA'])
+          : null, // Verifica si es null
+      estado: json['estado'],
+      kmTotal: json['kM_TOTAL'],
+      tipoNeumatico: json['tipO_NEUMATICO'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'codigo': codigo,
+      'ubicacion': ubicacion,
+      'iD_MOVIL': idMovil,
+      'iD_BODEGA': idBodega,
+      'fechA_INGRESO': fechaIngreso.toIso8601String(), // Convertido a String ISO
+      'fechA_SALIDA': fechaSalida?.toIso8601String(), // Convertido a String ISO
+      'estado': estado,
+      'kM_TOTAL': kmTotal,
+      'tipO_NEUMATICO': tipoNeumatico,
+    };
   }
 }

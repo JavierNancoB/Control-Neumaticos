@@ -7,7 +7,7 @@ public partial class Neumatico
 {
     public int ID_NEUMATICO { get; set; }
     public int CODIGO { get; set; }
-    public int UBICACION { get; set; }
+    public int? UBICACION { get; set; }
 
     // Relación con Movil, Movil puede ser nulo
     public int? ID_MOVIL { get; set; }
