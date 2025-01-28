@@ -20,7 +20,7 @@ class _ModificarUsuarioPageState extends State<ModificarUsuarioPage> {
   bool _isNombresModified = false;
   bool _isApellidosModified = false;
   bool _isCorreoModified = false;
-  bool _isPerfilModified = false;  // Cambiado a "Perfil"
+// Cambiado a "Perfil"
 
   final TextEditingController _nombresController = TextEditingController();
   final TextEditingController _apellidosController = TextEditingController();
@@ -152,7 +152,6 @@ class _ModificarUsuarioPageState extends State<ModificarUsuarioPage> {
                     onChanged: (value) {
                       setState(() {
                         _perfilSeleccionado = value!;
-                        _isPerfilModified = true;
                       });
                     },
                   ),

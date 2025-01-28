@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../../../../models/neumatico_modifcar.dart';
 import '../../../../services/admin/neumaticos/modificar_neumatico.dart';
 import '../../../../widgets/admin/neumatico/ubicacion_dropdown.dart';
-import '../../../../widgets/admin/neumatico/fecha_picker.dart';
 import 'package:flutter/services.dart';
 
 class ModificarNeumaticoPage extends StatefulWidget {
@@ -149,8 +148,9 @@ class _ModificarNeumaticoPageState extends State<ModificarNeumaticoPage> {
                       children: [
                         // Muestra la fecha seleccionada
                         Text(
+                          // ignore: unnecessary_null_comparison
                           _neumatico!.fechaIngreso != null
-                              ? _neumatico!.fechaIngreso!.toLocal().toString().split(' ')[0]
+                              ? _neumatico!.fechaIngreso.toLocal().toString().split(' ')[0]
                               : 'Selecciona una fecha', // Muestra la fecha o un texto indicativo
                           style: TextStyle(fontSize: 16), // Estilo de la fecha
                         ),
@@ -160,7 +160,7 @@ class _ModificarNeumaticoPageState extends State<ModificarNeumaticoPage> {
                           onPressed: () async {
                             DateTime? selectedDate = await showDatePicker(
                               context: context,
-                              initialDate: _neumatico!.fechaIngreso ?? DateTime.now(),
+                              initialDate: _neumatico!.fechaIngreso,
                               firstDate: DateTime(2000),
                               lastDate: DateTime(2101),
                             );
