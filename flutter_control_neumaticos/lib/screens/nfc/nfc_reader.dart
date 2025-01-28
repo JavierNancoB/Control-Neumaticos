@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 
 import '../menu/bitacora/informacion_neumatico.dart';
-import '../menu/admin/neumatico/añadir_neumatico_screen.dart';
 import '../menu/admin/neumatico/deshabilitar_neumatico_screen.dart';
-import '../menu/admin/neumatico/modifcar_neumatico_screen.dart';
+import '../menu/admin/ingresar_patente.dart';
 
 
 class NFCReader extends StatefulWidget {
@@ -119,14 +118,14 @@ class _NFCReaderState extends State<NFCReader> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => AnadirNeumaticoScreen(nfcData: nfcData)
+                                builder: (context) => IngresarPatentePage(tipo: 'Añadir', codigo: nfcData)
                               ),
                             );
                           } else if (widget.action == 'Modificar') {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => ModificarNeumaticoScreen(nfcData: nfcData)
+                                builder: (context) => IngresarPatentePage(tipo: 'Modificar', codigo: nfcData)
                               ),
                             );
                           } else if (widget.action == 'Deshabilitar') {

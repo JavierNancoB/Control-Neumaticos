@@ -4,13 +4,19 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.Options;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container
-builder.Services.AddEndpointsApiExplorer();
+// Cargar la configuración SMTP desde appsettings.json
+builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("SmtpSettings"));
 
+// Agregar el servicio de envío de correos
+builder.Services.AddSingleton<IEmailService, EmailService>();
+
+// Agregar otros servicios necesarios
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddSwaggerGen(c =>
@@ -20,12 +26,14 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddControllers();
 
+// Inyección del Token Generator
 builder.Services.AddSingleton<TokenGenerator>();
 
+// Configuración de la base de datos
 builder.Services.AddDbContext<ControlNeumaticosContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// **Mover la configuración de autenticación y autorización antes de builder.Build()**
+// Configuración de autorización y autenticación JWT
 builder.Services.AddAuthorization();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -33,7 +41,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     {
         x.TokenValidationParameters = new TokenValidationParameters
         {
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("H8v!L3r$XnD9k2@wWzU8pK0#tYfJ7d2L")), // Asegúrate de que la cadena esté bien escrita
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("H8v!L3r$XnD9k2@wWzU8pK0#tYfJ7d2L")),
             ValidateIssuer = false,
             ValidateAudience = false,
             ValidateLifetime = true,
@@ -43,8 +51,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline
-
+// Configurar el pipeline de solicitudes HTTP
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger(); // Habilita Swagger en el entorno de desarrollo
@@ -54,11 +61,11 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-/********************JWT TOKEN GENERATOR************************/
-
+// Configuración de autenticación y autorización
 app.UseAuthentication();
 app.UseAuthorization();
 
+// Endpoint para login
 app.MapPost("/api/login", (LoginRequestApp request, TokenGenerator tokenGenerator) =>
 {
     return new {
@@ -66,13 +73,17 @@ app.MapPost("/api/login", (LoginRequestApp request, TokenGenerator tokenGenerato
     };
 });
 
-// Primero se hace la validación de usuario y contraseña, si es correcto se genera el token
-// Esta validación se hace en el controlador de login
+// Endpoint para enviar correo
+app.MapPost("/api/send-email", async (string to, string subject, string body, IEmailService emailService) =>
+{
+    await emailService.SendEmailAsync(to, subject, body);
+    return Results.Ok(new { message = "Correo enviado" });
+});
 
-/***************************************************************/
-
+// Habilita la redirección HTTPS
 app.UseHttpsRedirection();
 
-app.MapControllers(); // Mapea los controladores
+// Mapea los controladores
+app.MapControllers();
 
 app.Run();

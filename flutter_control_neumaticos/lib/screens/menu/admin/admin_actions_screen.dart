@@ -5,7 +5,7 @@ import 'usuario/deshabilitar_usuario_screen.dart';
 import 'usuario/añadir_usuario_screen.dart';
 import 'movil/añadir_movil_screen.dart';
 import 'movil/deshabilitar_movil_screen.dart';
-import 'movil/ingresar_patente.dart';
+import 'ingresar_patente.dart';
 
 
 class OptionActions extends StatelessWidget {
@@ -55,7 +55,7 @@ class OptionActions extends StatelessWidget {
       case 'Añadir':
         return AnadirMovilPage();
       case 'Modificar':
-        return IngresarPatentePage();
+        return IngresarPatentePage(tipo: 'movil', codigo: '');
       case 'Deshabilitar':
         return CambiarEstadoMovilPage();
       default:

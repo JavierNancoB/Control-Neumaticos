@@ -1,114 +1,72 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../../models/neumatico_modifcar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NeumaticoService {
-  Future<String?> _getToken() async {
+  // Obtiene el token desde SharedPreferences
+  static Future<String?> _getToken() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('token');
+    final token = prefs.getString('token');
+    print('Token obtenido: $token'); // Debugging del token
+    return token;
   }
 
-  Future<Neumatico?> fetchNeumatico(String codigo) async {
+  // Busca el neumático por código
+  static Future<Neumatico?> fetchNeumaticoByCodigo(String codigo) async {
     final token = await _getToken();
-    if (token == null) {
-      print('Error: Token no encontrado');
-      return null;
-    }
+    print('Token para la solicitud: $token'); // Debugging
 
-    final url = Uri.parse('http://localhost:5062/api/Neumaticos/GetNeumaticoByCodigo?codigo=$codigo');
-    try {
-      final response = await http.get(url, headers: {
-        'Authorization': 'Bearer $token',
-      });
+    final url = 'http://localhost:5062/api/Neumaticos/GetNeumaticoByCodigo?codigo=$codigo';
+    print('URL de la solicitud: $url'); // Debugging
 
-      if (response.statusCode == 200) {
-        final jsonResponse = jsonDecode(response.body);
-        print('Respuesta de la API: $jsonResponse');
-        final neumatico = Neumatico.fromJson(jsonResponse);
-
-        if (neumatico.idMovil != null) {
-          final movil = await fetchMovil(neumatico.idMovil!);
-          return Neumatico(
-            id: neumatico.id,
-            codigo: neumatico.codigo,
-            ubicacion: neumatico.ubicacion,
-            idMovil: neumatico.idMovil,
-            fechaIngreso: neumatico.fechaIngreso,
-            fechaSalida: neumatico.fechaSalida,
-            estado: neumatico.estado,
-            kmTotal: neumatico.kmTotal,
-            tipoNeumatico: neumatico.tipoNeumatico,
-            patente: movil?.patente,
-          );
-        }
-        return neumatico;
-      } else {
-        print('Error en la API: Código de estado ${response.statusCode}');
-        print('Cuerpo de la respuesta: ${response.body}');
-        return null;
-      }
-    } catch (e) {
-      print('Error al realizar la solicitud: $e');
-      return null;
-    }
-  }
-
-  Future<Movil?> fetchMovil(int idMovil) async {
-    final token = await _getToken();
-    if (token == null) {
-      print('Error: Token no encontrado');
-      return null;
-    }
-
-    final url = Uri.parse('http://localhost:5062/api/Movil/$idMovil');
-    try {
-      final response = await http.get(url, headers: {
-        'Authorization': 'Bearer $token',
-      });
-
-      if (response.statusCode == 200) {
-        final jsonResponse = jsonDecode(response.body);
-        print('Respuesta de la API Movil: $jsonResponse');
-        return Movil.fromJson(jsonResponse);
-      } else {
-        print('Error en la API Movil: Código de estado ${response.statusCode}');
-        print('Cuerpo de la respuesta: ${response.body}');
-        return null;
-      }
-    } catch (e) {
-      print('Error al realizar la solicitud Movil: $e');
-      return null;
-    }
-  }
-
-  Future<bool> modificarNeumatico(Neumatico neumatico) async {
-    final token = await _getToken();
-    if (token == null) {
-      print('Error: Token no encontrado');
-      return false;
-    }
-
-    final url = Uri.parse(
-      'http://localhost:5062/api/Neumaticos/ModificarNeumaticoPorCodigo?codigo=${neumatico.codigo}&ubicacion=${neumatico.ubicacion}&patente=${neumatico.patente ?? ''}&fechaIngreso=${neumatico.fechaIngreso}&fechaSalida=${neumatico.fechaSalida ?? ''}&estado=${neumatico.estado}&kmTotal=${neumatico.kmTotal}&tipoNeumatico=${neumatico.tipoNeumatico}',
+    final response = await http.get(
+      Uri.parse(url),
+      headers: {'Authorization': 'Bearer $token'},
     );
 
-    try {
-      final response = await http.put(url, headers: {
-        'Authorization': 'Bearer $token',
-      });
+    print('Estado de la respuesta: ${response.statusCode}'); // Debugging
+    print('Cuerpo de la respuesta: ${response.body}'); // Debugging
 
-      if (response.statusCode == 204) {
-        print('Neumático modificado correctamente');
-        return true;
-      } else {
-        print('Error en la modificación: Código de estado ${response.statusCode}');
-        print('Cuerpo de la respuesta: ${response.body}');
-        return false;
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      print('Datos decodificados: $data'); // Debugging
+
+      try {
+        final neumatico = Neumatico.fromJson(data);
+        print('Objeto Neumatico creado: $neumatico'); // Debugging
+        return neumatico;
+      } catch (e) {
+        print('Error al crear el objeto Neumatico: $e'); // Debugging
+        throw Exception('Error al parsear los datos del neumático');
       }
-    } catch (e) {
-      print('Error al realizar la solicitud: $e');
-      return false;
+    } else {
+      throw Exception('Failed to load neumático');
     }
   }
+  
+  // Método para modificar un neumático
+  static Future<void> modificarNeumatico(Neumatico neumatico, String patente) async {
+    final token = await _getToken();
+    print('Token para la solicitud: $token'); // Debugging
+
+    final url =
+        'http://localhost:5062/api/Neumaticos/ModificarNeumaticoPorCodigo?codigo=${neumatico.codigo}&ubicacion=${neumatico.ubicacion}&patente=${Uri.encodeComponent(patente)}&fechaIngreso=${neumatico.fechaIngreso.toIso8601String()}&fechaSalida=${neumatico.fechaSalida?.toIso8601String() ?? ''}&estado=${neumatico.estado}&kmTotal=${neumatico.kmTotal}&tipoNeumatico=${neumatico.tipoNeumatico}';
+
+    print('URL de la solicitud: $url'); // Debugging
+
+    final response = await http.put(
+      Uri.parse(url),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+
+    print('Estado de la respuesta: ${response.statusCode}'); // Debugging
+    print('Cuerpo de la respuesta: ${response.body}'); // Debugging
+
+    if (response.statusCode != 204) {
+      throw Exception('Error al modificar neumático');
+    }
+  }
+
+  
 }

@@ -20,12 +20,19 @@ class _ModificarUsuarioPageState extends State<ModificarUsuarioPage> {
   bool _isNombresModified = false;
   bool _isApellidosModified = false;
   bool _isCorreoModified = false;
-  bool _isCodigoPerfilModified = false;
+  bool _isPerfilModified = false;  // Cambiado a "Perfil"
 
   final TextEditingController _nombresController = TextEditingController();
   final TextEditingController _apellidosController = TextEditingController();
   final TextEditingController _correoController = TextEditingController();
-  final TextEditingController _codigoPerfilController = TextEditingController();
+  
+  // Modificado para almacenar el perfil
+  int _perfilSeleccionado = 1; // 1 por defecto (Administrador)
+  
+  final List<Map<String, dynamic>> _perfiles = [
+    {'label': 'Administrador', 'value': 1},
+    {'label': 'Jefe de Planta', 'value': 2},
+  ];
 
   @override
   void initState() {
@@ -43,7 +50,7 @@ class _ModificarUsuarioPageState extends State<ModificarUsuarioPage> {
           _nombresController.text = usuario.nombres;
           _apellidosController.text = usuario.apellidos;
           _correoController.text = usuario.correo;
-          _codigoPerfilController.text = usuario.codigoPerfil.toString();
+          _perfilSeleccionado = usuario.codigoPerfil; // Asignar el perfil existente
           _isLoading = false;
         });
       }
@@ -57,32 +64,18 @@ class _ModificarUsuarioPageState extends State<ModificarUsuarioPage> {
   // Save changes made to the user
   Future<void> _saveChanges() async {
     try {
-      // Validar el código de perfil antes de enviarlo
-      String codigoPerfilText = _codigoPerfilController.text.trim();
-      int codigoPerfilInt;
-
-      try {
-        codigoPerfilInt = int.parse(codigoPerfilText); // Intentar convertir a entero
-      } catch (e) {
-        print("Error: Código de Perfil no es un entero válido: $e");
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Código de Perfil no es válido'), backgroundColor: Colors.red),
-        );
-        return; // No enviar el formulario si el código no es válido
-      }
-
       // Actualizamos el objeto _usuario con los nuevos valores
       _usuario.nombres = _nombresController.text;
       _usuario.apellidos = _apellidosController.text;
       _usuario.correo = _correoController.text;
-      _usuario.codigoPerfil = codigoPerfilInt;
+      _usuario.codigoPerfil = _perfilSeleccionado; // Guardamos el perfil seleccionado
 
       // Mostrar los valores antes de enviar la solicitud
       print("Saving changes with values: ");
       print("Nombres: ${_nombresController.text}");
       print("Apellidos: ${_apellidosController.text}");
       print("Correo: ${_correoController.text}");
-      print("Código de Perfil: ${_usuario.codigoPerfil}");
+      print("Perfil: ${_usuario.codigoPerfil}"); // Perfil ahora es el código de perfil
 
       // Llamada al servicio para guardar cambios
       bool success = await usuarioService.modificarDatosUsuario(_usuario);
@@ -146,14 +139,22 @@ class _ModificarUsuarioPageState extends State<ModificarUsuarioPage> {
                     onChanged: (_) => setState(() => _isCorreoModified = true),
                   ),
                   SizedBox(height: 10),
-                  TextField(
-                    controller: _codigoPerfilController,
-                    decoration: InputDecoration(
-                      labelText: 'Código de Perfil',
-                      filled: _isCodigoPerfilModified ? true : false,
-                      fillColor: _isCodigoPerfilModified ? Colors.yellow : null,
-                    ),
-                    onChanged: (_) => setState(() => _isCodigoPerfilModified = true),
+                  // Dropdown para seleccionar el perfil
+                  DropdownButtonFormField<int>(
+                    value: _perfilSeleccionado,
+                    decoration: InputDecoration(labelText: 'Perfil'),
+                    items: _perfiles.map((perfil) {
+                      return DropdownMenuItem<int>(
+                        value: perfil['value'],
+                        child: Text(perfil['label']),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        _perfilSeleccionado = value!;
+                        _isPerfilModified = true;
+                      });
+                    },
                   ),
                   SizedBox(height: 20),
                   ElevatedButton(

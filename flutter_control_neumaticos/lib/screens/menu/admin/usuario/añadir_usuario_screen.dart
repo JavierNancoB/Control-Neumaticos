@@ -18,7 +18,7 @@ class _AnadirUsuarioPageState extends State<AnadirUsuarioPage> {
   String _perfilSeleccionado = 'ADMINISTRADOR';
   String _estadoSeleccionado = 'HABILITADO';
 
-  final List<String> _perfiles = ['ADMINISTRADOR', 'SUPERVISOR', 'CONDUCTOR'];
+  final List<String> _perfiles = ['ADMINISTRADOR', 'JEFE DE PLANTA', 'CONDUCTOR'];
   final List<String> _estados = ['HABILITADO', 'DESHABILITADO'];
 
   // Método para guardar el usuario

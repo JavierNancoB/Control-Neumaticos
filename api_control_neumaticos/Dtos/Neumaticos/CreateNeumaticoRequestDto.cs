@@ -5,7 +5,7 @@ namespace api_control_neumaticos.Dtos.Neumaticos
     public class CreateNeumaticoRequestDto
     {
         public int CODIGO { get; set; }
-        public int UBICACION { get; set; }
+        public int? UBICACION { get; set; }
         public int? ID_MOVIL { get; set; }
         public int ID_BODEGA { get; set; }
         public DateTime FECHA_INGRESO { get; set; }
