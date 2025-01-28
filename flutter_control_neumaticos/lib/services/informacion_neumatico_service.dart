@@ -36,6 +36,31 @@ Future<Map<String, dynamic>> fetchNeumaticoData(String nfcData) async {
   }
 }
 
+  Future<String> fetchMovilPatente(String idMovil) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token');
+    print("Token enviado: $token");  // Verifica si es el token correcto
+    
+    final url = Uri.parse('http://localhost:5062/api/Movil/$idMovil');
+    final response = await http.get(
+      url,
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    );
+    
+    print('Response status: ${response.statusCode}');
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      // Asegúrate de que la clave sea correcta, puedes hacer un print para revisar la respuesta
+      print("Datos del móvil: $data");
+      return data['patente'] ?? 'Patente no encontrada'; // Cambié la clave a 'patente'
+    } else {
+      throw Exception('Error al obtener la patente del móvil');
+    }
+  }
+
+
   Future<String> fetchBodegaName(String idBodega) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? token = prefs.getString('token');
