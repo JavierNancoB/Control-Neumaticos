@@ -121,8 +121,9 @@ class _AnadirNeumaticoScreenState extends State<AnadirNeumaticoScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
+                    // ignore: unnecessary_null_comparison
                     _neumatico.fechaIngreso != null 
-                        ? _neumatico.fechaIngreso!.toLocal().toString().split(' ')[0] 
+                        ? _neumatico.fechaIngreso.toLocal().toString().split(' ')[0] 
                         : 'Selecciona una fecha',
                     style: TextStyle(fontSize: 16),
                   ),
@@ -131,7 +132,7 @@ class _AnadirNeumaticoScreenState extends State<AnadirNeumaticoScreen> {
                     onPressed: () async {
                       DateTime? selectedDate = await showDatePicker(
                         context: context,
-                        initialDate: _neumatico.fechaIngreso ?? DateTime.now(),
+                        initialDate: _neumatico.fechaIngreso,
                         firstDate: DateTime(2000),
                         lastDate: DateTime(2101),
                       );
