@@ -5,31 +5,28 @@ import '../../../../services/admin/movil/modificar_movil.dart';
 class ModificarMovilPage extends StatefulWidget {
   final String patente;
 
-  const ModificarMovilPage({Key? key, required this.patente}) : super(key: key);
+  const ModificarMovilPage({Key? key, required this.patente, required String codigo}) : super(key: key);
 
   @override
   _ModificarMovilPageState createState() => _ModificarMovilPageState();
 }
-
 
 class _ModificarMovilPageState extends State<ModificarMovilPage> {
   final MovilService movilService = MovilService();
   late Movil _movil;
   bool _isLoading = true;
 
-  // Añadimos un bool para comprobar su ha habido una modificacion por campo
-
-  bool _isMarcaModified = false;
-  bool _isModeloModified = false;
-  bool _isEjesModified = false;
-  bool _isCantidadNeumaticosModified = false;
-  bool _isTipoMovilModified = false;
-
   final TextEditingController _marcaController = TextEditingController();
   final TextEditingController _modeloController = TextEditingController();
   final TextEditingController _ejesController = TextEditingController();
   final TextEditingController _cantidadNeumaticosController = TextEditingController();
-  final TextEditingController _tipoMovilController = TextEditingController();
+
+  int _tipoMovilSeleccionado = 1; // Valor inicial
+  final List<Map<String, dynamic>> _tiposMovil = [
+    {'label': '4x2', 'value': 1, 'ejes': 2, 'neumaticos': 6},
+    {'label': '6x2', 'value': 2, 'ejes': 2, 'neumaticos': 10},
+    {'label': 'Rampla', 'value': 3, 'ejes': 2, 'neumaticos': 12},
+  ];
 
   // Obtener el móvil por patente
   Future<void> _fetchMovilData() async {
@@ -40,9 +37,8 @@ class _ModificarMovilPageState extends State<ModificarMovilPage> {
           _movil = movil;
           _marcaController.text = movil.marca;
           _modeloController.text = movil.modelo;
-          _ejesController.text = movil.ejes.toString();
-          _cantidadNeumaticosController.text = movil.cantidadNeumaticos.toString();
-          _tipoMovilController.text = movil.tipoMovil.toString();
+          _tipoMovilSeleccionado = movil.tipoMovil; // Asignar el tipo de móvil existente
+          _updateFieldsForTipoMovil(); // Actualizar los campos de ejes y neumáticos según el tipo de móvil
           _isLoading = false;
         });
       }
@@ -53,16 +49,27 @@ class _ModificarMovilPageState extends State<ModificarMovilPage> {
     }
   }
 
+  // Actualizar los campos de ejes y neumáticos según el tipo de móvil
+  void _updateFieldsForTipoMovil() {
+    final tipoMovil = _tiposMovil.firstWhere((tipo) => tipo['value'] == _tipoMovilSeleccionado);
+    _ejesController.text = tipoMovil['ejes'].toString();
+    _cantidadNeumaticosController.text = tipoMovil['neumaticos'].toString();
+  }
+
   // Modificar el móvil
   Future<void> _modificarMovil() async {
   try {
+    // Asignar los valores de los campos editables
     _movil.marca = _marcaController.text.trim();
     _movil.modelo = _modeloController.text.trim();
-    _movil.ejes = int.parse(_ejesController.text.trim());
-    _movil.cantidadNeumaticos = int.parse(_cantidadNeumaticosController.text.trim());
-    _movil.tipoMovil = int.parse(_tipoMovilController.text.trim());
+    _movil.tipoMovil = _tipoMovilSeleccionado;
 
-    // Usamos la patente actual como la patente de origen
+    // Actualizar los valores de ejes y cantidad de neumáticos
+    final tipoMovil = _tiposMovil.firstWhere((tipo) => tipo['value'] == _tipoMovilSeleccionado);
+    _movil.ejes = tipoMovil['ejes']; // Asignar el valor correspondiente de ejes
+    _movil.cantidadNeumaticos = tipoMovil['neumaticos']; // Asignar el valor correspondiente de neumáticos
+
+    // Enviar los datos modificados al backend
     bool success = await movilService.modificarDatosMovil(widget.patente, _movil);
 
     if (success) {
@@ -82,7 +89,6 @@ class _ModificarMovilPageState extends State<ModificarMovilPage> {
 }
 
 
-
   @override
   void initState() {
     super.initState();
@@ -99,62 +105,54 @@ class _ModificarMovilPageState extends State<ModificarMovilPage> {
           ? Center(child: CircularProgressIndicator())
           : Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  TextField(
-                    controller: _marcaController,
-                    decoration: InputDecoration(
-                      labelText: 'Marca',
-                      filled: _isMarcaModified ? true : false,
-                      fillColor: _isMarcaModified ? Colors.yellow : null,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    TextField(
+                      controller: _marcaController,
+                      decoration: const InputDecoration(labelText: 'Marca'),
                     ),
-                    onChanged: (_) => setState(() => _isMarcaModified = true),
-                  ),
-                  TextField(
-                    controller: _modeloController,
-                    decoration: InputDecoration(
-                      labelText: 'Modelo',
-                      filled: _isModeloModified ? true : false,
-                      fillColor: _isModeloModified ? Colors.yellow : null,
+                    const SizedBox(height: 10),
+                    TextField(
+                      controller: _modeloController,
+                      decoration: const InputDecoration(labelText: 'Modelo'),
                     ),
-                    onChanged: (_) => setState(() => _isModeloModified = true),
-                  ),
-                  TextField(
-                    controller: _ejesController,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      labelText: 'Ejes',
-                      filled: _isEjesModified ? true : false,
-                      fillColor: _isEjesModified ? Colors.yellow : null,
-                      ),
-                      onChanged: (_) => setState(() => _isEjesModified = true),
-                  ),
-                  TextField(
-                    controller: _cantidadNeumaticosController,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      labelText: 'Cantidad Neumáticos',
-                      filled: _isCantidadNeumaticosModified ? true : false,
-                      fillColor: _isCantidadNeumaticosModified ? Colors.yellow : null,
-                      ),
-                      onChanged: (_) => setState(() => _isCantidadNeumaticosModified = true),
-                  ),
-                  TextField(
-                    controller: _tipoMovilController,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      labelText: 'Tipo de Móvil',
-                      filled: _isTipoMovilModified ? true : false,
-                      fillColor: _isTipoMovilModified ? Colors.yellow : null,
-                      ),
-                      onChanged: (_) => setState(() => _isTipoMovilModified = true)
-                  ),
-                  SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: _modificarMovil,
-                    child: Text('Guardar Cambios'),
-                  ),
-                ],
+                    const SizedBox(height: 10),
+                    TextField(
+                      controller: _ejesController,
+                      enabled: false, // Deshabilitar la edición
+                      decoration: const InputDecoration(labelText: 'Ejes'),
+                    ),
+                    const SizedBox(height: 10),
+                    TextField(
+                      controller: _cantidadNeumaticosController,
+                      enabled: false, // Deshabilitar la edición
+                      decoration: const InputDecoration(labelText: 'Cantidad de Neumáticos'),
+                    ),
+                    const SizedBox(height: 10),
+                    DropdownButtonFormField<int>(
+                      value: _tipoMovilSeleccionado,
+                      decoration: const InputDecoration(labelText: 'Tipo de Móvil'),
+                      items: _tiposMovil.map((tipo) {
+                        return DropdownMenuItem<int>(
+                          value: tipo['value'],
+                          child: Text(tipo['label']),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          _tipoMovilSeleccionado = value!;
+                          _updateFieldsForTipoMovil(); // Actualizar los campos cuando se cambia el tipo de móvil
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: _modificarMovil,
+                      child: const Text('Guardar Cambios'),
+                    ),
+                  ],
+                ),
               ),
             ),
     );
