@@ -208,6 +208,8 @@ namespace api_control_neumaticos.Controllers
             if (estado == 2)
             {
                 neumatico.FECHA_SALIDA = DateTime.Now;
+                neumatico.ID_MOVIL = null;
+                neumatico.UBICACION = 1;
             }
             else if (estado == 1)
             {
@@ -284,8 +286,39 @@ namespace api_control_neumaticos.Controllers
 
             return NoContent();
         }
+        
+        // POST: api/Neumaticos/verificarSiNeumaticoHabilitado
+        [HttpPost("verificarSiNeumaticoHabilitado")]
+        public async Task<ActionResult<bool>> verificarSiNeumaticoHabilitado(int codigo)
+        {
+            var neumatico = await _context.Neumaticos.FirstOrDefaultAsync(n => n.CODIGO == codigo);
 
+            if (neumatico != null && neumatico.ESTADO == 1)
+            {
+                return Ok(true);
+            }
 
+            return Ok(false);
+        }
+        
+        // POST: api/Neumaticos/verificarSiPosicioneEsUnicaConPatente
+        [HttpPost("verificarSiPosicioneEsUnicaEnEseVehiculo")]
+        public async Task<ActionResult<bool>> verificarSiPosicioneEsUnicaEnEseVehiculo(int? idMovil, int posicion)
+        {
+            var neumatico = await _context.Neumaticos.FirstOrDefaultAsync(n => n.ID_MOVIL == idMovil && n.UBICACION == posicion);
+            
+            if(idMovil == null)
+            {
+                return Ok(true);
+            }
+
+            if (neumatico == null)
+            {
+                return Ok(true);
+            }
+
+            return Ok(false);
+        }
 
 
         private bool NeumaticoExists(int id)

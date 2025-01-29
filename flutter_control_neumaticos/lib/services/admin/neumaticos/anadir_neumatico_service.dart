@@ -12,36 +12,58 @@ class NeumaticoService {
   }
 
   static Future<int?> getMovilByPatente(String patente) async {
-  final token = await getToken();
-  if (token == null) return null;
+    final token = await getToken();
+    if (token == null) return null;
 
-  print('Buscando Movil por patente: $patente');
+    print('Buscando Movil por patente: $patente');
 
-  final response = await http.get(
-    Uri.parse('$_baseUrl/Movil/GetMovilByPatente?patente=$patente'),
-    headers: {'Authorization': 'Bearer $token'},
-  );
+    final response = await http.get(
+      Uri.parse('$_baseUrl/Movil/GetMovilByPatente?patente=$patente'),
+      headers: {'Authorization': 'Bearer $token'},
+    );
 
-  print('Respuesta de la API: ${response.body}');
+    print('Respuesta de la API: ${response.body}');
 
-  if (response.statusCode == 200) {
-    final data = json.decode(response.body);
-    print('Datos recibidos: $data');
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      print('Datos recibidos: $data');
 
-    // Acceder al campo correctamente, con la misma estructura de la respuesta
-    if (data['iD_MOVIL'] != null) {
-      print('Movil encontrado con ID: ${data['iD_MOVIL']}');
-      return data['iD_MOVIL'];
+      // Acceder al campo correctamente, con la misma estructura de la respuesta
+      if (data['iD_MOVIL'] != null) {
+        print('Movil encontrado con ID: ${data['iD_MOVIL']}');
+        return data['iD_MOVIL'];
+      } else {
+        print('No se encontró el ID del móvil en la respuesta.');
+        return null;
+      }
     } else {
-      print('No se encontró el ID del móvil en la respuesta.');
-      return null;
+      throw Exception('Error al obtener el móvil por patente. Respuesta: ${response.statusCode}');
     }
-  } else {
-    throw Exception('Error al obtener el móvil por patente. Respuesta: ${response.statusCode}');
   }
-}
 
+  // Nueva función para verificar si la posición es única
+  static Future<bool> verificarPosicionUnica(int idMovil, int posicion) async {
+    final token = await getToken();
+    print('Token para la solicitud: $token'); // Debugging
 
+    final url = '$_baseUrl/Neumaticos/verificarSiPosicioneEsUnicaEnEseVehiculo?idMovil=$idMovil&posicion=$posicion';
+    print('URL de la solicitud: $url'); // Debugging
+
+    final response = await http.post(
+      Uri.parse(url),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+
+    print('Estado de la respuesta: ${response.statusCode}'); // Debugging
+    print('Cuerpo de la respuesta: ${response.body}'); // Debugging
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      return data == true;
+    } else {
+      throw Exception('Error al verificar si la posición es única');
+    }
+  }
 
   static Future<void> addNeumatico(NeumaticoCrear neumatico, String? patente) async {
     final token = await getToken();
@@ -50,13 +72,21 @@ class NeumaticoService {
     // Si no hay patente, el movilId será nulo.
     final movilId = patente != null && patente.isNotEmpty ? await getMovilByPatente(patente) : null;
 
+    // Verificar si la posición es única antes de continuar
+    if (movilId != null) {
+      final esPosicionUnica = await verificarPosicionUnica(movilId, neumatico.ubicacion);
+      if (!esPosicionUnica) {
+        throw Exception('La posición ya está ocupada por otro neumático en este vehículo');
+      }
+    }
+
     // Imprimir los valores que estamos usando
     print('Token: $token');
     print('Patente: $patente');
     print('MovilId: $movilId');
     print('Neumatico Datos:');
     print('Codigo: ${neumatico.codigo}');
-    print('Ubicacion: 1');  // Ajusta según tu lógica de ubicaciones
+    print('Ubicacion: ${neumatico.ubicacion}');
     print('Fecha Ingreso: ${neumatico.fechaIngreso.toIso8601String()}');
     print('Estado: ${neumatico.estado}');
     print('Kilometraje Total: ${neumatico.kilometrajeTotal}');
@@ -65,7 +95,7 @@ class NeumaticoService {
     // Crear el objeto Neumatico con el formato esperado para el POST.
     final neumaticoData = {
       'CODIGO': neumatico.codigo,
-      'UBICACION': 1,  // Ajusta esto según la lógica de tu aplicación
+      'UBICACION': neumatico.ubicacion,
       'ID_MOVIL': movilId,  // Puede ser null si no hay patente
       'ID_BODEGA': 1,  // Ajusta esto según la lógica de tu aplicación
       'FECHA_INGRESO': neumatico.fechaIngreso.toIso8601String(),

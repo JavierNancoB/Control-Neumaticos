@@ -196,6 +196,20 @@ namespace api_control_neumaticos.Controllers
 
             return NoContent();
         }
+
+        // Comprobamos que usuario esta habilitado
+        [HttpGet("ComprobarUsuarioHabilitado")]
+        public async Task<ActionResult<bool>> ComprobarUsuarioHabilitado(string mail)
+        {
+            var usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.Correo == mail);
+
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+
+            return usuario.CodEstado == 1;
+        }
         
 
 

@@ -64,7 +64,7 @@ class _ModificarNeumaticoPageState extends State<ModificarNeumaticoPage> {
       } catch (e) {
         print('Error al modificar los datos: $e');
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error al modificar los datos: $e')),
+          SnackBar(content: Text('Error al modificar los datos: Neumatico no existe en la base de datos')),
         );
       }
     }
