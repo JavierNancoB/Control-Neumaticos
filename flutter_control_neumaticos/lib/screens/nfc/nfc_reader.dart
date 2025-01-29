@@ -4,7 +4,6 @@ import '../menu/bitacora/informacion_neumatico.dart';
 import '../menu/admin/neumatico/deshabilitar_neumatico_screen.dart';
 import '../menu/admin/ingresar_patente.dart';
 import '../../services/nfc_verification_reader.dart';
-import '../menu/admin/admin_actions_screen.dart';
 
 class NFCReader extends StatefulWidget {
   final String action;  // El parámetro que indica qué acción realizar
