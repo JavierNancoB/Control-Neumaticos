@@ -22,29 +22,30 @@ class Neumatico {
   });
 
   factory Neumatico.fromJson(Map<String, dynamic> json) {
+    print("kmTotal recibido: ${json['kM_TOTAL']}"); // Depuración
     return Neumatico(
       codigo: json['codigo'].toString(),
       ubicacion: json['ubicacion'],
-      idMovil: json['iD_MOVIL'], // Verifica si es null
+      idMovil: json['iD_MOVIL'],
       idBodega: json['iD_BODEGA'],
-      fechaIngreso: DateTime.parse(json['fechA_INGRESO']), // Parseo a DateTime
-      fechaSalida: json['fechA_SALIDA'] != null
-          ? DateTime.parse(json['fechA_SALIDA'])
-          : null, // Verifica si es null
+      fechaIngreso: DateTime.parse(json['fechA_INGRESO']),
+      fechaSalida: json['fechA_SALIDA'] != null ? DateTime.parse(json['fechA_SALIDA']) : null,
       estado: json['estado'],
-      kmTotal: json['kM_TOTAL'],
+      kmTotal: json['kM_TOTAL'], // Asegúrate de que esto se recibe correctamente
       tipoNeumatico: json['tipO_NEUMATICO'],
     );
   }
 
+
   Map<String, dynamic> toJson() {
+    print("kmTotal enviado: $kmTotal"); // Depuración
     return {
       'codigo': codigo,
       'ubicacion': ubicacion,
       'iD_MOVIL': idMovil,
       'iD_BODEGA': idBodega,
-      'fechA_INGRESO': fechaIngreso.toIso8601String(), // Convertido a String ISO
-      'fechA_SALIDA': fechaSalida?.toIso8601String(), // Convertido a String ISO
+      'fechA_INGRESO': fechaIngreso.toIso8601String(),
+      'fechA_SALIDA': fechaSalida?.toIso8601String(),
       'estado': estado,
       'kM_TOTAL': kmTotal,
       'tipO_NEUMATICO': tipoNeumatico,

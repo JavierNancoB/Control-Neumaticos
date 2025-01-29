@@ -1,15 +1,33 @@
 import 'package:flutter/material.dart';
 
-class UbicacionDropdown extends StatelessWidget {
+import 'package:flutter/material.dart';
+
+class UbicacionDropdown extends StatefulWidget {
   final int ubicacion;
   final ValueChanged<int> onChanged;
-  final String patente;
+  final String? patente; // Hacemos patente nullable
 
   UbicacionDropdown({
     required this.ubicacion,
     required this.onChanged,
     required this.patente,
   });
+
+  @override
+  _UbicacionDropdownState createState() => _UbicacionDropdownState();
+}
+
+class _UbicacionDropdownState extends State<UbicacionDropdown> {
+  late int ubicacionSeleccionada;
+
+  @override
+  void initState() {
+    super.initState();
+    // Si la patente está presente, setea la ubicación en 2 si no se ha seleccionado ninguna
+    ubicacionSeleccionada = widget.patente == null || widget.patente!.isEmpty
+        ? 1
+        : (widget.ubicacion == 1 ? 2 : widget.ubicacion); // Si es 1, setea a 2
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,13 +51,18 @@ class UbicacionDropdown extends StatelessWidget {
       {'value': 16, 'label': 'REPUESTO'},
     ];
 
-    // Si la patente es vacía, solo mostramos 'BODEGA'
-    if (patente.isEmpty) {
+    // Si la patente es nula o vacía, solo mostramos 'BODEGA'
+    if (widget.patente == null || widget.patente!.isEmpty) {
       return DropdownButtonFormField<int>(
-        value: 1, // Solo 'BODEGA'
-        onChanged: (newUbicacion) {},
-        decoration: InputDecoration(labelText: 'Ubicación'),
-        items: [
+        value: ubicacionSeleccionada, // Solo 'BODEGA'
+        onChanged: (newUbicacion) {
+          setState(() {
+            ubicacionSeleccionada = newUbicacion!;
+            widget.onChanged(newUbicacion!); // Actualizamos el valor
+          });
+        },
+        decoration: const InputDecoration(labelText: 'Ubicación'),
+        items: const [
           DropdownMenuItem<int>(
             value: 1,
             child: Text('BODEGA'),
@@ -49,11 +72,14 @@ class UbicacionDropdown extends StatelessWidget {
     } else {
       // Si la patente existe, mostramos todas las opciones excepto 'BODEGA'
       return DropdownButtonFormField<int>(
-        value: ubicacion,
+        value: ubicacionSeleccionada, // Utilizamos el valor controlado
         onChanged: (newUbicacion) {
-          onChanged(newUbicacion!);
+          setState(() {
+            ubicacionSeleccionada = newUbicacion!;
+            widget.onChanged(newUbicacion!); // Actualizamos el valor
+          });
         },
-        decoration: InputDecoration(labelText: 'Ubicación'),
+        decoration: const InputDecoration(labelText: 'Ubicación'),
         items: ubicaciones
             .where((ubicacionItem) => ubicacionItem['value'] != 1) // Excluimos 'BODEGA'
             .map((ubicacionItem) {
