@@ -7,7 +7,8 @@ class InhabilitarNeumaticoPage extends StatefulWidget {
   const InhabilitarNeumaticoPage({super.key, required this.nfcData});
 
   @override
-  _InhabilitarNeumaticoPageState createState() => _InhabilitarNeumaticoPageState();
+  _InhabilitarNeumaticoPageState createState() =>
+      _InhabilitarNeumaticoPageState();
 }
 
 class _InhabilitarNeumaticoPageState extends State<InhabilitarNeumaticoPage> {
@@ -20,7 +21,8 @@ class _InhabilitarNeumaticoPageState extends State<InhabilitarNeumaticoPage> {
 
     try {
       // Llamada al servicio para modificar el estado del neumático
-      await DeshabilitarNeumaticoService.modificarEstadoNeumatico(widget.nfcData, estado);
+      await DeshabilitarNeumaticoService.modificarEstadoNeumatico(
+          widget.nfcData, estado);
 
       // Mostrar mensaje de éxito
       ScaffoldMessenger.of(context).showSnackBar(
@@ -43,6 +45,13 @@ class _InhabilitarNeumaticoPageState extends State<InhabilitarNeumaticoPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Modificar Estado del Neumático'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            // El retroceso se maneja con la flecha del dispositivo, no se bloquea
+            Navigator.pop(context); // Regresa a la pantalla anterior
+          },
+        ),
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())

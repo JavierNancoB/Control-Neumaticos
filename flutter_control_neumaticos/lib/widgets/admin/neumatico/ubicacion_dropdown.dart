@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter/material.dart';
-
 class UbicacionDropdown extends StatefulWidget {
   final int ubicacion;
   final ValueChanged<int> onChanged;
@@ -58,7 +56,7 @@ class _UbicacionDropdownState extends State<UbicacionDropdown> {
         onChanged: (newUbicacion) {
           setState(() {
             ubicacionSeleccionada = newUbicacion!;
-            widget.onChanged(newUbicacion!); // Actualizamos el valor
+            widget.onChanged(newUbicacion); // Actualizamos el valor
           });
         },
         decoration: const InputDecoration(labelText: 'Ubicación'),
@@ -76,7 +74,7 @@ class _UbicacionDropdownState extends State<UbicacionDropdown> {
         onChanged: (newUbicacion) {
           setState(() {
             ubicacionSeleccionada = newUbicacion!;
-            widget.onChanged(newUbicacion!); // Actualizamos el valor
+            widget.onChanged(newUbicacion); // Actualizamos el valor
           });
         },
         decoration: const InputDecoration(labelText: 'Ubicación'),

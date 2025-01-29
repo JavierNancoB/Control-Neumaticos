@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import '../../../services/ingresar_patente_service.dart';
 
 class IngresarPatentePage extends StatefulWidget {
-  final String tipo;  // Primer parámetro
-  final String codigo;  // Segundo parámetro
-  
+  final String tipo;
+  final String codigo;
+
   IngresarPatentePage({required this.tipo, required this.codigo});
 
   @override
@@ -24,7 +24,7 @@ class _IngresarPatentePageState extends State<IngresarPatentePage> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            _buildPatenteField(),
+            _buildAutocompleteField(),
             SizedBox(height: 20),
             _buildSubmitButton(context),
           ],
@@ -33,15 +33,36 @@ class _IngresarPatentePageState extends State<IngresarPatentePage> {
     );
   }
 
-  Widget _buildPatenteField() {
-    return TextField(
-      controller: _patenteController,
-      decoration: InputDecoration(
-        labelText: 'Ingresa la patente del móvil',
-      ),
+  /// **Autocomplete para la Patente**
+  Widget _buildAutocompleteField() {
+    return Autocomplete<String>(
+      optionsBuilder: (TextEditingValue textEditingValue) async {
+        if (textEditingValue.text.isEmpty) {
+          return const Iterable<String>.empty();
+        }
+        try {
+          return await IngresarPatenteService.fetchPatentesSugeridas(textEditingValue.text);
+        } catch (e) {
+          return const Iterable<String>.empty();
+        }
+      },
+      onSelected: (String selection) {
+        _patenteController.text = selection;
+      },
+      fieldViewBuilder: (context, controller, focusNode, onEditingComplete) {
+        return TextField(
+          controller: controller,
+          focusNode: focusNode,
+          decoration: InputDecoration(
+            labelText: 'Ingresa la patente del móvil',
+          ),
+          onEditingComplete: onEditingComplete,
+        );
+      },
     );
   }
 
+  /// **Botón para Enviar la Patente**
   Widget _buildSubmitButton(BuildContext context) {
     return ElevatedButton(
       onPressed: () {

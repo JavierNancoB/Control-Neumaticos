@@ -232,6 +232,20 @@ namespace api_control_neumaticos.Controllers
             }
         }
 
+        // GET: api/Movil/BuscarUsuariosPorPatente?query=j
+        // Esta función busca moviles por su patente, devolviendo las primeras 4 patentes que coincidan con la búsqueda
+        [HttpGet("BuscarMovilesPorPatente")]
+        public async Task<ActionResult<IEnumerable<string>>> BuscarMovilesPorPatente(string query)
+        {
+            var patentes = await _context.Movils
+                .Where(m => m.Patente.Contains(query))
+                .Select(m => m.Patente)
+                .Take(4)
+                .ToListAsync();
+
+            return patentes;
+        }
+
         private bool MovilExists(int id)
         {
             return _context.Movils.Any(e => e.IdMovil == id);
