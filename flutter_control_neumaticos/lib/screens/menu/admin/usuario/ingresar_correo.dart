@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'modificar_usuario_screen.dart';
+import '../../../../services/admin/usuarios/ingresar_correo_service.dart'; // Importamos el servicio
 
 class IngresarCorreoPage extends StatefulWidget {
   @override
@@ -8,15 +9,22 @@ class IngresarCorreoPage extends StatefulWidget {
 
 class _IngresarCorreoPageState extends State<IngresarCorreoPage> {
   final TextEditingController emailController = TextEditingController();
+  final UsuarioService usuarioService = UsuarioService();
 
-  void buscarUsuario() {
+  void buscarUsuario() async {
     if (emailController.text.isNotEmpty) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ModificarUsuarioPage(email: emailController.text),
-        ),
-      );
+      bool usuarioExiste = await usuarioService.buscarUsuarioPorCorreo(emailController.text);
+
+      if (usuarioExiste) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ModificarUsuarioPage(email: emailController.text),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Usuario deshabilitado/no encontrado')));
+      }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Por favor, ingrese un correo válido')));
     }
