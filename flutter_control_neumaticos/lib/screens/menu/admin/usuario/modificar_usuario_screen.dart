@@ -62,12 +62,13 @@ class _ModificarUsuarioPageState extends State<ModificarUsuarioPage> {
   }
 
   // Save changes made to the user
+  // Save changes made to the user
   Future<void> _saveChanges() async {
     try {
       // Actualizamos el objeto _usuario con los nuevos valores
       _usuario.nombres = _nombresController.text;
       _usuario.apellidos = _apellidosController.text;
-      _usuario.correo = _correoController.text;
+      _usuario.correo = _correoController.text; // El nuevo correo aquí
       _usuario.codigoPerfil = _perfilSeleccionado; // Guardamos el perfil seleccionado
 
       // Mostrar los valores antes de enviar la solicitud
@@ -78,12 +79,14 @@ class _ModificarUsuarioPageState extends State<ModificarUsuarioPage> {
       print("Perfil: ${_usuario.codigoPerfil}"); // Perfil ahora es el código de perfil
 
       // Llamada al servicio para guardar cambios
-      bool success = await usuarioService.modificarDatosUsuario(_usuario);
-
+      bool success = await usuarioService.modificarDatosUsuario(_usuario, widget.email);
+      print("widget.email: ${widget.email}");
       if (success) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Datos modificados con éxito'), backgroundColor: Colors.green),
         );
+        // Regresar a la página anterior si los cambios son exitosos
+        Navigator.pop(context);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error al modificar los datos'), backgroundColor: Colors.red),
@@ -96,6 +99,7 @@ class _ModificarUsuarioPageState extends State<ModificarUsuarioPage> {
       );
     }
   }
+
 
   @override
   Widget build(BuildContext context) {

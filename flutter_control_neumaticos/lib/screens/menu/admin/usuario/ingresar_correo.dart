@@ -12,23 +12,31 @@ class _IngresarCorreoPageState extends State<IngresarCorreoPage> {
   final UsuarioService usuarioService = UsuarioService();
 
   void buscarUsuario() async {
-    if (emailController.text.isNotEmpty) {
-      bool usuarioExiste = await usuarioService.buscarUsuarioPorCorreo(emailController.text);
+  if (emailController.text.isNotEmpty) {
+    bool usuarioExiste = await usuarioService.buscarUsuarioPorCorreo(emailController.text);
 
-      if (usuarioExiste) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ModificarUsuarioPage(email: emailController.text),
-          ),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Usuario deshabilitado/no encontrado')));
-      }
+    if (usuarioExiste) {
+      // Si el usuario está habilitado
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ModificarUsuarioPage(email: emailController.text),
+        ),
+      );
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Por favor, ingrese un correo válido')));
+      // Si el usuario no existe o está deshabilitado
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Usuario deshabilitado/no encontrado')),
+      );
     }
+  } else {
+    // Si el correo no se ha ingresado
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Por favor, ingrese un correo válido')),
+    );
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
