@@ -237,8 +237,6 @@ namespace api_control_neumaticos.Controllers
             int ubicacion, 
             string? patente, // Ahora es nullable (string?)
             DateTime fechaIngreso, 
-            DateTime? fechaSalida, 
-            int estado, 
             int kmTotal, 
             int tipoNeumatico)
         {
@@ -249,9 +247,14 @@ namespace api_control_neumaticos.Controllers
                 return NotFound();
             }
 
-            // Si patente es nula, no buscamos un móvil, solo dejamos el ID_MOVIL en null o un valor por defecto
+            // Si la patente no es nula y la ubicación enviada es 1, cambiamos la ubicación a 2
             if (!string.IsNullOrEmpty(patente))
             {
+                if (ubicacion == 1) 
+                {
+                    ubicacion = 2; // Cambiamos la ubicación a 2 si la patente no es nula y la ubicación es 1
+                }
+
                 var movil = await _context.Movils.FirstOrDefaultAsync(m => m.Patente == patente); // Buscamos el móvil por patente
                 if (movil == null)
                 {
@@ -263,15 +266,15 @@ namespace api_control_neumaticos.Controllers
             }
             else
             {
-                // Si la patente es nula, dejamos el ID_MOVIL en null o lo asignamos a un valor predeterminado
-                neumatico.ID_MOVIL = null; // O podrías asignar 0 dependiendo de tu base de datos
+                // Si la patente es nula, asignamos la ubicación a 1 (BODEGA)
+                ubicacion = 1; // BODEGA
+                // Deja el ID_MOVIL en null
+                neumatico.ID_MOVIL = null;
             }
 
             // Modificamos el resto de los campos
             neumatico.UBICACION = ubicacion;
             neumatico.FECHA_INGRESO = fechaIngreso;
-            neumatico.FECHA_SALIDA = fechaSalida;
-            neumatico.ESTADO = estado;
             neumatico.KM_TOTAL = kmTotal;
             neumatico.TIPO_NEUMATICO = tipoNeumatico;
 
@@ -286,7 +289,7 @@ namespace api_control_neumaticos.Controllers
 
             return NoContent();
         }
-        
+
         // POST: api/Neumaticos/verificarSiNeumaticoHabilitado
         [HttpPost("verificarSiNeumaticoHabilitado")]
         public async Task<ActionResult<bool>> verificarSiNeumaticoHabilitado(int codigo)
@@ -302,23 +305,40 @@ namespace api_control_neumaticos.Controllers
         }
         
         // POST: api/Neumaticos/verificarSiPosicioneEsUnicaConPatente
-        [HttpPost("verificarSiPosicioneEsUnicaEnEseVehiculo")]
-        public async Task<ActionResult<bool>> verificarSiPosicioneEsUnicaEnEseVehiculo(int? idMovil, int posicion)
+        // POST: api/Neumaticos/verificarSiPosicioneEsUnicaConPatente
+        [HttpPost("verificarSiPosicioneEsUnicaConPatente")]
+        public async Task<ActionResult<bool>> verificarSiPosicioneEsUnicaConPatente(string? patente, int posicion)
         {
-            var neumatico = await _context.Neumaticos.FirstOrDefaultAsync(n => n.ID_MOVIL == idMovil && n.UBICACION == posicion);
-            
-            if(idMovil == null)
+            Console.WriteLine($"Petición recibida - Patente: {patente}, Posición: {posicion}");
+
+            if (string.IsNullOrEmpty(patente))
             {
+                Console.WriteLine("Patente es null o vacía, devolviendo true");
                 return Ok(true);
             }
+
+            // Buscar el móvil por patente
+            var movil = await _context.Movils.FirstOrDefaultAsync(m => m.Patente == patente);
+            if (movil == null)
+            {
+                Console.WriteLine("Móvil no encontrado con esa patente, devolviendo true");
+                return Ok(true);
+            }
+
+            // Buscar si la posición ya está ocupada en ese móvil
+            var neumatico = await _context.Neumaticos.FirstOrDefaultAsync(n => n.ID_MOVIL == movil.IdMovil && n.UBICACION == posicion);
 
             if (neumatico == null)
             {
+                Console.WriteLine("No se encontró un neumático en esa posición, devolviendo true");
                 return Ok(true);
             }
 
+            Console.WriteLine("Posición ya está ocupada, devolviendo false");
             return Ok(false);
         }
+
+
 
 
         private bool NeumaticoExists(int id)

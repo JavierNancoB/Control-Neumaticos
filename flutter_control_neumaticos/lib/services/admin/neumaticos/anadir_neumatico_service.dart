@@ -42,11 +42,11 @@ class NeumaticoService {
   }
 
   // Nueva función para verificar si la posición es única
-  static Future<bool> verificarPosicionUnica(int idMovil, int posicion) async {
+  static Future<bool> verificarPosicionUnica(String patente, int posicion) async {
     final token = await getToken();
     print('Token para la solicitud: $token'); // Debugging
 
-    final url = '$_baseUrl/Neumaticos/verificarSiPosicioneEsUnicaEnEseVehiculo?idMovil=$idMovil&posicion=$posicion';
+    final url = '$_baseUrl/Neumaticos/verificarSiPosicioneEsUnicaEnEseVehiculo?idMovil=$patente&posicion=$posicion';
     print('URL de la solicitud: $url'); // Debugging
 
     final response = await http.post(
@@ -74,7 +74,7 @@ class NeumaticoService {
 
     // Verificar si la posición es única antes de continuar
     if (movilId != null) {
-      final esPosicionUnica = await verificarPosicionUnica(movilId, neumatico.ubicacion);
+      final esPosicionUnica = await verificarPosicionUnica(patente!, neumatico.ubicacion);
       if (!esPosicionUnica) {
         throw Exception('La posición ya está ocupada por otro neumático en este vehículo');
       }
