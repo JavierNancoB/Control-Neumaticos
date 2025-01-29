@@ -107,7 +107,16 @@ class _NFCReaderState extends State<NFCReader> {
                   : nfcData != 'Acerque el chip para leerlo...'
                       ? () {
                           // Redirige a la pantalla adecuada dependiendo de la acción
-                          if (widget.action == 'informacion') {
+                          // Si el mensaje es uno de los errores, reiniciar la lectura NFC
+                          if (nfcData == 'No se pudo leer un ID válido.' ||
+                              nfcData == 'No se encontró mensaje NDEF.' ||
+                              nfcData == 'Error al procesar los datos.') {
+                            setState(() {
+                              nfcData = 'Acerca tu dispositivo NFC para leerlo...';
+                            });
+                            _startNFC();
+                          } else{
+                            if (widget.action == 'informacion') {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -136,6 +145,7 @@ class _NFCReaderState extends State<NFCReader> {
                               ),
                             );
                           }
+                          }                         
                         }
                       : _startNFC,
               child: Text(
