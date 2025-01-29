@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:nfc_manager/nfc_manager.dart';
-
 import '../menu/bitacora/informacion_neumatico.dart';
 import '../menu/admin/neumatico/deshabilitar_neumatico_screen.dart';
 import '../menu/admin/ingresar_patente.dart';
-
+import '../../services/nfc_verification_reader.dart';
+import '../menu/admin/admin_actions_screen.dart';
 
 class NFCReader extends StatefulWidget {
   final String action;  // El parámetro que indica qué acción realizar
@@ -18,6 +18,7 @@ class NFCReader extends StatefulWidget {
 class _NFCReaderState extends State<NFCReader> {
   String nfcData = 'Acerca tu dispositivo NFC para leerlo...';
   bool isNfcReading = false;
+  String? statusMessage; // Mensaje que muestra si el neumático está habilitado o no.
 
   @override
   void initState() {
@@ -27,6 +28,8 @@ class _NFCReaderState extends State<NFCReader> {
 
   void _checkNfcAvailability() async {
     bool isNfcAvailable = await NfcManager.instance.isAvailable();
+    print('¿NFC disponible?: $isNfcAvailable');
+    
     if (!isNfcAvailable) {
       setState(() {
         nfcData = 'NFC no está habilitado en este dispositivo.';
@@ -55,11 +58,95 @@ class _NFCReaderState extends State<NFCReader> {
           setState(() {
             nfcData = nfcMessage;
           });
+
+          // Primero, verificar si el neumático existe
+          NfcVerificationReader reader = NfcVerificationReader();
+          bool exists = await reader.verificarSiNeumaticoExiste(int.parse(nfcMessage));
+
+          if (exists) {
+            // Si el neumático existe, verificar si está habilitado
+            bool isHabilitado = await reader.verificarSiNeumaticoHabilitado(nfcMessage);
+            setState(() {
+              statusMessage = isHabilitado ? 'Neumático Habilitado' : 'Lea Nuevamente';
+              if (!isHabilitado) {
+                // No redirigir, solo mostrar que está deshabilitado
+                nfcData = 'Neumatico Deshabilitado: ';
+                _showAbleNeumaticoDialog(nfcMessage);
+              }
+            });
+          } else {
+            // Si no existe, preguntar si desea añadirlo
+            setState(() {
+              nfcData = 'Neumático no encontrado.';
+              statusMessage = null; // Limpiar mensaje de estado
+            });
+            _showAddNeumaticoDialog(nfcMessage);
+          }
         },
       );
     }
   }
 
+
+  Future<void> _showAddNeumaticoDialog(String nfcMessage) async {
+    print('Mostrando diálogo para añadir neumático...');
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Neumático no encontrado'),
+          content: Text('¿Deseas añadir un nuevo neumático con este código?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('No'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                
+                print('Redirigiendo para añadir neumático...');
+                Navigator.push(context, MaterialPageRoute(builder: (context) => IngresarPatentePage(tipo: 'Añadir', codigo: nfcMessage)));
+              },
+              child: Text('Sí'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _showAbleNeumaticoDialog(String nfcMessage) async {
+    print('Mostrando diálogo para añadir neumático...');
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Neumático no Habilitado'),
+          content: Text('¿Deseas habilitar el neumático con este código?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('No'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                
+                print('Redirigiendo para habilitar neumático...');
+                Navigator.push(context, MaterialPageRoute(builder: (context) => InhabilitarNeumaticoPage(nfcData: nfcMessage)));
+              },
+              child: Text('Sí'),
+            ),
+          ],
+        );
+      },
+    );
+  }
   @override
   void dispose() {
     NfcManager.instance.stopSession();
@@ -100,52 +187,60 @@ class _NFCReaderState extends State<NFCReader> {
               nfcData,
               style: const TextStyle(fontSize: 18),
             ),
+            if (statusMessage != null)
+              Text(
+                statusMessage!, // Mostrar el estado de habilitación
+                style: TextStyle(fontSize: 18, color: statusMessage == 'Neumático Habilitado' ? Colors.green : Colors.red),
+              ),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: isNfcReading
                   ? null
                   : nfcData != 'Acerque el chip para leerlo...'
                       ? () {
-                          // Redirige a la pantalla adecuada dependiendo de la acción
-                          // Si el mensaje es uno de los errores, reiniciar la lectura NFC
                           if (nfcData == 'No se pudo leer un ID válido.' ||
                               nfcData == 'No se encontró mensaje NDEF.' ||
-                              nfcData == 'Error al procesar los datos.') {
+                              nfcData == 'Error al procesar los datos.' ||
+                              nfcData == 'Neumático no encontrado.' ||
+                              nfcData == 'NFC no está habilitado en este dispositivo.' ||
+                              nfcData == 'Neumatico Deshabilitado: '
+                              ) {
                             setState(() {
                               nfcData = 'Acerca tu dispositivo NFC para leerlo...';
+                              statusMessage = null;
                             });
                             _startNFC();
-                          } else{
+                          } else {
                             if (widget.action == 'informacion') {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => InformacionNeumatico(nfcData: nfcData),
-                              ),
-                            );
-                          } else if (widget.action == 'Añadir') {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => IngresarPatentePage(tipo: 'Añadir', codigo: nfcData)
-                              ),
-                            );
-                          } else if (widget.action == 'Modificar') {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => IngresarPatentePage(tipo: 'Modificar', codigo: nfcData)
-                              ),
-                            );
-                          } else if (widget.action == 'Deshabilitar') {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => InhabilitarNeumaticoPage(nfcData: nfcData)
-                              ),
-                            );
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => InformacionNeumatico(nfcData: nfcData),
+                                ),
+                              );
+                            } else if (widget.action == 'Añadir') {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => IngresarPatentePage(tipo: 'Añadir', codigo: nfcData)
+                                ),
+                              );
+                            } else if (widget.action == 'Modificar') {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => IngresarPatentePage(tipo: 'Modificar', codigo: nfcData)
+                                ),
+                              );
+                            } else if (widget.action == 'Deshabilitar') {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => InhabilitarNeumaticoPage(nfcData: nfcData)
+                                ),
+                              );
+                            }
                           }
-                          }                         
                         }
                       : _startNFC,
               child: Text(

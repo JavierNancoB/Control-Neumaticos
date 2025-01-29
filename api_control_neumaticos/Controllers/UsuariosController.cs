@@ -157,6 +157,21 @@ namespace api_control_neumaticos.Controllers
             return _mapper.Map<UsuarioDto>(usuario);
         }
 
+        // GET: api/Usuarios/BuscarUsuariosPorCorreo?query=j
+        // Esta función busca usuarios por su correo, devolviendo los primeros 10 correos que coincidan con la búsqueda
+        [HttpGet("BuscarUsuariosPorCorreo")]
+        public async Task<ActionResult<IEnumerable<string>>> BuscarUsuariosPorCorreo(string query)
+        {
+            var correos = await _context.Usuarios
+                .Where(u => u.Correo.Contains(query))
+                .Select(u => u.Correo)
+                .Take(4)
+                .ToListAsync();
+
+            return correos;
+        }
+
+
         // PUT: api/Usuarios/ModificarCodEstadoPorCorreo
         // Esta función modifica el campo CodEstado de un usuario por su correo
         [HttpPut("ModificarCodEstadoPorCorreo")]

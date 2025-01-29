@@ -56,8 +56,7 @@ class IngresarPatenteService {
         if (patenteExiste) {
           // Verificar el estado del móvil si estamos modificando o añadiendo
           bool estadoMovil = await _checkEstadoMovil(patente, token);
-          bool neumaticoHabilitado = await _verificarSiNeumaticoHabilitado(codigo);
-          if (estadoMovil && neumaticoHabilitado) {
+          if (estadoMovil) {
             // Si el estado es verdadero, continuar con la lógica de neumático
             Navigator.push(
               context,
@@ -79,14 +78,6 @@ class IngresarPatenteService {
         }
       } else {
         // Si no hay patente, continuar directamente con la pantalla de neumático
-        bool neumaticoHabilitado = await _verificarSiNeumaticoHabilitado(codigo);
-        if (!neumaticoHabilitado) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('El neumático no está habilitado, no se puede modificar.')),
-          );
-          return;
-        }
-        else {
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -95,30 +86,33 @@ class IngresarPatenteService {
                   : ModificarNeumaticoPage(patente: patente, nfcData: codigo),
             ),
           );
-        }
+        
       }
     }
   }
-
-static Future<bool> _verificarSiNeumaticoHabilitado(String codigo) async {
+  
+static Future<List<String>> fetchPatentesSugeridas(String query) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? token = prefs.getString('token');
 
-  // URL para verificar si el neumático está habilitado
-  final urlHabilitado = 'http://localhost:5062/api/Neumaticos/verificarSiNeumaticoHabilitado?codigo=$codigo';
+  if (token == null) {
+    throw Exception("No se encontró el token de autenticación.");
+  }
 
-  final response = await http.post(
-    Uri.parse(urlHabilitado),
+  final url = Uri.parse('http://localhost:5062/api/Movil/BuscarMovilesPorPatente?query=$query');
+  final response = await http.get(
+    url,
     headers: {'Authorization': 'Bearer $token'},
   );
 
   if (response.statusCode == 200) {
-    final data = json.decode(response.body);
-    return data == true; // Retorna true si está habilitado
+    List<dynamic> data = jsonDecode(response.body);
+    return List<String>.from(data);
   } else {
-    throw Exception('Error al verificar si el neumático está habilitado');
+    throw Exception('Error al obtener las sugerencias de patentes.');
   }
 }
+
 
 
 

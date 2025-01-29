@@ -3,7 +3,6 @@ import '../../../../models/movil_estado.dart';
 import '../../../../services/admin/movil/deshabilitar_movil_service.dart';
 import '../../../../widgets/estado_button.dart';
 
-
 class CambiarEstadoMovilPage extends StatefulWidget {
   @override
   _CambiarEstadoMovilPageState createState() => _CambiarEstadoMovilPageState();
@@ -13,12 +12,30 @@ class _CambiarEstadoMovilPageState extends State<CambiarEstadoMovilPage> {
   bool isLoading = false;
   final TextEditingController patenteController = TextEditingController();
   final MovilService movilService = MovilService();
+  List<String> patentesSugeridas = [];
 
-  // Lista de estados posibles
   final List<EstadoMovil> estados = [
-    EstadoMovil(id: 1, descripcion: 'Habilitado'),
-    EstadoMovil(id: 2, descripcion: 'Inhabilitado'),
+    EstadoMovil(id: 1, descripcion: 'Habilitar'),
+    EstadoMovil(id: 2, descripcion: 'Deshabilitar'),
   ];
+
+  Future<void> cargarSugerencias(String query) async {
+    if (query.isEmpty) {
+      setState(() {
+        patentesSugeridas = [];
+      });
+      return;
+    }
+
+    try {
+      final sugerencias = await movilService.fetchPatentesSugeridas(query);
+      setState(() {
+        patentesSugeridas = sugerencias;
+      });
+    } catch (e) {
+      print("Error al obtener sugerencias: $e");
+    }
+  }
 
   Future<void> cambiarEstadoCamion(EstadoMovil estado) async {
     setState(() {
@@ -54,7 +71,7 @@ class _CambiarEstadoMovilPageState extends State<CambiarEstadoMovilPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Modificar Estado del Camión'),
+        title: Text('Modificar Estado del Movil'),
       ),
       body: isLoading
           ? Center(child: CircularProgressIndicator())
@@ -63,9 +80,25 @@ class _CambiarEstadoMovilPageState extends State<CambiarEstadoMovilPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TextField(
-                    controller: patenteController,
-                    decoration: InputDecoration(labelText: 'Patente del Camión'),
+                  Autocomplete<String>(
+                    optionsBuilder: (TextEditingValue textEditingValue) async {
+                      await cargarSugerencias(textEditingValue.text);
+                      return patentesSugeridas.where((patente) => patente.toLowerCase().contains(textEditingValue.text.toLowerCase()));
+                    },
+                    onSelected: (String selection) {
+                      setState(() {
+                        patenteController.text = selection;
+                      });
+                    },
+                    fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, FocusNode focusNode, VoidCallback onFieldSubmitted) {
+                      patenteController.text = textEditingController.text;
+                      return TextField(
+                        controller: textEditingController,
+                        focusNode: focusNode,
+                        decoration: InputDecoration(labelText: 'Patente del Camión'),
+                        onChanged: (value) => cargarSugerencias(value),
+                      );
+                    },
                   ),
                   SizedBox(height: 20),
                   Text('¿Desea habilitar o inhabilitar el camión con patente ${patenteController.text}?'),
