@@ -303,6 +303,20 @@ namespace api_control_neumaticos.Controllers
 
             return Ok(false);
         }
+
+        // POST: api/Neumaticos/verificarSiNeumaticoExiste
+        [HttpPost("verificarSiNeumaticoExiste")]
+        public async Task<ActionResult<bool>> verificarSiNeumaticoExiste(int codigo)
+        {
+            var neumatico = await _context.Neumaticos.FirstOrDefaultAsync(n => n.CODIGO == codigo);
+
+            if (neumatico != null)
+            {
+                return Ok(true);
+            }
+
+            return Ok(false);
+        }
         
         // POST: api/Neumaticos/verificarSiPosicioneEsUnicaConPatente
         // POST: api/Neumaticos/verificarSiPosicioneEsUnicaConPatente

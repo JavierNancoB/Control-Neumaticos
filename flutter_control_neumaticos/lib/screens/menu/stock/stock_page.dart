@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../services/stock_service.dart';
+import '../../../widgets/diccionario.dart';
 import '../bitacora/informacion_neumatico.dart';
 
 class StockPage extends StatefulWidget {
@@ -46,9 +47,15 @@ class _StockPageState extends State<StockPage> {
                     itemCount: snapshot.data!.length,
                     itemBuilder: (context, index) {
                       var neumatico = snapshot.data![index];
+                      int tipoNeumaticoId = neumatico['tipO_NEUMATICO'] ?? 0;
+                      String tipoNeumaticoDesc = Diccionario.obtenerDescripcion(
+                        Diccionario.tipoNeumatico,
+                        tipoNeumaticoId,
+                      );
+
                       return ListTile(
                         title: Text('Código: ${neumatico['codigo']}'),
-                        subtitle: Text('Estado: ${neumatico['estado'] ?? 'Desconocido'}'),
+                        subtitle: Text('Tipo: $tipoNeumaticoDesc'),
                         onTap: () {
                           Navigator.push(
                             context,

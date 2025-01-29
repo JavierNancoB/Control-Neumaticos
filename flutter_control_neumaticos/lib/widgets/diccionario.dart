@@ -57,6 +57,32 @@ class Diccionario {
     16: "REPUESTO",
   };
 
+  static const Map<int, String> bitacora = {
+    1: "INGRESO DE NEUMÁTICOS",
+    2: "CAMBIO UBICACIÓN",
+    3: "CAMBIO DE MOVIL ASIGNADO",
+    4: "DESHABILITAR NEUMATICOS",
+    5: "PINCHAZO",
+    6: "ROTACIÓN",
+    7: "INSTALACIÓN",
+    8: "PRESION DE AIRE",
+    9: "INGRESO USUARIO",
+    10: "EDICIÓN DE NOMBRE",
+    11: "EDICIÓN DE APELLIDO",
+    12: "EDICION DE PERFIL",
+    13: "CAMBIO DE ESTADO",
+    14: "CAMBIO DE CORREO",
+    15: "CAMBIO DE CONTRASEÑA",
+    16: "DESHABILITAR DE USUARIOS",
+    17: "INGRESO DE MOVIL",
+    18: "MODIFICACION PATENTE MOVIL",
+    19: "MODIFICACION MARCA MOVIL",
+    20: "MODIFICACION MODELO MOVIL",
+    21: "MODIFICACION EJES MOVIL",
+    22: "MODIFICACION CODIGO MOVIL",
+    23: "DESHABILITAR DE MOVIL",
+  };
+
   // Método para consultar los valores
   static String obtenerDescripcion(Map<int, String> diccionario, int key) {
     return diccionario[key] ?? "Desconocido";
