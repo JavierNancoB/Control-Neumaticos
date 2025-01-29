@@ -210,8 +210,27 @@ namespace api_control_neumaticos.Controllers
             return NoContent();
         }
 
-        
-        // ESTA FUNCION SIRVE PARA VERIFICAR SI EXISTE UN MOVIL CON UN ID DADO
+        // funcion que comprueba si movil esta habilitado (1) o deshabilitado (2), retorna true o false
+        // se envia con la url api/Movil/ComprobarEstadoMovil?patente=patente
+        [HttpGet("ComprobarEstadoMovil")]
+        public async Task<ActionResult<bool>> ComprobarEstadoMovil(string patente)
+        {
+            var movil = await _context.Movils.FirstOrDefaultAsync(m => m.Patente == patente);
+
+            if (movil == null)
+            {
+                return NotFound();
+            }
+
+            if (movil.Estado == 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
         private bool MovilExists(int id)
         {

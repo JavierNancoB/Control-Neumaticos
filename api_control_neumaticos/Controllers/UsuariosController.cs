@@ -178,7 +178,7 @@ namespace api_control_neumaticos.Controllers
 
         //API Para modificar nombres, apellidos, correo y codigo perfil
         [HttpPut("ModificarDatosUsuario")]
-        public async Task<IActionResult> ModificarDatosUsuario(string mail, string nombres, string apellidos, int codigoPerfil)
+        public async Task<IActionResult> ModificarDatosUsuario(string mail, string nuevosMail, string nombres, string apellidos, int codigoPerfil)
         {
             var usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.Correo == mail);
 
@@ -187,15 +187,27 @@ namespace api_control_neumaticos.Controllers
                 return NotFound();
             }
 
+            // Si el nuevo correo es diferente al actual, verificar si ya existe otro usuario con ese correo
+            if (nuevosMail != mail)
+            {
+                var existeUsuarioConNuevoCorreo = await _context.Usuarios.AnyAsync(u => u.Correo == nuevosMail);
+                if (existeUsuarioConNuevoCorreo)
+                {
+                    return BadRequest("El correo proporcionado ya está en uso.");
+                }
+            }
+
+            // Actualizar los datos del usuario
             usuario.Nombres = nombres;
             usuario.Apellidos = apellidos;
-            usuario.Correo = mail;
+            usuario.Correo = nuevosMail; // Se actualiza el correo con el nuevo valor
             usuario.CodigoPerfil = codigoPerfil;
             _context.Entry(usuario).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
+
 
         // Comprobamos que usuario esta habilitado
         [HttpGet("ComprobarUsuarioHabilitado")]

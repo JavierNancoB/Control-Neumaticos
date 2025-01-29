@@ -25,29 +25,29 @@ class UsuarioService {
   }
 
   // Modificar los datos del usuario
-  Future<bool> modificarDatosUsuario(Usuario usuario) async {
+  // Modificar los datos del usuario
+  // Modificar los datos del usuario
+ // Modificar los datos del usuario
+  Future<bool> modificarDatosUsuario(Usuario usuario, String email) async {
     try {
-      final uri = Uri.parse('$baseUrl/ModificarDatosUsuario')
+      // Construir la URL manualmente sin usar `replace(queryParameters:)`
+      final url = Uri.parse('$baseUrl/ModificarDatosUsuario') 
           .replace(queryParameters: {
-        'mail': usuario.correo,
+        'mail': email, // El correo actual para buscar el usuario
+        'nuevosMail': usuario.correo, // El nuevo correo si se modifica
         'nombres': usuario.nombres,
         'apellidos': usuario.apellidos,
         'codigoPerfil': usuario.codigoPerfil.toString(),
       });
 
-      final response = await http.put(uri);
+      // Imprimir la URL antes de hacer la solicitud
+      print("Endpoint: ${url.toString()}");
 
-      if (response.statusCode == 200) {
+      final response = await http.put(url);
+
+      if (response.statusCode == 200 || response.statusCode == 204) {
         return true;
-      } else if(response.statusCode == 404) {
-        print("Error: Usuario no encontrado");
-        return false;
-      }
-      else if(response.statusCode == 204) {
-        print("Usuario modificado con éxito");
-        return true;
-      }
-      else {
+      } else {
         print("Error: ${response.statusCode} - ${response.body}");
         return false;
       }
@@ -56,4 +56,5 @@ class UsuarioService {
       throw Exception('Error al modificar los datos del usuario: $e');
     }
   }
+
 }
