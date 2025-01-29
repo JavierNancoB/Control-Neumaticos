@@ -19,8 +19,8 @@ class _ModificarNeumaticoPageState extends State<ModificarNeumaticoPage> {
   Neumatico? _neumatico;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
   final TextEditingController _patenteController = TextEditingController();
+  final TextEditingController _kmController = TextEditingController();  // Controlador para kmTotal
 
   @override
   void initState() {
@@ -34,7 +34,7 @@ class _ModificarNeumaticoPageState extends State<ModificarNeumaticoPage> {
       idMovil: null,
       fechaIngreso: DateTime.now(),
       fechaSalida: null,
-      kmTotal: 0,
+      kmTotal: 0, // Valor por defecto
       tipoNeumatico: 1, // Valor por defecto (Direccional)
       estado: 1, // Valor por defecto (Habilitado)
     );
@@ -45,13 +45,14 @@ class _ModificarNeumaticoPageState extends State<ModificarNeumaticoPage> {
       Neumatico? neumatico = await NeumaticoService.fetchNeumaticoByCodigo(widget.nfcData);
       setState(() {
         _neumatico = neumatico;
+        _kmController.text = _neumatico!.kmTotal.toString();  // Actualiza el controlador con el valor de kmTotal
       });
     } catch (e) {
       print('Error al cargar los datos: $e');
     }
   }
 
-    void _submitForm() async {
+  void _submitForm() async {
     if (_formKey.currentState!.validate()) {
       try {
         // Modificar el neumático usando el servicio
@@ -64,12 +65,11 @@ class _ModificarNeumaticoPageState extends State<ModificarNeumaticoPage> {
       } catch (e) {
         print('Error al modificar los datos: $e');
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error al modificar los datos: Neumatico no existe en la base de datos')),
+          SnackBar(content: Text('Error al modificar los datos: $e')),
         );
       }
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -99,9 +99,7 @@ class _ModificarNeumaticoPageState extends State<ModificarNeumaticoPage> {
                           borderSide: BorderSide(color: Colors.grey), // Borde gris cuando está enfocado
                         ),
                       ),
-                      style: TextStyle(
-                        color: Colors.grey, // Color gris para el texto
-                ),
+                      style: TextStyle(color: Colors.grey), // Color gris para el texto
                     ),
                     // Patente
                     const SizedBox(height: 16),
@@ -127,7 +125,6 @@ class _ModificarNeumaticoPageState extends State<ModificarNeumaticoPage> {
                     ),
                     // Ubicación
                     const SizedBox(height: 16),
-                    // Imprime el valor de patente
                     UbicacionDropdown(
                       ubicacion: _neumatico!.ubicacion,
                       onChanged: (newUbicacion) {
@@ -136,6 +133,29 @@ class _ModificarNeumaticoPageState extends State<ModificarNeumaticoPage> {
                         });
                       },
                       patente: widget.patente, // Aquí pasa la patente al widget
+                    ),
+                    const SizedBox(height: 16),
+                    // Kilometraje Total
+                    TextFormField(
+                      controller: _kmController,  // Usamos el controlador aquí
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(labelText: 'Kilometraje Total'),
+                      onChanged: (value) {
+                        print('Valor recibido en onChanged: $value');
+                        setState(() {
+                          try {
+                            int km = int.parse(value);
+                            if (km >= 0) {
+                              _neumatico!.kmTotal = km;
+                              print('kmTotal actualizado: ${_neumatico!.kmTotal}');
+                            } else {
+                              print('Kilometraje no puede ser negativo');
+                            }
+                          } catch (e) {
+                            print('Error al actualizar kmTotal: $e');
+                          }
+                        });
+                      },
                     ),
                     // Fecha de Ingreso
                     const SizedBox(height: 16),
@@ -146,7 +166,6 @@ class _ModificarNeumaticoPageState extends State<ModificarNeumaticoPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        // Muestra la fecha seleccionada
                         Text(
                           // ignore: unnecessary_null_comparison
                           _neumatico!.fechaIngreso != null
@@ -154,7 +173,6 @@ class _ModificarNeumaticoPageState extends State<ModificarNeumaticoPage> {
                               : 'Selecciona una fecha', // Muestra la fecha o un texto indicativo
                           style: TextStyle(fontSize: 16), // Estilo de la fecha
                         ),
-                        // Botón de calendario
                         IconButton(
                           icon: Icon(Icons.calendar_today), // Ícono del calendario
                           onPressed: () async {
@@ -172,56 +190,6 @@ class _ModificarNeumaticoPageState extends State<ModificarNeumaticoPage> {
                           },
                         ),
                       ],
-                    ),
-                    /*
-                    // Fecha de Salida
-                    const SizedBox(height: 16),
-                    Text(
-                      'Fecha de Salida (Se deshabilitó el neumático)', // Título para la fecha de salida
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                    // Si fecha de salida es null, mostramos un campo de texto en vez del selector de fecha
-                    _neumatico!.fechaSalida == null
-                        ? Text(
-                            'No definida', // Indicamos que no está definida
-                            style: Theme.of(context).textTheme.titleMedium,
-                          )
-                        : FechaPicker(
-                            fecha: _neumatico!.fechaSalida!,
-                            onChanged: (newDate) {
-                              setState(() {
-                                _neumatico!.fechaSalida = newDate!;
-                              });
-                            },
-                          ),
-
-                    // Estado
-                    const SizedBox(height: 16),
-                    DropdownButtonFormField<int>(
-                      value: _neumatico!.estado,
-                      onChanged: (newValue) {
-                        setState(() {
-                          _neumatico!.estado = newValue!;
-                        });
-                      },
-                      decoration: InputDecoration(labelText: 'Estado'),
-                      items: [
-                        DropdownMenuItem(value: 1, child: Text('Habilitado')),
-                        DropdownMenuItem(value: 0, child: Text('Deshabilitado')),
-                      ],
-                    ),
-                    */
-                    // Kilometraje Total
-                    const SizedBox(height: 16),
-                    TextFormField(
-                      initialValue: _neumatico!.kmTotal.toString(),
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(labelText: 'Kilometraje Total'),
-                      onChanged: (value) {
-                        setState(() {
-                          _neumatico!.kmTotal = int.parse(value);
-                        });
-                      },
                     ),
                     // Tipo de Neumático
                     const SizedBox(height: 16),
