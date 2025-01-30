@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../../services/bitacora/bitacora_service.dart';
 import '../../../widgets/bitacora/codigo_dropdown.dart';
-import '../../../widgets/bitacora/estado_dropdown.dart';
 import '../../../widgets/bitacora/observacion_field.dart';
 import '../../../widgets/bitacora/submit_button.dart';
-
 
 class AnadirBitacoraScreen extends StatefulWidget {
   final int idNeumatico;
@@ -70,7 +68,8 @@ class _AnadirBitacoraScreenState extends State<AnadirBitacoraScreen> {
           key: _formKey,
           child: SingleChildScrollView(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 ObservacionField(controller: _observacionController),
                 CodigoDropdown(
@@ -78,14 +77,6 @@ class _AnadirBitacoraScreenState extends State<AnadirBitacoraScreen> {
                   onChanged: (value) {
                     setState(() {
                       _codigo = value;
-                    });
-                  },
-                ),
-                EstadoDropdown(
-                  selectedEstado: _estado,
-                  onChanged: (value) {
-                    setState(() {
-                      _estado = value;
                     });
                   },
                 ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../../../services/bitacora/ver_bitacora_services.dart';
 import 'bitacora_details_screen.dart';  // Asegúrate de importar la pantalla de detalles
 import '../../../widgets/diccionario.dart';
@@ -56,7 +57,6 @@ class _VerBitacoraScreenState extends State<VerBitacoraScreen> {
                     MaterialPageRoute(
                       builder: (context) => BitacoraDetailsScreen(
                         idBitacora: bitacora['id'],
-                        bitacora: bitacora,
                       ),
                     ),
                   );
@@ -82,9 +82,15 @@ class BitacoraItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String fechaFormateada = "Desconocida";
+    if (bitacora['fecha'] != null) {
+      DateTime fecha = DateTime.parse(bitacora['fecha']);
+      fechaFormateada = DateFormat('dd/MM/yyyy').format(fecha);
+    }
+
     return ListTile(
       title: Text(descripcion),  // Aquí usamos la descripción en lugar del código
-      subtitle: Text('Fecha: ${bitacora['fecha']}'),  // Muestra otra información de la bitácora
+      subtitle: Text('Fecha: $fechaFormateada'),  // Muestra la fecha formateada
     );
   }
 }

@@ -31,4 +31,16 @@ class Movil {
       'ESTADO': estado,
     };
   }
+  factory Movil.fromJson(Map<String, dynamic> json) {
+    return Movil(
+      patente: json['PATENTE'],
+      marca: json['MARCA'],
+      modelo: json['MODELO'],
+      ejes: json['EJES'],
+      cantidadNeumaticos: json['CANTIDAD_NEUMATICOS'],
+      tipoMovil: json['TIPO_MOVIL'],
+      estado: json['ESTADO'],
+      bodega: json['ID_BODEGA'],
+    );
+  }
 }
