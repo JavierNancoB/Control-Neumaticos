@@ -13,7 +13,7 @@ class BitacoraServices {
       throw Exception('Token no encontrado');
     }
 
-    final url = Uri.parse('http://localhost:5062/api/BitacoraNeumatico/$id');
+    final url = Uri.parse('http://localhost:5062/api/HistorialNeumatico/$id');
     final response = await http.get(
       url,
       headers: {
@@ -61,7 +61,7 @@ class BitacoraServices {
       throw Exception('Token no encontrado');
     }
 
-    final url = Uri.parse('http://localhost:5062/api/BitacoraNeumatico/UpdateEstadoBitacora/$id?estado=$estado');
+    final url = Uri.parse('http://localhost:5062/api/HistorialNeumatico/UpdateEstadoHistorialNeumatico/$id?estado=$estado');
     final response = await http.put(
       url,
       headers: {
