@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../diccionario.dart';
 
 class CodigoDropdown extends StatelessWidget {
   final int? selectedCodigo;
@@ -10,13 +11,15 @@ class CodigoDropdown extends StatelessWidget {
   Widget build(BuildContext context) {
     return DropdownButtonFormField<int>(
       value: selectedCodigo,
-      decoration: const InputDecoration(labelText: 'Código'),
-      items: List.generate(10, (index) {
+      decoration: const InputDecoration(labelText: 'Evento'),
+      items: Diccionario.bitacora.entries
+          .where((entry) => entry.key >= 1 && entry.key <= 8)
+          .map((entry) {
         return DropdownMenuItem(
-          value: index + 1,
-          child: Text('${index + 1}'),
+          value: entry.key,
+          child: Text(entry.value),
         );
-      }),
+      }).toList(),
       onChanged: onChanged,
       validator: (value) {
         if (value == null) {

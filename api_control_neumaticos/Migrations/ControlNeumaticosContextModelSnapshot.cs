@@ -75,7 +75,82 @@ namespace api_control_neumaticos.Migrations
                     b.ToTable("ALERTA", (string)null);
                 });
 
-            modelBuilder.Entity("api_control_neumaticos.Models.BitacoraNeumatico", b =>
+            modelBuilder.Entity("api_control_neumaticos.Models.Bitacora", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("ID");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<int>("CODIGO")
+                        .HasColumnType("int")
+                        .HasColumnName("CODIGO");
+
+                    b.Property<int>("ESTADO")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("int")
+                        .HasColumnName("ESTADO");
+
+                    b.Property<DateTime>("FECHA")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("FECHA");
+
+                    b.Property<int>("ID_OBJETO")
+                        .HasColumnType("int")
+                        .HasColumnName("ID_OBJETO");
+
+                    b.Property<int>("ID_USUARIO")
+                        .HasColumnType("int")
+                        .HasColumnName("ID_USUARIO");
+
+                    b.Property<string>("OBSERVACION")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(500)")
+                        .HasColumnName("OBSERVACION");
+
+                    b.Property<string>("TIPO_OBJETO")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("TIPO_OBJETO");
+
+                    b.HasKey("ID")
+                        .HasName("PK__BITACORA__3214EC07");
+
+                    b.HasIndex("ID_OBJETO");
+
+                    b.ToTable("BITACORA", (string)null);
+                });
+
+            modelBuilder.Entity("api_control_neumaticos.Models.Bodega", b =>
+                {
+                    b.Property<int>("ID_BODEGA")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("ID_BODEGA");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID_BODEGA"));
+
+                    b.Property<string>("NOMBRE_BODEGA")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("NOMBRE_BODEGA");
+
+                    b.HasKey("ID_BODEGA")
+                        .HasName("PK__BODEGA__3F5C45522D15E7A1");
+
+                    b.ToTable("BODEGA", (string)null);
+                });
+
+            modelBuilder.Entity("api_control_neumaticos.Models.HistorialNeumatico", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -111,29 +186,7 @@ namespace api_control_neumaticos.Migrations
 
                     b.HasIndex("IDUsuario");
 
-                    b.ToTable("BITACORA_NEUMATICO", (string)null);
-                });
-
-            modelBuilder.Entity("api_control_neumaticos.Models.Bodega", b =>
-                {
-                    b.Property<int>("ID_BODEGA")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("ID_BODEGA");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID_BODEGA"));
-
-                    b.Property<string>("NOMBRE_BODEGA")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(100)")
-                        .HasColumnName("NOMBRE_BODEGA");
-
-                    b.HasKey("ID_BODEGA")
-                        .HasName("PK__BODEGA__3F5C45522D15E7A1");
-
-                    b.ToTable("BODEGA", (string)null);
+                    b.ToTable("HISTORIAL_NEUMATICO", (string)null);
                 });
 
             modelBuilder.Entity("api_control_neumaticos.Models.Kilometros", b =>
@@ -387,7 +440,31 @@ namespace api_control_neumaticos.Migrations
                     b.Navigation("UsuarioLeido");
                 });
 
-            modelBuilder.Entity("api_control_neumaticos.Models.BitacoraNeumatico", b =>
+            modelBuilder.Entity("api_control_neumaticos.Models.Bitacora", b =>
+                {
+                    b.HasOne("api_control_neumaticos.Models.Neumatico", "Neumatico")
+                        .WithMany()
+                        .HasForeignKey("ID_OBJETO")
+                        .HasConstraintName("FK_Bitacora_Neumatico");
+
+                    b.HasOne("api_control_neumaticos.Models.Movil", "Movil")
+                        .WithMany()
+                        .HasForeignKey("ID_OBJETO")
+                        .HasConstraintName("FK_Bitacora_Movil");
+
+                    b.HasOne("api_control_neumaticos.Models.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("ID_OBJETO")
+                        .HasConstraintName("FK_Bitacora_Usuario");
+
+                    b.Navigation("Movil");
+
+                    b.Navigation("Neumatico");
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("api_control_neumaticos.Models.HistorialNeumatico", b =>
                 {
                     b.HasOne("api_control_neumaticos.Models.Neumatico", "Neumatico")
                         .WithMany()

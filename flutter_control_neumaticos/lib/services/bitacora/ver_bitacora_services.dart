@@ -5,7 +5,7 @@ class VerBitacoraServices {
   // Función para obtener las bitácoras de un neumático
   static Future<List<Map<String, dynamic>>> getBitacoraByNeumatico(int idNeumatico) async {
     final response = await http.get(
-      Uri.parse('http://localhost:5062/api/BitacoraNeumatico/GetBitacoraByNeumaticoID?idNeumatico=$idNeumatico'),
+      Uri.parse('http://localhost:5062/api/BitacoraNeumatico/GetBitacoraByNeumaticoIDAndEstado?idNeumatico=$idNeumatico&estado=1'),
     );
 
     if (response.statusCode == 200) {
