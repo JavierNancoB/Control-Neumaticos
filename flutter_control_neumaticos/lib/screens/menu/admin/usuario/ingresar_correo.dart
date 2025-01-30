@@ -3,6 +3,8 @@ import 'modificar_usuario_screen.dart';
 import '../../../../services/admin/usuarios/ingresar_correo_service.dart';
 
 class IngresarCorreoPage extends StatefulWidget {
+  const IngresarCorreoPage({super.key});
+
   @override
   _IngresarCorreoPageState createState() => _IngresarCorreoPageState();
 }

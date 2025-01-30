@@ -3,6 +3,8 @@ import '../../../services/movile_service.dart';
 import '../../../widgets/movil/movil_info.dart';
 
 class PatentePage extends StatefulWidget {
+  const PatentePage({super.key});
+
   @override
   _PatentePageState createState() => _PatentePageState();
 }

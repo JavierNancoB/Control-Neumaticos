@@ -4,6 +4,8 @@ import '../../../../services/admin/movil/deshabilitar_movil_service.dart';
 import '../../../../widgets/estado_button.dart';
 
 class CambiarEstadoMovilPage extends StatefulWidget {
+  const CambiarEstadoMovilPage({super.key});
+
   @override
   _CambiarEstadoMovilPageState createState() => _CambiarEstadoMovilPageState();
 }

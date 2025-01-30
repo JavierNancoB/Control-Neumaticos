@@ -5,7 +5,7 @@ class IngresarPatentePage extends StatefulWidget {
   final String tipo;
   final String codigo;
 
-  IngresarPatentePage({required this.tipo, required this.codigo});
+  const IngresarPatentePage({super.key, required this.tipo, required this.codigo});
 
   @override
   _IngresarPatentePageState createState() => _IngresarPatentePageState();

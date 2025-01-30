@@ -6,7 +6,7 @@ class EditableTextField extends StatelessWidget {
   final bool isModified;
   final Function onChanged;
 
-  EditableTextField({
+  const EditableTextField({super.key, 
     required this.controller,
     required this.label,
     required this.isModified,

@@ -8,11 +8,11 @@ class BitacoraDetailsWidget extends StatelessWidget {
   final Function(int, int) onStateChange;
 
   const BitacoraDetailsWidget({
-    Key? key,
+    super.key,
     required this.bitacora,
     required this.usuario,
     required this.onStateChange,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

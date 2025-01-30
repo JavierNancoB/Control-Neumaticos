@@ -8,7 +8,7 @@ import 'admin/admin_menu_screen.dart';
 
 
 class MenuScreen extends StatelessWidget {
-  MenuScreen({super.key});
+  const MenuScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -21,7 +21,7 @@ class NeumaticoForm extends StatelessWidget {
   final Function(String, String) onFieldChanged;
 
   const NeumaticoForm({
-    Key? key,
+    super.key,
     required this.codigoController,
     required this.ubicacionController,
     required this.patenteController,
@@ -39,7 +39,7 @@ class NeumaticoForm extends StatelessWidget {
     required this.isKmTotalModified,
     required this.isTipoNeumaticoModified,
     required this.onFieldChanged,
-  }) : super(key: key);
+  });
 
   Future<void> _selectDateIn(BuildContext context, TextEditingController controller) async {
     DateTime? selectedDate = await showDatePicker(

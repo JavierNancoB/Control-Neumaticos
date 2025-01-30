@@ -5,7 +5,7 @@ import '../../../../models/usuario_modifcar.dart';
 class ModificarUsuarioPage extends StatefulWidget {
   final String email;
 
-  const ModificarUsuarioPage({Key? key, required this.email}) : super(key: key);
+  const ModificarUsuarioPage({super.key, required this.email});
 
   @override
   _ModificarUsuarioPageState createState() => _ModificarUsuarioPageState();
