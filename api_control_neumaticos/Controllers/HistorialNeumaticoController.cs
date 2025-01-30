@@ -115,6 +115,7 @@ namespace api_control_neumaticos.Controllers
         [HttpGet("GetHistorialNeumaticoByNeumaticoID")]
         public async Task<ActionResult<IEnumerable<HistorialNeumaticoDto>> > GetHistorialNeumaticoByNeumaticoID(int idNeumatico)
         {
+            
             var historialesNeumaticos = await _context.HistorialesNeumaticos
                                             .Where(b => b.IDNeumatico == idNeumatico)
                                             .ToListAsync();
@@ -124,9 +125,12 @@ namespace api_control_neumaticos.Controllers
         }
 
         /*******************Hacemos un GET por Id_Neumatico y Estado************************/
+        // lo ideal es que gracias a un id que mandemos nos devuelva un listado de historialesNeumaticos con el estado que le mandemos
         [HttpGet("GetHistorialNeumaticoByNeumaticoIDAndEstado")]
         public async Task<ActionResult<IEnumerable<HistorialNeumaticoDto>> > GetHistorialNeumaticoByNeumaticoIDAndEstado(int idNeumatico, int estado)
         {
+            Console.WriteLine($"Buscando historial para Neumático: {idNeumatico} con estado: {estado}");
+
             var historialesNeumaticos = await _context.HistorialesNeumaticos
                                             .Where(b => b.IDNeumatico == idNeumatico && b.ESTADO == estado)
                                             .ToListAsync();
