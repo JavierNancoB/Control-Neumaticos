@@ -9,7 +9,6 @@ namespace api_control_neumaticos.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
     public class BodegaController : ControllerBase
     {
         private readonly ControlNeumaticosContext _context;
