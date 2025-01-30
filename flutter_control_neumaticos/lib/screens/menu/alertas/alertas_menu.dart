@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'alertas_listas.dart';
 
 class AlertasMenu extends StatelessWidget {
+  const AlertasMenu({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

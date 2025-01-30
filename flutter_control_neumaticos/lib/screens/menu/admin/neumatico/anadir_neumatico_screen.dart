@@ -7,8 +7,7 @@ class AnadirNeumaticoScreen extends StatefulWidget {
   final String patente;
   final String nfcData;
 
-  const AnadirNeumaticoScreen({required this.patente, required this.nfcData, Key? key})
-      : super(key: key);
+  const AnadirNeumaticoScreen({required this.patente, required this.nfcData, super.key});
 
   @override
   _AnadirNeumaticoScreenState createState() => _AnadirNeumaticoScreenState();

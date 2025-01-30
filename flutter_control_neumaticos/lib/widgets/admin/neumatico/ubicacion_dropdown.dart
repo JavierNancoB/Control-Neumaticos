@@ -5,7 +5,7 @@ class UbicacionDropdown extends StatefulWidget {
   final ValueChanged<int> onChanged;
   final String? patente; // Hacemos patente nullable
 
-  UbicacionDropdown({
+  const UbicacionDropdown({super.key, 
     required this.ubicacion,
     required this.onChanged,
     required this.patente,
