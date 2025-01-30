@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("api_control_neumaticos")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9de110763121bb79b0c3093d0f440994f4e67426")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+17ab723a4e5ee0cd8fef2517ddf5737a9300d5f3")]
 [assembly: System.Reflection.AssemblyProductAttribute("api_control_neumaticos")]
 [assembly: System.Reflection.AssemblyTitleAttribute("api_control_neumaticos")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -23,7 +23,7 @@ class _InformacionNeumaticoState extends State<InformacionNeumatico> {
 
   // Diccionarios para traducción de valores
   final Map<int, String> _estadoDict = {1: "Habilitado", 2: "Inhabilitado"};
-  final Map<int, String> _tipoNeumaticoDict = {1: "Direccional", 2: "Traccional"};
+  final Map<int, String> _tipoNeumaticoDict = {1: "Traccional", 2: "Direccional"};
   final Map<int, String> _ubicacionDict = {
     1: "Bodega",
     2: "Direccional Izquierda",

@@ -51,7 +51,7 @@ namespace api_control_neumaticos.Controllers
             var neumaticoDto = _mapper.Map<NeumaticosDto>(neumatico);
             return Ok(neumaticoDto);
         }
-
+        
         // POST: api/Neumaticos
         [HttpPost]
         public async Task<ActionResult<NeumaticosDto>> PostNeumatico(CreateNeumaticoRequestDto createNeumaticoDto)
@@ -70,11 +70,16 @@ namespace api_control_neumaticos.Controllers
                 return BadRequest("La bodega no existe.");
             }
 
-            // Verificar si el móvil existe
+            // Verificar si el móvil existe, en caso de que se ingrese null ubicacion sera 1
             if (createNeumaticoDto.ID_MOVIL != null)
             {
                 var movil = await _context.Movils.FindAsync(createNeumaticoDto.ID_MOVIL);
             }
+            else
+            {
+                createNeumaticoDto.UBICACION = 1;
+            }
+            
 
             // Mapear los datos del DTO al modelo de Neumático
             var neumatico = _mapper.Map<Neumatico>(createNeumaticoDto);

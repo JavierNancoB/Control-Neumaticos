@@ -13,7 +13,7 @@ class CodigoDropdown extends StatelessWidget {
       value: selectedCodigo,
       decoration: const InputDecoration(labelText: 'Evento'),
       items: Diccionario.bitacora.entries
-          .where((entry) => entry.key >= 1 && entry.key <= 8)
+          .where((entry) => entry.key >= 10 && entry.key <= 11)
           .map((entry) {
         return DropdownMenuItem(
           value: entry.key,
