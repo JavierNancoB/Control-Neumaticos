@@ -20,7 +20,7 @@ class _AnadirBitacoraScreenState extends State<AnadirBitacoraScreen> {
   late int _userId;
   int? _codigo;
   int? _estado;
-  TextEditingController _observacionController = TextEditingController();
+  final TextEditingController _observacionController = TextEditingController();
 
   @override
   void initState() {

@@ -8,8 +8,7 @@ class ModificarNeumaticoPage extends StatefulWidget {
   final String patente;
   final String nfcData;
 
-  const ModificarNeumaticoPage({required this.patente, required this.nfcData, Key? key})
-      : super(key: key);
+  const ModificarNeumaticoPage({required this.patente, required this.nfcData, super.key});
 
   @override
   _ModificarNeumaticoPageState createState() => _ModificarNeumaticoPageState();

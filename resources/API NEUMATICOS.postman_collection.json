@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "2788164a-4ded-4c70-82cb-3b6931a81ade",
 		"name": "API NEUMATICOS",
-		"description": "1. **Inicio de sesión (POST /login)**  \n    El proceso de autenticación comienza con la solicitud de inicio de sesión mediante el método `POST` al endpoint `/login`. En esta solicitud:\n    \n\n- Se debe enviar un cuerpo con los campos `usuario` y `contraseña` en formato plano .JSON (sin codificar).\n    \n- Si las credenciales son correctas, el servidor retornará un **token** de autenticación en la respuesta (Este tiene una duracion de 15 minutos y posterior a esto debe ser renovada, la respuesta del por que es tan corta es principalmente para evitar abusos de terceros, para facilitar las cosas, la aplicacion se encargara de actualizar el token a su debido tiempo).\n    \n\n2\\. **Incluir el token en las solicitudes subsiguientes**\n\n- Para incluir el token en cada solicitud se debe ajustar, para este proceso en la solicitud se debe marcar **AUTHORIZATION**, posteriormente en el desplegable **AUTH TYPE** se marca **Bearer Token**, y en el campo que aparece se inserta el token anteriormente retornado por login",
+		"description": "1. **Inicio de sesión (POST /login)**  \n    El proceso de autenticación comienza con la solicitud de inicio de sesión mediante el método `POST` al endpoint `/login`. En esta solicitud:\n    \n\n- Se debe enviar un cuerpo con los campos `usuario` y `contraseña` en formato plano .JSON (sin codificar).\n    \n- Si las credenciales son correctas, el servidor retornará un **token** de autenticación en la respuesta (Este tiene una duracion de 15 minutos y posterior a esto debe ser renovada, la respuesta del por que es tan corta es principalmente para evitar abusos de terceros, para facilitar las cosas, la aplicacion se encargara de actualizar el token a su debido tiempo).\n    \n\n2\\. **Incluir el token en las solicitudes subsiguientes**\n\n- Se **incluye por defecto el token para cada solicitud**, en caso de que salga el **error 401 UNAUHTORIZED** puede incluir el token de manera manual. Para incluir el token en cada solicitud se debe ajustar, para este proceso en la solicitud se debe marcar **AUTHORIZATION**, posteriormente en el desplegable **AUTH TYPE** se marca **Bearer Token**, y en el campo que aparece se inserta el token anteriormente retornado por login",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "33000682"
 	},
@@ -58,7 +58,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"nombrE_BODEGA\": \"PentaCrom\"\r\n}",
+							"raw": "{\r\n  \"nombrE_BODEGA\": \"Perrot\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -97,7 +97,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"nombrE_BODEGA\": \"PENTACROM\"\r\n}",
+							"raw": "{\r\n  \"nombrE_BODEGA\": \"PERROT\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -105,7 +105,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5062/api/Bodega/42",
+							"raw": "http://localhost:5062/api/Bodega/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -114,7 +114,7 @@
 							"path": [
 								"api",
 								"Bodega",
-								"42"
+								"1"
 							]
 						}
 					},
@@ -136,7 +136,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5062/api/Bodega/42",
+							"raw": "http://localhost:5062/api/Bodega/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -145,7 +145,7 @@
 							"path": [
 								"api",
 								"Bodega",
-								"42"
+								"2"
 							]
 						}
 					},
@@ -235,7 +235,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"nombres\": \"Pedro Cristian\",\r\n  \"apellidos\": \"Jorquera Robles\",\r\n  \"correo\": \"pedro.jorquera@gmail.com\",\r\n  \"clave\": \"StringString\",\r\n  \"codigO_PERFIL\": 1,\r\n  \"coD_ESTADO\": 1,\r\n  \"iD_BODEGA\": 2\r\n}",
+							"raw": "{\r\n  \"nombres\": \"Juan Pablo\",\r\n  \"apellidos\": \"Martinez\",\r\n  \"correo\": \"juan.pablo@gmail.com\",\r\n  \"clave\": \"MiClave\",\r\n  \"codigO_PERFIL\": 1,\r\n  \"cod_estado\": 1,\r\n  \"iD_BODEGA\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -274,7 +274,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"iD_USUARIO\": 4,\r\n  \"nombres\": \"Javier Alfonso\",\r\n  \"apellidos\": \"Nanco Becerra\",\r\n  \"correo\": \"javiernancob@gmail.com\",\r\n  \"clave\": \"SalchichaSureña\",\r\n  \"codigO_PERFIL\": 1,\r\n  \"coD_ESTADO\": 1,\r\n  \"iD_BODEGA\": 2\r\n}",
+							"raw": "{\r\n  \"iD_USUARIO\": 1,\r\n  \"nombres\": \"Javier Alonsoo\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -282,7 +282,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5062/api/Usuarios/4",
+							"raw": "http://localhost:5062/api/Usuarios/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -291,7 +291,7 @@
 							"path": [
 								"api",
 								"Usuarios",
-								"4"
+								"1"
 							]
 						}
 					},
@@ -303,7 +303,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5062/api/Usuarios/4",
+							"raw": "http://localhost:5062/api/Usuarios/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -312,7 +312,162 @@
 							"path": [
 								"api",
 								"Usuarios",
-								"4"
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Correo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5062/api/Usuarios/GetUsuarioByMail?mail=pedro.jorquera@gmail.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"Usuarios",
+								"GetUsuarioByMail"
+							],
+							"query": [
+								{
+									"key": "mail",
+									"value": "pedro.jorquera@gmail.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Correo",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5062/api/Usuarios/ModificarCodEstadoPorCorreo?mail=pedro.jorquera@gmail.com&codEstado=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"Usuarios",
+								"ModificarCodEstadoPorCorreo"
+							],
+							"query": [
+								{
+									"key": "mail",
+									"value": "pedro.jorquera@gmail.com"
+								},
+								{
+									"key": "codEstado",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modificar",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5062/api/Usuarios/ModificarDatosUsuario?mail=javiernancob@gmail.com&nuevosMail=javiernancob@gmail.com&nombres=Javier Alonso&apellidos=Nanco Becerra&codigoPerfil=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"Usuarios",
+								"ModificarDatosUsuario"
+							],
+							"query": [
+								{
+									"key": "mail",
+									"value": "javiernancob@gmail.com"
+								},
+								{
+									"key": "nuevosMail",
+									"value": "javiernancob@gmail.com"
+								},
+								{
+									"key": "nombres",
+									"value": "Javier Alonso"
+								},
+								{
+									"key": "apellidos",
+									"value": "Nanco Becerra"
+								},
+								{
+									"key": "codigoPerfil",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Comprobar Estado",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5062/api/Usuarios/ComprobarUsuarioHabilitado?mail=javiernancob@gmail.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"Usuarios",
+								"ComprobarUsuarioHabilitado"
+							],
+							"query": [
+								{
+									"key": "mail",
+									"value": "javiernancob@gmail.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Mientras Escribo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5062/api/Usuarios/BuscarUsuariosPorCorreo?query=javiernancob@gmail.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"Usuarios",
+								"BuscarUsuariosPorCorreo"
+							],
+							"query": [
+								{
+									"key": "query",
+									"value": "javiernancob@gmail.com"
+								}
 							]
 						}
 					},
@@ -339,7 +494,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5062/api/neumaticos/9",
+							"raw": "http://localhost:5062/api/neumaticos",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -347,8 +502,7 @@
 							"port": "5062",
 							"path": [
 								"api",
-								"neumaticos",
-								"9"
+								"neumaticos"
 							]
 						}
 					},
@@ -371,7 +525,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"codigo\": 662212,\r\n  \"ubicacion\": \"Delante\",\r\n  \"iD_BODEGA\": 10,\r\n  \"fechA_INGRESO\": \"2025-01-22T12:54:43.862Z\",\r\n  \"estado\": \"Activo\",\r\n  \"kM_TOTAL\": 1600,\r\n  \"tipO_NEUMATICO\": \"Traccion\",\r\n  \"moviL_ASIGNADO\": 5\r\n}",
+							"raw": "{\r\n    \"CODIGO\": 123190,\r\n    \"UBICACION\": 1,\r\n    \"ID_MOVIL\": null,\r\n    \"ID_BODEGA\": 1,\r\n    \"FECHA_INGRESO\": \"2025-01-23T10:00:00\",\r\n    \"ESTADO\": 1,\r\n    \"KM_TOTAL\": 5000,\r\n    \"TIPO_NEUMATICO\": 1\r\n}\r\n\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -410,7 +564,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"codigo\": 654321,\r\n  \"ubicacion\": \"Trasero Derecho\",\r\n  \"iD_BODEGA\": 2,\r\n  \"fechA_SALIDA\": \"2025-01-22T14:17:53.732Z\",\r\n  \"estado\": \"Inactivo\",\r\n  \"kM_TOTAL\": 1700,\r\n  \"tipO_NEUMATICO\": \"Diagonal\",\r\n  \"moviL_ASIGNADO\": 2\r\n}",
+							"raw": "{\r\n  \"codigo\": 123476,\r\n  \"ubicacion\": 1,\r\n  \"iD_BODEGA\": 1,\r\n  \"fechA_SALIDA\": \"2025-01-22T14:17:53.732Z\",\r\n  \"estado\": 1,\r\n  \"kM_TOTAL\": 1800,\r\n  \"tipO_NEUMATICO\": 1,\r\n  \"id_movil\": null\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -418,7 +572,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5062/api/neumaticos/1",
+							"raw": "http://localhost:5062/api/neumaticos/23",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -427,7 +581,7 @@
 							"path": [
 								"api",
 								"neumaticos",
-								"1"
+								"23"
 							]
 						}
 					},
@@ -439,7 +593,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5062/api/neumaticos/9",
+							"raw": "http://localhost:5062/api/neumaticos/6",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -448,7 +602,227 @@
 							"path": [
 								"api",
 								"neumaticos",
-								"9"
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Codigo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5062/api/Neumaticos/GetNeumaticoByCodigo?codigo=123456 ",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"Neumaticos",
+								"GetNeumaticoByCodigo"
+							],
+							"query": [
+								{
+									"key": "codigo",
+									"value": "123456 "
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Codigo",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5062/api/Neumaticos/ModificarEstadoPorCodigo?codigo=123476&estado=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"Neumaticos",
+								"ModificarEstadoPorCodigo"
+							],
+							"query": [
+								{
+									"key": "codigo",
+									"value": "123476"
+								},
+								{
+									"key": "estado",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Movil NULL",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5062/api/Neumaticos/GetNeumaticoByMovilNULL",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"Neumaticos",
+								"GetNeumaticoByMovilNULL"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Movil ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5062/api/Neumaticos/GetNeumaticoByMovilID?idMovil=5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"Neumaticos",
+								"GetNeumaticoByMovilID"
+							],
+							"query": [
+								{
+									"key": "idMovil",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modificar",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5062/api/Neumaticos/ModificarNeumaticoPorCodigo?codigo=123456&ubicacion=1&patente=&fechaIngreso=2025-01-25T12:00:00.000&kmTotal=20020&tipoNeumatico=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"Neumaticos",
+								"ModificarNeumaticoPorCodigo"
+							],
+							"query": [
+								{
+									"key": "codigo",
+									"value": "123456"
+								},
+								{
+									"key": "ubicacion",
+									"value": "1"
+								},
+								{
+									"key": "patente",
+									"value": ""
+								},
+								{
+									"key": "fechaIngreso",
+									"value": "2025-01-25T12:00:00.000"
+								},
+								{
+									"key": "kmTotal",
+									"value": "20020"
+								},
+								{
+									"key": "tipoNeumatico",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ubicacion Unica",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idMovil\": 123,\r\n  \"posicion\": 2\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5062/api/Neumaticos/verificarSiPosicioneEsUnicaEnEseVehiculo?idMovil=&ubicacion=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"Neumaticos",
+								"verificarSiPosicioneEsUnicaEnEseVehiculo"
+							],
+							"query": [
+								{
+									"key": "idMovil",
+									"value": ""
+								},
+								{
+									"key": "ubicacion",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Existe",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5062/api/Neumaticos/verificarSiNeumaticoExiste?codigo=105645",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"Neumaticos",
+								"verificarSiNeumaticoExiste"
+							],
+							"query": [
+								{
+									"key": "codigo",
+									"value": "105645"
+								}
 							]
 						}
 					},
@@ -477,7 +851,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5062/api/Movil/2",
+							"raw": "http://localhost:5062/api/Movil",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -485,8 +859,7 @@
 							"port": "5062",
 							"path": [
 								"api",
-								"Movil",
-								"2"
+								"Movil"
 							]
 						}
 					},
@@ -509,7 +882,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"ID_MOVIL\": 1,\r\n  \"PATENTE\": \"GH7890\",\r\n  \"MARCA\": \"SCANIA\",\r\n  \"MODELO\": \"SCANIA SUPER\",\r\n  \"EJES\": 4,\r\n  \"TIPO_MOVIL\": 1,\r\n  \"ID_BODEGA\": 4,\r\n  \"CANTIDAD_NEUMATICOS\": 18,\r\n  \"ESTADO\": \"Activo\"\r\n}\r\n",
+							"raw": "{\r\n  \"ID_MOVIL\": 1,\r\n  \"PATENTE\": \"GH7890\",\r\n  \"MARCA\": \"SCANIA\",\r\n  \"MODELO\": \"SCANIA SUPER\",\r\n  \"EJES\": 4,\r\n  \"TIPO_MOVIL\": 1,\r\n  \"ID_BODEGA\": 1,\r\n  \"CANTIDAD_NEUMATICOS\": 18,\r\n  \"ESTADO\": 1\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -548,7 +921,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"ID_MOVIL\": 48,\r\n  \"PATENTE\": \"GH7891\",\r\n  \"MARCA\": \"SCANIA\",\r\n  \"MODELO\": \"SCANIA SUPER\",\r\n  \"EJES\": 4,\r\n  \"TIPO_MOVIL\": 1,\r\n  \"ID_BODEGA\": 4,\r\n  \"CANTIDAD_NEUMATICOS\": 18,\r\n  \"ESTADO\": \"Activo\"\r\n}",
+							"raw": "{\r\n  \"ID_MOVIL\": 5,\r\n  \"PATENTE\": \"GH7891\",\r\n  \"MARCA\": \"SCANIA\",\r\n  \"MODELO\": \"SCANIA SUPER\",\r\n  \"EJES\": 4,\r\n  \"TIPO_MOVIL\": 1,\r\n  \"ID_BODEGA\": 1,\r\n  \"CANTIDAD_NEUMATICOS\": 18,\r\n  \"ESTADO\": \"0\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -556,7 +929,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5062/api/Movil/48",
+							"raw": "http://localhost:5062/api/Movil/5",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -565,7 +938,7 @@
 							"path": [
 								"api",
 								"Movil",
-								"48"
+								"5"
 							]
 						}
 					},
@@ -597,6 +970,142 @@
 								"api",
 								"Movil",
 								"48"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Estado",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5062/api/Movil/ComprobarEstadoMovil?patente=gh7891",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"Movil",
+								"ComprobarEstadoMovil"
+							],
+							"query": [
+								{
+									"key": "patente",
+									"value": "gh7891"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Estado",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5062/api/Movil/CambiaEstadoMovilPorPatente?patente=GH781&estado=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"Movil",
+								"CambiaEstadoMovilPorPatente"
+							],
+							"query": [
+								{
+									"key": "patente",
+									"value": "GH781"
+								},
+								{
+									"key": "estado",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patente",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5062/api/Movil/GetMovilByPatente?patente=GH7891",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"Movil",
+								"GetMovilByPatente"
+							],
+							"query": [
+								{
+									"key": "patente",
+									"value": "GH7891"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modificar",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5062/api/Movil/ModificarMovilPorPatente?patenteActual=gh7891&patenteNueva=gh7891&marca=SCANIA&modelo=SCANIA 2019&ejes=4&cantidadNeumaticos=6&tipoMovil=5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"Movil",
+								"ModificarMovilPorPatente"
+							],
+							"query": [
+								{
+									"key": "patenteActual",
+									"value": "gh7891"
+								},
+								{
+									"key": "patenteNueva",
+									"value": "gh7891"
+								},
+								{
+									"key": "marca",
+									"value": "SCANIA"
+								},
+								{
+									"key": "modelo",
+									"value": "SCANIA 2019"
+								},
+								{
+									"key": "ejes",
+									"value": "4"
+								},
+								{
+									"key": "cantidadNeumaticos",
+									"value": "6"
+								},
+								{
+									"key": "tipoMovil",
+									"value": "5"
+								}
 							]
 						}
 					},
@@ -654,7 +1163,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"iD_MOVIL\": 40,\r\n  \"fechA_REGISTRO\": \"2025-01-22T13:31:48.061Z\",\r\n  \"kilometro\": 200\r\n}",
+							"raw": "{\r\n  \"iD_MOVIL\": 5,\r\n  \"fechA_REGISTRO\": \"2025-01-22T13:31:48.061Z\",\r\n  \"kilometro\": 200\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -693,7 +1202,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"iD_KILOMETRO_DIARIO\": 40,\r\n  \"iD_MOVIL\": 40,\r\n  \"fechA_REGISTRO\": \"2025-01-22T13:37:04.988Z\",\r\n  \"kilometro\": 200\r\n}",
+							"raw": "{\r\n  \"iD_KILOMETRO_DIARIO\": 2,\r\n  \"iD_MOVIL\": 5,\r\n  \"fechA_REGISTRO\": \"2025-01-22T13:37:04.988Z\",\r\n  \"kilometro\": 200\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -701,7 +1210,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5062/api/Kilometros/40",
+							"raw": "http://localhost:5062/api/Kilometros/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -710,7 +1219,7 @@
 							"path": [
 								"api",
 								"Kilometros",
-								"40"
+								"2"
 							]
 						}
 					},
@@ -742,6 +1251,490 @@
 								"api",
 								"Kilometros",
 								"42"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Alertas",
+			"item": [
+				{
+					"name": "Alertas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5062/api/Alerta",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"Alerta"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Alertas",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"iD_NEUMATICO\": 23,\r\n  \"fechA_ALERTA\": \"2025-01-22T16:10:03.104Z\",\r\n  \"codigO_ALERTA\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5062/api/Alerta",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"Alerta"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Alertas",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 2,\r\n  \"iD_NEUMATICO\": 23,\r\n  \"fechA_ALERTA\": \"2025-01-22T16:11:06.032Z\",\r\n  \"codigO_ALERTA\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5062/api/Alerta/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"Alerta",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Alertas",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5062/api/Alerta/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"Alerta",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Estado 1 y 2",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5062/api/Alerta/GetAlertasByEstadoAlerta1&2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"Alerta",
+								"GetAlertasByEstadoAlerta1&2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Estado 3",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5062/api/Alerta/GetAlertasByEstadoAlerta3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"Alerta",
+								"GetAlertasByEstadoAlerta3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Estado",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5062/api/Alerta/CambiarEstado?id=5&estado=2&idUsuario=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"Alerta",
+								"CambiarEstado"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "5"
+								},
+								{
+									"key": "estado",
+									"value": "2"
+								},
+								{
+									"key": "idUsuario",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Estado Copy",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5062/api/Alerta/CambiarEstado?id=4&estado=2&idUsuario=1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"Alerta",
+								"CambiarEstado"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "4"
+								},
+								{
+									"key": "estado",
+									"value": "2"
+								},
+								{
+									"key": "idUsuario",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Bitacora Neumatico",
+			"item": [
+				{
+					"name": "Bitacora Neumatico",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5062/api/BitacoraNeumatico",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"BitacoraNeumatico"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Bitacora Neumatico",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idNeumatico\": 23,\r\n  \"idUsuario\": 1,\r\n  \"codigo\": 2,\r\n  \"fecha\": \"2025-01-22T16:15:20.245Z\",\r\n  \"estado\": 2,\r\n  \"observacion\": \"Rueda Golpeada por el borde Izquierdo\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5062/api/BitacoraNeumatico",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"BitacoraNeumatico"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Bitacora Neumatico",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 3,\r\n  \"idNeumatico\": 23,\r\n  \"idUsuario\": 1,\r\n  \"codigo\": 1,\r\n  \"fecha\": \"2025-01-22T16:15:20.245Z\",\r\n  \"estado\": 1,\r\n  \"observacion\": \"Neumatico Exploto\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5062/api/BitacoraNeumatico/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"BitacoraNeumatico",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Bitacora Neumatico",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5062/api/BitacoraNeumatico/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"BitacoraNeumatico",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ID Neumatico",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5062/api/BitacoraNeumatico/GetBitacoraByNeumaticoID?idNeumatico=23",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"BitacoraNeumatico",
+								"GetBitacoraByNeumaticoID"
+							],
+							"query": [
+								{
+									"key": "idNeumatico",
+									"value": "23"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Estado",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5062/api/BitacoraNeumatico/UpdateEstadoBitacora/3?estado=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"BitacoraNeumatico",
+								"UpdateEstadoBitacora",
+								"3"
+							],
+							"query": [
+								{
+									"key": "estado",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Mail",
+			"item": [
+				{
+					"name": "Mail",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"to\": \"javiernancob@gmail.com\",\r\n  \"subject\": \"Asunto del correo\",\r\n  \"body\": \"Contenido del correo\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5062/api/mail/send-email",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"mail",
+								"send-email"
 							]
 						}
 					},
@@ -805,7 +1798,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"Correo\": \"jnanco@utem.cl\",\r\n    \"Clave\": \"PerroSalchicha\"\r\n}\r\n",
+					"raw": "{\r\n    \"Correo\": \"javiernancob@gmail.com\",\r\n    \"Clave\": \"ZapatillaAdidas\"\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -813,10 +1806,13 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:5062/api/Auth/Login",
+					"raw": "http://10.250.200.61:5062/api/Auth/Login",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"10",
+						"250",
+						"200",
+						"61"
 					],
 					"port": "5062",
 					"path": [

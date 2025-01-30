@@ -19,14 +19,14 @@ class NeumaticoCrear {
 
   Map<String, dynamic> toJson() {
     return {
-      'CODIGO': this.codigo,
-      'UBICACION': this.ubicacion,
-      'ID_MOVIL': this.patente.isEmpty ? null : this.patente,  // Si patente está vacía, ID_MOVIL será null
+      'CODIGO': codigo,
+      'UBICACION': ubicacion,
+      'ID_MOVIL': patente.isEmpty ? null : patente,  // Si patente está vacía, ID_MOVIL será null
       'ID_BODEGA': 1,  // Según tu lógica, la bodega siempre es 1
-      'FECHA_INGRESO': this.fechaIngreso.toIso8601String(),
-      'ESTADO': this.estado,
-      'KM_TOTAL': this.kilometrajeTotal,
-      'TIPO_NEUMATICO': this.tipo,
+      'FECHA_INGRESO': fechaIngreso.toIso8601String(),
+      'ESTADO': estado,
+      'KM_TOTAL': kilometrajeTotal,
+      'TIPO_NEUMATICO': tipo,
     };
   }
 }

@@ -4,6 +4,8 @@ import '../../../widgets/diccionario.dart';
 import '../bitacora/informacion_neumatico.dart';
 
 class StockPage extends StatefulWidget {
+  const StockPage({super.key});
+
   @override
   _StockPageState createState() => _StockPageState();
 }

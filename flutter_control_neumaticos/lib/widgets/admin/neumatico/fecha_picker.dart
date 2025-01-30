@@ -5,10 +5,10 @@ class FechaPicker extends StatelessWidget {
   final ValueChanged<DateTime?> onChanged;
 
   const FechaPicker({
-    Key? key,
+    super.key,
     required this.fecha,
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -5,7 +5,7 @@ import '../../../../services/admin/movil/modificar_movil.dart';
 class ModificarMovilPage extends StatefulWidget {
   final String patente;
 
-  const ModificarMovilPage({Key? key, required this.patente, required String codigo}) : super(key: key);
+  const ModificarMovilPage({super.key, required this.patente, required String codigo});
 
   @override
   _ModificarMovilPageState createState() => _ModificarMovilPageState();
