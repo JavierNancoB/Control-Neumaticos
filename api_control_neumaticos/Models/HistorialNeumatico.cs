@@ -1,15 +1,22 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace api_control_neumaticos.Dtos.BitacoraNeumatico
+namespace api_control_neumaticos.Models
 {
-    public class CreateBitacoraNeumaticoRequestDto
+    public class HistorialNeumatico
     {
-        [Required]
-        public int IDNeumatico { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int ID { get; set; }
 
-        [Required]
+        [ForeignKey("Neumatico")]
+        public int IDNeumatico { get; set; }
+        public required Neumatico Neumatico { get; set; }
+
+        [ForeignKey("Usuario")]
         public int IDUsuario { get; set; }
+        public required Usuario Usuario { get; set; }
 
         [Required]
         public int CODIGO { get; set; }

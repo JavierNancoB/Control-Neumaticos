@@ -1,9 +1,9 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace api_control_neumaticos.Dtos.BitacoraNeumatico
+namespace api_control_neumaticos.Dtos.HistorialNeumatico
 {
-    public class BitacoraNeumaticoDto
+    public class HistorialNeumaticoDto
     {
         public int ID { get; set; }
 

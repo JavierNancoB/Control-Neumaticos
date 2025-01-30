@@ -32,4 +32,18 @@ class Neumatico {
         "KM_TOTAL": kmTotal,
         "TIPO_NEUMATICO": tipoNeumatico,
       };
+  factory Neumatico.fromJson(Map<String, dynamic> json)
+  {
+    return Neumatico(
+      idNeumatico: json['ID_NEUMATICO'],
+      codigo: json['CODIGO'],
+      ubicacion: json['UBICACION'],
+      idMovil: json['ID_MOVIL'],
+      idBodega: json['ID_BODEGA'],
+      fechaIngreso: json['FECHA_INGRESO'],
+      estado: json['ESTADO'],
+      kmTotal: json['KM_TOTAL'],
+      tipoNeumatico: json['TIPO_NEUMATICO'],
+    );
+  }
 }

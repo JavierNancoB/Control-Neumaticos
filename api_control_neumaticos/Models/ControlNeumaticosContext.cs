@@ -24,7 +24,9 @@ public partial class ControlNeumaticosContext : DbContext
 
     public DbSet<Alerta> Alertas { get; set; }
 
-    public DbSet<BitacoraNeumatico> BitacoraNeumaticos { get; set; }
+    public DbSet<HistorialNeumatico> HistorialesNeumaticos { get; set; }
+
+    public DbSet<Bitacora> Bitacoras { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -201,9 +203,9 @@ public partial class ControlNeumaticosContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
-        modelBuilder.Entity<BitacoraNeumatico>(entity =>
+        modelBuilder.Entity<HistorialNeumatico>(entity =>
         {
-            entity.ToTable("BITACORA_NEUMATICO");
+            entity.ToTable("HISTORIAL_NEUMATICO");
             entity.HasKey(e => e.ID);
             entity.Property(e => e.FECHA).IsRequired();
             entity.Property(e => e.CODIGO).IsRequired();
@@ -223,5 +225,61 @@ public partial class ControlNeumaticosContext : DbContext
             .HasForeignKey(e => e.IDUsuario)
             .OnDelete(DeleteBehavior.ClientSetNull);
         });
+
+        modelBuilder.Entity<Bitacora>(entity =>
+        {
+            entity.ToTable("BITACORA");
+            
+            entity.HasKey(e => e.ID).HasName("PK__BITACORA__3214EC07");
+
+            entity.Property(e => e.ID).HasColumnName("ID");
+            entity.Property(e => e.CODIGO).HasColumnName("CODIGO");
+            entity.Property(e => e.ID_OBJETO).HasColumnName("ID_OBJETO");
+            entity.Property(e => e.TIPO_OBJETO)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("TIPO_OBJETO");
+            entity.Property(e => e.ID_USUARIO).HasColumnName("ID_USUARIO");
+            entity.Property(e => e.FECHA).HasColumnName("FECHA");
+            entity.Property(e => e.OBSERVACION)
+                .HasMaxLength(500)
+                .IsUnicode(true)
+                .HasColumnName("OBSERVACION");
+            entity.Property(e => e.ESTADO)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("ESTADO");
+
+            // Relación con Usuario
+            entity.HasOne(b => b.Usuario)
+                .WithMany()
+                .HasForeignKey(b => b.ID_USUARIO)
+                .OnDelete(DeleteBehavior.Restrict); // Evitar que se borre el usuario si existe en Bitacora
+
+            // Relación dinámica con Neumatico, Movil o Usuario dependiendo del tipo de objeto
+            entity.HasOne(b => b.Neumatico)
+                .WithMany()
+                .HasForeignKey(b => b.ID_OBJETO)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Bitacora_Neumatico")
+                .IsRequired(false); // Este campo será null si TIPO_OBJETO es diferente
+
+            entity.HasOne(b => b.Movil)
+                .WithMany()
+                .HasForeignKey(b => b.ID_OBJETO)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Bitacora_Movil")
+                .IsRequired(false); // Este campo será null si TIPO_OBJETO es diferente
+
+            entity.HasOne(b => b.Usuario)
+                .WithMany()
+                .HasForeignKey(b => b.ID_OBJETO)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Bitacora_Usuario")
+                .IsRequired(false); // Este campo será null si TIPO_OBJETO es diferente
+        });
+
+
+
     }
 }

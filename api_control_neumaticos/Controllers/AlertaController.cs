@@ -94,9 +94,14 @@ namespace api_control_neumaticos.Controllers
         [HttpGet("GetAlertasByEstadoAlerta1&2")]
         public async Task<ActionResult<IEnumerable<AlertaDto>>> GetAlertasByCodigoAlerta1And2()
         {
-            var alertas = await _context.Set<Alerta>().Where(a => a.ESTADO_ALERTA == 1 || a.ESTADO_ALERTA == 2).ToListAsync();
+            var alertas = await _context.Set<Alerta>()
+                .Where(a => a.ESTADO_ALERTA == 1 || a.ESTADO_ALERTA == 2)
+                .OrderByDescending(a => a.FECHA_INGRESO)  // Ordenar por fecha de ingreso, descendente
+                .ToListAsync();
+
             return Ok(_mapper.Map<IEnumerable<AlertaDto>>(alertas));
         }
+
 
         // GET: api/Alerta/GetAlertasByEstadoAlerta3
         // esta mostrara todas las alerttas que tengan el estado de alerta 3, muestra solo las primeras 50

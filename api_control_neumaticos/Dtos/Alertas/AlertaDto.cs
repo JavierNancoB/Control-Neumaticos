@@ -13,5 +13,6 @@ namespace api_control_neumaticos.Dtos.Alertas
         public int CODIGO_ALERTA { get; set; }
         public int? USUARIO_LEIDO_ID { get; set; }
         public int? USUARIO_ATENDIDO_ID { get; set; }
+
     }
 }
