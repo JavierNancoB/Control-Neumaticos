@@ -8,12 +8,14 @@ class DeshabilitarNeumaticoService {
   static Future<void> modificarEstadoNeumatico(String codigo, int estado) async {
     print('Iniciando modificarEstadoNeumatico con codigo: $codigo y estado: $estado');
     final token = await _getToken();
+    final userId = await _getUserId();
     if (token == null) {
       print('Token no encontrado.');
       throw Exception('Token no encontrado.');
     }
 
-    final url = '$_baseUrl/Neumaticos/ModificarEstadoPorCodigo?codigo=$codigo&estado=$estado';
+  
+    final url = '$_baseUrl/Neumaticos/ModificarEstadoPorCodigo?idUsuario=$userId&codigo=$codigo&estado=$estado';
     print('URL construida: $url');
     final response = await http.put(
       Uri.parse(url),
@@ -37,4 +39,13 @@ class DeshabilitarNeumaticoService {
     print('Token obtenido: $token');
     return token;
   }
+  
+  static Future<int> _getUserId() async {
+    print("Obteniendo userId...");
+    final prefs = await SharedPreferences.getInstance();
+    final userId = prefs.getInt('userId') ?? 0;
+    print("UserId obtenido: $userId");
+    return userId;
+  }
+
 }
