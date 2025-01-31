@@ -437,11 +437,14 @@ namespace api_control_neumaticos.Controllers
                     await RegistrarHistorial(neumatico, idUsuario, 3, $"Móvil asignado: {movil.IdMovil}");                        
                 }
 
-                neumatico.ID_MOVIL = movil.IdMovil;
+                // en caso de que haya movil y se envie la ubicacion 1 se cambia a 2
                 if (ubicacion == 1)
                 {
                     ubicacion = 2; // Cambiar ubicación si es necesario
                 }
+
+                neumatico.ID_MOVIL = movil.IdMovil;
+                
             }
             else
             {
@@ -454,6 +457,11 @@ namespace api_control_neumaticos.Controllers
             if (neumatico.UBICACION != ubicacion && mismovehiculo)
             {
                 neumatico.UBICACION = ubicacion;
+                // si se manda una ubicacion con patente y es 1 entonces se cambia a 2
+                if (ubicacion == 1)
+                {
+                    ubicacion = 2; // Cambiar ubicación si es necesario
+                }
                 await RegistrarHistorial(neumatico, idUsuario, 4, $"Rotación dentro del mismo vehiculo ubicación cambiada a {diccionarioUbicaciones[ubicacion]}");
             }
 
