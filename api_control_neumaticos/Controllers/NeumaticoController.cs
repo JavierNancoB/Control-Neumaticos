@@ -454,7 +454,7 @@ namespace api_control_neumaticos.Controllers
             if (neumatico.UBICACION != ubicacion && mismovehiculo)
             {
                 neumatico.UBICACION = ubicacion;
-                await RegistrarHistorial(neumatico, idUsuario, 4, $"Rotación dentro del mismo vehiculo ubicación cambiada desde  a {diccionarioUbicaciones[ubicacion]}");
+                await RegistrarHistorial(neumatico, idUsuario, 4, $"Rotación dentro del mismo vehiculo ubicación cambiada a {diccionarioUbicaciones[ubicacion]}");
             }
 
             if (neumatico.FECHA_INGRESO != fechaIngreso)
