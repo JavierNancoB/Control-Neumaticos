@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../models/alertas.dart';
 import '../../../services/alertas/alertas_service.dart';
 import 'alertas_details.dart';
+import '../../../widgets/diccionario.dart';
 
 class AlertListPage extends StatefulWidget {
   final String endpoint; // Reutilizable según el endpoint
@@ -73,8 +74,8 @@ class _AlertListPageState extends State<AlertListPage> {
                 margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 color: estadoColor, // Usando color con opacidad
                 child: ListTile(
-                  title: Text("Alerta ID: ${alerta.id}"),
-                  subtitle: Text("Estado: $estadoTexto"),
+                  title: Text(Diccionario.obtenerDescripcion(Diccionario.codigoAlerta, alerta.codigoAlerta)),
+                  subtitle: Text("Estado: $estadoTexto\nFecha: ${alerta.fechaIngreso}\nID: ${alerta.id}"),
                   trailing: Icon(Icons.arrow_forward),
                   onTap: () {
                     Navigator.push(
