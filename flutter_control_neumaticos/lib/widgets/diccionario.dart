@@ -37,6 +37,12 @@ class Diccionario {
     3: "DESHABILITAR POR DESGASTE",
   };
 
+  static const Map<int, String> estadoAlerta = {
+    1: "PENDIENTE",
+    2: "LEÍDO",
+    3: "ATENDIDO",
+  };
+
   static const Map<int, String> ubicacionNeumaticos = {
     1: "BODEGA",
     2: "DIRECCIONAL IZQUIERDA",
