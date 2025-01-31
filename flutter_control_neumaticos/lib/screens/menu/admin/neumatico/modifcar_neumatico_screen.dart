@@ -55,7 +55,7 @@ class _ModificarNeumaticoPageState extends State<ModificarNeumaticoPage> {
     if (_formKey.currentState!.validate()) {
       try {
         // Modificar el neumático usando el servicio
-        await NeumaticoService.modificarNeumatico(_neumatico!, widget.patente);
+        await NeumaticoService().modificarNeumatico(_neumatico!, widget.patente);
         print('Datos modificados correctamente');
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Neumático modificado con éxito')),

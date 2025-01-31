@@ -94,15 +94,22 @@ class NeumaticoService {
       }
   }
 
-
+  Future<int> _getUserId() async {
+  print("Obteniendo userId...");
+  final prefs = await SharedPreferences.getInstance();
+  final userId = prefs.getInt('userId') ?? 0;
+  print("UserId obtenido: $userId");
+  return userId;
+  }
   // Método para modificar un neumático
   // Método para modificar un neumático
  // Método para modificar un neumático
-static Future<void> modificarNeumatico(Neumatico neumatico, String patente) async {
+Future<void> modificarNeumatico(Neumatico neumatico, String patente) async {
   final token = await _getToken();
-
+  final idUsuario = await _getUserId();
   // Imprimir el token obtenido
   print("Token obtenido: $token");
+  print("ID de usuario: $idUsuario");
 
   // Asegúrate de eliminar espacios adicionales de la patente
   String patenteTrimmed = patente.trim();
@@ -118,7 +125,7 @@ static Future<void> modificarNeumatico(Neumatico neumatico, String patente) asyn
 
   // Construir la URL de la API con los parámetros
   final url =
-      'http://localhost:5062/api/Neumaticos/ModificarNeumaticoPorCodigo?codigo=${neumatico.codigo}&ubicacion=$ubicacionFinal&patente=${Uri.encodeComponent(patenteTrimmed.isEmpty ? '' : patenteTrimmed)}&fechaIngreso=${neumatico.fechaIngreso.toIso8601String()}&kmTotal=${neumatico.kmTotal}&tipoNeumatico=${neumatico.tipoNeumatico}';
+      'http://localhost:5062/api/Neumaticos/ModificarNeumaticoPorCodigo?codigo=${neumatico.codigo}&ubicacion=$ubicacionFinal&patente=${Uri.encodeComponent(patenteTrimmed.isEmpty ? '' : patenteTrimmed)}&fechaIngreso=${neumatico.fechaIngreso.toIso8601String()}&kmTotal=${neumatico.kmTotal}&tipoNeumatico=${neumatico.tipoNeumatico}&idUsuario=$idUsuario';
 
   // Imprimir la URL generada
   print("URL de la API: $url");

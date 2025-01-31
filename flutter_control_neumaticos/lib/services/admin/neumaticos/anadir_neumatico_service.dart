@@ -10,6 +10,15 @@ class NeumaticoService {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('token');
   }
+    // Obtener userId almacenado en SharedPreferences
+  static Future<int> _getUserId() async {
+    print("Obteniendo userId...");
+    final prefs = await SharedPreferences.getInstance();
+    final userId = prefs.getInt('userId') ?? 0;
+    print("UserId obtenido: $userId");
+    return userId;
+  }
+
 
   static Future<int?> getMovilByPatente(String patente) async {
     final token = await getToken();
@@ -66,6 +75,7 @@ class NeumaticoService {
   }
 
   static Future<void> addNeumatico(NeumaticoCrear neumatico, String? patente) async {
+    final userId = await _getUserId();
     final token = await getToken();
     if (token == null) throw Exception('Token no encontrado.');
 
@@ -109,7 +119,7 @@ class NeumaticoService {
     print(neumaticoData);
 
     final response = await http.post(
-      Uri.parse('$_baseUrl/Neumaticos'),
+      Uri.parse('$_baseUrl/Neumaticos?idUsuario=$userId'),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $token',
