@@ -4,6 +4,7 @@ using api_control_neumaticos.Models;  // Asegúrate de que esta sea la referenci
 using api_control_neumaticos.Dtos.Neumaticos;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using api_control_neumaticos.Dtos.HistorialNeumatico;
 
 
 namespace api_control_neumaticos.Controllers
@@ -95,6 +96,60 @@ namespace api_control_neumaticos.Controllers
             return CreatedAtAction(nameof(GetNeumatico), new { id = neumaticoDto.ID_NEUMATICO }, neumaticoDto);
         }
 
+        
+        [HttpPost("crear-con-historial")]
+        public async Task<ActionResult<NeumaticosDto>> PostNeumaticoConHistorial(
+            [FromBody] CreateNeumaticoRequestDto createNeumaticoDto,
+            [FromQuery] int idUsuario)
+        {
+            // Verificar si el código ya existe
+            var existingNeumatico = await _context.Neumaticos.FirstOrDefaultAsync(n => n.CODIGO == createNeumaticoDto.CODIGO);
+            if (existingNeumatico != null)
+            {
+                return BadRequest("El código del neumático ya está registrado.");
+            }
+
+            // Verificar si la bodega existe
+            var bodega = await _context.Bodegas.FindAsync(createNeumaticoDto.ID_BODEGA);
+            if (bodega == null)
+            {
+                return BadRequest("La bodega no existe.");
+            }
+
+            // Verificar si el móvil existe, en caso de que sea null, ubicacion será 1
+            if (createNeumaticoDto.ID_MOVIL != null)
+            {
+                var movil = await _context.Movils.FindAsync(createNeumaticoDto.ID_MOVIL);
+            }
+            else
+            {
+                createNeumaticoDto.UBICACION = 1;
+            }
+
+            // Mapear y crear el neumático
+            var neumatico = _mapper.Map<Neumatico>(createNeumaticoDto);
+            _context.Neumaticos.Add(neumatico);
+            await _context.SaveChangesAsync();
+
+            // Crear historial de neumático
+            var historialDto = new CreateHistorialNeumaticoRequestDto
+            {
+                IDNeumatico = neumatico.ID_NEUMATICO,
+                IDUsuario = idUsuario,
+                CODIGO = 1,
+                FECHA = DateTime.Now,
+                ESTADO = neumatico.ESTADO,
+                OBSERVACION = $"Creación del neumático en el sistema con código: {neumatico.CODIGO}",
+            };
+
+            var historial = _mapper.Map<HistorialNeumatico>(historialDto);
+            _context.Set<HistorialNeumatico>().Add(historial);
+            await _context.SaveChangesAsync();
+
+            // Mapear el modelo de neumático al DTO y retornar
+            var neumaticoDto = _mapper.Map<NeumaticosDto>(neumatico);
+            return CreatedAtAction(nameof(GetNeumatico), new { id = neumaticoDto.ID_NEUMATICO }, neumaticoDto);
+        }
 
         // PUT: api/Neumaticos/5
         [HttpPut("{id}")]
@@ -200,15 +255,19 @@ namespace api_control_neumaticos.Controllers
         // Esta función modifica el campo Estado de un neumático por su código
         // fecha salida se cambia a hoy si estado es 2, en caso de ser 1 se pone null
         [HttpPut("ModificarEstadoPorCodigo")]
-        public async Task<IActionResult> ModificarEstadoPorCodigo(int codigo, int estado)
+        public async Task<IActionResult> ModificarEstadoPorCodigo(
+            [FromQuery] int idUsuario, 
+            [FromQuery] int codigo, 
+            [FromQuery] int estado)
         {
             var neumatico = await _context.Neumaticos.FirstOrDefaultAsync(n => n.CODIGO == codigo);
 
             if (neumatico == null)
             {
-                return NotFound();
+                return NotFound("Neumático no encontrado.");
             }
 
+            // Actualizar estado
             neumatico.ESTADO = estado;
             if (estado == 2)
             {
@@ -224,14 +283,33 @@ namespace api_control_neumaticos.Controllers
             try
             {
                 await _context.SaveChangesAsync();
+                
+                // Crear historial solo si el estado es 2 (deshabilitado)
+                if (estado == 2)
+                {
+                    var historialDto = new CreateHistorialNeumaticoRequestDto
+                    {
+                        IDNeumatico = neumatico.ID_NEUMATICO,
+                        IDUsuario = idUsuario,
+                        CODIGO = 2, // Código 2 para indicar deshabilitación
+                        FECHA = DateTime.Now,
+                        ESTADO = neumatico.ESTADO,
+                        OBSERVACION = $"Neumático con código {neumatico.CODIGO} deshabilitado por el usuario {idUsuario}",
+                    };
+
+                    var historial = _mapper.Map<HistorialNeumatico>(historialDto);
+                    _context.Set<HistorialNeumatico>().Add(historial);
+                    await _context.SaveChangesAsync();
+                }
             }
             catch (DbUpdateConcurrencyException)
             {
-                return Conflict("Hubo un problema al intentar actualizar el neumático. Puede haber un conflicto de concurrencia.");
+                return Conflict("Hubo un problema al actualizar el neumático.");
             }
 
             return NoContent();
         }
+
         // PUT: api para modificar neumatico por codigo
         // solo se va a modificar la ubicacion, movil asigando, fecha ingreso, fecha salida, estado, km total, tipo neumatico
         // se envia con la url api/Neumaticos/ModificarNeumaticoPorCodigo?codigo=codigo&ubicacion=ubicacion&idMovil=idMovil&fechaIngreso=fechaIngreso&fechaSalida=fechaSalida&estado=estado&kmTotal=kmTotal&tipoNeumatico=tipoNeumatico
@@ -324,7 +402,6 @@ namespace api_control_neumaticos.Controllers
         }
         
         // POST: api/Neumaticos/verificarSiPosicioneEsUnicaConPatente
-        // POST: api/Neumaticos/verificarSiPosicioneEsUnicaConPatente
         [HttpPost("verificarSiPosicioneEsUnicaConPatente")]
         public async Task<ActionResult<bool>> verificarSiPosicioneEsUnicaConPatente(string? patente, int posicion)
         {
@@ -356,8 +433,6 @@ namespace api_control_neumaticos.Controllers
             Console.WriteLine("Posición ya está ocupada, devolviendo false");
             return Ok(false);
         }
-
-
 
 
         private bool NeumaticoExists(int id)

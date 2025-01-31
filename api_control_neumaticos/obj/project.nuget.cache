@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "sSS00K5/j8k=",
+  "dgSpecHash": "OgTgFF9235g=",
   "success": true,
-  "projectFilePath": "C:\\Users\\empresapentacrom\\Documents\\Control-Neumaticos\\api_control_neumaticos\\api_control_neumaticos.csproj",
+  "projectFilePath": "C:\\Users\\empresapentacrom\\Documents\\Control-Neumaticos-2\\api_control_neumaticos\\api_control_neumaticos.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\empresapentacrom\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
     "C:\\Users\\empresapentacrom\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
