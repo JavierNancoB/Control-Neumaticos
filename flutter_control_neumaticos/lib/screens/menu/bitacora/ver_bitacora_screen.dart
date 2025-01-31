@@ -49,21 +49,32 @@ class _VerBitacoraScreenState extends State<VerBitacoraScreen> {
               int codigoBitacora = bitacora['codigo'];
               String descripcionBitacora = Diccionario.obtenerDescripcion(Diccionario.bitacora, codigoBitacora);
 
-              return Listener(
-                onPointerDown: (_) {
-                  debugPrint('Item tocado: ${bitacora['id']}');
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => BitacoraDetailsScreen(
-                        idBitacora: bitacora['id'],
-                      ),
-                    ),
-                  );
+              return Dismissible(
+                key: Key(bitacora['id'].toString()),  // Asegúrate de que cada item tenga una clave única
+                onDismissed: (_) {
+                  debugPrint('Item descartado: ${bitacora['id']}');
+                  // Este es el lugar donde se maneja la acción de deslizamiento (si es necesario)
                 },
-                child: BitacoraItem(
-                  bitacora: bitacora,
-                  descripcion: descripcionBitacora,  // Pasamos la descripción a cada item
+                background: Container(
+                  color: Colors.blue,
+                  child: const Icon(Icons.arrow_forward, color: Colors.white),
+                ),
+                child: GestureDetector(
+                  onTap: () {
+                    debugPrint('Item tocado: ${bitacora['id']}');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => BitacoraDetailsScreen(
+                          idBitacora: bitacora['id'],
+                        ),
+                      ),
+                    );
+                  },
+                  child: BitacoraItem(
+                    bitacora: bitacora,
+                    descripcion: descripcionBitacora,  // Pasamos la descripción a cada item
+                  ),
                 ),
               );
             },

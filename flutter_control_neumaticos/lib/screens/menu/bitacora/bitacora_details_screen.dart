@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../models/bitacora_models.dart';
+import '../../../models/usuario_alertas.dart';  // Asegúrate de tener el modelo de Usuario
 import '../../../services/bitacora/bitacora_details.dart';
 import '../../../widgets/diccionario.dart';
 
@@ -14,11 +15,15 @@ class BitacoraDetailsScreen extends StatefulWidget {
 
 class _BitacoraDetailsScreenState extends State<BitacoraDetailsScreen> {
   late Future<Bitacora> bitacoraData;
+  late Future<Usuario> usuarioData;
 
   @override
   void initState() {
     super.initState();
     bitacoraData = BitacoraServices.fetchBitacoraData(widget.idBitacora);
+    bitacoraData.then((bitacora) {
+      usuarioData = BitacoraServices.fetchUsuarioData(bitacora.idUsuario);
+    });
   }
 
   Future<void> confirmarDeshabilitacion(int id) async {
@@ -61,33 +66,46 @@ class _BitacoraDetailsScreenState extends State<BitacoraDetailsScreen> {
           }
 
           Bitacora bitacora = snapshot.data!;
-          return Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildInfoItem("Código Bitácora", Diccionario.obtenerDescripcion(Diccionario.bitacora, bitacora.codigo)),
-                Divider(),
-                _buildInfoItem("Fecha", bitacora.fecha),
-                Divider(),
-                _buildInfoItem("Usuario", bitacora.idUsuario.toString()),
-                Divider(),
-                _buildInfoItem("Estado", Diccionario.obtenerDescripcion(Diccionario.estadoUsuarios, bitacora.estado)),
-                Divider(),
-                _buildInfoItem("Observaciones", bitacora.observacion),
-                const SizedBox(height: 20),
-                Center(
-                  child: ElevatedButton(
-                    onPressed: () => confirmarDeshabilitacion(bitacora.id),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
-                      foregroundColor: Colors.white,
+          
+          return FutureBuilder<Usuario>(
+            future: usuarioData,
+            builder: (context, usuarioSnapshot) {
+              if (usuarioSnapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (usuarioSnapshot.hasError || !usuarioSnapshot.hasData) {
+                return Center(child: Text('Error al cargar los datos del usuario'));
+              }
+
+              Usuario usuario = usuarioSnapshot.data!;
+              return Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildInfoItem("Código Bitácora", Diccionario.obtenerDescripcion(Diccionario.bitacora, bitacora.codigo)),
+                    Divider(),
+                    _buildInfoItem("Fecha", bitacora.fecha),
+                    Divider(),
+                    _buildInfoItem("Usuario que ingreso la información", "${usuario.nombres} ${usuario.apellidos}"),  // Aquí mostramos el nombre y apellido
+                    Divider(),
+                    _buildInfoItem("Estado", Diccionario.obtenerDescripcion(Diccionario.estadoUsuarios, bitacora.estado)),
+                    Divider(),
+                    _buildInfoItem("Observaciones", bitacora.observacion),
+                    const SizedBox(height: 20),
+                    Center(
+                      child: ElevatedButton(
+                        onPressed: () => confirmarDeshabilitacion(bitacora.id),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red,
+                          foregroundColor: Colors.white,
+                        ),
+                        child: Text("Deshabilitar Evento"),
+                      ),
                     ),
-                    child: Text("Deshabilitar Evento"),
-                  ),
+                  ],
                 ),
-              ],
-            ),
+              );
+            },
           );
         },
       ),

@@ -24,14 +24,14 @@ class Alerta {
   factory Alerta.fromJson(Map<String, dynamic> json) {
     return Alerta(
       id: json['id'],
-      idNeumatico: json['iD_NEUMATICO'],
-      fechaIngreso: json['fechA_INGRESO'],
-      fechaLeido: json['fechA_LEIDO'],
-      fechaAtendido: json['fechA_ATENDIDO'],
-      estadoAlerta: json['estadO_ALERTA'],
-      codigoAlerta: json['codigO_ALERTA'],
-      usuarioLeidoId: json['usuariO_LEIDO_ID'],
-      usuarioAtendidoId: json['usuariO_ATENDIDO_ID'],
+      idNeumatico: json['iD_NEUMATICO'],  // Cambié la clave para que coincida
+      fechaIngreso: json['fechA_INGRESO'], // Cambié la clave para que coincida
+      fechaLeido: json['fechA_LEIDO'], // Puede ser nulo
+      fechaAtendido: json['fechA_ATENDIDO'], // Puede ser nulo
+      estadoAlerta: json['estadO_ALERTA'], // Cambié la clave para que coincida
+      codigoAlerta: json['codigO_ALERTA'], // Cambié la clave para que coincida
+      usuarioLeidoId: json['usuariO_LEIDO_ID'], // Puede ser nulo
+      usuarioAtendidoId: json['usuariO_ATENDIDO_ID'], // Puede ser nulo
     );
   }
 }
