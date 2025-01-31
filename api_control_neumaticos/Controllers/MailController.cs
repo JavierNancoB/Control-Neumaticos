@@ -1,45 +1,43 @@
-using api_control_neumaticos.Models;
-using api_control_neumaticos.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
-namespace api_control_neumaticos.Controllers
+namespace SendingEmails.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/mail")]
     [ApiController]
     public class MailController : ControllerBase
     {
-        private readonly IEmailService _emailService;
+        private readonly IEmailSender _emailSender;
 
-        // Constructor donde se inyecta el servicio de correo electrónico
-        public MailController(IEmailService emailService)
+        public MailController(IEmailSender emailSender)
         {
-            _emailService = emailService;
+            _emailSender = emailSender;
         }
 
-        // POST: api/mail/send-email
-        [HttpPost("send-email")]
-        [Authorize] // Solo usuarios autenticados pueden enviar correos
-        public async Task<ActionResult> SendEmail([FromBody] EmailRequest request)
+        [HttpPost("send")]
+        public async Task<IActionResult> SendEmail([FromBody] EmailRequest emailRequest)
         {
-            // Validación de que todos los campos necesarios estén presentes
-            if (string.IsNullOrEmpty(request.To) || string.IsNullOrEmpty(request.Subject) || string.IsNullOrEmpty(request.Body))
+            if (string.IsNullOrEmpty(emailRequest.To) || string.IsNullOrEmpty(emailRequest.Subject) || string.IsNullOrEmpty(emailRequest.Message))
             {
-                return BadRequest("Faltan datos para enviar el correo.");
+                return BadRequest("Todos los campos son obligatorios.");
             }
 
             try
             {
-                // Llamada al servicio de correo para enviar el correo
-                await _emailService.SendEmailAsync(request.To, request.Subject, request.Body);
-                return Ok(new { message = "Correo enviado correctamente." });
+                await _emailSender.SendEmailAsync(emailRequest.To, emailRequest.Subject, emailRequest.Message);
+                return Ok("Correo enviado exitosamente.");
             }
             catch (Exception ex)
             {
-                // Si ocurre un error al enviar el correo, retorna el mensaje de error
-                return StatusCode(500, new { message = "Error al enviar el correo.", error = ex.Message });
+                return StatusCode(500, $"Error al enviar el correo: {ex.Message}");
             }
         }
+    }
+
+    public class EmailRequest
+    {
+        public string To { get; set; }
+        public string Subject { get; set; }
+        public string Message { get; set; }
     }
 }
