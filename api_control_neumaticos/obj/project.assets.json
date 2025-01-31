@@ -5858,11 +5858,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\empresapentacrom\\Documents\\Control-Neumaticos\\api_control_neumaticos\\api_control_neumaticos.csproj",
+      "projectUniqueName": "C:\\Users\\empresapentacrom\\Documents\\Control-Neumaticos-2\\api_control_neumaticos\\api_control_neumaticos.csproj",
       "projectName": "api_control_neumaticos",
-      "projectPath": "C:\\Users\\empresapentacrom\\Documents\\Control-Neumaticos\\api_control_neumaticos\\api_control_neumaticos.csproj",
+      "projectPath": "C:\\Users\\empresapentacrom\\Documents\\Control-Neumaticos-2\\api_control_neumaticos\\api_control_neumaticos.csproj",
       "packagesPath": "C:\\Users\\empresapentacrom\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\empresapentacrom\\Documents\\Control-Neumaticos\\api_control_neumaticos\\obj\\",
+      "outputPath": "C:\\Users\\empresapentacrom\\Documents\\Control-Neumaticos-2\\api_control_neumaticos\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
