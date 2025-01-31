@@ -257,7 +257,7 @@ namespace api_control_neumaticos.Controllers
                     _context.Set<HistorialNeumatico>().Add(historial);
                     await _context.SaveChangesAsync();
                 }
-                
+
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -271,6 +271,7 @@ namespace api_control_neumaticos.Controllers
         // solo se va a modificar la ubicacion, movil asigando, fecha ingreso, fecha salida, estado, km total, tipo neumatico
         // se envia con la url api/Neumaticos/ModificarNeumaticoPorCodigo?codigo=codigo&ubicacion=ubicacion&idMovil=idMovil&fechaIngreso=fechaIngreso&fechaSalida=fechaSalida&estado=estado&kmTotal=kmTotal&tipoNeumatico=tipoNeumatico
         // pero para modificar el movil se manda por patente
+        /*
         [HttpPut("ModificarNeumaticoPorCodigo")]
         public async Task<IActionResult> ModificarNeumaticoPorCodigo(
             int codigo, 
@@ -378,7 +379,162 @@ namespace api_control_neumaticos.Controllers
 
             return NoContent();
         }
+        */
 
+        [HttpPut("ModificarNeumaticoPorCodigo")]
+        public async Task<IActionResult> ModificarNeumaticoPorCodigo(
+            int codigo, 
+            int ubicacion, 
+            string? patente, 
+            DateTime fechaIngreso, 
+            int kmTotal, 
+            int tipoNeumatico,
+            [FromQuery] int idUsuario) // Agregar idUsuario
+            {
+            var neumatico = await _context.Neumaticos.FirstOrDefaultAsync(n => n.CODIGO == codigo);
+
+            if (neumatico == null)
+            {
+                return NotFound();
+            }
+            
+            var mismovehiculo = true;
+            
+            var cambios = new List<string>(); // Lista para los cambios realizados
+                var diccionarioUbicaciones = new Dictionary<int, string>
+            {
+                { 1, "BODEGA" },
+                { 2, "DIRECCIONAL IZQUIERDA" },
+                { 3, "DIRECCIONAL DERECHO" },
+                { 4, "PRIMER TRACCIONAL IZQUIERDO INTERNO" },
+                { 5, "PRIMER TRACCIONAL IZQUIERDO EXTERNO" },
+                { 6, "PRIMER TRACCIONAL DERECHO INTERNO" },
+                { 7, "PRIMER TRACCIONAL DERECHO EXTERNO" },
+                { 8, "SEGUNDO TRACCIONAL IZQUIERDO INTERNO" },
+                { 9, "SEGUNDO TRACCIONAL IZQUIERDO EXTERNO" },
+                { 10, "SEGUNDO TRACCIONAL DERECHO INTERNO" },
+                { 11, "SEGUNDO TRACCIONAL DERECHO EXTERNO" },
+                { 12, "TERCER TRACCIONAL IZQUIERDO INTERNO" },
+                { 13, "TERCER TRACCIONAL IZQUIERDO EXTERNO" },
+                { 14, "TERCER TRACCIONAL DERECHO INTERNO" },
+                { 15, "TERCER TRACCIONAL DERECHO EXTERNO" },
+                { 16, "REPUESTO" }
+            };
+
+            // Verificar cambios en la patente (solo si no es nula)
+            if (!string.IsNullOrEmpty(patente))
+            {
+                var movil = await _context.Movils.FirstOrDefaultAsync(m => m.Patente == patente);
+                if (movil == null)
+                {
+                    return NotFound("Móvil no encontrado con esa patente.");
+                }
+
+                if (neumatico.ID_MOVIL != movil.IdMovil)
+                {
+                    // Se registra el cambio de móvil en el historial
+                    mismovehiculo = false;
+                    await RegistrarHistorial(neumatico, idUsuario, 3, $"Móvil asignado: {movil.IdMovil}");                        
+                }
+
+                neumatico.ID_MOVIL = movil.IdMovil;
+                if (ubicacion == 1)
+                {
+                    ubicacion = 2; // Cambiar ubicación si es necesario
+                }
+            }
+            else
+            {
+                // Si no hay patente, lo asignamos a la bodega
+                ubicacion = 1;
+                neumatico.ID_MOVIL = null;
+            }
+
+            // Verificar y registrar cambios en otros campos
+            if (neumatico.UBICACION != ubicacion && mismovehiculo)
+            {
+                neumatico.UBICACION = ubicacion;
+                await RegistrarHistorial(neumatico, idUsuario, 4, $"Rotación dentro del mismo vehiculo ubicación cambiada desde  a {diccionarioUbicaciones[ubicacion]}");
+            }
+
+            if (neumatico.FECHA_INGRESO != fechaIngreso)
+            {
+                neumatico.FECHA_INGRESO = fechaIngreso;
+                await RegistrarHistorial(neumatico, idUsuario, 7, $"Fecha de ingreso cambiada a {fechaIngreso}");
+            }
+
+            if (neumatico.KM_TOTAL != kmTotal)
+            {
+                neumatico.KM_TOTAL = kmTotal;
+                await RegistrarHistorial(neumatico, idUsuario, 8, $"Kilómetros totales cambiados a {kmTotal}");
+            }
+
+            if (neumatico.TIPO_NEUMATICO != tipoNeumatico)
+            {
+                if (tipoNeumatico == 2 && neumatico.TIPO_NEUMATICO != 2)
+                {
+                    neumatico.TIPO_NEUMATICO = tipoNeumatico;
+                    await RegistrarHistorial(neumatico, idUsuario, 5, "Transición a Direccional");
+                }
+                else if (tipoNeumatico != 2 && neumatico.TIPO_NEUMATICO == 2)
+                {
+                    neumatico.TIPO_NEUMATICO = tipoNeumatico;
+                    await RegistrarHistorial(neumatico, idUsuario, 6, "Transición a Traccional");
+                }
+            }
+
+            // Si hubo cambios, los registramos en el historial
+            if (cambios.Any())
+            {
+                // Guardamos los cambios en el historial uno por uno
+                foreach (var cambio in cambios)
+                {
+                    var historialDto = new CreateHistorialNeumaticoRequestDto
+                    {
+                        IDNeumatico = neumatico.ID_NEUMATICO,
+                        IDUsuario = idUsuario,
+                        CODIGO = 2, // Suponiendo que 2 es para modificaciones
+                        FECHA = DateTime.Now,
+                        ESTADO = neumatico.ESTADO,
+                        OBSERVACION = cambio,
+                    };
+
+                    var historial = _mapper.Map<HistorialNeumatico>(historialDto);
+                    _context.Set<HistorialNeumatico>().Add(historial);
+                }
+                await _context.SaveChangesAsync();
+            }
+
+            // Guardamos los cambios en el neumático
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return Conflict("Hubo un problema al intentar actualizar el neumático. Puede haber un conflicto de concurrencia.");
+            }
+
+            return NoContent();
+        }
+
+        // Método auxiliar para registrar cambios en el historial
+        private async Task RegistrarHistorial(Neumatico neumatico, int idUsuario, int codigo, string observacion)
+        {
+            var historialDto = new CreateHistorialNeumaticoRequestDto
+            {
+                IDNeumatico = neumatico.ID_NEUMATICO,
+                IDUsuario = idUsuario,
+                CODIGO = codigo, // Código dinámico según el cambio
+                FECHA = DateTime.Now,
+                ESTADO = neumatico.ESTADO,
+                OBSERVACION = observacion,
+            };
+
+            var historial = _mapper.Map<HistorialNeumatico>(historialDto);
+            _context.Set<HistorialNeumatico>().Add(historial);
+            await _context.SaveChangesAsync();
+        }
 
         // POST: api/Neumaticos/verificarSiNeumaticoHabilitado
         [HttpPost("verificarSiNeumaticoHabilitado")]
