@@ -15,6 +15,14 @@ class _IngresarPatentePageState extends State<IngresarPatentePage> {
   final TextEditingController _patenteController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    // Limpiar el controlador cuando se navega a esta pantalla
+    _patenteController.clear();
+  }
+
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -57,16 +65,26 @@ class _IngresarPatentePageState extends State<IngresarPatentePage> {
             labelText: 'Ingresa la patente del móvil',
           ),
           onEditingComplete: onEditingComplete,
+          onChanged: (value) {
+            // Si el campo de texto está vacío, limpiar el controlador
+            if (value.isEmpty) {
+              _patenteController.clear();
+            }
+          },
         );
       },
     );
   }
+
 
   /// **Botón para Enviar la Patente**
   Widget _buildSubmitButton(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
         final patente = _patenteController.text.trim();
+        if (patente.isEmpty) {
+          _patenteController.clear(); // Limpiar el controlador si está vacío
+        }
         IngresarPatenteService.handlePatente(
           context: context,
           patente: patente,

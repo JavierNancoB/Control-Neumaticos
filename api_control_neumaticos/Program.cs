@@ -4,16 +4,19 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Microsoft.Extensions.Options;
 using System.Text;
+using SendingEmails;
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Cargar la configuración SMTP desde appsettings.json
-builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("SmtpSettings"));
+builder.Services.AddTransient<IEmailSender, EmailSender>();
+builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 
-// Agregar el servicio de envío de correos
-builder.Services.AddSingleton<IEmailService, EmailService>();
+
+builder.Services.AddControllersWithViews();
 
 // Agregar otros servicios necesarios
 builder.Services.AddEndpointsApiExplorer();
@@ -73,12 +76,6 @@ app.MapPost("/api/login", (LoginRequestApp request, TokenGenerator tokenGenerato
     };
 });
 
-// Endpoint para enviar correo
-app.MapPost("/api/send-email", async (string to, string subject, string body, IEmailService emailService) =>
-{
-    await emailService.SendEmailAsync(to, subject, body);
-    return Results.Ok(new { message = "Correo enviado" });
-});
 
 // Habilita la redirección HTTPS
 app.UseHttpsRedirection();
