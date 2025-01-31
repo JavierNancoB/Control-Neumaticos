@@ -90,15 +90,17 @@ class AlertaService {
   Future<Neumatico> getNeumaticoById(int idNeumatico) async {
     print("Obteniendo neumatico por ID: $idNeumatico");
     final token = await _getToken();
+    final url = Uri.parse('$baseUrl/neumaticos/$idNeumatico');
+    print("URL de la solicitud: $url");
     final response = await http.get(
-      Uri.parse('$baseUrl/neumaticos/$idNeumatico'),
+      url,
       headers: {'Authorization': 'Bearer $token'},
     );
 
     print("Respuesta obtenida: ${response.statusCode}");
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
-      print("Datos del neumatico: $data");
+      print("Respuesta del servidor para ID $idNeumatico: ${response.body}");
       return Neumatico.fromJson(data);
     } else {
       print("Error al obtener el neumatico con ID $idNeumatico: ${response.body}");
