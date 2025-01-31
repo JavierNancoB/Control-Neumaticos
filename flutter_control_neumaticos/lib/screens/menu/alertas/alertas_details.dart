@@ -1,171 +1,164 @@
 import 'package:flutter/material.dart';
-import '../../../models/alertas.dart';
-import '../../../models/usuario_alertas.dart'; // Importamos el modelo de Usuario
-import '../../../models/neumatico.dart'; // Asegúrate de tener el modelo de Neumatico
-import '../../../services/alertas/alertas_service.dart';
-import '../../../widgets/button.dart'; // Importamos el botón personalizado
-import '../../../widgets/diccionario.dart'; // Importamos el diccionario de estados
+import '../../../services/alertas/alerta_details_service.dart';
+import '../../menu/bitacora/informacion_neumatico.dart';
+import '../../../models/usuario_alertas.dart';
+import '../../../widgets/diccionario.dart';
+import '../../../widgets/button.dart';
 
 class AlertDetailPage extends StatefulWidget {
   final int alertaId;
 
-  const AlertDetailPage({super.key, required this.alertaId});
+  const AlertDetailPage({Key? key, required this.alertaId}) : super(key: key);
 
   @override
   _AlertDetailPageState createState() => _AlertDetailPageState();
 }
 
 class _AlertDetailPageState extends State<AlertDetailPage> {
-  late Future<Alerta> _alerta;
-  late Future<Neumatico> _neumatico;  // Mantenemos la declaración aquí
-
-  final AlertaService _alertaService = AlertaService();
+  final AlertaDetailsService _alertaService = AlertaDetailsService();
+  Map<String, dynamic>? alerta;
+  Map<String, dynamic>? neumatico;
+  Usuario? usuarioCreador;
+  Usuario? usuarioLeido;
+  Usuario? usuarioAtendido;
+  Usuario? usuarioFechaLeido;
+  Usuario? usuarioFechaAtendido;
 
   @override
   void initState() {
     super.initState();
-    _alerta = _alertaService.getAlertaById(widget.alertaId); // Obtener alerta específica
+    _fetchData();
   }
 
-  void _cambiarEstado(int estado) async {
+  Future<void> _fetchData() async {
     try {
-      await _alertaService.cambiarEstadoAlerta(widget.alertaId, estado);
+      final fetchedAlerta = await _alertaService.getAlertaById(widget.alertaId);
+      final fetchedNeumatico = await _alertaService.getNeumaticoById(fetchedAlerta['iD_NEUMATICO']);
+      Usuario? creador;
+      Usuario? leido;
+      Usuario? atendido;
+
+      if (fetchedAlerta['usuariO_LEIDO_ID'] != null) {
+        leido = await _alertaService.getUsuarioById(fetchedAlerta['usuariO_LEIDO_ID']);
+      }
+      if (fetchedAlerta['usuariO_ATENDIDO_ID'] != null) {
+        atendido = await _alertaService.getUsuarioById(fetchedAlerta['usuariO_ATENDIDO_ID']);
+      }
+
       setState(() {
-        _alerta = _alertaService.getAlertaById(widget.alertaId); // Actualizar estado
+        alerta = fetchedAlerta;
+        neumatico = fetchedNeumatico;
+        usuarioCreador = creador;
+        usuarioLeido = leido;
+        usuarioAtendido = atendido;
       });
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error: ${e.toString()}")),
-      );
+      print("Error al cargar los datos: $e");
+    }
+  }
+
+  // Función para mostrar la alerta de confirmación
+  Future<void> _mostrarConfirmacion(String accion, int estado) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // El diálogo no se puede cerrar tocando fuera de él
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Confirmar acción"),
+          content: Text("¿Estás seguro de que deseas marcar como '$accion'?"),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancelar'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Cierra el diálogo
+              },
+            ),
+            TextButton(
+              child: Text('Aceptar'),
+              onPressed: () {
+                _cambiarEstado(estado); // Cambia el estado al confirmado
+                Navigator.of(context).pop(); // Cierra el diálogo
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _cambiarEstado(int estado) async {
+    try {
+      await _alertaService.cambiarEstadoAlerta(widget.alertaId, estado);
+      _fetchData(); // Recargar los datos para reflejar el cambio
+    } catch (e) {
+      print("Error al cambiar el estado: $e");
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Detalles de Alerta")),
-      body: FutureBuilder<Alerta>(
-        future: _alerta,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (!snapshot.hasData) {
-            return Center(child: Text('No se encontraron datos.'));
-          }
-
-          final alerta = snapshot.data!;
-
-          // Imprime el ID del neumático antes de hacer la solicitud
-          print("ID Neumático: ${alerta.idNeumatico}");
-
-          // Asignamos el Future de neumático solo después de haber cargado la alerta
-          _neumatico = _alertaService.getNeumaticoById(alerta.idNeumatico);
-
-          return Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("ID Alerta: ${alerta.id}"),
-                  Text("Estado: ${alerta.estadoAlerta == 1 ? 'Pendiente' : alerta.estadoAlerta == 2 ? 'Leído' : 'Atendido'}"),
-                  Text("ID Neumático: ${alerta.idNeumatico}"),
-
-                  // Aquí se carga el neumático solo cuando se obtiene la alerta
-                  FutureBuilder<Neumatico>(
-                    future: _neumatico,
-                    builder: (context, snapshotNeumatico) {
-                      if (snapshotNeumatico.connectionState == ConnectionState.waiting) {
-                        return Text("Cargando Neumático...");
-                      } else if (snapshotNeumatico.hasError) {
-                        return Text("Error al cargar neumático: ${snapshotNeumatico.error}");
-                      } else if (!snapshotNeumatico.hasData) {
-                        return Text("No se encontró neumático.");
-                      }
-
-                      final neumatico = snapshotNeumatico.data!;
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Código Neumático: ${neumatico.codigo}"),
-                          Text("Patente Neumático: ${neumatico.idMovil}"),
-                        ],
-                      );
-                    },
-                  ),
-
-                  SizedBox(height: 20),
-                  if (alerta.fechaIngreso.isNotEmpty) Text("Fecha Ingreso: ${alerta.fechaIngreso}"),
-                  if (alerta.fechaLeido != null) Text("Fecha Leído: ${alerta.fechaLeido ?? 'No disponible'}"),
-                  if (alerta.fechaAtendido != null) Text("Fecha Atendido: ${alerta.fechaAtendido ?? 'No disponible'}"),
-                  Text("Código de Alerta: ${Diccionario.codigoAlerta[alerta.codigoAlerta]}"),
-                  SizedBox(height: 20),
-                  if (alerta.usuarioLeidoId != null) ...[ // Mostrar quien leyó la alerta
-                    FutureBuilder<Usuario>(
-                      future: _alertaService.getUsuarioById(alerta.usuarioLeidoId!),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
-                          return Text("Leyó la alerta: Cargando...");
-                        }
-                        if (snapshot.hasError) {
-                          return Text("Error al cargar usuario");
-                        }
-                        if (!snapshot.hasData) {
-                          return Text("Leyó la alerta: No disponible");
-                        }
-
-                        final usuario = snapshot.data!;
-                        return Text("Leyó la alerta: ${usuario.nombres} ${usuario.apellidos}");
+      appBar: AppBar(title: Text("Detalle de Alerta")),
+      body: alerta == null || neumatico == null
+          ? Center(child: CircularProgressIndicator())
+          : Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Center(  // Esto centra todo el contenido
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,  // Esto asegura que la columna ocupe solo el espacio necesario
+                  crossAxisAlignment: CrossAxisAlignment.center, // Centra todo en el eje horizontal
+                  children: [
+                    Text("Alerta ID: ${alerta!['id']}", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    SizedBox(height: 8),
+                    Text("Código de Alerta: ${Diccionario.obtenerDescripcion(Diccionario.codigoAlerta, alerta!['codigO_ALERTA'])}", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                    SizedBox(height: 8),
+                    Text("Fecha de Ingreso: ${alerta!['fechA_INGRESO']}", style: TextStyle(fontSize: 16)),
+                    SizedBox(height: 8),
+                    Text("Estado de Alerta: ${Diccionario.obtenerDescripcion(Diccionario.estadoAlerta, alerta!['estadO_ALERTA'])}", style: TextStyle(fontSize: 16)),
+                    SizedBox(height: 8),
+                    Text("Código de Neumático: ${neumatico!['codigo']}", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                    SizedBox(height: 16),
+                    if (usuarioLeido != null)
+                      Text("Leído por: ${usuarioLeido!.nombres} ${usuarioLeido!.apellidos}", style: TextStyle(fontSize: 16)),
+                    if (alerta!['fechA_LEIDO'] != null)
+                      Text("Fecha de Leído: ${alerta!['fechA_LEIDO']}", style: TextStyle(fontSize: 16)),
+                    SizedBox(height: 8),
+                    if (usuarioAtendido != null)
+                      Text("Atendido por: ${usuarioAtendido!.nombres} ${usuarioAtendido!.apellidos}", style: TextStyle(fontSize: 16)),
+                    if (alerta!['fechA_ATENDIDO'] != null)
+                      Text("Fecha de Atendido: ${alerta!['fechA_ATENDIDO']}", style: TextStyle(fontSize: 16)),
+                    SizedBox(height: 16),
+                    StandarButton(
+                      text: "Ver Información del Neumático",
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => InformacionNeumatico(nfcData: neumatico!['codigo'].toString()),
+                          ),
+                        );
                       },
                     ),
-                  ],
-                  if (alerta.usuarioAtendidoId != null) ...[ // Mostrar quien atendió la alerta
-                    FutureBuilder<Usuario>(
-                      future: _alertaService.getUsuarioById(alerta.usuarioAtendidoId!),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
-                          return Text("Atendió la alerta: Cargando...");
-                        }
-                        if (snapshot.hasError) {
-                          return Text("Error al cargar usuario");
-                        }
-                        if (!snapshot.hasData) {
-                          return Text("Atendió la alerta: No disponible");
-                        }
-
-                        final usuario = snapshot.data!;
-                        return Text("Atendió la alerta: ${usuario.nombres} ${usuario.apellidos}");
-                      },
+                    SizedBox(height: 16),
+                    // Botones con separación uniforme
+                    StandarButton(
+                      text: "Marcar Pendiente",
+                      onPressed: () => _mostrarConfirmacion("Pendiente", 1),
+                    ),
+                    SizedBox(height: 16),
+                    StandarButton(
+                      text: "Marcar Leído",
+                      onPressed: () => _mostrarConfirmacion("Leído", 2),
+                    ),
+                    SizedBox(height: 16),
+                    StandarButton(
+                      text: "Marcar Atendido",
+                      onPressed: () => _mostrarConfirmacion("Atendido", 3),
                     ),
                   ],
-                  SizedBox(height: 20),
-                  Column(
-                    children: [
-                      StandarButton(
-                        text: 'Marcar como pendiente',
-                        onPressed: () => _cambiarEstado(1),
-                      ),
-                      SizedBox(width: 10),
-                      StandarButton(
-                        text: 'Marcar como leído',
-                        onPressed: () => _cambiarEstado(2),
-                      ),
-                      SizedBox(width: 10),
-                      StandarButton(
-                        text: 'Marcar como atendido',
-                        onPressed: () => _cambiarEstado(3),
-                      ),
-                    ],
-                  ),
-                ],
+                ),
               ),
             ),
-          );
-        },
-      ),
     );
   }
 }

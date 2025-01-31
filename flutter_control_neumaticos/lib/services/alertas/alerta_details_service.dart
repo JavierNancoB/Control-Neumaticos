@@ -1,13 +1,11 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../models/alertas.dart';
-import '../../models/movil.dart';
+import '../../models/usuario_alertas.dart';
 
-class AlertaService {
+class AlertaDetailsService {
   static const String baseUrl = "http://localhost:5062/api";
 
-  // Obtener token almacenado en SharedPreferences
   Future<String> _getToken() async {
     print("Obteniendo token...");
     final prefs = await SharedPreferences.getInstance();
@@ -16,7 +14,6 @@ class AlertaService {
     return token;
   }
 
-  // Obtener userId almacenado en SharedPreferences
   Future<int> _getUserId() async {
     print("Obteniendo userId...");
     final prefs = await SharedPreferences.getInstance();
@@ -25,67 +22,46 @@ class AlertaService {
     return userId;
   }
 
-  // Obtener una alerta específica por su ID
-  Future<Alerta> getAlertaById(int id) async {
-    print("Obteniendo alerta por ID: $id");
+  Future<Usuario> getUsuarioById(int usuarioId) async {
+    print("Obteniendo usuario por ID: $usuarioId");
     final token = await _getToken();
     final response = await http.get(
-      Uri.parse('$baseUrl/Alerta/$id'),
+      Uri.parse('$baseUrl/usuarios/$usuarioId'),
       headers: {'Authorization': 'Bearer $token'},
     );
 
     print("Respuesta obtenida: ${response.statusCode}");
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
-      print("Datos de la alerta: $data");
-      return Alerta.fromJson(data);
+      print("Datos del usuario: $data");
+      return Usuario.fromJson(data);
     } else {
-      print("Error al obtener la alerta con ID $id: ${response.body}");
+      print("Error al obtener el usuario con ID $usuarioId: ${response.body}");
+      throw Exception("Error al obtener el usuario con ID $usuarioId");
+    }
+  }
+
+  Future<Map<String, dynamic>> getAlertaById(int id) async {
+    final token = await _getToken();
+    final response = await http.get(Uri.parse('$baseUrl/Alerta/$id'), headers: {'Authorization': 'Bearer $token'});
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
       throw Exception("Error al obtener la alerta con ID $id");
     }
   }
+  
 
-  // Obtener alertas pendientes (puede aceptar un endpoint adicional si es necesario)
-  Future<List<Alerta>> getAlertasPendientes(String endpoint) async {
-    print("Obteniendo alertas pendientes desde el endpoint: $endpoint");
+  Future<Map<String, dynamic>> getNeumaticoById(int idNeumatico) async {
     final token = await _getToken();
-    final response = await http.get(
-      Uri.parse('$baseUrl/Alerta/$endpoint'),
-      headers: {'Authorization': 'Bearer $token'},
-    );
-
-    print("Respuesta obtenida: ${response.statusCode}");
+    final response = await http.get(Uri.parse('$baseUrl/neumaticos/$idNeumatico'), headers: {'Authorization': 'Bearer $token'});
     if (response.statusCode == 200) {
-      final data = json.decode(response.body) as List;
-      print("Datos de alertas pendientes: $data");
-      return data.map((json) => Alerta.fromJson(json)).toList();
+      return json.decode(response.body);
     } else {
-      print("Error al cargar las alertas pendientes: ${response.body}");
-      throw Exception("Error al cargar las alertas pendientes");
+      throw Exception("Error al obtener el neumático con ID $idNeumatico");
     }
   }
 
-  // Obtener el Movil por su ID
-  Future<Movil> getMovilById(int idMovil) async {
-    print("Obteniendo movil por ID: $idMovil");
-    final token = await _getToken();
-    final response = await http.get(
-      Uri.parse('$baseUrl/movil/$idMovil'),
-      headers: {'Authorization': 'Bearer $token'},
-    );
-
-    print("Respuesta obtenida: ${response.statusCode}");
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      print("Datos del movil: $data");
-      return Movil.fromJson(data);
-    } else {
-      print("Error al obtener el movil con ID $idMovil: ${response.body}");
-      throw Exception("Error al obtener el móvil con ID $idMovil");
-    }
-  }
-
-  // Cambiar el estado de una alerta
   Future<void> cambiarEstadoAlerta(int alertaId, int estado) async {
     print("Cambiando estado de la alerta con ID: $alertaId a estado: $estado");
     final token = await _getToken();
