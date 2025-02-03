@@ -8,9 +8,12 @@ class UsuarioService {
   // Buscar usuarios por correo mientras el usuario escribe
   static Future<List<String>> buscarUsuariosPorCorreo(String query) async {
     final token = await _getToken();
+    final idUsuario = await _getIdUsuario();
+    
+    if (idUsuario == null) throw Exception('ID de usuario no encontrado.');
     if (token == null) throw Exception('Token no encontrado.');
 
-    final url = '$_baseUrl/Usuarios/BuscarUsuariosPorCorreo?query=$query';
+    final url = '$_baseUrl/Usuarios/BuscarUsuariosPorCorreo?query=$query&idUsuario=$idUsuario';
     final response = await http.get(
       Uri.parse(url),
       headers: {'Authorization': 'Bearer $token'},
@@ -31,13 +34,22 @@ class UsuarioService {
   // Modificar estado de usuario por correo electrónico
   static Future<void> modificarEstadoUsuario(String correo, int estado) async {
     final token = await _getToken();
+    final idUsuario = await _getIdUsuario();
     if (token == null) throw Exception('Token no encontrado.');
 
-    final url = '$_baseUrl/Usuarios/ModificarCodEstadoPorCorreo?mail=$correo&codEstado=$estado';
+    print('Token: $token');
+    print('ID Usuario: $idUsuario');
+    print('Correo: $correo');
+    print('Estado: $estado');
+
+    final url = '$_baseUrl/Usuarios/ModificarCodEstadoPorCorreo?mail=$correo&codEstado=$estado&idUsuarioBitacora=$idUsuario';
     final response = await http.put(
       Uri.parse(url),
       headers: {'Authorization': 'Bearer $token'},
     );
+
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
 
     if (response.statusCode != 204) {
       throw Exception('Error al modificar el estado del usuario.');
@@ -48,5 +60,9 @@ class UsuarioService {
   static Future<String?> _getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('token');
+  }
+  static Future<int?> _getIdUsuario() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getInt('userId');
   }
 }

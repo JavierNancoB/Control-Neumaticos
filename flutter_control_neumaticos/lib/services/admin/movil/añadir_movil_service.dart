@@ -9,10 +9,12 @@ class MovilService {
   // Crear móvil
   static Future<void> crearMovil(Movil movil) async {
     final token = await _getToken();
+    final idUsuario = await _getIdUsuario();
     if (token == null) throw Exception('Token no encontrado.');
+    if (idUsuario == null) throw Exception('ID de usuario no encontrado.');
 
     final response = await http.post(
-      Uri.parse(_baseUrl),
+      Uri.parse('$_baseUrl?idUsuario=$idUsuario'),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $token',
@@ -33,5 +35,10 @@ class MovilService {
   static Future<String?> _getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('token');
+  }
+
+  static Future<int?> _getIdUsuario() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getInt('userId');
   }
 }

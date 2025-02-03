@@ -4,6 +4,7 @@ using api_control_neumaticos.Models;
 using AutoMapper;
 using api_control_neumaticos.Dtos.Movil;
 using Microsoft.AspNetCore.Authorization;
+using api_control_neumaticos.Dtos.Bitacora;
 
 namespace api_control_neumaticos.Controllers
 {
@@ -47,7 +48,7 @@ namespace api_control_neumaticos.Controllers
 
         // POST: api/Movil
         [HttpPost]
-        public async Task<ActionResult<MovilDto>> PostMovil(CreateMovilRequestDto movilCreateDto)
+        public async Task<ActionResult<MovilDto>> PostMovil(CreateMovilRequestDto movilCreateDto, [FromQuery] int idUsuario)
         {
             // Verificar si ya existe un movil con la misma patente
             if (_context.Movils.Any(m => m.Patente == movilCreateDto.PATENTE))
@@ -70,8 +71,17 @@ namespace api_control_neumaticos.Controllers
             // Agregar la entidad al contexto
             _context.Movils.Add(movil);
 
+
+           
+
             // Guardar los cambios en la base de datos
             await _context.SaveChangesAsync();
+
+             // Registramos Bitacora
+            await RegistrarBitacora(idUsuario, 19, movil.IdMovil, "Movil", $"Creación de movil con patente {movil.Patente} e ID {movil.IdMovil}");
+
+            // imprimimos en consola los id de los moviles
+            System.Console.WriteLine(movil.IdMovil);
 
             // Devolver una respuesta Created con el DTO de creación
             return CreatedAtAction("GetMovil", new { id = movil.IdMovil }, movilCreateDto);
@@ -165,7 +175,7 @@ namespace api_control_neumaticos.Controllers
         //PUT: api/Movil/CambiaEstadoMovilPorPatente
 
         [HttpPut("CambiaEstadoMovilPorPatente")]
-        public async Task<IActionResult> CambiaEstadoMovilPorPatente(string patente, int estado)
+        public async Task<IActionResult> CambiaEstadoMovilPorPatente(string patente, int estado, [FromQuery] int idUsuario)
         {
             var movil = await _context.Movils.FirstOrDefaultAsync(m => m.Patente == patente);
 
@@ -178,6 +188,9 @@ namespace api_control_neumaticos.Controllers
 
             _context.Entry(movil).State = EntityState.Modified;
 
+            // Registramos Bitacora
+            await RegistrarBitacora(idUsuario, 26, movil.IdMovil, "Movil", $"Deshabilitación de movil con patente {patente}");
+
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -187,7 +200,7 @@ namespace api_control_neumaticos.Controllers
         // PUT: api para modificar movil por patente, solo se modificara patente, marca, modelo, ejes, neumaticos, tipo movil
         // se envia con la url api/Movil/ModificarMovilPorPatente?patente=patente&marca=marca&modelo=modelo&ejes=ejes&cantidadNeumaticos=cantidadNeumaticos&tipoMovil=tipoMovil
         [HttpPut("ModificarMovilPorPatente")]
-        public async Task<IActionResult> ModificarMovilPorPatente(string patenteActual, string patenteNueva, string marca, string modelo, int ejes, int cantidadNeumaticos, int tipoMovil)
+        public async Task<IActionResult> ModificarMovilPorPatente(string patenteActual, string patenteNueva, string marca, string modelo, int ejes, int cantidadNeumaticos, int tipoMovil, [FromQuery] int idUsuario)
         {
             var movil = await _context.Movils.FirstOrDefaultAsync(m => m.Patente == patenteActual);
 
@@ -196,11 +209,46 @@ namespace api_control_neumaticos.Controllers
                 return NotFound();
             }
 
+            if(movil.Patente != patenteNueva)
+            {
+                // Registramos en bitacora
+                await RegistrarBitacora(idUsuario, 20, movil.IdMovil, "Movil", $"Modificación de patente de movil de {patenteActual} a {patenteNueva}");
+            }
             movil.Patente = patenteNueva;
+
+            if(movil.Marca != marca)
+            {
+                // Registramos en bitacora
+                await RegistrarBitacora(idUsuario, 21, movil.IdMovil, "Movil", $"Modificación de marca de movil {patenteNueva}");
+            }
             movil.Marca = marca;
+
+            if(movil.Modelo != modelo)
+            {
+                // Registramos en bitacora
+                await RegistrarBitacora(idUsuario, 22, movil.IdMovil, "Movil", $"Modificación de modelo de movil {patenteNueva}");
+            }
             movil.Modelo = modelo;
+
+            if(movil.Ejes != ejes)
+            {
+                // Registramos en bitacora
+                await RegistrarBitacora(idUsuario, 23, movil.IdMovil, "Movil", $"Modificación de ejes de movil {patenteNueva}");
+            }
             movil.Ejes = ejes;
+
+            if(movil.CantidadNeumaticos != cantidadNeumaticos)
+            {
+                // Registramos en bitacora
+                await RegistrarBitacora(idUsuario, 25, movil.IdMovil, "Movil", $"Modificación de cantidad de neumáticos de movil {patenteNueva}");
+            }
             movil.CantidadNeumaticos = cantidadNeumaticos;
+
+            if(movil.TipoMovil != tipoMovil)
+            {
+                // Registramos en bitacora
+                await RegistrarBitacora(idUsuario, 24, movil.IdMovil, "Movil", $"Modificación de tipo de movil {patenteNueva}");
+            }
             movil.TipoMovil = tipoMovil;
 
             _context.Entry(movil).State = EntityState.Modified;
@@ -230,6 +278,25 @@ namespace api_control_neumaticos.Controllers
             {
                 return false;
             }
+        }
+
+        // funcion que registra en bitacora la modificacion de un movil
+        private async Task RegistrarBitacora(int idUsuario, int codigo, int idObjeto, string tipoObjeto, string observacion)
+        {
+            var bitacoraDto = new CreateBitacoraRequestDto
+            {
+                ID_USUARIO = idUsuario,
+                CODIGO = codigo,
+                ID_OBJETO = idObjeto,
+                FECHA = DateTime.Now,
+                TIPO_OBJETO = tipoObjeto,
+                OBSERVACION = observacion,
+                ESTADO = 1,
+            };
+
+            var bitacora = _mapper.Map<Bitacora>(bitacoraDto);
+            _context.Set<Bitacora>().Add(bitacora);
+            await _context.SaveChangesAsync();
         }
 
         // GET: api/Movil/BuscarUsuariosPorPatente?query=j

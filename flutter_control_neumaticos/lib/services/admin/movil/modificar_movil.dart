@@ -12,17 +12,21 @@ class MovilService {
     return prefs.getString('token'); // Devuelve el token almacenado
   }
 
+  Future<int?> _getIdUsuario() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getInt('userId'); // Devuelve el ID de usuario almacenado
+  }
   // Obtener el móvil por patente
   Future<Movil?> getMovilByPatente(String patente) async {
   try {
     final token = await _getToken();  // Obtener el token
-
+    final idUsuario = await _getIdUsuario();  // Obtener el ID de usuario
     if (token == null) {
       throw Exception('Token no encontrado');
     }
 
     final response = await http.get(
-      Uri.parse('$baseUrl/GetMovilByPatente?patente=$patente'),
+      Uri.parse('$baseUrl/GetMovilByPatente?patente=$patente&idUsuario=$idUsuario'),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $token',  // Agregar el token al encabezado

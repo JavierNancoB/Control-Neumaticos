@@ -7,13 +7,14 @@ class MovilService {
   Future<bool> cambiarEstadoMovil(String patente, EstadoMovil estado) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
+    int? idUsuario = prefs.getInt('userId');
 
     if (token == null) {
       throw Exception('Token no encontrado');
     }
 
     final response = await http.put(
-      Uri.parse('http://localhost:5062/api/Movil/CambiaEstadoMovilPorPatente?patente=$patente&estado=${estado.id}'),
+      Uri.parse('http://localhost:5062/api/Movil/CambiaEstadoMovilPorPatente?patente=$patente&estado=${estado.id}&idUsuario=$idUsuario'),
       headers: {
         'Authorization': 'Bearer $token',
       },

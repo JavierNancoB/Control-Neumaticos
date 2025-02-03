@@ -12,8 +12,8 @@ using api_control_neumaticos.Models;
 namespace api_control_neumaticos.Migrations
 {
     [DbContext(typeof(ControlNeumaticosContext))]
-    [Migration("20250130172321_iNIT")]
-    partial class iNIT
+    [Migration("20250203153542_ActualizarModeloBitacora")]
+    partial class ActualizarModeloBitacora
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -124,9 +124,7 @@ namespace api_control_neumaticos.Migrations
                         .HasColumnName("TIPO_OBJETO");
 
                     b.HasKey("ID")
-                        .HasName("PK__BITACORA__3214EC07");
-
-                    b.HasIndex("ID_OBJETO");
+                        .HasName("PK_BITACORA");
 
                     b.ToTable("BITACORA", (string)null);
                 });
@@ -441,30 +439,6 @@ namespace api_control_neumaticos.Migrations
                     b.Navigation("UsuarioAtendido");
 
                     b.Navigation("UsuarioLeido");
-                });
-
-            modelBuilder.Entity("api_control_neumaticos.Models.Bitacora", b =>
-                {
-                    b.HasOne("api_control_neumaticos.Models.Neumatico", "Neumatico")
-                        .WithMany()
-                        .HasForeignKey("ID_OBJETO")
-                        .HasConstraintName("FK_Bitacora_Neumatico");
-
-                    b.HasOne("api_control_neumaticos.Models.Movil", "Movil")
-                        .WithMany()
-                        .HasForeignKey("ID_OBJETO")
-                        .HasConstraintName("FK_Bitacora_Movil");
-
-                    b.HasOne("api_control_neumaticos.Models.Usuario", "Usuario")
-                        .WithMany()
-                        .HasForeignKey("ID_OBJETO")
-                        .HasConstraintName("FK_Bitacora_Usuario");
-
-                    b.Navigation("Movil");
-
-                    b.Navigation("Neumatico");
-
-                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("api_control_neumaticos.Models.HistorialNeumatico", b =>
