@@ -18,6 +18,10 @@ namespace api_control_neumaticos.Controllers
             _context = context;
         }
 
+        private const string Neumatico = "Neumatico";
+        private const string Movil = "Movil";
+        private const string Usuario = "Usuario";
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Bitacora>>> GetBitacoras()
         {
@@ -40,21 +44,21 @@ namespace api_control_neumaticos.Controllers
         public async Task<ActionResult<Bitacora>> CreateBitacora(Bitacora bitacora)
         {
             // Validar que TIPO_OBJETO sea uno de los valores permitidos
-            if (bitacora.TIPO_OBJETO != "Neumatico" && bitacora.TIPO_OBJETO != "Movil" && bitacora.TIPO_OBJETO != "Usuario")
+            if (bitacora.TIPO_OBJETO != Neumatico && bitacora.TIPO_OBJETO != Movil && bitacora.TIPO_OBJETO != Usuario)
             {
                 return BadRequest("El tipo de objeto no es válido. Debe ser 'Neumatico', 'Movil' o 'Usuario'.");
             }
 
             // Validar que el ID_OBJETO sea válido según el tipo de objeto
-            if (bitacora.TIPO_OBJETO == "Neumatico" && !await _context.Neumaticos.AnyAsync(n => n.ID_NEUMATICO == bitacora.ID_OBJETO))
+            if (bitacora.TIPO_OBJETO == Neumatico && !await _context.Neumaticos.AnyAsync(n => n.ID_NEUMATICO == bitacora.ID_OBJETO))
             {
                 return BadRequest("El Neumático con el ID especificado no existe.");
             }
-            if (bitacora.TIPO_OBJETO == "Movil" && !await _context.Movils.AnyAsync(m => m.IdMovil == bitacora.ID_OBJETO))
+            if (bitacora.TIPO_OBJETO == Movil && !await _context.Movils.AnyAsync(m => m.IdMovil == bitacora.ID_OBJETO))
             {
                 return BadRequest("El Móvil con el ID especificado no existe.");
             }
-            if (bitacora.TIPO_OBJETO == "Usuario" && !await _context.Usuarios.AnyAsync(u => u.IdUsuario == bitacora.ID_OBJETO))
+            if (bitacora.TIPO_OBJETO == Usuario && !await _context.Usuarios.AnyAsync(u => u.IdUsuario == bitacora.ID_OBJETO))
             {
                 return BadRequest("El Usuario con el ID especificado no existe.");
             }
@@ -64,6 +68,5 @@ namespace api_control_neumaticos.Controllers
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetBitacora), new { id = bitacora.ID }, bitacora);
         }
-
     }
 }

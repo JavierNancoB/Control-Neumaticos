@@ -229,8 +229,9 @@ public partial class ControlNeumaticosContext : DbContext
         modelBuilder.Entity<Bitacora>(entity =>
         {
             entity.ToTable("BITACORA");
-            
-            entity.HasKey(e => e.ID).HasName("PK__BITACORA__3214EC07");
+
+            // Define la clave primaria en solo el campo ID
+            entity.HasKey(e => e.ID).HasName("PK_BITACORA");
 
             entity.Property(e => e.ID).HasColumnName("ID");
             entity.Property(e => e.CODIGO).HasColumnName("CODIGO");
@@ -249,37 +250,6 @@ public partial class ControlNeumaticosContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("ESTADO");
-
-            // Relación con Usuario
-            entity.HasOne(b => b.Usuario)
-                .WithMany()
-                .HasForeignKey(b => b.ID_USUARIO)
-                .OnDelete(DeleteBehavior.Restrict); // Evitar que se borre el usuario si existe en Bitacora
-
-            // Relación dinámica con Neumatico, Movil o Usuario dependiendo del tipo de objeto
-            entity.HasOne(b => b.Neumatico)
-                .WithMany()
-                .HasForeignKey(b => b.ID_OBJETO)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Bitacora_Neumatico")
-                .IsRequired(false); // Este campo será null si TIPO_OBJETO es diferente
-
-            entity.HasOne(b => b.Movil)
-                .WithMany()
-                .HasForeignKey(b => b.ID_OBJETO)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Bitacora_Movil")
-                .IsRequired(false); // Este campo será null si TIPO_OBJETO es diferente
-
-            entity.HasOne(b => b.Usuario)
-                .WithMany()
-                .HasForeignKey(b => b.ID_OBJETO)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Bitacora_Usuario")
-                .IsRequired(false); // Este campo será null si TIPO_OBJETO es diferente
         });
-
-
-
     }
 }

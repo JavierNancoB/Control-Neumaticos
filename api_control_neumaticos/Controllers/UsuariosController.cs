@@ -50,7 +50,7 @@ namespace api_control_neumaticos.Controllers
 
         // POST: api/Usuarios
         [HttpPost]
-        public async Task<ActionResult<UsuarioDto>> PostUsuario(UsuarioDto usuarioDto)
+        public async Task<ActionResult<UsuarioDto>> PostUsuario(UsuarioDto usuarioDto, [FromQuery] int idUsuarioBitacora)
         {
             // Verificar si el correo ya existe
             if (await _context.Usuarios.AnyAsync(u => u.Correo == usuarioDto.CORREO))
@@ -65,7 +65,8 @@ namespace api_control_neumaticos.Controllers
             _context.Usuarios.Add(usuario);
             await _context.SaveChangesAsync();
 
-            await RegistrarBitacora(usuario.IdUsuario, 12, usuario.IdUsuario, "Usuario", "Creación de usuario");
+            Console.WriteLine($"ID Usuario Bitacora: {idUsuarioBitacora}");
+            await RegistrarBitacora(idUsuarioBitacora, 12, usuario.IdUsuario, "Usuario", $"Creación de usuario don(a) {usuario.Nombres} {usuario.Apellidos}");
 
             return CreatedAtAction("GetUsuario", new { id = usuario.IdUsuario }, usuarioDto);
         }
@@ -178,7 +179,7 @@ namespace api_control_neumaticos.Controllers
         // PUT: api/Usuarios/ModificarCodEstadoPorCorreo
         // Esta función modifica el campo CodEstado de un usuario por su correo
         [HttpPut("ModificarCodEstadoPorCorreo")]
-        public async Task<IActionResult> ModificarCodEstadoPorCorreo(string mail, int codEstado)
+        public async Task<IActionResult> ModificarCodEstadoPorCorreo(string mail, int codEstado, [FromQuery] int idUsuarioBitacora)
         {
             var usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.Correo == mail);
 
@@ -188,7 +189,7 @@ namespace api_control_neumaticos.Controllers
             }
 
             if(usuario.CodEstado == 2){
-                await RegistrarBitacora(usuario.IdUsuario, 17, usuario.IdUsuario, "Usuario", "Modificación de estado de usuario a deshabilitado");
+                await RegistrarBitacora(idUsuarioBitacora, 17, usuario.IdUsuario, "Usuario", "Modificación de estado de usuario a deshabilitado");
             }
 
             usuario.CodEstado = codEstado;
@@ -200,7 +201,7 @@ namespace api_control_neumaticos.Controllers
 
         //API Para modificar nombres, apellidos, correo y codigo perfil
         [HttpPut("ModificarDatosUsuario")]
-        public async Task<IActionResult> ModificarDatosUsuario(string mail, string nuevosMail, string nombres, string apellidos, int codigoPerfil)
+        public async Task<IActionResult> ModificarDatosUsuario(string mail, string nuevosMail, string nombres, string apellidos, int codigoPerfil, [FromQuery] int idUsuarioBitacora)
         {
             var usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.Correo == mail);
 
@@ -219,21 +220,21 @@ namespace api_control_neumaticos.Controllers
                 }
                 else{
                     // Actualizar el correo en la tabla de usuarios
-                    await RegistrarBitacora(usuario.IdUsuario, 16, usuario.IdUsuario, "Usuario", $"Modificación de correo de usuario a {nuevosMail}");
+                    await RegistrarBitacora(idUsuarioBitacora, 16, usuario.IdUsuario, "Usuario", $"Modificación de correo de usuario a {nuevosMail}");
                 }
             }
             // Actualizar los datos del usuario
             if(nombres != usuario.Nombres){
-                await RegistrarBitacora(usuario.IdUsuario, 13, usuario.IdUsuario, "Usuario", $"Modificación de nombres de usuario a {nombres}");
+                await RegistrarBitacora(idUsuarioBitacora, 13, usuario.IdUsuario, "Usuario", $"Modificación de nombres de usuario a {nombres}");
             }
             usuario.Nombres = nombres;
             if(apellidos != usuario.Apellidos){
-                await RegistrarBitacora(usuario.IdUsuario, 14, usuario.IdUsuario, "Usuario", $"Modificación de apellidos de usuario a {apellidos}");
+                await RegistrarBitacora(idUsuarioBitacora, 14, usuario.IdUsuario, "Usuario", $"Modificación de apellidos de usuario a {apellidos}");
             }
             usuario.Apellidos = apellidos;
             usuario.Correo = nuevosMail; // Se actualiza el correo con el nuevo valor
             if(codigoPerfil != usuario.CodigoPerfil){
-                await RegistrarBitacora(usuario.IdUsuario, 15, usuario.IdUsuario, "Usuario", $"Modificación de perfil de usuario a {codigoPerfil}");
+                await RegistrarBitacora(idUsuarioBitacora, 15, usuario.IdUsuario, "Usuario", $"Modificación de perfil de usuario a {codigoPerfil}");
             }
             usuario.CodigoPerfil = codigoPerfil;
             _context.Entry(usuario).State = EntityState.Modified;

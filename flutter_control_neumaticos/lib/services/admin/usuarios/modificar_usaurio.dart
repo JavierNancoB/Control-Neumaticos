@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../../../models/usuario_modifcar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UsuarioService {
   final String baseUrl = 'http://localhost:5062/api/Usuarios';
@@ -15,46 +16,57 @@ class UsuarioService {
       if (response.statusCode == 200) {
         return Usuario.fromJson(json.decode(response.body));
       } else {
-        print("Error: ${response.statusCode} - ${response.body}");
         throw Exception('Error al obtener los datos del usuario');
       }
     } catch (e) {
-      print("Error: $e");
       throw Exception('Error al obtener los datos del usuario: $e');
     }
   }
 
   // Modificar los datos del usuario
-  // Modificar los datos del usuario
-  // Modificar los datos del usuario
- // Modificar los datos del usuario
   Future<bool> modificarDatosUsuario(Usuario usuario, String email) async {
+    //Obtenemos la id y el token del usuario
+    final token = await _getToken();
+    final idUsuarioEnvio = await _getIdUsuario();
+
     try {
       // Construir la URL manualmente sin usar `replace(queryParameters:)`
-      final url = Uri.parse('$baseUrl/ModificarDatosUsuario') 
+      final url = Uri.parse('$baseUrl/ModificarDatosUsuario')
           .replace(queryParameters: {
         'mail': email, // El correo actual para buscar el usuario
         'nuevosMail': usuario.correo, // El nuevo correo si se modifica
         'nombres': usuario.nombres,
         'apellidos': usuario.apellidos,
         'codigoPerfil': usuario.codigoPerfil.toString(),
+        'idUsuarioBitacora': idUsuarioEnvio.toString(),
       });
 
       // Imprimir la URL antes de hacer la solicitud
-      print("Endpoint: ${url.toString()}");
 
-      final response = await http.put(url);
+      final response = await http.put(
+        url,
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      );
 
       if (response.statusCode == 200 || response.statusCode == 204) {
         return true;
       } else {
-        print("Error: ${response.statusCode} - ${response.body}");
         return false;
       }
     } catch (e) {
-      print("Error: $e");
       throw Exception('Error al modificar los datos del usuario: $e');
     }
   }
 
+  static Future<String?> _getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('token');
+  }
+
+  static Future<int?> _getIdUsuario() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getInt('userId');
+  }
 }

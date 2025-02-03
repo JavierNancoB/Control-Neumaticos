@@ -6,27 +6,25 @@ namespace api_control_neumaticos.Models
 {
     public class Bitacora
     {
+        [Key]
         public int ID { get; set; }
+
         public int CODIGO { get; set; }
+
         public int ID_OBJETO { get; set; }  // Puede ser ID de Neumático, Movil o Usuario
+        
+        [Required]
+        [MaxLength(50)]
+        public string TIPO_OBJETO { get; set; } = "Neumatico";
 
-        // Asignar un valor por defecto a TIPO_OBJETO
-        private string _tipoObjeto = "Neumatico";  // Valor por defecto
-        public string TIPO_OBJETO
-        {
-            get { return _tipoObjeto; }
-            set { _tipoObjeto = value ?? "Neumatico"; }  // Si el valor es nulo, se asigna el valor por defecto
-        }
+        [Required]
+        public int ID_USUARIO { get; set; }  // Usuario que está creando la bitácora
 
-        public int ID_USUARIO { get; set; }
         public DateTime FECHA { get; set; }
-        [MaxLength(250)]
+
+        [MaxLength(500)]
         public string OBSERVACION { get; set; } = "";
+
         public int ESTADO { get; set; }
-
-        public Usuario? Usuario { get; set; }
-        public Neumatico? Neumatico { get; set; }
-        public Movil? Movil { get; set; }
     }
-
 }

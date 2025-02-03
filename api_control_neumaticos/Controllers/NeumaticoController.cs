@@ -547,6 +547,5 @@ namespace api_control_neumaticos.Controllers
             Console.WriteLine("Posición ya está ocupada, devolviendo false");
             return Ok(false);
         }
-
     }
 }

@@ -6,11 +6,30 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace api_control_neumaticos.Migrations
 {
     /// <inheritdoc />
-    public partial class iNIT : Migration
+    public partial class ActualizarModeloBitacora : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "BITACORA",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CODIGO = table.Column<int>(type: "int", nullable: false),
+                    ID_OBJETO = table.Column<int>(type: "int", nullable: false),
+                    TIPO_OBJETO = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    ID_USUARIO = table.Column<int>(type: "int", nullable: false),
+                    FECHA = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    OBSERVACION = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    ESTADO = table.Column<int>(type: "int", unicode: false, maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BITACORA", x => x.ID);
+                });
+
             migrationBuilder.CreateTable(
                 name: "BODEGA",
                 columns: table => new
@@ -176,40 +195,6 @@ namespace api_control_neumaticos.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BITACORA",
-                columns: table => new
-                {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CODIGO = table.Column<int>(type: "int", nullable: false),
-                    ID_OBJETO = table.Column<int>(type: "int", nullable: false),
-                    TIPO_OBJETO = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
-                    ID_USUARIO = table.Column<int>(type: "int", nullable: false),
-                    FECHA = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    OBSERVACION = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    ESTADO = table.Column<int>(type: "int", unicode: false, maxLength: 50, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK__BITACORA__3214EC07", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_Bitacora_Movil",
-                        column: x => x.ID_OBJETO,
-                        principalTable: "MOVIL",
-                        principalColumn: "ID_MOVIL");
-                    table.ForeignKey(
-                        name: "FK_Bitacora_Neumatico",
-                        column: x => x.ID_OBJETO,
-                        principalTable: "NEUMATICOS",
-                        principalColumn: "ID_NEUMATICO");
-                    table.ForeignKey(
-                        name: "FK_Bitacora_Usuario",
-                        column: x => x.ID_OBJETO,
-                        principalTable: "USUARIO",
-                        principalColumn: "ID_USUARIO");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "HISTORIAL_NEUMATICO",
                 columns: table => new
                 {
@@ -251,11 +236,6 @@ namespace api_control_neumaticos.Migrations
                 name: "IX_ALERTA_ID_USUARIO_LEIDO",
                 table: "ALERTA",
                 column: "ID_USUARIO_LEIDO");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BITACORA_ID_OBJETO",
-                table: "BITACORA",
-                column: "ID_OBJETO");
 
             migrationBuilder.CreateIndex(
                 name: "IX_HISTORIAL_NEUMATICO_ID_NEUMATICO",

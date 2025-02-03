@@ -69,6 +69,7 @@ class _HomePageState extends State<HomePage> {
     } else {
       String token = response['token'];
       int? userId = response['iD_USUARIO']; // Usamos 'iD_USUARIO' en lugar de 'id'
+      int? perfil = response['codigO_PERFIL']; // Usamos 'ID_PERFIL' en lugar de 'perfil'
 
       // Imprimir en consola los valores de 'token' y 'userId'
       print("Token: $token");
@@ -82,7 +83,7 @@ class _HomePageState extends State<HomePage> {
       }
 
       // Guarda siempre el token y el userId si está disponible
-      await _authService.saveTokenAndUserId(token, userId ?? 0); // Si userId es null, guardamos 0
+      await _authService.saveTokenAndUserId(token, userId ?? 0, perfil ?? 0);
       await _authService.saveUserData(username, password, _rememberMe);
 
       Navigator.push(

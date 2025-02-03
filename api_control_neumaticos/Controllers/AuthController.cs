@@ -54,6 +54,7 @@ namespace api_control_neumaticos.Controllers
                 NOMBRES = usuario.Nombres,
                 APELLIDOS = usuario.Apellidos,
                 CORREO = usuario.Correo,
+                CODIGO_PERFIL = usuario.CodigoPerfil,
                 TOKEN = token  // Aquí agregamos el token generado
             };
 

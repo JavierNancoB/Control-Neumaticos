@@ -55,7 +55,7 @@ class NeumaticoService {
     final token = await getToken();
     print('Token para la solicitud: $token'); // Debugging
 
-    final url = '$_baseUrl/Neumaticos/verificarSiPosicioneEsUnicaEnEseVehiculo?idMovil=$patente&posicion=$posicion';
+    final url = '$_baseUrl/Neumaticos/verificarSiPosicioneEsUnicaConPatente?idMovil=$patente&posicion=$posicion';
     print('URL de la solicitud: $url'); // Debugging
 
     final response = await http.post(
