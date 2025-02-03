@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using api_control_neumaticos.Dtos.Alertas;
+using api_control_neumaticos.Dtos.Bitacora;
 
 namespace api_control_neumaticos.Controllers
 {
@@ -68,16 +69,29 @@ namespace api_control_neumaticos.Controllers
                 await _context.SaveChangesAsync();
             }
 
+            // Crear la bitácora en caso de que el codigo sea 10 o 11
+            // donde el código 11 es para el pinchazo de neumático y el 10 para el cambio de presion de aire
+            if (createHistorialNeumaticoDto.CODIGO == 10 || createHistorialNeumaticoDto.CODIGO == 11)
+            {
+                var bitacoraDto = new CreateBitacoraRequestDto
+                {
+                    CODIGO = createHistorialNeumaticoDto.CODIGO,
+                    ID_OBJETO = createHistorialNeumaticoDto.IDNeumatico,
+                    ID_USUARIO = createHistorialNeumaticoDto.IDUsuario,
+                    FECHA = createHistorialNeumaticoDto.FECHA,
+                    OBSERVACION = createHistorialNeumaticoDto.OBSERVACION,
+                    ESTADO = createHistorialNeumaticoDto.ESTADO
+                };
+
+                var bitacora = _mapper.Map<Bitacora>(bitacoraDto);
+                _context.Set<Bitacora>().Add(bitacora);
+                await _context.SaveChangesAsync();
+            }
+
+
             var historialNeumaticoDto = _mapper.Map<HistorialNeumaticoDto>(historialNeumatico);
             return CreatedAtAction(nameof(GetHistorialNeumatico), new { id = historialNeumaticoDto.ID }, historialNeumaticoDto);
         }
-
-    private bool DebeCrearAlerta(CreateHistorialNeumaticoRequestDto request)
-    {
-        // Define aquí las condiciones que deben cumplirse para generar una alerta
-        return request.ESTADO == 1 && request.CODIGO == 100; // Ejemplo de condición
-    }
-
 
 
         [HttpPut("{id}")]

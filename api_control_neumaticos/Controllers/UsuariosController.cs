@@ -5,6 +5,7 @@ using AutoMapper;
 using api_control_neumaticos.Dtos.Usuario;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using api_control_neumaticos.Dtos.Bitacora;
 
 namespace api_control_neumaticos.Controllers
 {
@@ -63,6 +64,8 @@ namespace api_control_neumaticos.Controllers
 
             _context.Usuarios.Add(usuario);
             await _context.SaveChangesAsync();
+
+            await RegistrarBitacora(usuario.IdUsuario, 12, usuario.IdUsuario, "Usuario", "Creación de usuario");
 
             return CreatedAtAction("GetUsuario", new { id = usuario.IdUsuario }, usuarioDto);
         }
@@ -184,6 +187,10 @@ namespace api_control_neumaticos.Controllers
                 return NotFound();
             }
 
+            if(usuario.CodEstado == 2){
+                await RegistrarBitacora(usuario.IdUsuario, 17, usuario.IdUsuario, "Usuario", "Modificación de estado de usuario a deshabilitado");
+            }
+
             usuario.CodEstado = codEstado;
             _context.Entry(usuario).State = EntityState.Modified;
             await _context.SaveChangesAsync();
@@ -210,12 +217,24 @@ namespace api_control_neumaticos.Controllers
                 {
                     return BadRequest("El correo proporcionado ya está en uso.");
                 }
+                else{
+                    // Actualizar el correo en la tabla de usuarios
+                    await RegistrarBitacora(usuario.IdUsuario, 16, usuario.IdUsuario, "Usuario", $"Modificación de correo de usuario a {nuevosMail}");
+                }
             }
-
             // Actualizar los datos del usuario
+            if(nombres != usuario.Nombres){
+                await RegistrarBitacora(usuario.IdUsuario, 13, usuario.IdUsuario, "Usuario", $"Modificación de nombres de usuario a {nombres}");
+            }
             usuario.Nombres = nombres;
+            if(apellidos != usuario.Apellidos){
+                await RegistrarBitacora(usuario.IdUsuario, 14, usuario.IdUsuario, "Usuario", $"Modificación de apellidos de usuario a {apellidos}");
+            }
             usuario.Apellidos = apellidos;
             usuario.Correo = nuevosMail; // Se actualiza el correo con el nuevo valor
+            if(codigoPerfil != usuario.CodigoPerfil){
+                await RegistrarBitacora(usuario.IdUsuario, 15, usuario.IdUsuario, "Usuario", $"Modificación de perfil de usuario a {codigoPerfil}");
+            }
             usuario.CodigoPerfil = codigoPerfil;
             _context.Entry(usuario).State = EntityState.Modified;
             await _context.SaveChangesAsync();
@@ -238,7 +257,23 @@ namespace api_control_neumaticos.Controllers
             return usuario.CodEstado == 1;
         }
         
+        private async Task RegistrarBitacora(int idUsuario, int codigo, int idObjeto, string tipoObjeto, string observacion)
+        {
+            var bitacoraDto = new CreateBitacoraRequestDto
+            {
+                ID_USUARIO = idUsuario,
+                CODIGO = codigo,
+                ID_OBJETO = idObjeto,
+                FECHA = DateTime.Now,
+                TIPO_OBJETO = tipoObjeto,
+                OBSERVACION = observacion,
+                ESTADO = 1,
+            };
 
+            var bitacora = _mapper.Map<Bitacora>(bitacoraDto);
+            _context.Set<Bitacora>().Add(bitacora);
+            await _context.SaveChangesAsync();
+        }
 
         private bool UsuarioExists(int id)
         {
