@@ -6,6 +6,7 @@ using AutoMapper;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using SendingEmails; 
 
 namespace api_control_neumaticos.Controllers
 {
@@ -15,11 +16,13 @@ namespace api_control_neumaticos.Controllers
     {
         private readonly ControlNeumaticosContext _context;
         private readonly IMapper _mapper;
+        private readonly IEmailSender _emailSender;
 
-        public AlertaController(ControlNeumaticosContext context, IMapper mapper)
+        public AlertaController(ControlNeumaticosContext context, IMapper mapper, IEmailSender emailSender)
         {
             _context = context;
             _mapper = mapper;
+            _emailSender = emailSender;
         }
 
         [HttpGet]
@@ -48,8 +51,13 @@ namespace api_control_neumaticos.Controllers
             await _context.SaveChangesAsync();
 
             var alertaDto = _mapper.Map<AlertaDto>(alerta);
+            
+            await EnviarCorreoNotificacion("Se ha creado una nueva alerta.", $"Detalles de la alerta: {createAlertaRequestDto.CODIGO_ALERTA}");
+
             return CreatedAtAction(nameof(GetAlerta), new { id = alertaDto.Id }, alertaDto);
         }
+
+
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAlerta(int id, UpdateAlertaRequestDto updateAlertaRequestDto)
@@ -157,6 +165,12 @@ namespace api_control_neumaticos.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        /***********************Correo por defecto al crear una alerta**************************/
+        private async Task EnviarCorreoNotificacion(string subject, string message)
+        {
+            await _emailSender.SendEmailAsync("yasna.pizarro@pentacrom.cl", subject, message);
         }
         
     }
