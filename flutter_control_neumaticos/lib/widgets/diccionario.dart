@@ -11,8 +11,11 @@ class Diccionario {
   };
 
   static const Map<int, String> tipoNeumatico = {
-    1: "Neumático de Tracción",
-    2: "Neumático de Dirección",
+    0: "NO SELECCIONADO",
+    1: "TRACCIONAL",
+    2: "DIRECCIONAL",
+    3: "REPUESTO",
+    4: "GUARDADO",
   };
 
   static const Map<int, String> tipoMovil = {
@@ -44,6 +47,7 @@ class Diccionario {
   };
 
   static const Map<int, String> ubicacionNeumaticos = {
+    0: "NO SELECCIONADO",
     1: "BODEGA",
     2: "DIRECCIONAL IZQUIERDA",
     3: "DIRECCIONAL DERECHO",

@@ -49,11 +49,11 @@ namespace api_control_neumaticos.Controllers
             await _context.SaveChangesAsync();
 
             // Verificar si ya existen dos bitácoras con el código 5 para el mismo neumático
-            var historialNeumaticoConCodigo5 = await _context.HistorialesNeumaticos
-                .Where(b => b.CODIGO == 5 && b.IDNeumatico == createHistorialNeumaticoDto.IDNeumatico)
+            var historialNeumaticoConCodigo11 = await _context.HistorialesNeumaticos
+                .Where(b => b.CODIGO == 11 && b.IDNeumatico == createHistorialNeumaticoDto.IDNeumatico)
                 .ToListAsync();
 
-            if (historialNeumaticoConCodigo5.Count == 2)
+            if (historialNeumaticoConCodigo11.Count == 2)
             {
                 // Crear la alerta
                 var alertaDto = new CreateAlertaRequestDto

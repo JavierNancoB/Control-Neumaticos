@@ -7,7 +7,6 @@ import 'movil/añadir_movil_screen.dart';
 import 'movil/deshabilitar_movil_screen.dart';
 import 'ingresar_patente.dart';
 
-
 class OptionActions extends StatelessWidget {
   final String option;
 
@@ -38,10 +37,9 @@ class OptionActions extends StatelessWidget {
 
   Widget _getUsuarioPage(String action) {
     switch (action) {
-      
       case 'Añadir':
         return AnadirUsuarioPage();
-      case 'Modificar':
+      case 'Modificar':  // Aquí sigue llamando a IngresarCorreoPage
         return IngresarCorreoPage();
       case 'Deshabilitar':
         return InhabilitarUsuarioPage();
@@ -54,7 +52,7 @@ class OptionActions extends StatelessWidget {
     switch (action) {
       case 'Añadir':
         return AnadirMovilPage();
-      case 'Modificar':
+      case 'Modificar':  // Aquí sigue llamando a IngresarPatentePage
         return IngresarPatentePage(tipo: 'movil', codigo: '');
       case 'Deshabilitar':
         return CambiarEstadoMovilPage();
@@ -62,6 +60,7 @@ class OptionActions extends StatelessWidget {
         throw Exception('Acción no válida para Móvil');
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -73,8 +72,8 @@ class OptionActions extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            _buildButton(context, 'Añadir'),
-            _buildButton(context, 'Modificar'),
+            if (option != 'Neumatico') _buildButton(context, 'Añadir'),
+            _buildButton(context, 'Gestionar'), // Cambio de "Modificar" a "Gestionar"
             _buildButton(context, 'Deshabilitar'),
           ],
         ),
@@ -87,7 +86,7 @@ class OptionActions extends StatelessWidget {
       width: 250,
       margin: const EdgeInsets.only(bottom: 20),
       child: ElevatedButton(
-        onPressed: () => _navigateToAction(context, action),
+        onPressed: () => _navigateToAction(context, action == 'Gestionar' ? 'Modificar' : action),
         child: Text('$action $option'),
       ),
     );

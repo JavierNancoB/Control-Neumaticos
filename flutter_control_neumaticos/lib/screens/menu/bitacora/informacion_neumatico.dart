@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import '../../../services/informacion_neumatico_service.dart';
 import '../../../widgets/action_button.dart';
 import '../../../widgets/info_row.dart';
-import 'añadir_bitacora.dart';
+import 'anadir_bitacora.dart';
 import 'ver_bitacora_screen.dart';
+import '../../../widgets/diccionario.dart';
 
 class InformacionNeumatico extends StatefulWidget {
   final String nfcData;
@@ -21,40 +22,16 @@ class _InformacionNeumaticoState extends State<InformacionNeumatico> {
   bool _isLoading = true;
   String? _errorMessage;
 
-  // Diccionarios para traducción de valores
-  final Map<int, String> _estadoDict = {1: "Habilitado", 2: "Inhabilitado"};
-  final Map<int, String> _tipoNeumaticoDict = {1: "Traccional", 2: "Direccional"};
-  final Map<int, String> _ubicacionDict = {
-    1: "Bodega",
-    2: "Direccional Izquierda",
-    3: "Direccional Derecho",
-    4: "Primer Traccional Izquierdo Interno",
-    5: "Primer Traccional Izquierdo Externo",
-    6: "Primer Traccional Derecho Interno",
-    7: "Primer Traccional Derecho Externo",
-    8: "Segundo Traccional Izquierdo Interno",
-    9: "Segundo Traccional Izquierdo Externo",
-    10: "Segundo Traccional Derecho Interno",
-    11: "Segundo Traccional Derecho Externo",
-    12: "Tercer Traccional Izquierdo Interno",
-    13: "Tercer Traccional Izquierdo Externo",
-    14: "Tercer Traccional Derecho Interno",
-    15: "Tercer Traccional Derecho Externo",
-    16: "Repuesto"
-  };
 
   @override
   void initState() {
     super.initState();
-    print("Código recibido en InformacionNeumatico: ${widget.nfcData}");
     _fetchNeumaticoData();
   }
 
     Future<void> _fetchNeumaticoData() async {
     try {
-      print("Buscando datos para el neumático con código: ${widget.nfcData}");
       final data = await fetchNeumaticoData(widget.nfcData);
-      print("Datos recibidos: $data");
 
       final idMovil = data["iD_MOVIL"].toString();
       final idBodega = data["iD_BODEGA"].toString();
@@ -64,7 +41,6 @@ class _InformacionNeumaticoState extends State<InformacionNeumatico> {
           movilPatente = await fetchMovilPatente(idMovil);  // Solo intenta obtener la patente si idMovil no es vacío
         } catch (e) {
           // Si ocurre un error al obtener la patente, lo logueamos y asignamos "N/A"
-          print("Error al obtener la patente del móvil: $e");
           movilPatente = "N/A";
         }
       } else {
@@ -83,7 +59,6 @@ class _InformacionNeumaticoState extends State<InformacionNeumatico> {
         _errorMessage = 'Ocurrió un error: $e';
         _isLoading = false;
       });
-      print("Error al obtener datos del neumático: $e");
     }
   }
 
@@ -127,7 +102,6 @@ class _InformacionNeumaticoState extends State<InformacionNeumatico> {
             InfoRow(label: "Código", value: _neumaticoInfo!["codigo"].toString()),
             InfoRow(label: "Ubicación", value: _getUbicacion(_neumaticoInfo!["ubicacion"])),
             InfoRow(label: "Patente Móvil", value: movilPatente ?? "N/A"),
-            InfoRow(label: "Bodega", value: _bodegaName ?? "Cargando..."),
             InfoRow(label: "Fecha Ingreso", value: _formatFecha(_neumaticoInfo!["fechA_INGRESO"].toString())),
             InfoRow(label: "Fecha Salida", value: _neumaticoInfo!["fechA_SALIDA"] != null ? _formatFecha(_neumaticoInfo!["fechA_SALIDA"].toString()) : "N/A"),
             InfoRow(label: "Estado", value: _getEstado(_neumaticoInfo!["estado"])),
@@ -151,7 +125,7 @@ class _InformacionNeumaticoState extends State<InformacionNeumatico> {
                   },
                 ),
                 ActionButton(
-                  label: 'Ver Bitácora',
+                  label: 'Ver Historial',
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -177,14 +151,17 @@ class _InformacionNeumaticoState extends State<InformacionNeumatico> {
   }
 
   String _getEstado(int estado) {
-    return _estadoDict[estado] ?? "Desconocido";
+    return Diccionario.estadoNeumaticos[estado] ?? "Desconocido";
   }
 
   String _getTipoNeumatico(int tipo) {
-    return _tipoNeumaticoDict[tipo] ?? "Desconocido";
+    return Diccionario.tipoNeumatico[tipo] ?? "Desconocido";
   }
 
   String _getUbicacion(int ubicacion) {
-    return _ubicacionDict[ubicacion] ?? "Desconocida";
+  if (ubicacion == 1 && _bodegaName != null) {
+    return "${Diccionario.ubicacionNeumaticos[ubicacion]} - $_bodegaName";
   }
+  return Diccionario.ubicacionNeumaticos[ubicacion] ?? "Desconocida";
+}
 }

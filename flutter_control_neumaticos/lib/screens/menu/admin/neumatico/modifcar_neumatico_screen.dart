@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../models/neumatico_modifcar.dart';
 import '../../../../services/admin/neumaticos/modificar_neumatico.dart';
 import '../../../../widgets/admin/neumatico/ubicacion_dropdown.dart';
-import 'package:flutter/services.dart';
+import '../../../../widgets/diccionario.dart';
 
 class ModificarNeumaticoPage extends StatefulWidget {
   final String patente;
@@ -16,27 +16,30 @@ class ModificarNeumaticoPage extends StatefulWidget {
 
 class _ModificarNeumaticoPageState extends State<ModificarNeumaticoPage> {
   Neumatico? _neumatico;
-
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _patenteController = TextEditingController();
-  final TextEditingController _kmController = TextEditingController();  // Controlador para kmTotal
+  final TextEditingController _kmController = TextEditingController();
+  final TextEditingController _tipoNeumaticoController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _loadNeumaticoData();
     _patenteController.text = widget.patente.isEmpty ? 'Sin Patente' : widget.patente.toUpperCase();
+    
     _neumatico = Neumatico(
       codigo: widget.nfcData,
-      ubicacion: 2, // Ubicación por defecto
+      ubicacion: 0, // Ubicación no seleccionada por defecto
       idBodega: 1,
       idMovil: null,
       fechaIngreso: DateTime.now(),
       fechaSalida: null,
-      kmTotal: 0, // Valor por defecto
-      tipoNeumatico: 1, // Valor por defecto (Direccional)
-      estado: 1, // Valor por defecto (Habilitado)
+      kmTotal: 0,
+      tipoNeumatico: 0, // Tipo no seleccionado por defecto
+      estado: 1,
     );
+    
+    _tipoNeumaticoController.text = Diccionario.obtenerDescripcion(Diccionario.tipoNeumatico, _neumatico!.tipoNeumatico);
+    _loadNeumaticoData();
   }
 
   void _loadNeumaticoData() async {
@@ -44,25 +47,82 @@ class _ModificarNeumaticoPageState extends State<ModificarNeumaticoPage> {
       Neumatico? neumatico = await NeumaticoService.fetchNeumaticoByCodigo(widget.nfcData);
       setState(() {
         _neumatico = neumatico;
-        _kmController.text = _neumatico!.kmTotal.toString();  // Actualiza el controlador con el valor de kmTotal
+        _kmController.text = _neumatico!.kmTotal.toString();
+        _updateTipoNeumatico();
       });
     } catch (e) {
       print('Error al cargar los datos: $e');
     }
   }
 
+  void _updateTipoNeumatico() {
+    if (_neumatico != null) {
+      switch (_neumatico!.ubicacion) {
+        case 1:
+          _neumatico!.tipoNeumatico = 4;
+          break;
+        case 2:
+        case 3:
+          _neumatico!.tipoNeumatico = 2;
+          break;
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+        case 9:
+        case 10:
+        case 11:
+        case 12:
+        case 13:
+        case 14:
+        case 15:
+          _neumatico!.tipoNeumatico = 1;
+          break;
+        case 16:
+          _neumatico!.tipoNeumatico = 3;
+          break;
+        default:
+          _neumatico!.tipoNeumatico = 1;
+          break;
+      }
+      setState(() {
+        _tipoNeumaticoController.text = Diccionario.obtenerDescripcion(Diccionario.tipoNeumatico, _neumatico!.tipoNeumatico);
+      });
+    }
+  }
+
+  Future<void> _selectFechaIngreso(BuildContext context) async {
+    final DateTime? selectedDate = await showDatePicker(
+      context: context,
+      initialDate: _neumatico!.fechaIngreso,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+
+    if (selectedDate != null) {
+      setState(() {
+        _neumatico!.fechaIngreso = selectedDate; // Actualiza la fecha
+      });
+    }
+  }
+
   void _submitForm() async {
     if (_formKey.currentState!.validate()) {
+      if (_neumatico!.ubicacion == 0) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Debe seleccionar una ubicación válida.')),
+        );
+        return;
+      }
+
       try {
-        // Modificar el neumático usando el servicio
         await NeumaticoService().modificarNeumatico(_neumatico!, widget.patente);
-        print('Datos modificados correctamente');
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Neumático modificado con éxito')),
         );
-        Navigator.pop(context); // Vuelve a la página anterior
+        Navigator.pop(context);
       } catch (e) {
-        print('Error al modificar los datos: $e');
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error al modificar los datos: $e')),
         );
@@ -88,129 +148,78 @@ class _ModificarNeumaticoPageState extends State<ModificarNeumaticoPage> {
                     // Código Neumático
                     TextFormField(
                       initialValue: _neumatico!.codigo.toString(),
-                      readOnly: true, // No editable
-                      decoration: const InputDecoration(
-                        labelText: 'Código Neumático',
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey), // Borde gris cuando no está enfocado
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey), // Borde gris cuando está enfocado
-                        ),
-                      ),
-                      style: TextStyle(color: Colors.grey), // Color gris para el texto
+                      readOnly: true,
+                      decoration: const InputDecoration(labelText: 'Código Neumático'),
+                      style: TextStyle(color: Colors.grey),
                     ),
-                    // Patente
                     const SizedBox(height: 16),
+                    // Patente
                     TextFormField(
                       controller: _patenteController,
-                      readOnly: true, // Esto lo hace no editable
-                      decoration: InputDecoration(
-                        labelText: 'Patente',
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey), // Línea gris para indicar que no es editable
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey), // Línea gris cuando está enfocado
-                        ),
-                      ),
-                      style: TextStyle(color: Colors.grey), // Color gris para el texto
-                      inputFormatters: [
-                        FilteringTextInputFormatter.allow(RegExp('[A-Za-z0-9]')), // Asegura que solo se ingresen letras y números
-                        TextInputFormatter.withFunction(
-                          (oldValue, newValue) => newValue.copyWith(text: newValue.text.toUpperCase()),
-                        ), // Convierte el texto ingresado a mayúsculas
-                      ],
+                      readOnly: true,
+                      decoration: const InputDecoration(labelText: 'Patente'),
+                      style: TextStyle(color: Colors.grey),
                     ),
-                    // Ubicación
                     const SizedBox(height: 16),
+                    // Ubicación del Neumático
                     UbicacionDropdown(
                       ubicacion: _neumatico!.ubicacion,
                       onChanged: (newUbicacion) {
                         setState(() {
                           _neumatico!.ubicacion = newUbicacion;
+                          _updateTipoNeumatico();
                         });
                       },
-                      patente: widget.patente, // Aquí pasa la patente al widget
+                      patente: widget.patente,
                     ),
                     const SizedBox(height: 16),
-                    // Kilometraje Total
+                    // Tipo de Neumático
                     TextFormField(
-                      controller: _kmController,  // Usamos el controlador aquí
+                      controller: _tipoNeumaticoController,
+                      readOnly: true,
+                      decoration: const InputDecoration(labelText: 'Tipo de Neumático'),
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                    const SizedBox(height: 16),
+                    // Kilometraje
+                    TextFormField(
+                      controller: _kmController,
+                      decoration: const InputDecoration(labelText: 'Kilometraje Total'),
                       keyboardType: TextInputType.number,
-                      decoration: InputDecoration(labelText: 'Kilometraje Total'),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor, ingrese el kilometraje total';
+                        }
+                        return null;
+                      },
                       onChanged: (value) {
-                        print('Valor recibido en onChanged: $value');
-                        setState(() {
-                          try {
-                            int km = int.parse(value);
-                            if (km >= 0) {
-                              _neumatico!.kmTotal = km;
-                              print('kmTotal actualizado: ${_neumatico!.kmTotal}');
-                            } else {
-                              print('Kilometraje no puede ser negativo');
-                            }
-                          } catch (e) {
-                            print('Error al actualizar kmTotal: $e');
-                          }
-                        });
+                        _neumatico!.kmTotal = int.parse(value);
                       },
                     ),
-                    // Fecha de Ingreso
                     const SizedBox(height: 16),
-                    Text(
-                      'Fecha de Ingreso', // Título para la fecha de ingreso
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
+                    // Fecha de Ingreso
+                    Text('Fecha de Ingreso:', style: TextStyle(fontWeight: FontWeight.bold)),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          // ignore: unnecessary_null_comparison
-                          _neumatico!.fechaIngreso != null
-                              ? _neumatico!.fechaIngreso.toLocal().toString().split(' ')[0]
-                              : 'Selecciona una fecha', // Muestra la fecha o un texto indicativo
-                          style: TextStyle(fontSize: 16), // Estilo de la fecha
+                          _neumatico!.fechaIngreso.toLocal().toString().split(' ')[0],
+                          style: TextStyle(fontSize: 16),
                         ),
                         IconButton(
-                          icon: Icon(Icons.calendar_today), // Ícono del calendario
-                          onPressed: () async {
-                            DateTime? selectedDate = await showDatePicker(
-                              context: context,
-                              initialDate: _neumatico!.fechaIngreso,
-                              firstDate: DateTime(2000),
-                              lastDate: DateTime(2101),
-                            );
-                            if (selectedDate != null) {
-                              setState(() {
-                                _neumatico!.fechaIngreso = selectedDate; // Actualiza la fecha
-                              });
-                            }
-                          },
+                          icon: Icon(Icons.calendar_today),
+                          onPressed: () => _selectFechaIngreso(context),
                         ),
                       ],
                     ),
-                    // Tipo de Neumático
                     const SizedBox(height: 16),
-                    DropdownButtonFormField<int>(
-                      value: _neumatico!.tipoNeumatico,
-                      onChanged: (newValue) {
-                        setState(() {
-                          _neumatico!.tipoNeumatico = newValue!;
-                        });
-                      },
-                      decoration: InputDecoration(labelText: 'Tipo de Neumático'),
-                      items: [
-                        DropdownMenuItem(value: 1, child: Text('DIRECCIONAL')),
-                        DropdownMenuItem(value: 2, child: Text('TRACCIONAL')),
-                      ],
-                    ),
                     // Botón de Guardar Cambios
-                    const SizedBox(height: 16),
                     Align(
                       alignment: Alignment.center,
                       child: ElevatedButton(
-                        onPressed: _submitForm,
+                        onPressed: (_neumatico!.ubicacion != 0 && _neumatico!.tipoNeumatico != 0) 
+                            ? _submitForm 
+                            : null,
                         child: const Text('Guardar Cambios'),
                       ),
                     ),

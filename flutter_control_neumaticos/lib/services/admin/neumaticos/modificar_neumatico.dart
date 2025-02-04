@@ -122,6 +122,10 @@ Future<void> modificarNeumatico(Neumatico neumatico, String patente) async {
   // Imprimir la patente recortada y la ubicación final
   print("Patente recortada: '$patenteTrimmed'");
   print("Ubicación final: $ubicacionFinal");
+  print("Fecha de ingreso: ${neumatico.fechaIngreso.toIso8601String()}");
+  print("Kilometraje total: ${neumatico.kmTotal}");
+  print("Tipo de neumático: ${neumatico.tipoNeumatico}");
+  
 
   // Construir la URL de la API con los parámetros
   final url =
