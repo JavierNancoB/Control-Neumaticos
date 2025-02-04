@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../../screens/menu/bitacora/informacion_neumatico.dart';
 import '../diccionario.dart';
 
-
 class NeumaticoList extends StatelessWidget {
   final List<dynamic>? neumaticosData;
 
@@ -29,9 +28,7 @@ class NeumaticoList extends StatelessWidget {
               // Agregamos un print para ver qué datos estamos obteniendo
               print("Neumático $index: ID = ${neumatico['iD_NEUMATICO']}, Código = $codigo, Ubicación = $ubicacionDescripcion");
 
-              return ListTile(
-                title: Text('Codigo: $codigo'),
-                subtitle: Text('Ubicación: $ubicacionDescripcion'),
+              return InkWell(
                 onTap: () {
                   // Imprimir antes de navegar para ver el código que estamos pasando
                   print("Navegando a InformacionNeumatico con código: $codigo");
@@ -45,10 +42,18 @@ class NeumaticoList extends StatelessWidget {
                     ),
                   );
                 },
+                child: Card(
+                  elevation: 4,
+                  margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                  child: ListTile(
+                    leading: Icon(Icons.info_outline), // Ícono visual
+                    title: Text('Codigo: $codigo'),
+                    subtitle: Text('Ubicación: $ubicacionDescripcion'),
+                  ),
+                ),
               );
             },
           )
         : const Text('No se encontraron neumáticos.');
   }
 }
-

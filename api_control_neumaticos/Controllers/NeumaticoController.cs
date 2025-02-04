@@ -80,7 +80,22 @@ namespace api_control_neumaticos.Controllers
             }
             else
             {
+                // en caso de que no haya movil se asigna a la bodega
+
                 createNeumaticoDto.UBICACION = 1;
+                createNeumaticoDto.TIPO_NEUMATICO = 4;
+            }
+
+            //tipo de neumatico solo puede ser 1,2,3,4.
+            if (createNeumaticoDto.TIPO_NEUMATICO < 1 || createNeumaticoDto.TIPO_NEUMATICO > 4)
+            {
+                return BadRequest("El tipo de neumático no es válido.");
+            }
+
+            // en caso de que haya movil y se envie la ubicacion 1 se cambia a 2
+            if (createNeumaticoDto.UBICACION == 1 && createNeumaticoDto.ID_MOVIL != null)
+            {
+                createNeumaticoDto.UBICACION = 2; // Cambiar ubicación si es necesario
             }
 
             // Mapear y crear el neumático
@@ -95,7 +110,7 @@ namespace api_control_neumaticos.Controllers
                 IDUsuario = idUsuario,
                 CODIGO = 1,
                 FECHA = DateTime.Now,
-                ESTADO = neumatico.ESTADO,
+                ESTADO = 1,
                 OBSERVACION = $"Creación del neumático en el sistema con código: {neumatico.CODIGO}",
             };
 
@@ -229,7 +244,8 @@ namespace api_control_neumaticos.Controllers
         public async Task<IActionResult> ModificarEstadoPorCodigo(
             [FromQuery] int idUsuario, 
             [FromQuery] int codigo, 
-            [FromQuery] int estado)
+            [FromQuery] int estado,
+            [FromQuery] int confirmacionMovil) // Parámetro para confirmar si se debe dejar como null la ID_MOVIL
         {
             var neumatico = await _context.Neumaticos.FirstOrDefaultAsync(n => n.CODIGO == codigo);
 
@@ -243,7 +259,13 @@ namespace api_control_neumaticos.Controllers
             if (estado == 2)
             {
                 neumatico.FECHA_SALIDA = DateTime.Now;
-                neumatico.ID_MOVIL = null;
+
+                // Verifica la confirmación antes de dejar como null la ID_MOVIL
+                if (confirmacionMovil == 1) // 1 para confirmar que la ID_MOVIL se debe dejar como null
+                {
+                    neumatico.ID_MOVIL = null;
+                }
+                
                 neumatico.UBICACION = 1;
             }
             else if (estado == 1)
@@ -264,11 +286,10 @@ namespace api_control_neumaticos.Controllers
                         IDUsuario = idUsuario,
                         CODIGO = 2, // Código 2 para indicar deshabilitación
                         FECHA = DateTime.Now,
-                        ESTADO = neumatico.ESTADO,
+                        ESTADO = 1,
                         OBSERVACION = $"Neumático con código {neumatico.CODIGO} deshabilitado por el usuario {idUsuario}",
                     };
 
-                    
                     var historial = _mapper.Map<HistorialNeumatico>(historialDto);
                     _context.Set<HistorialNeumatico>().Add(historial);
 
@@ -297,7 +318,6 @@ namespace api_control_neumaticos.Controllers
 
             return NoContent();
         }
-
 
         [HttpPut("ModificarNeumaticoPorCodigo")]
         public async Task<IActionResult> ModificarNeumaticoPorCodigo(
@@ -403,28 +423,25 @@ namespace api_control_neumaticos.Controllers
             {
                 if (tipoNeumatico == 2 && neumatico.TIPO_NEUMATICO != 2)
                 {
-                    neumatico.TIPO_NEUMATICO = tipoNeumatico;
                     await RegistrarHistorial(neumatico, idUsuario, 5, "Transición a Direccional");
                     await RegistrarBitacora(idUsuario, 5, neumatico.ID_NEUMATICO, "Neumatico", "Transición a Direccional");
                 }
                 else if (tipoNeumatico != 2 && neumatico.TIPO_NEUMATICO == 2)
                 {
-                    neumatico.TIPO_NEUMATICO = tipoNeumatico;
                     await RegistrarHistorial(neumatico, idUsuario, 6, "Transición a Traccional");
                     await RegistrarBitacora(idUsuario, 6, neumatico.ID_NEUMATICO, "Neumatico", "Transición a Traccional");
                 }
                 else if(tipoNeumatico == 3)
                 {
-                    neumatico.TIPO_NEUMATICO = tipoNeumatico;
                     await RegistrarHistorial(neumatico, idUsuario, 9, "Transición a Repuesto");
                     await RegistrarBitacora(idUsuario, 9, neumatico.ID_NEUMATICO, "Neumatico", "Transición a Repuesto");
                 }
                 else if(tipoNeumatico == 4)
                 {
-                    neumatico.TIPO_NEUMATICO = tipoNeumatico;
                     await RegistrarHistorial(neumatico, idUsuario, 10, "Transición a bodega");
                     await RegistrarBitacora(idUsuario, 10, neumatico.ID_NEUMATICO, "Neumatico", "Se guarda neumático en bodega");
                 }
+                neumatico.TIPO_NEUMATICO = tipoNeumatico;
             }
 
             if(tipoNeumatico != 4 && neumatico.UBICACION == 1)

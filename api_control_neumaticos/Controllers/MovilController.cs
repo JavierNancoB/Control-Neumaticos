@@ -184,26 +184,45 @@ namespace api_control_neumaticos.Controllers
         //PUT: api/Movil/CambiaEstadoMovilPorPatente
 
         [HttpPut("CambiaEstadoMovilPorPatente")]
-        public async Task<IActionResult> CambiaEstadoMovilPorPatente(string patente, int estado, [FromQuery] int idUsuario)
+        public async Task<IActionResult> CambiaEstadoMovilPorPatente(
+            string patente, 
+            int estado, 
+            [FromQuery] int idUsuario, 
+            [FromQuery] bool eliminarNeumaticos)
         {
             var movil = await _context.Movils.FirstOrDefaultAsync(m => m.Patente == patente);
 
             if (movil == null)
             {
-                return NotFound();
+                return NotFound("Móvil no encontrado.");
             }
 
             movil.Estado = estado;
 
+            // Si se desea eliminar los neumáticos, los eliminamos
+            if (eliminarNeumaticos)
+            {
+                var neumaticos = await _context.Neumaticos.Where(n => n.ID_MOVIL == movil.IdMovil).ToListAsync();
+                _context.Neumaticos.RemoveRange(neumaticos);
+            }
+
             _context.Entry(movil).State = EntityState.Modified;
 
-            // Registramos Bitacora
-            await RegistrarBitacora(idUsuario, 26, movil.IdMovil, "Movil", $"Deshabilitación de movil con patente {patente}");
+            // Registrar bitácora para el cambio de estado del móvil
+            await RegistrarBitacora(idUsuario, 26, movil.IdMovil, "Movil", $"Deshabilitación de móvil con patente {patente}");
 
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return Conflict("Hubo un problema al actualizar el móvil.");
+            }
 
             return NoContent();
         }
+
 
 
         // PUT: api para modificar movil por patente, solo se modificara patente, marca, modelo, ejes, neumaticos, tipo movil

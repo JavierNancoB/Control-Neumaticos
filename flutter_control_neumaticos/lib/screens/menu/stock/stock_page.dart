@@ -23,14 +23,14 @@ class _StockPageState extends State<StockPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Stock de Neumáticos'),
+        title: Text('Stock en Bodega'),
       ),
       body: Column(
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              'Solo se muestran los neumáticos HABILITADOS',
+              'Neumáticos HABILITADOS en BOGEGA',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ),
@@ -55,9 +55,7 @@ class _StockPageState extends State<StockPage> {
                         tipoNeumaticoId,
                       );
 
-                      return ListTile(
-                        title: Text('Código: ${neumatico['codigo']}'),
-                        subtitle: Text('Tipo: $tipoNeumaticoDesc'),
+                      return InkWell(
                         onTap: () {
                           Navigator.push(
                             context,
@@ -68,6 +66,15 @@ class _StockPageState extends State<StockPage> {
                             ),
                           );
                         },
+                        child: Card(
+                          elevation: 4,
+                          margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                          child: ListTile(
+                            leading: Icon(Icons.info_outline), // Ícono visual
+                            title: Text('Código: ${neumatico['codigo']}'),
+                            subtitle: Text('Tipo: $tipoNeumaticoDesc'),
+                          ),
+                        ),
                       );
                     },
                   );

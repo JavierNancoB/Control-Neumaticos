@@ -5,8 +5,8 @@ class DeshabilitarNeumaticoService {
   static const String _baseUrl = 'http://localhost:5062/api';
 
   // Método para modificar el estado de un neumático por su código NFC
-  static Future<void> modificarEstadoNeumatico(String codigo, int estado) async {
-    print('Iniciando modificarEstadoNeumatico con codigo: $codigo y estado: $estado');
+  static Future<void> modificarEstadoNeumatico(String codigo, int estado, int confirmacionMovil) async {
+    print('Iniciando modificarEstadoNeumatico con codigo: $codigo, estado: $estado y confirmacionMovil: $confirmacionMovil');
     final token = await _getToken();
     final userId = await _getUserId();
     if (token == null) {
@@ -14,8 +14,8 @@ class DeshabilitarNeumaticoService {
       throw Exception('Token no encontrado.');
     }
 
-  
-    final url = '$_baseUrl/Neumaticos/ModificarEstadoPorCodigo?idUsuario=$userId&codigo=$codigo&estado=$estado';
+    // Añadir confirmacionMovil como parámetro adicional en la URL
+    final url = '$_baseUrl/Neumaticos/ModificarEstadoPorCodigo?idUsuario=$userId&codigo=$codigo&estado=$estado&confirmacionMovil=$confirmacionMovil';
     print('URL construida: $url');
     final response = await http.put(
       Uri.parse(url),
@@ -39,7 +39,7 @@ class DeshabilitarNeumaticoService {
     print('Token obtenido: $token');
     return token;
   }
-  
+
   static Future<int> _getUserId() async {
     print("Obteniendo userId...");
     final prefs = await SharedPreferences.getInstance();
@@ -47,5 +47,4 @@ class DeshabilitarNeumaticoService {
     print("UserId obtenido: $userId");
     return userId;
   }
-
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../models/movil_estado.dart';
 import '../../../../services/admin/movil/deshabilitar_movil_service.dart';
-import '../../../../widgets/estado_button.dart';
 
 class CambiarEstadoMovilPage extends StatefulWidget {
   const CambiarEstadoMovilPage({super.key});
@@ -16,11 +15,6 @@ class _CambiarEstadoMovilPageState extends State<CambiarEstadoMovilPage> {
   final MovilService movilService = MovilService();
   List<String> patentesSugeridas = [];
 
-  final List<EstadoMovil> estados = [
-    EstadoMovil(id: 1, descripcion: 'Habilitar'),
-    EstadoMovil(id: 2, descripcion: 'Deshabilitar'),
-  ];
-
   Future<void> cargarSugerencias(String query) async {
     if (query.isEmpty) {
       setState(() {
@@ -34,12 +28,61 @@ class _CambiarEstadoMovilPageState extends State<CambiarEstadoMovilPage> {
       setState(() {
         patentesSugeridas = sugerencias;
       });
+      print("Sugerencias de patentes: $patentesSugeridas");  // Debug print
     } catch (e) {
       print("Error al obtener sugerencias: $e");
     }
   }
 
-  Future<void> cambiarEstadoCamion(EstadoMovil estado) async {
+  // Función para mostrar el diálogo de confirmación con tres opciones
+  Future<void> _mostrarDialogoConfirmacion() async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Confirmar Acción'),
+          content: Text('¿Qué acción desea realizar con el camión con patente ${patenteController.text}?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();  // Cierra el diálogo sin hacer nada
+              },
+              child: Text('Cancelar'),
+            ),
+            TextButton(
+              onPressed: () async {
+                Navigator.of(context).pop();  // Cierra el diálogo
+                // Llama a la función para habilitar el camión
+                print("Habilitar con neumáticos");
+                await cambiarEstadoCamion(EstadoMovil(id: 1, descripcion: 'Habilitar'), true); // Habilitar con neumáticos
+              },
+              child: Text('Habilitar con neumáticos'),
+            ),
+            TextButton(
+              onPressed: () async {
+                Navigator.of(context).pop();  // Cierra el diálogo
+                // Llama a la función para deshabilitar el camión
+                print("Deshabilitar con neumáticos");
+                await cambiarEstadoCamion(EstadoMovil(id: 2, descripcion: 'Deshabilitar'), true); // Deshabilitar con neumáticos
+              },
+              child: Text('Deshabilitar con neumáticos'),
+            ),
+            TextButton(
+              onPressed: () async {
+                Navigator.of(context).pop();  // Cierra el diálogo
+                // Llama a la función para deshabilitar el camión sin neumáticos
+                print("Deshabilitar sin neumáticos");
+                await cambiarEstadoCamion(EstadoMovil(id: 3, descripcion: 'Deshabilitar sin neumáticos'), false); // Deshabilitar sin neumáticos
+              },
+              child: Text('Deshabilitar sin neumáticos'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> cambiarEstadoCamion(EstadoMovil estado, bool conNeumaticos) async {
     setState(() {
       isLoading = true;
     });
@@ -54,13 +97,20 @@ class _CambiarEstadoMovilPageState extends State<CambiarEstadoMovilPage> {
       return;
     }
 
+    print("Cambiando estado del camión...");
+    print("Patente: $patente");
+    print("Estado: ${estado.descripcion} (ID: ${estado.id})");
+    print("Con neumáticos: $conNeumaticos");
+
     try {
-      bool success = await movilService.cambiarEstadoMovil(patente, estado);
+      bool success = await movilService.cambiarEstadoMovil(patente, estado, conNeumaticos);
 
       if (success) {
+        print("Estado modificado con éxito");
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Estado modificado con éxito')));
       }
     } catch (e) {
+      print("Error al modificar el estado: $e");
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
     } finally {
       setState(() {
@@ -103,22 +153,11 @@ class _CambiarEstadoMovilPageState extends State<CambiarEstadoMovilPage> {
                     },
                   ),
                   SizedBox(height: 20),
-                  Text('¿Desea habilitar o inhabilitar el camión con patente ${patenteController.text}?'),
+                  Text('¿Qué acción desea realizar con el camión con patente ${patenteController.text}?'),
                   SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      EstadoButton(
-                        texto: estados[0].descripcion,
-                        estado: estados[0],
-                        onPressed: cambiarEstadoCamion,
-                      ),
-                      EstadoButton(
-                        texto: estados[1].descripcion,
-                        estado: estados[1],
-                        onPressed: cambiarEstadoCamion,
-                      ),
-                    ],
+                  ElevatedButton(
+                    onPressed: _mostrarDialogoConfirmacion,  // Llama a la ventana emergente con las tres opciones
+                    child: Text('Cambiar Estado'),
                   ),
                 ],
               ),
