@@ -43,39 +43,51 @@ class _IngresarPatentePageState extends State<IngresarPatentePage> {
 
   /// **Autocomplete para la Patente**
   Widget _buildAutocompleteField() {
-    return Autocomplete<String>(
-      optionsBuilder: (TextEditingValue textEditingValue) async {
-        if (textEditingValue.text.isEmpty) {
-          return const Iterable<String>.empty();
-        }
-        try {
-          return await IngresarPatenteService.fetchPatentesSugeridas(textEditingValue.text);
-        } catch (e) {
-          return const Iterable<String>.empty();
-        }
-      },
-      onSelected: (String selection) {
-        _patenteController.text = selection;
-      },
-      fieldViewBuilder: (context, controller, focusNode, onEditingComplete) {
-        return TextField(
-          controller: controller,
-          focusNode: focusNode,
-          decoration: InputDecoration(
-            labelText: 'Ingresa la patente del móvil',
-          ),
-          onEditingComplete: onEditingComplete,
-          onChanged: (value) {
-            // Si el campo de texto está vacío, limpiar el controlador
-            if (value.isEmpty) {
-              _patenteController.clear();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Autocomplete<String>(
+          optionsBuilder: (TextEditingValue textEditingValue) async {
+            if (textEditingValue.text.isEmpty) {
+              return const Iterable<String>.empty();
+            }
+            try {
+              return await IngresarPatenteService.fetchPatentesSugeridas(textEditingValue.text);
+            } catch (e) {
+              return const Iterable<String>.empty();
             }
           },
-        );
-      },
+          onSelected: (String selection) {
+            _patenteController.text = selection;
+          },
+          fieldViewBuilder: (context, controller, focusNode, onEditingComplete) {
+            return TextField(
+              controller: controller,
+              focusNode: focusNode,
+              decoration: const InputDecoration(
+                labelText: 'Ingresa la patente del móvil',
+              ),
+              onEditingComplete: onEditingComplete,
+              onChanged: (value) {
+                // Si el campo de texto está vacío, limpiar el controlador
+                if (value.isEmpty) {
+                  _patenteController.clear();
+                }
+              },
+            );
+          },
+        ),
+        if (widget.tipo != 'movil') 
+          const Padding(
+            padding: EdgeInsets.only(top: 8.0),
+            child: Text(
+              'Si no ingresa ninguna patente, el neumático no se asignará a ninguna.',
+              style: TextStyle(fontSize: 16, color: Colors.grey),
+            ),
+          ),
+      ],
     );
   }
-
 
   /// **Botón para Enviar la Patente**
   Widget _buildSubmitButton(BuildContext context) {

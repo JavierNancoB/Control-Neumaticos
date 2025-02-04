@@ -65,6 +65,15 @@ namespace api_control_neumaticos.Controllers
                 }
             }
 
+            // Asegurar que la patente esté en mayúsculas
+            // Verificar si la patente no es null y luego convertirla a mayúsculas
+            if (!string.IsNullOrEmpty(movilCreateDto.PATENTE))
+            {
+                movilCreateDto.PATENTE = movilCreateDto.PATENTE.ToUpper();
+            }
+
+
+
             // Mapear el DTO a la entidad del modelo
             var movil = _mapper.Map<Movil>(movilCreateDto); 
 

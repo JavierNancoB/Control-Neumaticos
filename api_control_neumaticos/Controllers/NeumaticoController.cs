@@ -117,7 +117,6 @@ namespace api_control_neumaticos.Controllers
             _context.Set<Bitacora>().Add(bitacora);
 
             await _context.SaveChangesAsync();
-
             // Mapear el modelo de neumático al DTO y retornar
             var neumaticoDto = _mapper.Map<NeumaticosDto>(neumatico);
             return CreatedAtAction(nameof(GetNeumatico), new { id = neumaticoDto.ID_NEUMATICO }, neumaticoDto);
@@ -414,6 +413,23 @@ namespace api_control_neumaticos.Controllers
                     await RegistrarHistorial(neumatico, idUsuario, 6, "Transición a Traccional");
                     await RegistrarBitacora(idUsuario, 6, neumatico.ID_NEUMATICO, "Neumatico", "Transición a Traccional");
                 }
+                else if(tipoNeumatico == 3)
+                {
+                    neumatico.TIPO_NEUMATICO = tipoNeumatico;
+                    await RegistrarHistorial(neumatico, idUsuario, 9, "Transición a Repuesto");
+                    await RegistrarBitacora(idUsuario, 9, neumatico.ID_NEUMATICO, "Neumatico", "Transición a Repuesto");
+                }
+                else if(tipoNeumatico == 4)
+                {
+                    neumatico.TIPO_NEUMATICO = tipoNeumatico;
+                    await RegistrarHistorial(neumatico, idUsuario, 10, "Transición a bodega");
+                    await RegistrarBitacora(idUsuario, 10, neumatico.ID_NEUMATICO, "Neumatico", "Se guarda neumático en bodega");
+                }
+            }
+
+            if(tipoNeumatico != 4 && neumatico.UBICACION == 1)
+            {
+                tipoNeumatico = 4;
             }
 
             // Si hubo cambios, los registramos en el historial

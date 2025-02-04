@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../../../models/neumatico_crear.dart';
 import '../../../../widgets/admin/neumatico/ubicacion_dropdown.dart';
-import '../../../../services/admin/neumaticos/anadir_neumatico_service.dart'; // Asegúrate de tener importado el servicio
+import '../../../../services/admin/neumaticos/anadir_neumatico_service.dart';
+import '../../../../widgets/diccionario.dart';
 
 class AnadirNeumaticoScreen extends StatefulWidget {
   final String patente;
@@ -16,6 +17,7 @@ class AnadirNeumaticoScreen extends StatefulWidget {
 class _AnadirNeumaticoScreenState extends State<AnadirNeumaticoScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late NeumaticoCrear _neumatico;
+  final TextEditingController _tipoNeumaticoController = TextEditingController();
 
   @override
   void initState() {
@@ -23,12 +25,34 @@ class _AnadirNeumaticoScreenState extends State<AnadirNeumaticoScreen> {
     _neumatico = NeumaticoCrear(
       codigo: widget.nfcData,
       patente: widget.patente.isEmpty ? 'SIN PATENTE' : widget.patente,
-      ubicacion: 2, // Ubicación por defecto
+      ubicacion: 0, // Ubicación por defecto
       fechaIngreso: DateTime.now(),
       kilometrajeTotal: 0,
-      tipo: 1, // Valor por defecto (Direccional)
+      tipo: 2, // Valor por defecto (Direccional)
       estado: 1, // Valor por defecto (Habilitado)
     );
+
+    // Inicializa el tipo de neumático en el controlador
+    _tipoNeumaticoController.text = Diccionario.tipoNeumatico[_neumatico.tipo] ?? 'Desconocido';
+  }
+
+  void _actualizarTipoSegunUbicacion(int nuevaUbicacion) {
+    setState(() {
+      _neumatico.ubicacion = nuevaUbicacion;
+      // Actualiza el tipo de neumático según la ubicación
+      if (nuevaUbicacion == 1) {
+        _neumatico.tipo = 4; // Tipo 4 (GUARDADO) para ubicación 1
+      } else if (nuevaUbicacion == 2 || nuevaUbicacion == 3) {
+        _neumatico.tipo = 2; // Tipo 1 (DIRECCIONAL) para ubicaciones 2 y 3
+      } else if (nuevaUbicacion >= 4 && nuevaUbicacion <= 15) {
+        _neumatico.tipo = 1; // Tipo 2 (TRACCIONAL) para ubicaciones 4 a 15
+      } else if (nuevaUbicacion == 16) {
+        _neumatico.tipo = 3; // Tipo 3 (REPUESTO) para ubicación 16
+      }
+
+      // Actualiza el texto en el controlador para reflejar el nuevo tipo
+      _tipoNeumaticoController.text = Diccionario.tipoNeumatico[_neumatico.tipo] ?? 'Desconocido';
+    });
   }
 
   void _submitForm() async {
@@ -39,18 +63,23 @@ class _AnadirNeumaticoScreenState extends State<AnadirNeumaticoScreen> {
         
         // Confirmación de éxito
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Neumático añadido correctamente')),
-        );
+          const SnackBar(content: Text('Neumático añadido correctamente')));
         
         // Volver a la pantalla anterior o hacer otra acción
         Navigator.pop(context);
       } catch (e) {
         // Manejo de errores
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error al añadir el neumático: $e')),
-        );
+          SnackBar(content: Text('Error al añadir el neumático: $e')));
       }
+      
     }
+  }
+
+  @override
+  void dispose() {
+    _tipoNeumaticoController.dispose();
+    super.dispose();
   }
 
   @override
@@ -68,47 +97,53 @@ class _AnadirNeumaticoScreenState extends State<AnadirNeumaticoScreen> {
             children: [
               // Código Neumático
               TextFormField(
-                initialValue: _neumatico.codigo.toUpperCase(), // Asegúrate de que el código esté en mayúsculas
-                readOnly: true, // No editable
+                initialValue: _neumatico.codigo.toUpperCase(),
+                readOnly: true,
                 decoration: const InputDecoration(
                   labelText: 'Código Neumático',
                   enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey), // Borde gris cuando no está enfocado
+                    borderSide: BorderSide(color: Colors.grey),
                   ),
                   focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey), // Borde gris cuando está enfocado
+                    borderSide: BorderSide(color: Colors.grey),
                   ),
                 ),
-                style: TextStyle(
-                  color: Colors.grey, // Color gris para el texto
-                ),
+                style: TextStyle(color: Colors.grey),
               ),
               // Patente
               SizedBox(height: 16),
               TextFormField(
-                initialValue: widget.patente.isEmpty ? 'SIN PATENTE' : widget.patente.toUpperCase(), // Si no hay patente, muestra 'SIN PATENTE'
-                readOnly: true, // No editable
+                initialValue: widget.patente.isEmpty ? 'SIN PATENTE' : widget.patente.toUpperCase(),
+                readOnly: true,
                 decoration: InputDecoration(
                   labelText: 'Patente',
                   enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey), // Línea gris cuando no está enfocado
+                    borderSide: BorderSide(color: Colors.grey),
                   ),
                   focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey), // Línea gris cuando está enfocado
+                    borderSide: BorderSide(color: Colors.grey),
                   ),
                 ),
-                style: TextStyle(color: Colors.grey), // Color gris para el texto
+                style: TextStyle(color: Colors.grey),
               ),
               // Ubicación
               const SizedBox(height: 16),
               UbicacionDropdown(
                 ubicacion: _neumatico.ubicacion,
                 onChanged: (newUbicacion) {
-                  setState(() {
-                    _neumatico.ubicacion = newUbicacion;
-                  });
+                  _actualizarTipoSegunUbicacion(newUbicacion); // Actualiza el tipo según la ubicación
                 },
-                patente: widget.patente, // Aquí pasa la patente al widget
+                patente: widget.patente,
+              ),
+              // Tipo de Neumático (como TextFormField)
+              const SizedBox(height: 16),
+              TextFormField(
+                controller: _tipoNeumaticoController,
+                readOnly: true,
+                decoration: const InputDecoration(
+                  labelText: 'Tipo de Neumático',
+                ),
+                style: TextStyle(color: Colors.grey),
               ),
               // Fecha de Ingreso
               const SizedBox(height: 16),
@@ -120,10 +155,7 @@ class _AnadirNeumaticoScreenState extends State<AnadirNeumaticoScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    // ignore: unnecessary_null_comparison
-                    _neumatico.fechaIngreso != null 
-                        ? _neumatico.fechaIngreso.toLocal().toString().split(' ')[0] 
-                        : 'Selecciona una fecha',
+                    _neumatico.fechaIngreso.toLocal().toString().split(' ')[0],
                     style: TextStyle(fontSize: 16),
                   ),
                   IconButton(
@@ -156,21 +188,6 @@ class _AnadirNeumaticoScreenState extends State<AnadirNeumaticoScreen> {
                   });
                 },
               ),
-              // Tipo de Neumático
-              const SizedBox(height: 16),
-              DropdownButtonFormField<int>(
-                value: _neumatico.tipo,
-                onChanged: (newValue) {
-                  setState(() {
-                    _neumatico.tipo = newValue!;
-                  });
-                },
-                decoration: InputDecoration(labelText: 'Tipo de Neumático'),
-                items: [
-                  DropdownMenuItem(value: 1, child: Text('DIRECCIONAL')),
-                  DropdownMenuItem(value: 2, child: Text('TRACCIONAL')),
-                ],
-              ),
               // Estado
               const SizedBox(height: 16),
               DropdownButtonFormField<int>(
@@ -181,17 +198,21 @@ class _AnadirNeumaticoScreenState extends State<AnadirNeumaticoScreen> {
                   });
                 },
                 decoration: InputDecoration(labelText: 'Estado'),
-                items: [
-                  DropdownMenuItem(value: 1, child: Text('HABILITADO')),
-                  DropdownMenuItem(value: 0, child: Text('DESHABILITADO')),
-                ],
+                items: Diccionario.estadoNeumaticos.entries.map((entry) {
+                  return DropdownMenuItem<int>(
+                    value: entry.key,
+                    child: Text(entry.value),
+                  );
+                }).toList(),
               ),
               // Botón de Guardar Cambios
               const SizedBox(height: 16),
               Align(
                 alignment: Alignment.center,
                 child: ElevatedButton(
-                  onPressed: _submitForm,
+                  onPressed: _neumatico.ubicacion == 0 || _neumatico.tipo == 0
+                      ? null // Deshabilita el botón si ubicación o tipo no están seleccionados
+                      : _submitForm,
                   child: const Text('Guardar Cambios'),
                 ),
               ),

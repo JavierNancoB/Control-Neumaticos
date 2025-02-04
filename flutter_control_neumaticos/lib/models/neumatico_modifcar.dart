@@ -25,7 +25,7 @@ class Neumatico {
     print("kmTotal recibido: ${json['kM_TOTAL']}"); // Depuración
     return Neumatico(
       codigo: json['codigo'].toString(),
-      ubicacion: json['ubicacion'],
+      ubicacion: 0, // Valor por defecto o puedes asignar otro valor adecuado
       idMovil: json['iD_MOVIL'],
       idBodega: json['iD_BODEGA'],
       fechaIngreso: DateTime.parse(json['fechA_INGRESO']),
