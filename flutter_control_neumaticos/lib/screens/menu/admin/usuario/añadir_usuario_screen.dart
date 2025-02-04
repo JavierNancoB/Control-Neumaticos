@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../models/usuario.dart';
 import '../../../../services/admin/usuarios/anadir_usuario_service.dart';
+import 'package:email_validator/email_validator.dart';
 
 class AnadirUsuarioPage extends StatefulWidget {
   const AnadirUsuarioPage({super.key});
@@ -14,6 +15,7 @@ class _AnadirUsuarioPageState extends State<AnadirUsuarioPage> {
   final TextEditingController _apellidosController = TextEditingController();
   final TextEditingController _correoController = TextEditingController();
   final TextEditingController _claveController = TextEditingController();
+  final TextEditingController _repetirClaveController = TextEditingController();
 
   String _perfilSeleccionado = 'ADMINISTRADOR';
   String _estadoSeleccionado = 'HABILITADO';
@@ -27,12 +29,35 @@ class _AnadirUsuarioPageState extends State<AnadirUsuarioPage> {
     final String apellidos = _apellidosController.text;
     final String correo = _correoController.text;
     final String clave = _claveController.text;
+    final String repetirClave = _repetirClaveController.text;
     final int codigoPerfil = _perfiles.indexOf(_perfilSeleccionado) + 1;
     final int codigoEstado = _estadoSeleccionado == 'HABILITADO' ? 1 : 2;
 
-    if (nombres.isEmpty || apellidos.isEmpty || correo.isEmpty || clave.isEmpty) {
+    // Validaciones
+    if (nombres.isEmpty || apellidos.isEmpty || correo.isEmpty || clave.isEmpty || repetirClave.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Por favor, completa todos los campos')),
+      );
+      return;
+    }
+
+    if (!EmailValidator.validate(correo)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Por favor, ingresa un correo válido')),
+      );
+      return;
+    }
+
+    if (clave.length < 6) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('La contraseña debe tener al menos 6 caracteres')),
+      );
+      return;
+    }
+
+    if (clave != repetirClave) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Las contraseñas no coinciden')),
       );
       return;
     }
@@ -126,6 +151,12 @@ class _AnadirUsuarioPageState extends State<AnadirUsuarioPage> {
               TextField(
                 controller: _claveController,
                 decoration: const InputDecoration(labelText: 'Clave'),
+                obscureText: true,
+              ),
+              const SizedBox(height: 10),
+              TextField(
+                controller: _repetirClaveController,
+                decoration: const InputDecoration(labelText: 'Repetir Clave'),
                 obscureText: true,
               ),
               const SizedBox(height: 20),

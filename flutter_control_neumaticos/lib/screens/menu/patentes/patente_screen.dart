@@ -111,7 +111,7 @@ class _PatentePageState extends State<PatentePage> {
                     controller: controller,
                     focusNode: focusNode,
                     decoration: InputDecoration(
-                      labelText: 'Ingrese Patente',
+                      labelText: 'Ingrese Patente del Movil',
                       suffixIcon: _isLoading
                           ? const CircularProgressIndicator()
                           : null, // Mostrar un cargando mientras buscamos

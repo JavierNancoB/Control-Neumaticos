@@ -14,15 +14,67 @@ class InhabilitarNeumaticoPage extends StatefulWidget {
 class _InhabilitarNeumaticoPageState extends State<InhabilitarNeumaticoPage> {
   bool isLoading = false;
 
-  Future<void> _modificarEstado(int estado) async {
+  // Método para mostrar el cuadro de diálogo de confirmación con 3 opciones
+  Future<void> _mostrarDialogoConfirmacion(int estado) async {
+    if (estado == 1) {
+      // Si el estado es "habilitar", no hay opción de desasignar el móvil
+      await _modificarEstado(estado, 0); // Solo habilitar sin opciones de móvil
+    } else {
+      // Si el estado es "inhabilitar", mostrar opciones
+      String? seleccion = await showDialog<String>(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Confirmar Inhabilitación'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  '¿Está seguro de que desea inhabilitar el neumático?',
+                  style: TextStyle(fontSize: 16),
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  'Seleccione la opción deseada:',
+                  style: TextStyle(fontSize: 16),
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, 'sinMovil'),
+                child: Text('Deshabilitar sin móvil'),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context, 'mantenerMovil'),
+                child: Text('Deshabilitar manteniendo móvil'),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context, 'cancelar'),
+                child: Text('Cancelar'),
+              ),
+            ],
+          );
+        },
+      );
+
+      if (seleccion != null && seleccion != 'cancelar') {
+        int desasignarMovil = (seleccion == 'sinMovil') ? 1 : 0;
+        await _modificarEstado(estado, desasignarMovil);
+      }
+    }
+  }
+
+  // Método para modificar el estado con confirmacionMovil
+  Future<void> _modificarEstado(int estado, int desasignarMovil) async {
     setState(() {
       isLoading = true;
     });
 
     try {
-      // Llamada al servicio para modificar el estado del neumático
+      // Llamada al servicio para modificar el estado del neumático con confirmacionMovil
       await DeshabilitarNeumaticoService.modificarEstadoNeumatico(
-          widget.nfcData, estado);
+          widget.nfcData, estado, desasignarMovil);
 
       // Mostrar mensaje de éxito
       ScaffoldMessenger.of(context).showSnackBar(
@@ -72,11 +124,11 @@ class _InhabilitarNeumaticoPageState extends State<InhabilitarNeumaticoPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       ElevatedButton(
-                        onPressed: () => _modificarEstado(1), // Estado "habilitado"
+                        onPressed: () => _mostrarDialogoConfirmacion(1), // Estado "habilitado"
                         child: const Text('Habilitar'),
                       ),
                       ElevatedButton(
-                        onPressed: () => _modificarEstado(2), // Estado "inhabilitado"
+                        onPressed: () => _mostrarDialogoConfirmacion(2), // Estado "inhabilitado"
                         child: const Text('Inhabilitar'),
                       ),
                     ],
