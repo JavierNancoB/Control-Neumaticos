@@ -12,8 +12,8 @@ using api_control_neumaticos.Models;
 namespace api_control_neumaticos.Migrations
 {
     [DbContext(typeof(ControlNeumaticosContext))]
-    [Migration("20250203153542_ActualizarModeloBitacora")]
-    partial class ActualizarModeloBitacora
+    [Migration("20250205202722_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -401,8 +401,20 @@ namespace api_control_neumaticos.Migrations
                         .HasColumnType("nvarchar(320)")
                         .HasColumnName("CORREO");
 
+                    b.Property<DateTime>("FechaClave")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("FECHA_CLAVE")
+                        .HasDefaultValueSql("(getdate())");
+
                     b.Property<int>("ID_BODEGA")
                         .HasColumnType("int");
+
+                    b.Property<int>("IntentosFallidos")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("INTENTOS_FALLIDOS")
+                        .HasDefaultValueSql("((0))");
 
                     b.Property<string>("Nombres")
                         .IsRequired()

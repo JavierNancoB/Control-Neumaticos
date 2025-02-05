@@ -14,6 +14,13 @@ namespace api_control_neumaticos.Dtos.Usuario
         public int CODIGO_PERFIL { get; set; }
         public int COD_ESTADO { get; set; }
         public int ID_BODEGA { get; set; }  // Nueva propiedad
-    }
+        public DateTime FECHA_CLAVE { get; set; }
+        public int INTENTOS_FALLIDOS { get; set; }
 
+        public CreateUsuarioRequestDto()
+        {
+            FECHA_CLAVE = DateTime.Now;
+            INTENTOS_FALLIDOS = 0;
+        }
+    }
 }

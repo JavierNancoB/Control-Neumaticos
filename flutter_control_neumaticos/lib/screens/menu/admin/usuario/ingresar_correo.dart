@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'modificar_usuario_screen.dart';
+//import 'reestablecer_passw_page.dart';
 import '../../../../services/admin/usuarios/ingresar_correo_service.dart';
 
 class IngresarCorreoPage extends StatefulWidget {
-  const IngresarCorreoPage({super.key});
+  final String actionType;
+
+  const IngresarCorreoPage({super.key, required this.actionType});
 
   @override
   _IngresarCorreoPageState createState() => _IngresarCorreoPageState();
@@ -12,9 +15,8 @@ class IngresarCorreoPage extends StatefulWidget {
 class _IngresarCorreoPageState extends State<IngresarCorreoPage> {
   final TextEditingController emailController = TextEditingController();
   final UsuarioService usuarioService = UsuarioService();
-  List<String> emailSuggestions = []; // Lista de sugerencias de correos
+  List<String> emailSuggestions = [];
 
-  // Función para obtener sugerencias de correos mientras el usuario escribe
   void buscarUsuarios() async {
     if (emailController.text.isNotEmpty) {
       var resultados = await usuarioService.buscarUsuariosPorCorreo(emailController.text);
@@ -28,20 +30,20 @@ class _IngresarCorreoPageState extends State<IngresarCorreoPage> {
     }
   }
 
-  // Función que se llama cuando se presiona el botón "Modificar"
-  void modificarUsuario() async {
+  void realizarAccion() async {
     String correoIngresado = emailController.text;
 
     if (correoIngresado.isNotEmpty) {
-      // Verificamos si el usuario está habilitado
       bool usuarioExiste = await usuarioService.buscarUsuarioPorCorreo(correoIngresado);
 
       if (usuarioExiste) {
+        Widget destinoPage = widget.actionType == 'usuario'
+            ? ModificarUsuarioPage(email: correoIngresado)
+            : ModificarUsuarioPage(email: correoIngresado);
+
         Navigator.push(
           context,
-          MaterialPageRoute(
-            builder: (context) => ModificarUsuarioPage(email: correoIngresado),
-          ),
+          MaterialPageRoute(builder: (context) => destinoPage),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -63,10 +65,9 @@ class _IngresarCorreoPageState extends State<IngresarCorreoPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(  // Añadido para permitir desplazamiento
+        child: SingleChildScrollView(
           child: Column(
             children: [
-              // Campo de texto con sugerencias
               TextField(
                 controller: emailController,
                 onChanged: (text) => buscarUsuarios(),
@@ -74,7 +75,6 @@ class _IngresarCorreoPageState extends State<IngresarCorreoPage> {
                   labelText: 'Correo Electrónico',
                 ),
               ),
-              // Desplegable de sugerencias
               if (emailSuggestions.isNotEmpty)
                 ListView.builder(
                   shrinkWrap: true,
@@ -83,15 +83,15 @@ class _IngresarCorreoPageState extends State<IngresarCorreoPage> {
                     return ListTile(
                       title: Text(emailSuggestions[index]),
                       onTap: () {
-                        emailController.text = emailSuggestions[index]; // Seleccionar correo
+                        emailController.text = emailSuggestions[index];
                       },
                     );
                   },
                 ),
               SizedBox(height: 20),
               ElevatedButton(
-                onPressed: modificarUsuario,
-                child: Text('Modificar Usuario'),
+                onPressed: realizarAccion,
+                child: Text(widget.actionType == 'usuario' ? 'Modificar Usuario' : 'Restablecer Contraseña'),
               ),
             ],
           ),

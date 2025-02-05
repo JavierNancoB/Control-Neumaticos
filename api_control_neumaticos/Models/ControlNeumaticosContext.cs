@@ -28,6 +28,8 @@ public partial class ControlNeumaticosContext : DbContext
 
     public DbSet<Bitacora> Bitacoras { get; set; }
 
+    public DbSet<SolicitudCorreos> SolicitudesCorreos { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Movil>(entity =>
@@ -143,23 +145,42 @@ public partial class ControlNeumaticosContext : DbContext
 
             entity.ToTable("USUARIO");
 
-            entity.Property(e => e.IdUsuario).HasColumnName("ID_USUARIO");
+            entity.Property(e => e.IdUsuario)
+                .HasColumnName("ID_USUARIO");
+            
             entity.Property(e => e.Apellidos)
                 .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("APELLIDOS");
+            
             entity.Property(e => e.Clave)
                 .HasMaxLength(255)
                 .HasColumnName("CLAVE");
-            entity.Property(e => e.CodEstado).HasColumnName("COD_ESTADO");
-            entity.Property(e => e.CodigoPerfil).HasColumnName("CODIGO_PERFIL");
+            
+            entity.Property(e => e.CodEstado)
+                .HasColumnName("COD_ESTADO");
+            
+            entity.Property(e => e.CodigoPerfil)
+                .HasColumnName("CODIGO_PERFIL");
+            
             entity.Property(e => e.Correo)
                 .HasMaxLength(320)
                 .HasColumnName("CORREO");
+            
             entity.Property(e => e.Nombres)
                 .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("NOMBRES");
+            
+            entity.Property(e => e.FechaClave)
+                .HasColumnName("FECHA_CLAVE")
+                .IsRequired()
+                .HasDefaultValueSql("(getdate())");
+            
+            entity.Property(e => e.IntentosFallidos)
+                .HasColumnName("INTENTOS_FALLIDOS")
+                .HasDefaultValueSql("((0))")
+                .IsRequired();
         });
 
         modelBuilder.Entity<Kilometros>(entity =>
@@ -250,6 +271,23 @@ public partial class ControlNeumaticosContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("ESTADO");
+        });
+
+        modelBuilder.Entity<SolicitudCorreos>(entity =>
+        {
+            entity.ToTable("SOLICITUD_CORREOS");
+
+            entity.HasKey(e => e.Id)
+                .HasName("PK_SOLICITUD_CORREOS");
+            entity.Property(e => e.Id)
+                .HasColumnName("ID");
+            entity.Property(e => e.Solicitante)
+                .HasMaxLength(320)
+                .IsUnicode(false)
+                .HasColumnName("ID_SOLICITANTE");
+            entity.Property(e => e.FechaSolicitud)
+                .IsRequired()
+                .HasColumnName("FECHA_SOLICITUD");
         });
     }
 }
