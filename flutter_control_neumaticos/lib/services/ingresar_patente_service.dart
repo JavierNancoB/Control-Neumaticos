@@ -6,6 +6,7 @@ import '../screens/menu/admin/movil/modificar_movil.dart';
 import '../screens/menu/admin/neumatico/anadir_neumatico_screen.dart';
 import '../screens/menu/admin/neumatico/modifcar_neumatico_screen.dart';
 import '../screens/menu/admin/movil/añadir_movil_screen.dart';
+import '../screens/menu/bitacora/asignar_neumatico.dart';
 
 class IngresarPatenteService {
   static Future<void> handlePatente({
@@ -26,19 +27,28 @@ class IngresarPatenteService {
     }
 
     // Verificar si la patente existe solo si es un móvil
-    if (tipo == 'movil' && patente.isNotEmpty) {
+    if (tipo == 'movil' && patente.isNotEmpty || tipo == 'Asignar') {
       bool patenteExiste = await _checkPatenteExistence(patente, token);
       if (patenteExiste) {
         // Verificar el estado del móvil
         bool estadoMovil = await _checkEstadoMovil(patente, token);
         if (estadoMovil) {
           // Si el estado es verdadero, navegar al móvil
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ModificarMovilPage(patente: patente, codigo: codigo),
-            ),
-          );
+          if (tipo == 'Asignar') {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AsignarNeumaticoPage(patente: patente, nfcData: codigo),
+              ),
+            );
+          } else {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ModificarMovilPage(patente: patente, codigo: codigo),
+              ),
+            );
+          }
         } else {
           // Si el estado es falso, mostrar mensaje de error
           ScaffoldMessenger.of(context).showSnackBar(

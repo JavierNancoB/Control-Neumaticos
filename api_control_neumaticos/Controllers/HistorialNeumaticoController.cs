@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using api_control_neumaticos.Dtos.Alertas;
 using api_control_neumaticos.Dtos.Bitacora;
+using SendingEmails;
 
 namespace api_control_neumaticos.Controllers
 {
@@ -16,11 +17,13 @@ namespace api_control_neumaticos.Controllers
     {
         private readonly ControlNeumaticosContext _context;
         private readonly IMapper _mapper;
+        private readonly IEmailSender _emailSender;
 
-        public HistorialNeumaticoController(ControlNeumaticosContext context, IMapper mapper)
+        public HistorialNeumaticoController(ControlNeumaticosContext context, IMapper mapper, IEmailSender emailSender)
         {
             _context = context;
             _mapper = mapper;
+            _emailSender = emailSender;
         }
 
         [HttpGet]
@@ -66,6 +69,7 @@ namespace api_control_neumaticos.Controllers
 
                 var alerta = _mapper.Map<Alerta>(alertaDto);
                 _context.Set<Alerta>().Add(alerta);
+                await EnviarCorreoNotificacion("Se ha creado una nueva alerta.", $"Detalles de la alerta: Pinchazo de neumático");
                 await _context.SaveChangesAsync();
             }
 
@@ -168,6 +172,10 @@ namespace api_control_neumaticos.Controllers
 
             return NoContent();
         }
-
+        /***********************Correo por defecto al crear una alerta**************************/
+        private async Task EnviarCorreoNotificacion(string subject, string message)
+        {
+            await _emailSender.SendEmailAsync("javier.nanco@pentacrom.cl", subject, message);
+        }
     }
 }

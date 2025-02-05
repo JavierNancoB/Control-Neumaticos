@@ -77,7 +77,7 @@ class _IngresarPatentePageState extends State<IngresarPatentePage> {
             );
           },
         ),
-        if (widget.tipo != 'movil') 
+        if (widget.tipo != 'movil' && widget.tipo != 'Asignar') 
           const Padding(
             padding: EdgeInsets.only(top: 8.0),
             child: Text(

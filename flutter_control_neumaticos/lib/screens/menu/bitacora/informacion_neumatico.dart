@@ -5,6 +5,7 @@ import '../../../widgets/info_row.dart';
 import 'anadir_bitacora.dart';
 import 'ver_bitacora_screen.dart';
 import '../../../widgets/diccionario.dart';
+import '../../menu/admin/ingresar_patente.dart';
 
 class InformacionNeumatico extends StatefulWidget {
   final String nfcData;
@@ -138,6 +139,20 @@ class _InformacionNeumaticoState extends State<InformacionNeumatico> {
                   },
                 ),
               ],
+            ),
+            ActionButton(
+              label: 'Reasignar Neumático',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => IngresarPatentePage(
+                      tipo: 'Asignar',
+                      codigo: widget.nfcData,
+                    ),
+                  ),
+                );
+              },
             ),
           ],
         ),

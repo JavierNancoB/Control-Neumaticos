@@ -6,7 +6,7 @@ using AutoMapper;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using SendingEmails; 
+using SendingEmails;
 
 namespace api_control_neumaticos.Controllers
 {
@@ -56,7 +56,6 @@ namespace api_control_neumaticos.Controllers
 
             return CreatedAtAction(nameof(GetAlerta), new { id = alertaDto.Id }, alertaDto);
         }
-
 
 
         [HttpPut("{id}")]
@@ -110,7 +109,6 @@ namespace api_control_neumaticos.Controllers
             return Ok(_mapper.Map<IEnumerable<AlertaDto>>(alertas));
         }
 
-
         // GET: api/Alerta/GetAlertasByEstadoAlerta3
         // esta mostrara todas las alerttas que tengan el estado de alerta 3, muestra solo las primeras 50
         [HttpGet("GetAlertasByEstadoAlerta3")]
@@ -125,7 +123,6 @@ namespace api_control_neumaticos.Controllers
         // si cambia a estado 1 es fecha ingreso
         // si cambia a estado 2 es fecha leido
         // si cambia a estado 3 es fecha atendido
-
         [HttpPut("CambiarEstado")]
         public async Task<IActionResult> CambiarEstado(int id, int estado, int idUsuario)
         {
@@ -134,6 +131,7 @@ namespace api_control_neumaticos.Controllers
             {
                 return NotFound();
             }
+            // si el estado es 1, se actualiza a pendiente
             if(estado == 1)
             {
                 alerta.ESTADO_ALERTA = 1;
@@ -144,7 +142,8 @@ namespace api_control_neumaticos.Controllers
                 alerta.USUARIO_LEIDO_ID = null;
                 alerta.USUARIO_ATENDIDO_ID = null;
             }
-
+            // si el estado es 2, se actualiza a leido
+            else
             if (estado == 2)
             {
                 alerta.ESTADO_ALERTA = 2;
@@ -154,6 +153,7 @@ namespace api_control_neumaticos.Controllers
                 alerta.USUARIO_LEIDO_ID = idUsuario;
                 alerta.USUARIO_ATENDIDO_ID = null;
             }
+            // si el estado es 3, se actualiza a atendido
             else if (estado == 3)
             {
                 alerta.ESTADO_ALERTA = 3;
@@ -167,10 +167,22 @@ namespace api_control_neumaticos.Controllers
             return NoContent();
         }
 
+        // GET: api/Alerta/HasAlertaPendiente
+        // Este método verificará si hay al menos una alerta con estado 1 (Pendiente).
+        [HttpGet("HasAlertaPendiente")]
+        public async Task<ActionResult<bool>> HasAlertaPendiente()
+        {
+            var existeAlertaPendiente = await _context.Set<Alerta>()
+                .AnyAsync(a => a.ESTADO_ALERTA == 1 || a.ESTADO_ALERTA == 2);
+
+            return Ok(existeAlertaPendiente);
+        }
+
+
         /***********************Correo por defecto al crear una alerta**************************/
         private async Task EnviarCorreoNotificacion(string subject, string message)
         {
-            await _emailSender.SendEmailAsync("yasna.pizarro@pentacrom.cl", subject, message);
+            await _emailSender.SendEmailAsync("javier.nanco@pentacrom.cl", subject, message);
         }
         
     }
