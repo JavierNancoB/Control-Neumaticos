@@ -22,5 +22,13 @@ public class UpdateUsuarioRequestDto
 
     [JsonPropertyName("ID_BODEGA")]
     public int ID_BODEGA { get; set; }  // Nueva propiedad
+
+    [JsonPropertyName("FECHA_CLAVE")]
+    public required DateTime FechaClave { get; set; }
+
+    [JsonPropertyName("INTENTOS_FALLIDOS")]
+    public int IntentosFallidos { get; set; }
+
+
 }
 

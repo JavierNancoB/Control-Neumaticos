@@ -39,10 +39,13 @@ class OptionActions extends StatelessWidget {
     switch (action) {
       case 'Añadir':
         return AnadirUsuarioPage();
-      case 'Modificar':  // Aquí sigue llamando a IngresarCorreoPage
-        return IngresarCorreoPage();
+      case 'Modificar':
+        return IngresarCorreoPage(actionType: 'usuario');
       case 'Deshabilitar':
         return InhabilitarUsuarioPage();
+      case 'Restablecer Contraseña':
+        // Aquí luego añadiremos la página correspondiente
+        return IngresarCorreoPage(actionType: 'contraseña'); 
       default:
         throw Exception('Acción no válida para Usuario');
     }
@@ -52,7 +55,7 @@ class OptionActions extends StatelessWidget {
     switch (action) {
       case 'Añadir':
         return AnadirMovilPage();
-      case 'Modificar':  // Aquí sigue llamando a IngresarPatentePage
+      case 'Modificar':
         return IngresarPatentePage(tipo: 'movil', codigo: '');
       case 'Deshabilitar':
         return CambiarEstadoMovilPage();
@@ -60,7 +63,6 @@ class OptionActions extends StatelessWidget {
         throw Exception('Acción no válida para Móvil');
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -73,8 +75,9 @@ class OptionActions extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             if (option != 'Neumatico') _buildButton(context, 'Añadir'),
-            _buildButton(context, 'Gestionar'), // Cambio de "Modificar" a "Gestionar"
+            _buildButton(context, 'Gestionar'),
             _buildButton(context, 'Deshabilitar'),
+            if (option == 'Usuario') _buildButton(context, 'Restablecer Contraseña'),
           ],
         ),
       ),

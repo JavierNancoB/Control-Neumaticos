@@ -6,6 +6,7 @@ using api_control_neumaticos.Dtos.Usuario;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using api_control_neumaticos.Dtos.Bitacora;
+using SendingEmails;
 
 namespace api_control_neumaticos.Controllers
 {
@@ -16,12 +17,14 @@ namespace api_control_neumaticos.Controllers
         private readonly ControlNeumaticosContext _context;
         private readonly IMapper _mapper;
         private readonly PasswordHasher<Usuario> _passwordHasher;  // Agregar el PasswordHasher
+        private readonly IEmailSender _emailSender;
 
-        public UsuariosController(ControlNeumaticosContext context, IMapper mapper)
+        public UsuariosController(ControlNeumaticosContext context, IMapper mapper, IEmailSender emailSender)
         {
             _context = context;
             _mapper = mapper;
             _passwordHasher = new PasswordHasher<Usuario>();  // Inicializar el PasswordHasher
+            _emailSender = emailSender;
         }
         
         /***************************FUNCIONES CRUD PARA USUARIOS*************************************/
@@ -274,6 +277,52 @@ namespace api_control_neumaticos.Controllers
             var bitacora = _mapper.Map<Bitacora>(bitacoraDto);
             _context.Set<Bitacora>().Add(bitacora);
             await _context.SaveChangesAsync();
+        }
+
+        /**************Restablecer contraseña****************/
+        // Tu contraseña queda como tu correo hasta antes del @ si es autogenerada
+        // Caso contrario el endpoint es http://localhost:5062/api/Usuarios/RestablecerClave?mail=javier.nanco@pentacrom.cl&NuevaClave=hola123
+        [HttpPut("RestablecerClave")]
+        public async Task<IActionResult> RestablecerClave(string mail, [FromQuery] bool autogenerada = false, [FromQuery] bool administrador = true)
+        {
+            var usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.Correo == mail);
+
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+
+            if (autogenerada)
+            {
+                usuario.Clave = _passwordHasher.HashPassword(usuario, mail.Split('@')[0]);
+                await EnviarCorreoNotificacion(mail, "Restablecimiento de contraseña", $"Su contraseña ha sido restablecida con éxito. Posee 2 días para cambiarla.\n\nATENCION: No comparta esta información con nadie, su nueva contraseña es: {mail.Split('@')[0]}. \n\nSe sugiere cambiar la contraseña INMEDIATAMENTE por una más segura.\n\nAtentamente el equipo de Control Neumáticos. Favor no responder a este correo automatizado.");
+                usuario.FechaClave = DateTime.Now.AddDays(-78);
+            }
+            else
+            {
+                usuario.Clave = _passwordHasher.HashPassword(usuario, Request.Query["NuevaClave"].ToString());
+                await EnviarCorreoNotificacion(mail, "Restablecimiento de contraseña", $"Su contraseña ha sido restablecida con éxito. Posee 2 días para cambiarla.\n\nATENCION: No comparta esta información con nadie, su nueva contraseña es: {Request.Query["NuevaClave"]}. \n\nSe sugiere cambiar INMEDIATAMENTE la contraseña por una más segura.\n\nAtentamente el equipo de Control Neumáticos. Favor no responder a este correo automatizado.");
+                usuario.FechaClave = DateTime.Now.AddDays(-78);
+            }
+            if (administrador)
+            {
+                await RegistrarBitacora(usuario.IdUsuario, 18, usuario.IdUsuario, "Usuario", "Restablecimiento de contraseña");
+            }
+
+            usuario.IntentosFallidos = 0;
+            usuario.FechaClave = DateTime.Now;
+            usuario.CodEstado = 1;
+            _context.Entry(usuario).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+
+        // Enviar correo de notificación de contraseña restablecida
+        private async Task EnviarCorreoNotificacion(string to, string subject, string message)
+        {
+            await _emailSender.SendEmailAsync(to, subject, message);
         }
 
         private bool UsuarioExists(int id)

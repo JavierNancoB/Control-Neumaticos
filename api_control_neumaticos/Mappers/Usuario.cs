@@ -18,7 +18,9 @@ public class UsuarioProfile : Profile
             .ForMember(dest => dest.Clave, opt => opt.MapFrom(src => src.CLAVE))
             .ForMember(dest => dest.CodigoPerfil, opt => opt.MapFrom(src => src.CODIGO_PERFIL))
             .ForMember(dest => dest.CodEstado, opt => opt.MapFrom(src => src.COD_ESTADO))
-            .ForMember(dest => dest.ID_BODEGA, opt => opt.MapFrom(src => src.ID_BODEGA)); // Se agrega la propiedad ID_BODEGA
+            .ForMember(dest => dest.ID_BODEGA, opt => opt.MapFrom(src => src.ID_BODEGA)) // Se agrega la propiedad ID_BODEGA
+            .ForMember(dest => dest.FechaClave, opt => opt.MapFrom(src => src.FECHA_CLAVE))
+            .ForMember(dest => dest.IntentosFallidos, opt => opt.MapFrom(src => src.INTENTOS_FALLIDOS));
 
         CreateMap<Usuario, UsuarioDto>()
             .ForMember(dest => dest.ID_USUARIO, opt => opt.MapFrom(src => src.IdUsuario))
@@ -28,6 +30,8 @@ public class UsuarioProfile : Profile
             .ForMember(dest => dest.CLAVE, opt => opt.MapFrom(src => src.Clave))
             .ForMember(dest => dest.CODIGO_PERFIL, opt => opt.MapFrom(src => src.CodigoPerfil))
             .ForMember(dest => dest.COD_ESTADO, opt => opt.MapFrom(src => src.CodEstado))
-            .ForMember(dest => dest.ID_BODEGA, opt => opt.MapFrom(src => src.ID_BODEGA)); // Se agrega la propiedad ID_BODEGA
+            .ForMember(dest => dest.ID_BODEGA, opt => opt.MapFrom(src => src.ID_BODEGA)) // Se agrega la propiedad ID_BODEGA
+            .ForMember(dest => dest.FECHA_CLAVE, opt => opt.MapFrom(src => src.FechaClave))
+            .ForMember(dest => dest.INTENTOS_FALLIDOS, opt => opt.MapFrom(src => src.IntentosFallidos));
     }
 }

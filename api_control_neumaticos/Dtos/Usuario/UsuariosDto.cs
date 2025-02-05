@@ -17,6 +17,9 @@ namespace api_control_neumaticos.Dtos.Usuario
     public int COD_ESTADO { get; set; }
     public int ID_BODEGA { get; set; }  // Nueva propiedad
     public string? TOKEN { get; set; }
+    public DateTime? FECHA_CLAVE { get; set; }
+    public int INTENTOS_FALLIDOS { get; set; }
+
 }
 
 }

@@ -6,7 +6,6 @@ using api_control_neumaticos.Dtos.Usuario;
 using api_control_neumaticos.Services;
 using api_control_neumaticos.Dtos.Login;
 using SendingEmails; 
-using api_control_neumaticos.Dtos.Password;
 
 namespace api_control_neumaticos.Controllers
 {
@@ -17,14 +16,12 @@ namespace api_control_neumaticos.Controllers
         private readonly ControlNeumaticosContext _context;
         private readonly PasswordHasher<Usuario> _passwordHasher;
         private readonly TokenGenerator _tokenGenerator;
-        private readonly IEmailSender _emailSender;
 
-        public AuthController(ControlNeumaticosContext context, TokenGenerator tokenGenerator, IEmailSender emailSender)
+        public AuthController(ControlNeumaticosContext context, TokenGenerator tokenGenerator)
         {
             _context = context;
             _passwordHasher = new PasswordHasher<Usuario>();
             _tokenGenerator = tokenGenerator;
-            _emailSender = emailSender;
         }
 
         // POST: api/Auth/Login
@@ -37,16 +34,59 @@ namespace api_control_neumaticos.Controllers
 
             if (usuario == null)
             {
-                return Unauthorized("Correo o contraseña incorrectos.");
+                return Unauthorized("Correo incorrecto.");
             }
 
             // Verificar si la contraseña es correcta
             var result = _passwordHasher.VerifyHashedPassword(usuario, usuario.Clave, loginDto.Clave);
 
+            if (usuario.CodEstado == 3)
+            {
+                return Unauthorized("Usuario bloqueado. Muchos intentos fallidos, Contactar al administrador.");
+            }
+            if (usuario.CodEstado == 2)
+            {
+                return Unauthorized("Usuario deshabilitado.");
+            }
+            
             if (result == PasswordVerificationResult.Failed)
             {
-                return Unauthorized("Correo o contraseña incorrectos.");
+                usuario.IntentosFallidos += 1;
+
+                if (usuario.IntentosFallidos >= 4)
+                {
+                    usuario.CodEstado = 3; // Cambia el estado del usuario a bloqueado
+                    await _context.SaveChangesAsync();
+                    return Unauthorized("Usuario bloqueado. favor contactar al administrador.");
+                }
+                else
+                {
+                    await _context.SaveChangesAsync();
+                    return Unauthorized("Contraseña incorrecta, quedan " + (4 - usuario.IntentosFallidos) + " intentos.");
+                }
             }
+            else
+            {
+                usuario.IntentosFallidos = 0;
+                // si la fecha desde que se creo la clave es mas de 80 días se bloquea el usuario, su codEstado cambia a 3
+                if (usuario.FechaClave != null)
+                {
+                    if (DateTime.Now.Subtract(usuario.FechaClave.Value).TotalDays > 80)
+                    {
+                        usuario.CodEstado = 3;
+                        await _context.SaveChangesAsync();
+                        return Unauthorized("Usuario bloqueado, por contraseña expirada.");
+                    }
+                
+                    // en caso de que la fecha de creacion de la clave sea menor a 80 días, se ingresa normalmente
+                    else
+                    {
+                        await _context.SaveChangesAsync();
+                    }
+                }
+            }
+            
+
 
             // Generar el token
             var token = _tokenGenerator.GenerateToken(usuario.Correo);
@@ -63,53 +103,6 @@ namespace api_control_neumaticos.Controllers
             };
 
             return Ok(usuarioDto);  // Devuelve el DTO del usuario autenticado con el token
-        }
-
-        [HttpPost("forgot-password")]
-        public async Task<IActionResult> ForgotPassword(ForgotPasswordDto model)
-        {
-            var usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.Correo == model.Correo);
-            if (usuario == null)
-            {
-                return BadRequest("El correo no está registrado.");
-            }
-
-            // Generar un token de recuperación (puedes usar un GUID o un JWT con expiración)
-            var token = Guid.NewGuid().ToString(); 
-
-            // Guardar el token en la base de datos con una expiración (ejemplo: 30 minutos)
-            usuario.ResetToken = token;
-            usuario.ResetTokenExpiry = DateTime.UtcNow.AddMinutes(30);
-            await _context.SaveChangesAsync();
-
-            // Construir el enlace de restablecimiento
-            var resetLink = $"https://tuapp.com/reset-password?token={token}&email={Uri.EscapeDataString(model.Correo)}";
-
-            // Enviar el correo
-            string subject = "Recuperación de Contraseña";
-            string message = $"Usa este enlace para restablecer tu contraseña: {resetLink}";
-
-            await _emailSender.SendEmailAsync(model.Correo, subject, message);
-
-            return Ok("Se ha enviado un correo con instrucciones para restablecer la contraseña.");
-        }
-
-        [HttpPost("reset-password")]
-        public async Task<IActionResult> ResetPassword(ResetPasswordDto model)
-        {
-            var usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.Correo == model.Correo);
-            if (usuario == null || usuario.ResetToken != model.Token || usuario.ResetTokenExpiry < DateTime.UtcNow)
-            {
-                return BadRequest("El token es inválido o ha expirado.");
-            }
-
-            // Hashear la nueva contraseña
-            usuario.Clave = _passwordHasher.HashPassword(usuario, model.NewPassword);
-            usuario.ResetToken = null;
-            usuario.ResetTokenExpiry = null;
-            await _context.SaveChangesAsync();
-
-            return Ok("Contraseña restablecida con éxito.");
         }
 
     }

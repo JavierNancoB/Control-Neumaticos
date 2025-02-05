@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace api_control_neumaticos.Migrations
 {
     /// <inheritdoc />
-    public partial class ActualizarModeloBitacora : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -94,7 +94,9 @@ namespace api_control_neumaticos.Migrations
                     CLAVE = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     CODIGO_PERFIL = table.Column<int>(type: "int", nullable: false),
                     COD_ESTADO = table.Column<int>(type: "int", nullable: false),
-                    ID_BODEGA = table.Column<int>(type: "int", nullable: false)
+                    ID_BODEGA = table.Column<int>(type: "int", nullable: false),
+                    FECHA_CLAVE = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "(getdate())"),
+                    INTENTOS_FALLIDOS = table.Column<int>(type: "int", nullable: false, defaultValueSql: "((0))")
                 },
                 constraints: table =>
                 {
