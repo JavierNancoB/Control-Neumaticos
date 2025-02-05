@@ -5,10 +5,43 @@ import 'stock/stock_page.dart';
 import 'patentes/patente_screen.dart';
 import 'alertas/alertas_menu.dart';
 import 'admin/admin_menu_screen.dart';
+import '../../services/menu_service.dart';
 
-
-class MenuScreen extends StatelessWidget {
+class MenuScreen extends StatefulWidget {
   const MenuScreen({super.key});
+
+  @override
+  _MenuScreenState createState() => _MenuScreenState();
+}
+
+class _MenuScreenState extends State<MenuScreen> {
+  Color? alertaColor = Colors.grey[10];
+
+  @override
+  void initState() {
+    super.initState();
+    _checkAlertaPendiente();
+  }
+
+  void _checkAlertaPendiente() {
+    checkAlertaPendiente().then((isAlertaPendiente) {
+      setState(() {
+        alertaColor = isAlertaPendiente ? Colors.yellow : Colors.grey[10];
+      });
+    }).catchError((e) {
+      print('Error al verificar alertas: $e');
+    });
+  }
+
+  void _navigateTo(BuildContext context, Widget page) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => page))
+        .then((_) {
+      // Cuando volvemos de la pantalla, recargamos el menú
+      setState(() {
+        _checkAlertaPendiente();
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,52 +53,28 @@ class MenuScreen extends StatelessWidget {
           children: <Widget>[
             StandarButton(
               text: 'Información por patente',
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => PatentePage()),
-                );
-              },
+              onPressed: () => _navigateTo(context, PatentePage()),
             ),
             const SizedBox(height: 20),
             StandarButton(
               text: 'Bitácora',
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => NFCReader(action: 'informacion'),),
-                );
-              },
+              onPressed: () => _navigateTo(context, NFCReader(action: 'informacion')),
             ),
             const SizedBox(height: 20),
             StandarButton(
-              text: 'Alertas',
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => AlertasMenu()),
-                );
-              },
+              text: alertaColor == Colors.yellow ? 'Existen alertas pendientes' : 'Alertas',
+              onPressed: () => _navigateTo(context, AlertasMenu()),
+              color: alertaColor,
             ),
             const SizedBox(height: 20),
             StandarButton(
               text: 'Stock',
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => StockPage()),
-                );
-              },
+              onPressed: () => _navigateTo(context, StockPage()),
             ),
             const SizedBox(height: 20),
             StandarButton(
               text: 'Administración',
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const AdminOptions()),
-                );
-              },
+              onPressed: () => _navigateTo(context, const AdminOptions()),
             ),
           ],
         ),

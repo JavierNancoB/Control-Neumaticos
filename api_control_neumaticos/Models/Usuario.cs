@@ -25,5 +25,8 @@ namespace api_control_neumaticos.Models
 
         [ForeignKey("ID_BODEGA")]
         public virtual Bodega Bodega { get; set; } = null!;
+
+        public string? ResetToken { get; set; }
+        public DateTime? ResetTokenExpiry { get; set; }
     }
 }

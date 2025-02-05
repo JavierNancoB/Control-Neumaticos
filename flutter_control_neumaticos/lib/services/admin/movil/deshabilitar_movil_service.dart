@@ -16,10 +16,6 @@ class MovilService {
     throw Exception('Token no encontrado');
   }
 
-  print("Haciendo PUT a la API...");
-  print("Patente: $patente");
-  print("Estado: ${estado.id} (${estado.descripcion})");
-  print("Eliminar Neumáticos: $eliminarNeumaticos");
 
   final response = await http.put(
     
@@ -30,16 +26,12 @@ class MovilService {
     },
     
   );
-  print("URL: $baseUrl/CambiaEstadoMovilPorPatente?patente=$patente&estado=${estado.id}&idUsuario=$idUsuario&eliminarNeumaticos=$eliminarNeumaticos");
 
   if (response.statusCode == 204) {
-    print("Estado cambiado con éxito");
     return true; // Estado cambiado con éxito
   } else if (response.statusCode == 404) {
-    print("Error: Camión no encontrado");
     throw Exception('Camión no encontrado');
   } else {
-    print("Error en la respuesta: ${response.statusCode}");
     throw Exception('Error al modificar el estado');
   }
 }

@@ -359,7 +359,7 @@ namespace api_control_neumaticos.Controllers
                 { 16, "REPUESTO" }
             };
 
-            // Verificar cambios en la patente (solo si no es nula)
+            // Verificar cambios en la patente (solo si no es nula), esto quiere decir que se asigna a un móvil
             if (!string.IsNullOrEmpty(patente))
             {
                 var movil = await _context.Movils.FirstOrDefaultAsync(m => m.Patente == patente);
@@ -376,14 +376,8 @@ namespace api_control_neumaticos.Controllers
                     await RegistrarBitacora(idUsuario, 3, neumatico.ID_NEUMATICO, "Neumatico", $"Móvil asignado: {movil.IdMovil}");                     
                 }
 
-                // en caso de que haya movil y se envie la ubicacion 1 se cambia a 2
-                if (ubicacion == 1)
-                {
-                    ubicacion = 2; // Cambiar ubicación si es necesario
-                }
-
                 neumatico.ID_MOVIL = movil.IdMovil;
-                
+                neumatico.UBICACION = ubicacion;
             }
             else
             {
@@ -391,6 +385,19 @@ namespace api_control_neumaticos.Controllers
                 ubicacion = 1;
                 neumatico.ID_MOVIL = null;
             }
+
+            // Verificar si ya hay un neumático en la misma ubicación para el mismo vehículo
+            if (neumatico.ID_MOVIL.HasValue && ubicacion != 1)
+            {
+                var existeNeumatico = await _context.Neumaticos
+                    .AnyAsync(n => n.ID_MOVIL == neumatico.ID_MOVIL && n.UBICACION == ubicacion && n.CODIGO != codigo);
+
+                if (existeNeumatico)
+                {
+                    return Conflict("Ya existe un neumático en esta ubicación para el mismo vehículo.");
+                }
+            }
+
 
             // Verificar y registrar cambios en otros campos
             if (neumatico.UBICACION != ubicacion && mismovehiculo)
