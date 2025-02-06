@@ -29,5 +29,7 @@ namespace api_control_neumaticos.Models
         public DateTime? FechaClave { get; set; }
 
         public int IntentosFallidos { get; set; }
+
+        public virtual ICollection<SolicitudCorreos> SolicitudesEnviadas { get; set; } = new List<SolicitudCorreos>();
     }
 }
