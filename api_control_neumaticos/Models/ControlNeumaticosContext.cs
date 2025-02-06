@@ -9,6 +9,7 @@ public partial class ControlNeumaticosContext : DbContext
     public ControlNeumaticosContext(DbContextOptions<ControlNeumaticosContext> options)
         : base(options)
     {
+        
     }
     public virtual DbSet<Movil> Movils { get; set; }
 
@@ -181,6 +182,12 @@ public partial class ControlNeumaticosContext : DbContext
                 .HasColumnName("INTENTOS_FALLIDOS")
                 .HasDefaultValueSql("((0))")
                 .IsRequired();
+
+            // Relación con SolicitudCorreos (uno a muchos)
+            entity.HasMany(u => u.SolicitudesEnviadas)
+                .WithOne(s => s.Solicitante)
+                .HasForeignKey(s => s.IdSolicitante)
+                .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<Kilometros>(entity =>
@@ -277,17 +284,23 @@ public partial class ControlNeumaticosContext : DbContext
         {
             entity.ToTable("SOLICITUD_CORREOS");
 
-            entity.HasKey(e => e.Id)
-                .HasName("PK_SOLICITUD_CORREOS");
-            entity.Property(e => e.Id)
-                .HasColumnName("ID");
-            entity.Property(e => e.Solicitante)
-                .HasMaxLength(320)
-                .IsUnicode(false)
+            entity.HasKey(e => e.Id).HasName("PK_SOLICITUD_CORREOS");
+
+            entity.Property(e => e.Id).HasColumnName("ID");
+
+            entity.Property(e => e.IdSolicitante)
                 .HasColumnName("ID_SOLICITANTE");
+
             entity.Property(e => e.FechaSolicitud)
                 .IsRequired()
                 .HasColumnName("FECHA_SOLICITUD");
+
+            // Relación uno a muchos con Usuario
+            entity.HasOne(e => e.Solicitante)
+                .WithMany(u => u.SolicitudesEnviadas)
+                .HasForeignKey(e => e.IdSolicitante)
+                .OnDelete(DeleteBehavior.ClientSetNull); // Cambia a Cascade si quieres eliminar en cascada
         });
+
     }
 }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace api_control_neumaticos.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class AgregarRelacionUsuarioSolicitud : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -162,6 +162,26 @@ namespace api_control_neumaticos.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SOLICITUD_CORREOS",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ID_SOLICITANTE = table.Column<int>(type: "int", nullable: false),
+                    FECHA_SOLICITUD = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Estado = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SOLICITUD_CORREOS", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_SOLICITUD_CORREOS_USUARIO_ID_SOLICITANTE",
+                        column: x => x.ID_SOLICITANTE,
+                        principalTable: "USUARIO",
+                        principalColumn: "ID_USUARIO");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ALERTA",
                 columns: table => new
                 {
@@ -270,6 +290,11 @@ namespace api_control_neumaticos.Migrations
                 column: "MOVIL_ASIGNADO");
 
             migrationBuilder.CreateIndex(
+                name: "IX_SOLICITUD_CORREOS_ID_SOLICITANTE",
+                table: "SOLICITUD_CORREOS",
+                column: "ID_SOLICITANTE");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_USUARIO_ID_BODEGA",
                 table: "USUARIO",
                 column: "ID_BODEGA");
@@ -289,6 +314,9 @@ namespace api_control_neumaticos.Migrations
 
             migrationBuilder.DropTable(
                 name: "KILOMETROS");
+
+            migrationBuilder.DropTable(
+                name: "SOLICITUD_CORREOS");
 
             migrationBuilder.DropTable(
                 name: "TABLA");

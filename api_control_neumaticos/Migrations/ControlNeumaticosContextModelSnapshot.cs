@@ -336,6 +336,34 @@ namespace api_control_neumaticos.Migrations
                     b.ToTable("NEUMATICOS", (string)null);
                 });
 
+            modelBuilder.Entity("api_control_neumaticos.Models.SolicitudCorreos", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("ID");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Estado")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("FechaSolicitud")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("FECHA_SOLICITUD");
+
+                    b.Property<int>("IdSolicitante")
+                        .HasColumnType("int")
+                        .HasColumnName("ID_SOLICITANTE");
+
+                    b.HasKey("Id")
+                        .HasName("PK_SOLICITUD_CORREOS");
+
+                    b.HasIndex("IdSolicitante");
+
+                    b.ToTable("SOLICITUD_CORREOS", (string)null);
+                });
+
             modelBuilder.Entity("api_control_neumaticos.Models.Tabla", b =>
                 {
                     b.Property<int>("CodTabla")
@@ -503,6 +531,16 @@ namespace api_control_neumaticos.Migrations
                     b.Navigation("MOVIL_ASIGNADO");
                 });
 
+            modelBuilder.Entity("api_control_neumaticos.Models.SolicitudCorreos", b =>
+                {
+                    b.HasOne("api_control_neumaticos.Models.Usuario", "Solicitante")
+                        .WithMany("SolicitudesEnviadas")
+                        .HasForeignKey("IdSolicitante")
+                        .IsRequired();
+
+                    b.Navigation("Solicitante");
+                });
+
             modelBuilder.Entity("api_control_neumaticos.Models.Usuario", b =>
                 {
                     b.HasOne("api_control_neumaticos.Models.Bodega", "Bodega")
@@ -512,6 +550,11 @@ namespace api_control_neumaticos.Migrations
                         .IsRequired();
 
                     b.Navigation("Bodega");
+                });
+
+            modelBuilder.Entity("api_control_neumaticos.Models.Usuario", b =>
+                {
+                    b.Navigation("SolicitudesEnviadas");
                 });
 #pragma warning restore 612, 618
         }
