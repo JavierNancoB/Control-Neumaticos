@@ -39,6 +39,12 @@ namespace api_control_neumaticos.Controllers
             return BadRequest("Solicitante no encontrado.");
             }
 
+            // Comprobamos si usuario no esta deshabilitado, codigo estado = 2
+            if (solicitante.CodEstado == 2)
+            {
+            return BadRequest("Usuario deshabilitado, no puede solicitar reestablecimiento de contraseña.");
+            }
+
             // Verificar el número de solicitudes en las últimas 24 horas
             var solicitudesUltimas24Horas = await _context.SolicitudesCorreos
             .Where(s => s.IdSolicitante == solicitante.IdUsuario && s.FechaSolicitud > DateTime.UtcNow.AddHours(-24))

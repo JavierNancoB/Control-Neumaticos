@@ -13,8 +13,10 @@
           "Microsoft.AspNetCore.Authentication.JwtBearer": "9.0.1",
           "Microsoft.AspNetCore.Cryptography.KeyDerivation": "6.0.0",
           "Microsoft.AspNetCore.Identity": "2.3.0",
+          "Microsoft.EntityFrameworkCore": "9.0.1",
           "Microsoft.EntityFrameworkCore.Design": "9.0.1",
           "Microsoft.EntityFrameworkCore.SqlServer": "9.0.1",
+          "Microsoft.EntityFrameworkCore.Tools": "9.0.1",
           "Microsoft.Extensions.Identity.Core": "6.0.0",
           "Swashbuckle.AspNetCore": "7.2.0"
         },
@@ -644,6 +646,11 @@
             "assemblyVersion": "9.0.1.0",
             "fileVersion": "9.0.124.61002"
           }
+        }
+      },
+      "Microsoft.EntityFrameworkCore.Tools/9.0.1": {
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore.Design": "9.0.1"
         }
       },
       "Microsoft.Extensions.ApiDescription.Server/6.0.5": {},
@@ -1460,6 +1467,13 @@
       "sha512": "sha512-hoevd5ZHP7qYwHc+f96f7R2HOjssYKAx1vOWwe2aVXIJVYhGFXQ1ovZsN6AWQ7pylmhv9IzIXUz8Sp5U40UzJw==",
       "path": "microsoft.entityframeworkcore.sqlserver/9.0.1",
       "hashPath": "microsoft.entityframeworkcore.sqlserver.9.0.1.nupkg.sha512"
+    },
+    "Microsoft.EntityFrameworkCore.Tools/9.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Yu0+5OInULF5PJX/ILZFWNT4ODBv4CSbS1TCXhkZYI6FxC7WguanhmCY9DL6U1R1YQ1tC38RspbxklmBBuk1SA==",
+      "path": "microsoft.entityframeworkcore.tools/9.0.1",
+      "hashPath": "microsoft.entityframeworkcore.tools.9.0.1.nupkg.sha512"
     },
     "Microsoft.Extensions.ApiDescription.Server/6.0.5": {
       "type": "package",

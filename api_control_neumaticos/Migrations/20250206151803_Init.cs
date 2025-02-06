@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace api_control_neumaticos.Migrations
 {
     /// <inheritdoc />
-    public partial class AgregarRelacionUsuarioSolicitud : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
