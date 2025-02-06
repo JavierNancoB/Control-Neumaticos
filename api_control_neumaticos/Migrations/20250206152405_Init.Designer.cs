@@ -12,8 +12,8 @@ using api_control_neumaticos.Models;
 namespace api_control_neumaticos.Migrations
 {
     [DbContext(typeof(ControlNeumaticosContext))]
-    [Migration("20250206115841_AgregarRelacionUsuarioSolicitud")]
-    partial class AgregarRelacionUsuarioSolicitud
+    [Migration("20250206152405_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

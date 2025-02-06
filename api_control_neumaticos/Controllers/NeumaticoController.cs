@@ -445,8 +445,8 @@ namespace api_control_neumaticos.Controllers
                 }
                 else if(tipoNeumatico == 4)
                 {
-                    await RegistrarHistorial(neumatico, idUsuario, 10, "Transición a bodega");
-                    await RegistrarBitacora(idUsuario, 10, neumatico.ID_NEUMATICO, "Neumatico", "Se guarda neumático en bodega");
+                    await RegistrarHistorial(neumatico, idUsuario, 3, "Transición a bodega");
+                    await RegistrarBitacora(idUsuario, 3, neumatico.ID_NEUMATICO, "Neumatico", "Se guarda neumático en bodega");
                 }
                 neumatico.TIPO_NEUMATICO = tipoNeumatico;
             }
