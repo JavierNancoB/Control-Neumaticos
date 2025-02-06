@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 
 class CorreoTextField extends StatelessWidget {
-  const CorreoTextField({super.key});
+  final TextEditingController controller;
+
+  const CorreoTextField({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
-    return const TextField(
-      decoration: InputDecoration(
+    return TextField(
+      controller: controller,
+      decoration: const InputDecoration(
         labelText: 'Correo Electrónico',
         border: OutlineInputBorder(),
       ),
