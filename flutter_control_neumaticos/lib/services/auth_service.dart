@@ -25,20 +25,30 @@ class AuthService {
         return _handleErrorResponse(response.body);
       }
     } catch (e) {
-      return {'error': 'Error al conectar con el servidor: $e'};
+      return {'error': e.toString()};  // Muestra el error en limpio, tal cual viene
     }
   }
 
   // Maneja la respuesta exitosa de login
   Map<String, dynamic> _handleLoginResponse(String responseBody) {
-    final Map<String, dynamic> response = json.decode(responseBody);
-    return response; // Aquí se puede desestructurar si es necesario
+    try {
+      final Map<String, dynamic> response = json.decode(responseBody);
+      return response; // Aquí se puede desestructurar si es necesario
+    } catch (e) {
+      return {'error': 'Error al procesar la respuesta: $e'};
+    }
   }
 
   // Maneja las respuestas con errores
   Map<String, dynamic> _handleErrorResponse(String responseBody) {
-    final Map<String, dynamic> errorResponse = json.decode(responseBody);
-    return {'error': errorResponse['message']};
+    try {
+      // Intentamos parsear como JSON, si no podemos, devolvemos el texto tal cual
+      final Map<String, dynamic> errorResponse = json.decode(responseBody);
+      return {'error': errorResponse['message'] ?? 'Ha ocurrido un error desconocido.'};
+    } catch (e) {
+      // Si no es JSON, solo devolvemos el texto tal cual
+      return {'error': responseBody};
+    }
   }
 
   // Guarda los datos de usuario en SharedPreferences

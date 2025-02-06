@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
 
 class EnviarButton extends StatelessWidget {
-  const EnviarButton({super.key});
+  final VoidCallback onPressed;
+
+  const EnviarButton({super.key, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {
-        // Lógica de recuperación de contraseña aquí
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Función de recuperación de contraseña no implementada'),
-          ),
-        );
-      },
+      onPressed: onPressed, // Llamar a la función pasada
       child: const Text('Enviar'),
     );
   }
