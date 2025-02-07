@@ -73,7 +73,7 @@ namespace api_control_neumaticos.Controllers
                 return BadRequest("La bodega no existe.");
             }
 
-            // Verificar si el móvil existe, en caso de que sea null, ubicacion será 1
+            // Verificar si el móvil existe, en caso de que sea null, ubicación será 1
             if (createNeumaticoDto.ID_MOVIL != null)
             {
                 var movil = await _context.Movils.FindAsync(createNeumaticoDto.ID_MOVIL);
@@ -81,21 +81,31 @@ namespace api_control_neumaticos.Controllers
             else
             {
                 // en caso de que no haya movil se asigna a la bodega
-
                 createNeumaticoDto.UBICACION = 1;
                 createNeumaticoDto.TIPO_NEUMATICO = 4;
             }
 
-            //tipo de neumatico solo puede ser 1,2,3,4.
+            // Tipo de neumático solo puede ser 1,2,3,4.
             if (createNeumaticoDto.TIPO_NEUMATICO < 1 || createNeumaticoDto.TIPO_NEUMATICO > 4)
             {
                 return BadRequest("El tipo de neumático no es válido.");
             }
 
-            // en caso de que haya movil y se envie la ubicacion 1 se cambia a 2
+            // En caso de que haya móvil y se envíe la ubicación 1, se cambia a 2
             if (createNeumaticoDto.UBICACION == 1 && createNeumaticoDto.ID_MOVIL != null)
             {
                 createNeumaticoDto.UBICACION = 2; // Cambiar ubicación si es necesario
+            }
+
+            // Verificar si ya existe un neumático en la misma ubicación para el mismo vehículo
+            if (createNeumaticoDto.ID_MOVIL != null)
+            {
+                var existeNeumatico = await _context.Neumaticos
+                    .AnyAsync(n => n.ID_MOVIL == createNeumaticoDto.ID_MOVIL && n.UBICACION == createNeumaticoDto.UBICACION);
+                if (existeNeumatico)
+                {
+                    return Conflict("Ya existe un neumático en esta ubicación para el mismo vehículo.");
+                }
             }
 
             // Mapear y crear el neumático
@@ -136,6 +146,7 @@ namespace api_control_neumaticos.Controllers
             var neumaticoDto = _mapper.Map<NeumaticosDto>(neumatico);
             return CreatedAtAction(nameof(GetNeumatico), new { id = neumaticoDto.ID_NEUMATICO }, neumaticoDto);
         }
+
 
         // PUT: api/Neumaticos/5
         [HttpPut("{id}")]
@@ -264,9 +275,8 @@ namespace api_control_neumaticos.Controllers
                 if (confirmacionMovil == 1) // 1 para confirmar que la ID_MOVIL se debe dejar como null
                 {
                     neumatico.ID_MOVIL = null;
+                    neumatico.UBICACION = 1;
                 }
-                
-                neumatico.UBICACION = 1;
             }
             else if (estado == 1)
             {
@@ -327,19 +337,20 @@ namespace api_control_neumaticos.Controllers
             DateTime fechaIngreso, 
             int kmTotal, 
             int tipoNeumatico,
-            [FromQuery] int idUsuario) // Agregar idUsuario
-            {
-            var neumatico = await _context.Neumaticos.FirstOrDefaultAsync(n => n.CODIGO == codigo);
+            [FromQuery] int idUsuario) 
+        {
+            Console.WriteLine($"Iniciando ModificarNeumaticoPorCodigo con código: {codigo}, patente: {patente}, ubicacion: {ubicacion}, fechaIngreso: {fechaIngreso}, kmTotal: {kmTotal}, tipoNeumatico: {tipoNeumatico}, idUsuario: {idUsuario}");
 
+            var neumatico = await _context.Neumaticos.FirstOrDefaultAsync(n => n.CODIGO == codigo);
             if (neumatico == null)
             {
+                Console.WriteLine($"Neumático con código {codigo} no encontrado.");
                 return NotFound();
             }
-            
+
             var mismovehiculo = true;
-            
-            var cambios = new List<string>(); // Lista para los cambios realizados
-                var diccionarioUbicaciones = new Dictionary<int, string>
+            var cambios = new List<string>(); 
+            var diccionarioUbicaciones = new Dictionary<int, string>
             {
                 { 1, "BODEGA" },
                 { 2, "DIRECCIONAL IZQUIERDA" },
@@ -359,19 +370,21 @@ namespace api_control_neumaticos.Controllers
                 { 16, "REPUESTO" }
             };
 
-            // Verificar cambios en la patente (solo si no es nula), esto quiere decir que se asigna a un móvil
+            // Verificar cambios en la patente
             if (!string.IsNullOrEmpty(patente))
             {
+                Console.WriteLine($"Verificando patente: {patente}");
                 var movil = await _context.Movils.FirstOrDefaultAsync(m => m.Patente == patente);
                 if (movil == null)
                 {
+                    Console.WriteLine($"Móvil con patente {patente} no encontrado.");
                     return NotFound("Móvil no encontrado con esa patente.");
                 }
 
                 if (neumatico.ID_MOVIL != movil.IdMovil)
                 {
-                    // Se registra el cambio de móvil en el historial
                     mismovehiculo = false;
+                    Console.WriteLine($"Se asigna un nuevo móvil: {movil.IdMovil}");
                     await RegistrarHistorial(neumatico, idUsuario, 3, $"Móvil asignado: {movil.IdMovil}");   
                     await RegistrarBitacora(idUsuario, 3, neumatico.ID_NEUMATICO, "Neumatico", $"Móvil asignado: {movil.IdMovil}");                     
                 }
@@ -381,46 +394,45 @@ namespace api_control_neumaticos.Controllers
             }
             else
             {
-                // Si no hay patente, lo asignamos a la bodega
+                Console.WriteLine("No se proporciona patente, asignando a la bodega.");
                 ubicacion = 1;
                 neumatico.ID_MOVIL = null;
             }
 
-            // Verificar si ya hay un neumático en la misma ubicación para el mismo vehículo
+            // Verificar si ya hay un neumático en la misma ubicación
             if (neumatico.ID_MOVIL.HasValue && ubicacion != 1)
             {
                 var existeNeumatico = await _context.Neumaticos
-                    .AnyAsync(n => n.ID_MOVIL == neumatico.ID_MOVIL && n.UBICACION == ubicacion && n.CODIGO != codigo);
+                .AnyAsync(n => n.ID_MOVIL == neumatico.ID_MOVIL && n.UBICACION == ubicacion && n.CODIGO != codigo);
 
                 if (existeNeumatico)
                 {
+                    Console.WriteLine($"Conflicto: Ya existe un neumático en la ubicación {ubicacion} para el vehículo con código {codigo}.");
                     return Conflict("Ya existe un neumático en esta ubicación para el mismo vehículo.");
                 }
             }
 
-
             // Verificar y registrar cambios en otros campos
             if (neumatico.UBICACION != ubicacion && mismovehiculo)
             {
+                Console.WriteLine($"Cambio de ubicación: {neumatico.UBICACION} -> {ubicacion}");
                 neumatico.UBICACION = ubicacion;
-                // si se manda una ubicacion con patente y es 1 entonces se cambia a 2
-                if (ubicacion == 1)
-                {
-                    ubicacion = 2; // Cambiar ubicación si es necesario
-                }
+                if (ubicacion == 1) ubicacion = 2;
                 await RegistrarHistorial(neumatico, idUsuario, 4, $"Rotación dentro del mismo vehiculo ubicación cambiada a {diccionarioUbicaciones[ubicacion]}");
                 await RegistrarBitacora(idUsuario, 4, neumatico.ID_NEUMATICO, "Neumatico", $"Rotación dentro del mismo vehiculo ubicación cambiada a {diccionarioUbicaciones[ubicacion]}");
             }
 
             if (neumatico.FECHA_INGRESO != fechaIngreso)
             {
+                Console.WriteLine($"Cambio de fecha de ingreso: {neumatico.FECHA_INGRESO} -> {fechaIngreso}");
                 neumatico.FECHA_INGRESO = fechaIngreso;
                 await RegistrarHistorial(neumatico, idUsuario, 7, $"Fecha de ingreso cambiada a {fechaIngreso}");
                 await RegistrarBitacora(idUsuario, 7, neumatico.ID_NEUMATICO, "Neumatico", $"Fecha de ingreso cambiada a {fechaIngreso}");
-           }
+            }
 
             if (neumatico.KM_TOTAL != kmTotal)
             {
+                Console.WriteLine($"Cambio de kilómetros totales: {neumatico.KM_TOTAL} -> {kmTotal}");
                 neumatico.KM_TOTAL = kmTotal;
                 await RegistrarHistorial(neumatico, idUsuario, 8, $"Kilómetros totales cambiados a {kmTotal}");
                 await RegistrarBitacora(idUsuario, 8, neumatico.ID_NEUMATICO, "Neumatico", $"Kilómetros totales cambiados a {kmTotal}");
@@ -428,6 +440,7 @@ namespace api_control_neumaticos.Controllers
 
             if (neumatico.TIPO_NEUMATICO != tipoNeumatico)
             {
+                Console.WriteLine($"Cambio de tipo de neumático: {neumatico.TIPO_NEUMATICO} -> {tipoNeumatico}");
                 if (tipoNeumatico == 2 && neumatico.TIPO_NEUMATICO != 2)
                 {
                     await RegistrarHistorial(neumatico, idUsuario, 5, "Transición a Direccional");
@@ -453,15 +466,16 @@ namespace api_control_neumaticos.Controllers
 
             if(tipoNeumatico != 4 && neumatico.UBICACION == 1)
             {
+                Console.WriteLine("Asignando tipo neumático a bodega por ubicación 1.");
                 tipoNeumatico = 4;
             }
 
             // Si hubo cambios, los registramos en el historial
             if (cambios.Any())
             {
-                // Guardamos los cambios en el historial uno por uno
                 foreach (var cambio in cambios)
                 {
+                    Console.WriteLine($"Registrando cambio en historial: {cambio}");
                     var historialDto = new CreateHistorialNeumaticoRequestDto
                     {
                         IDNeumatico = neumatico.ID_NEUMATICO,
@@ -485,9 +499,11 @@ namespace api_control_neumaticos.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
+                Console.WriteLine("Error de concurrencia al guardar cambios.");
                 return Conflict("Hubo un problema al intentar actualizar el neumático. Puede haber un conflicto de concurrencia.");
             }
 
+            Console.WriteLine("Proceso completado correctamente.");
             return NoContent();
         }
 

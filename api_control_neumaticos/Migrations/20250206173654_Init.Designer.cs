@@ -12,7 +12,7 @@ using api_control_neumaticos.Models;
 namespace api_control_neumaticos.Migrations
 {
     [DbContext(typeof(ControlNeumaticosContext))]
-    [Migration("20250206152405_Init")]
+    [Migration("20250206173654_Init")]
     partial class Init
     {
         /// <inheritdoc />

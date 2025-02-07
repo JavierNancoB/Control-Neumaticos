@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import '../../widgets/button.dart'; 
+import '../../widgets/button.dart';
 import '../../screens/nfc/nfc_reader.dart';
 import 'stock/stock_page.dart';
 import 'patentes/patente_screen.dart';
 import 'alertas/alertas_menu.dart';
 import 'admin/admin_menu_screen.dart';
+import 'admin/usuario/reestablecer_passw_page.dart';
 import '../../services/menu_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MenuScreen extends StatefulWidget {
   const MenuScreen({super.key});
@@ -16,11 +18,15 @@ class MenuScreen extends StatefulWidget {
 
 class _MenuScreenState extends State<MenuScreen> {
   Color? alertaColor = Colors.grey[10];
+  String? userEmail;
+  bool isDisabled = false;
+  String errorMessage = '';
 
   @override
   void initState() {
     super.initState();
     _checkAlertaPendiente();
+    _loadUserData(); // Cargar el correo y fecha del usuario después de loguearse
   }
 
   void _checkAlertaPendiente() {
@@ -32,6 +38,41 @@ class _MenuScreenState extends State<MenuScreen> {
       print('Error al verificar alertas: $e');
     });
   }
+
+  // Método para cargar el correo y la fecha del usuario autenticado
+  void _loadUserData() async {
+  final prefs = await SharedPreferences.getInstance();
+  final String? dateString = prefs.getString('date');
+  final String? username = prefs.getString('username');
+
+  print('Fecha guardada en preferencias: $dateString');
+  print('Usuario guardado en preferencias: $username');
+
+  if (dateString != null && username != null) {
+    setState(() {
+      userEmail = username;
+    });
+
+    // Convertir la fecha guardada de string a DateTime
+    DateTime fechaClave = DateTime.parse(dateString);
+    DateTime now = DateTime.now();
+    int difference = now.difference(fechaClave).inDays;
+
+    print('Fecha actual: $now');
+    print('Fecha clave almacenada: $fechaClave');
+    print('Diferencia en días: $difference');
+
+    // Si la diferencia es mayor a 70, deshabilitamos las opciones
+    if (difference > 70) {
+      setState(() {
+        isDisabled = true;
+        errorMessage = 'Te quedan ${80 - difference} días para cambiar tu contraseña. Se deshabilitarán opciones, en caso de exceder el tiempo se bloqueará tu cuenta.';
+      });
+      print('Usuario deshabilitado. Mensaje de error: $errorMessage');
+    }
+  }
+}
+
 
   void _navigateTo(BuildContext context, Widget page) {
     Navigator.push(context, MaterialPageRoute(builder: (context) => page))
@@ -48,35 +89,68 @@ class _MenuScreenState extends State<MenuScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('Selecciona una opción')),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            StandarButton(
-              text: 'Información por patente',
-              onPressed: () => _navigateTo(context, PatentePage()),
-            ),
-            const SizedBox(height: 20),
-            StandarButton(
-              text: 'Bitácora',
-              onPressed: () => _navigateTo(context, NFCReader(action: 'informacion')),
-            ),
-            const SizedBox(height: 20),
-            StandarButton(
-              text: alertaColor == Colors.yellow ? 'Existen alertas pendientes' : 'Alertas',
-              onPressed: () => _navigateTo(context, AlertasMenu()),
-              color: alertaColor,
-            ),
-            const SizedBox(height: 20),
-            StandarButton(
-              text: 'Stock',
-              onPressed: () => _navigateTo(context, StockPage()),
-            ),
-            const SizedBox(height: 20),
-            StandarButton(
-              text: 'Administración',
-              onPressed: () => _navigateTo(context, const AdminOptions()),
-            ),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              if (isDisabled)
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                  child: Text(
+                    errorMessage,
+                    style: TextStyle(color: Colors.red, fontSize: 16),
+                    textAlign: TextAlign.center, // Asegura que el texto esté centrado
+                  ),
+                ),
+              ),
+              StandarButton(
+                text: 'Información por patente',
+                onPressed: isDisabled ? null : () => _navigateTo(context, PatentePage()),
+                color: isDisabled ? Colors.grey[400] : null,
+              ),
+              const SizedBox(height: 20),
+              StandarButton(
+                text: 'Bitácora',
+                onPressed: isDisabled ? null : () => _navigateTo(context, NFCReader(action: 'informacion')),
+                color: isDisabled ? Colors.grey[400] : null,
+              ),
+              const SizedBox(height: 20),
+              StandarButton(
+                text: alertaColor == Colors.yellow ? 'Existen alertas pendientes' : 'Alertas',
+                onPressed: isDisabled ? null : () => _navigateTo(context, AlertasMenu()),
+                color: isDisabled ? Colors.grey[400] : alertaColor,
+              ),
+              const SizedBox(height: 20),
+              StandarButton(
+                text: 'Stock',
+                onPressed: isDisabled ? null : () => _navigateTo(context, StockPage()),
+                color: isDisabled ? Colors.grey[400] : null,
+              ),
+              const SizedBox(height: 20),
+              StandarButton(
+                text: 'Administración',
+                onPressed: isDisabled ? null : () => _navigateTo(context, const AdminOptions()),
+                color: isDisabled ? Colors.grey[400] : null,
+              ),
+              const SizedBox(height: 20),
+              StandarButton(
+                text: 'Reestablecer Contraseña',
+                onPressed: () {
+                  if (userEmail != null) {
+                    _navigateTo(
+                      context,
+                      ReestablecerPasswPage(
+                        email: userEmail!,
+                        autoGenerada: false,
+                        admin: false,
+                      ),
+                    );
+                  }
+                },
+              ),
+            ]
+          ),
         ),
       ),
     );

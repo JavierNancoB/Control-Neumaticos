@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'modificar_usuario_screen.dart';
-//import 'reestablecer_passw_page.dart';
+import 'seleccionar_restablecimiento_page.dart';
 import '../../../../services/admin/usuarios/ingresar_correo_service.dart';
 
 class IngresarCorreoPage extends StatefulWidget {
@@ -37,9 +37,14 @@ class _IngresarCorreoPageState extends State<IngresarCorreoPage> {
       bool usuarioExiste = await usuarioService.buscarUsuarioPorCorreo(correoIngresado);
 
       if (usuarioExiste) {
-        Widget destinoPage = widget.actionType == 'usuario'
-            ? ModificarUsuarioPage(email: correoIngresado)
-            : ModificarUsuarioPage(email: correoIngresado);
+        late Widget destinoPage;
+
+        if (widget.actionType == 'usuario') {
+          destinoPage = ModificarUsuarioPage(email: correoIngresado);
+        } else{
+          // Redirigir a la página de selección de método de restablecimiento
+          destinoPage = SeleccionarRestablecimientoPage(email: correoIngresado);
+        }
 
         Navigator.push(
           context,

@@ -8,7 +8,7 @@ class EnviarButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: onPressed, // Llamar a la función pasada
+      onPressed: onPressed,
       child: const Text('Enviar'),
     );
   }

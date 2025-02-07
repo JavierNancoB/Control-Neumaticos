@@ -16,8 +16,8 @@ class _AnadirMovilPageState extends State<AnadirMovilPage> {
   final TextEditingController _modeloController = TextEditingController();
 
   String _tipoMovilSeleccionado = "4x2";
-  int _ejes = 6;
-  int _neumaticos = 2;
+  int _ejes = 2;
+  int _neumaticos = 6;
 
   final Map<String, Map<String, int>> _tipoMovilData = {
     "4x2": {"ejes": 2, "neumaticos": 6},

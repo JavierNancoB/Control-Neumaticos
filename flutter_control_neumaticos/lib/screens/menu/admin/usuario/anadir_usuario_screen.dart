@@ -23,6 +23,9 @@ class _AnadirUsuarioPageState extends State<AnadirUsuarioPage> {
   final List<String> _perfiles = ['ADMINISTRADOR', 'JEFE DE PLANTA'];
   final List<String> _estados = ['HABILITADO', 'DESHABILITADO'];
 
+  bool _isPasswordVisible = false; // Controlar visibilidad de la contraseña
+  bool _isRepetirClaveVisible = false; // Controlar visibilidad de "repetir contraseña"
+
   // Método para guardar el usuario
   Future<void> _guardarUsuario() async {
     final String nombres = _nombresController.text;
@@ -48,9 +51,30 @@ class _AnadirUsuarioPageState extends State<AnadirUsuarioPage> {
       return;
     }
 
-    if (clave.length < 6) {
+    if (clave.length < 8) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('La contraseña debe tener al menos 6 caracteres')),
+        const SnackBar(content: Text('La contraseña debe tener al menos 8 caracteres')),
+      );
+      return;
+    }
+
+    if (!RegExp(r'^(?=.*[A-Z])').hasMatch(clave)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('La contraseña debe tener al menos una letra mayúscula')),
+      );
+      return;
+    }
+
+    if (!RegExp(r'^(?=.*\d)').hasMatch(clave)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('La contraseña debe tener al menos un número')),
+      );
+      return;
+    }
+
+    if (!RegExp(r'^(?=.*[!@#$%^&*(),.?":{}|<>])').hasMatch(clave)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('La contraseña debe tener al menos un carácter especial')),
       );
       return;
     }
@@ -148,16 +172,67 @@ class _AnadirUsuarioPageState extends State<AnadirUsuarioPage> {
                 decoration: const InputDecoration(labelText: 'Correo'),
               ),
               const SizedBox(height: 10),
-              TextField(
+              TextFormField(
                 controller: _claveController,
-                decoration: const InputDecoration(labelText: 'Clave'),
-                obscureText: true,
+                decoration: InputDecoration(
+                  labelText: 'Clave',
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _isPasswordVisible = !_isPasswordVisible;
+                      });
+                    },
+                  ),
+                ),
+                obscureText: !_isPasswordVisible,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'La contraseña no puede estar vacía';
+                  }
+                  if (value.length < 8) {
+                    return 'La contraseña debe tener al menos 8 caracteres';
+                  }
+                  if (!RegExp(r'^(?=.*[A-Z])').hasMatch(value)) {
+                    return 'La contraseña debe tener al menos una letra mayúscula';
+                  }
+                  if (!RegExp(r'^(?=.*\d)').hasMatch(value)) {
+                    return 'La contraseña debe tener al menos un número';
+                  }
+                  if (!RegExp(r'^(?=.*[!@#$%^&*(),.?":{}|<>])').hasMatch(value)) {
+                    return 'La contraseña debe tener al menos un carácter especial';
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: 10),
-              TextField(
+              TextFormField(
                 controller: _repetirClaveController,
-                decoration: const InputDecoration(labelText: 'Repetir Clave'),
-                obscureText: true,
+                decoration: InputDecoration(
+                  labelText: 'Repetir Clave',
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _isRepetirClaveVisible ? Icons.visibility : Icons.visibility_off,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _isRepetirClaveVisible = !_isRepetirClaveVisible;
+                      });
+                    },
+                  ),
+                ),
+                obscureText: !_isRepetirClaveVisible,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor, repite la contraseña';
+                  }
+                  if (value != _claveController.text) {
+                    return 'Las contraseñas no coinciden';
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: 20),
               ElevatedButton(

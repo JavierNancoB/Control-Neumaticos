@@ -19,6 +19,30 @@ class BitacoraService {
     return userId;
   }
 
+  static Future<bool> existenDosPinchazos(int idNeumatico) async {
+    String? token = await getToken();
+    if (token == null || token.isEmpty) {
+      print('Token no encontrado o vacío');
+      return false;
+    }
+
+    final response = await http.get(
+      Uri.parse('http://localhost:5062/api/HistorialNeumatico/ExistenDosPinchazos/$idNeumatico'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final result = json.decode(response.body);
+      return result == true; // Retorna true si existen dos pinchazos, de lo contrario false
+    } else {
+      print('Error al consultar los pinchazos: ${response.statusCode}');
+      return false;
+    }
+  }
+
   // Función para añadir una bitácora
   static Future<bool> addBitacora(int idNeumatico, int userId, int? codigo, int? estado, String observacion) async {
     print('Iniciando addBitacora');

@@ -30,6 +30,8 @@ namespace api_control_neumaticos.Models
 
         public int IntentosFallidos { get; set; }
 
+        public string? ContraseñaTemporal { get; set; }
+
         public virtual ICollection<SolicitudCorreos> SolicitudesEnviadas { get; set; } = new List<SolicitudCorreos>();
     }
 }
