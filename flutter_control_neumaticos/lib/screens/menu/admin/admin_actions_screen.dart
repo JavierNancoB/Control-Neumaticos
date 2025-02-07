@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../nfc/nfc_reader.dart';
 import 'usuario/ingresar_correo.dart';
 import 'usuario/deshabilitar_usuario_screen.dart';
-import 'usuario/añadir_usuario_screen.dart';
+import 'usuario/anadir_usuario_screen.dart';
 import 'movil/añadir_movil_screen.dart';
 import 'movil/deshabilitar_movil_screen.dart';
 import 'ingresar_patente.dart';

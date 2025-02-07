@@ -289,34 +289,61 @@ namespace api_control_neumaticos.Controllers
 
             if (usuario == null)
             {
-                return NotFound();
+                return NotFound("Usuario no encontrado.");
+            }
+
+            // Verificar si la nueva contraseña es igual a la anterior
+            if (!autogenerada && _passwordHasher.VerifyHashedPassword(usuario, usuario.Clave, Request.Query["NuevaClave"].ToString()) == PasswordVerificationResult.Success)
+            {
+                return BadRequest("La nueva contraseña no puede ser la misma que la anterior.");
             }
 
             if (autogenerada)
             {
-                usuario.Clave = _passwordHasher.HashPassword(usuario, mail.Split('@')[0]);
-                await EnviarCorreoNotificacion(mail, "Restablecimiento de contraseña", $"Su contraseña ha sido restablecida con éxito. Posee 2 días para cambiarla.\n\nATENCION: No comparta esta información con nadie, su nueva contraseña es: {mail.Split('@')[0]}. \n\nSe sugiere cambiar la contraseña INMEDIATAMENTE por una más segura.\n\nAtentamente el equipo de Control Neumáticos. Favor no responder a este correo automatizado.");
-                usuario.FechaClave = DateTime.Now.AddDays(-78);
+                // Contraseña autogenerada
+                var nuevaClave = mail.Split('@')[0]; // Usamos el nombre antes del '@' como clave
+                usuario.Clave = _passwordHasher.HashPassword(usuario, nuevaClave);
+
+                await EnviarCorreoNotificacion(mail, "Restablecimiento de contraseña", $"Su contraseña ha sido restablecida con éxito. Posee 2 días para cambiarla.\n\nATENCION: No comparta esta información con nadie, su nueva contraseña es: {nuevaClave}. \n\nSe sugiere cambiar la contraseña INMEDIATAMENTE por una más segura.\n\nAtentamente el equipo de Control Neumáticos. Favor no responder a este correo automatizado.");
+                // si es administrador la fecha sera hoy menos 78 dias
+                if(administrador){
+                    usuario.FechaClave = DateTime.Now.AddDays(-78);
+                    Console.WriteLine($"Fecha antes de guardar3: {usuario.FechaClave}");
+                }
+                else{
+                    usuario.FechaClave = DateTime.Now;
+                    Console.WriteLine($"Fecha antes de guardar4: {usuario.FechaClave}");
+                }
+
             }
             else
             {
-                usuario.Clave = _passwordHasher.HashPassword(usuario, Request.Query["NuevaClave"].ToString());
-                await EnviarCorreoNotificacion(mail, "Restablecimiento de contraseña", $"Su contraseña ha sido restablecida con éxito. Posee 2 días para cambiarla.\n\nATENCION: No comparta esta información con nadie, su nueva contraseña es: {Request.Query["NuevaClave"]}. \n\nSe sugiere cambiar INMEDIATAMENTE la contraseña por una más segura.\n\nAtentamente el equipo de Control Neumáticos. Favor no responder a este correo automatizado.");
-                usuario.FechaClave = DateTime.Now.AddDays(-78);
-            }
-            if (administrador)
-            {
-                await RegistrarBitacora(usuario.IdUsuario, 18, usuario.IdUsuario, "Usuario", "Restablecimiento de contraseña");
+                // Contraseña proporcionada por el administrador o usuario
+                var nuevaClave = Request.Query["NuevaClave"].ToString();
+                usuario.Clave = _passwordHasher.HashPassword(usuario, nuevaClave);
+
+                await EnviarCorreoNotificacion(mail, "Restablecimiento de contraseña", $"Su contraseña ha sido restablecida con éxito. Posee 2 días para cambiarla.\n\nATENCION: No comparta esta información con nadie, su nueva contraseña es: {nuevaClave}. \n\nSe sugiere cambiar INMEDIATAMENTE la contraseña por una más segura.\n\nAtentamente el equipo de Control Neumáticos. Favor no responder a este correo automatizado.");
+                if(administrador){
+                    usuario.FechaClave = DateTime.Now.AddDays(-78);
+                    Console.WriteLine($"Fecha antes de guardar1: {usuario.FechaClave}");
+                }
+                else{
+                    usuario.FechaClave = DateTime.Now;
+                    Console.WriteLine($"Fecha antes de guardar2: {usuario.FechaClave}");
+                }
             }
 
-            usuario.IntentosFallidos = 0;
-            usuario.FechaClave = DateTime.Now;
-            usuario.CodEstado = 1;
-            _context.Entry(usuario).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+        // Reiniciar intentos fallidos y actualizar datos del usuario
+        usuario.IntentosFallidos = 0;
+        usuario.CodEstado = 1; // Restaurar estado activo
 
-            return NoContent();
-        }
+        _context.Entry(usuario).State = EntityState.Modified;
+        
+        await _context.SaveChangesAsync();
+
+        return NoContent();
+    }
+
 
 
         // Enviar correo de notificación de contraseña restablecida

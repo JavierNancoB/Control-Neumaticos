@@ -51,12 +51,12 @@ namespace api_control_neumaticos.Controllers
             _context.HistorialesNeumaticos.Add(historialNeumatico);
             await _context.SaveChangesAsync();
 
-            // Verificar si ya existen dos bitácoras con el código 5 para el mismo neumático
+            // Verificar si ya existen dos bitácoras con el código 11 para el mismo neumático
             var historialNeumaticoConCodigo11 = await _context.HistorialesNeumaticos
                 .Where(b => b.CODIGO == 11 && b.IDNeumatico == createHistorialNeumaticoDto.IDNeumatico)
                 .ToListAsync();
 
-            if (historialNeumaticoConCodigo11.Count == 2)
+            if (historialNeumaticoConCodigo11.Count == 3)
             {
                 // Crear la alerta
                 var alertaDto = new CreateAlertaRequestDto
@@ -177,5 +177,21 @@ namespace api_control_neumaticos.Controllers
         {
             await _emailSender.SendEmailAsync("javier.nanco@pentacrom.cl", subject, message);
         }
+        /************************Existen ya 2 pinchazos (codigo 11), si existen retorna true*************************/
+        // un get que retorne true si ya existen 2 pinchazos para el mismo neumático
+        [HttpGet("ExistenDosPinchazos/{idNeumatico}")]
+        public async Task<ActionResult<bool>> ExistenDosPinchazos(int idNeumatico)
+        {
+            var historialNeumaticoConCodigo11 = await _context.HistorialesNeumaticos
+                .Where(b => b.CODIGO == 11 && b.IDNeumatico == idNeumatico)
+                .ToListAsync();
+
+            if (historialNeumaticoConCodigo11.Count >= 2)
+            {
+                return true;
+            }
+            return false;
+        }
+
     }
 }

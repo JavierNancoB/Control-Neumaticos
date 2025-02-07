@@ -77,11 +77,11 @@ class _IngresarPatentePageState extends State<IngresarPatentePage> {
             );
           },
         ),
-        if (widget.tipo != 'movil' && widget.tipo != 'Asignar') 
+        if (widget.tipo != 'movil') 
           const Padding(
             padding: EdgeInsets.only(top: 8.0),
             child: Text(
-              'Si no ingresa ninguna patente, el neumático no se asignará a ninguna.',
+              'Si no ingresa ninguna patente, el neumático no se asignará a ningun movil.',
               style: TextStyle(fontSize: 16, color: Colors.grey),
             ),
           ),

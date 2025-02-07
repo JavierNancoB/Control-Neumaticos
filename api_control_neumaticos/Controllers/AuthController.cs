@@ -99,6 +99,9 @@ namespace api_control_neumaticos.Controllers
                 APELLIDOS = usuario.Apellidos,
                 CORREO = usuario.Correo,
                 CODIGO_PERFIL = usuario.CodigoPerfil,
+                COD_ESTADO = usuario.CodEstado,
+                FECHA_CLAVE = usuario.FechaClave,
+
                 TOKEN = token  // Aquí agregamos el token generado
             };
 

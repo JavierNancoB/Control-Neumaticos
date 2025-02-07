@@ -22,6 +22,7 @@ class _AsignarNeumaticoPageState extends State<AsignarNeumaticoPage> {
   final TextEditingController _patenteController = TextEditingController();
   final TextEditingController _kmController = TextEditingController();
   final TextEditingController _tipoNeumaticoController = TextEditingController();
+  bool _alertaTipoMostrada = false;
 
   @override
   void initState() {
@@ -55,6 +56,7 @@ class _AsignarNeumaticoPageState extends State<AsignarNeumaticoPage> {
 
   void _updateTipoNeumatico() {
     if (_neumatico != null) {
+      int tipoAnterior = _neumatico!.tipoNeumatico; // Guardamos el tipo anterior
       switch (_neumatico!.ubicacion) {
         case 1:
           _neumatico!.tipoNeumatico = 4;
@@ -87,6 +89,19 @@ class _AsignarNeumaticoPageState extends State<AsignarNeumaticoPage> {
       setState(() {
         _tipoNeumaticoController.text = Diccionario.obtenerDescripcion(Diccionario.tipoNeumatico, _neumatico!.tipoNeumatico);
       });
+      // Verificamos si el tipo anterior era 1 (traccional) y el nuevo es 2 (direccional)
+      if (tipoAnterior == 1 && _neumatico!.tipoNeumatico == 2 && !_alertaTipoMostrada) {
+        // Mostrar alerta solo si no se ha mostrado antes
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'Por seguridad no se recomienda traspasar un neumático traccional a direccional.',
+              style: TextStyle(color: Colors.red),
+            ),
+          ),
+        );
+        _alertaTipoMostrada = true; // Marcar que ya se mostró la alerta
+      }
     }
   }
 

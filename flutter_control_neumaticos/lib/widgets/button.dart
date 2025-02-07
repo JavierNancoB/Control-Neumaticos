@@ -2,31 +2,32 @@ import 'package:flutter/material.dart';
 
 class StandarButton extends StatelessWidget {
   final String text;
-  final VoidCallback onPressed;
-  final Color? color; // Agregar el color como parámetro opcional
+  final VoidCallback? onPressed;
+  final Color? color;
 
   const StandarButton({
     super.key,
     required this.text,
-    required this.onPressed,
-    this.color, // Color es opcional
+    this.onPressed,
+    this.color,
   });
 
   @override
   Widget build(BuildContext context) {
+    final bool isDisabled = onPressed == null;
+
     return SizedBox(
-      width: 250, // Ancho fijo para todos los botones
+      width: 250,
       child: ElevatedButton(
-        onPressed: () {
-          print("Botón presionado: $text");  // Verificar si el botón fue presionado
-          onPressed();
-        },
+        onPressed: isDisabled ? null : onPressed, // Deshabilitar completamente el botón
         style: ElevatedButton.styleFrom(
-          backgroundColor: color ?? Colors.grey[10], // Cambiado 'primary' por 'backgroundColor'
+          backgroundColor: isDisabled ? Colors.grey[400] : (color ?? Colors.grey[10]),
+          elevation: isDisabled ? 0 : 2, // Sin sombra cuando está deshabilitado
         ),
-        child: Text(text),
+        child: Text(
+          text,
+        ),
       ),
     );
   }
 }
-
