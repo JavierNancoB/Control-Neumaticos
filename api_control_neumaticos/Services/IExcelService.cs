@@ -137,7 +137,7 @@ namespace api_control_neumaticos.Services.IExcelService
                     {
                         sheet.Cells[row + 2, col + 1].Value = GetDescripcion<int>(estadoNeumaticoCodigo, Estado);
                     }
-                    else if (properties[col].Name == "UBICAION" && value is int ubicacionCodigo)
+                    else if (properties[col].Name == "UBICACION" && value is int ubicacionCodigo)
                     {
                         sheet.Cells[row + 2, col + 1].Value = GetDescripcion<int>(ubicacionCodigo, UbicacionNeumatico);
                     }
