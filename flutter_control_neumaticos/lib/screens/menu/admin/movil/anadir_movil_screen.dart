@@ -1,7 +1,7 @@
 // Pantalla de Añadir Móvil
 import 'package:flutter/material.dart';
 import '../../../../models/movil.dart';
-import '../../../../services/admin/movil/añadir_movil_service.dart';
+import '../../../../services/admin/movil/anadir_movil_service.dart';
 
 class AnadirMovilPage extends StatefulWidget {
   const AnadirMovilPage({super.key});

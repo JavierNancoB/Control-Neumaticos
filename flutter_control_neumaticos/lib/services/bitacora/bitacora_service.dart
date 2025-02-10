@@ -7,7 +7,6 @@ class BitacoraService {
   static Future<String?> getToken() async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
-    print('Token obtenido: $token');
     return token;
   }
 
@@ -15,14 +14,12 @@ class BitacoraService {
   static Future<int> getUserId() async {
     final prefs = await SharedPreferences.getInstance();
     final userId = prefs.getInt('userId') ?? 1; // Default userId 1 if not found
-    print('UserId obtenido: $userId');
     return userId;
   }
 
   static Future<bool> existenDosPinchazos(int idNeumatico) async {
     String? token = await getToken();
     if (token == null || token.isEmpty) {
-      print('Token no encontrado o vacío');
       return false;
     }
 
@@ -38,17 +35,14 @@ class BitacoraService {
       final result = json.decode(response.body);
       return result == true; // Retorna true si existen dos pinchazos, de lo contrario false
     } else {
-      print('Error al consultar los pinchazos: ${response.statusCode}');
       return false;
     }
   }
 
   // Función para añadir una bitácora
   static Future<bool> addBitacora(int idNeumatico, int userId, int? codigo, int? estado, String observacion) async {
-    print('Iniciando addBitacora');
     String? token = await getToken();
     if (token == null || token.isEmpty) {
-      print('Token no encontrado o vacío');
       return false;
     }
 
@@ -61,7 +55,6 @@ class BitacoraService {
       "observacion": observacion,
     };
 
-    print('Datos a enviar: $data');
 
     final response = await http.post(
       Uri.parse('http://localhost:5062/api/HistorialNeumatico'),
@@ -72,7 +65,6 @@ class BitacoraService {
       body: json.encode(data),
     );
 
-    print('Respuesta del servidor: ${response.statusCode} - ${response.body}');
 
     return response.statusCode == 201;
   }

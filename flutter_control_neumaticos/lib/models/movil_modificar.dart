@@ -16,7 +16,6 @@ class Movil {
   });
 
   factory Movil.fromJson(Map<String, dynamic> json) {
-  print("JSON recibido: $json");  // Agregar un print para depurar
 
   return Movil(
     patente: json['patente']?.trim() ?? '',

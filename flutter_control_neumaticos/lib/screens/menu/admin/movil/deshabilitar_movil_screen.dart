@@ -28,9 +28,9 @@ class _CambiarEstadoMovilPageState extends State<CambiarEstadoMovilPage> {
       setState(() {
         patentesSugeridas = sugerencias;
       });
-      print("Sugerencias de patentes: $patentesSugeridas");  // Debug print
+      // Debug print
     } catch (e) {
-      print("Error al obtener sugerencias: $e");
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
     }
   }
 
@@ -53,7 +53,6 @@ class _CambiarEstadoMovilPageState extends State<CambiarEstadoMovilPage> {
               onPressed: () async {
                 Navigator.of(context).pop();  // Cierra el diálogo
                 // Llama a la función para habilitar el camión
-                print("Habilitar con neumáticos");
                 await cambiarEstadoCamion(EstadoMovil(id: 1, descripcion: 'Habilitar'), true); // Habilitar con neumáticos
               },
               child: Text('Habilitar con neumáticos'),
@@ -62,7 +61,6 @@ class _CambiarEstadoMovilPageState extends State<CambiarEstadoMovilPage> {
               onPressed: () async {
                 Navigator.of(context).pop();  // Cierra el diálogo
                 // Llama a la función para deshabilitar el camión
-                print("Deshabilitar con neumáticos");
                 await cambiarEstadoCamion(EstadoMovil(id: 2, descripcion: 'Deshabilitar'), true); // Deshabilitar con neumáticos
               },
               child: Text('Deshabilitar con neumáticos'),
@@ -71,7 +69,6 @@ class _CambiarEstadoMovilPageState extends State<CambiarEstadoMovilPage> {
               onPressed: () async {
                 Navigator.of(context).pop();  // Cierra el diálogo
                 // Llama a la función para deshabilitar el camión sin neumáticos
-                print("Deshabilitar sin neumáticos");
                 await cambiarEstadoCamion(EstadoMovil(id: 3, descripcion: 'Deshabilitar sin neumáticos'), false); // Deshabilitar sin neumáticos
               },
               child: Text('Deshabilitar sin neumáticos'),
@@ -97,20 +94,14 @@ class _CambiarEstadoMovilPageState extends State<CambiarEstadoMovilPage> {
       return;
     }
 
-    print("Cambiando estado del camión...");
-    print("Patente: $patente");
-    print("Estado: ${estado.descripcion} (ID: ${estado.id})");
-    print("Con neumáticos: $conNeumaticos");
 
     try {
       bool success = await movilService.cambiarEstadoMovil(patente, estado, conNeumaticos);
 
       if (success) {
-        print("Estado modificado con éxito");
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Estado modificado con éxito')));
       }
     } catch (e) {
-      print("Error al modificar el estado: $e");
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
     } finally {
       setState(() {

@@ -51,7 +51,9 @@ class _ModificarNeumaticoPageState extends State<ModificarNeumaticoPage> {
         _updateTipoNeumatico();
       });
     } catch (e) {
-      print('Error al cargar los datos: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error al cargar los datos del neumático: $e')),
+      );
     }
   }
 

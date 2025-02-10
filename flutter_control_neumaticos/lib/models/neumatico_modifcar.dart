@@ -22,7 +22,6 @@ class Neumatico {
   });
 
   factory Neumatico.fromJson(Map<String, dynamic> json) {
-    print("kmTotal recibido: ${json['kM_TOTAL']}"); // Depuración
     return Neumatico(
       codigo: json['codigo'].toString(),
       ubicacion: 0, // Valor por defecto o puedes asignar otro valor adecuado
@@ -38,7 +37,6 @@ class Neumatico {
 
 
   Map<String, dynamic> toJson() {
-    print("kmTotal enviado: $kmTotal"); // Depuración
     return {
       'codigo': codigo,
       'ubicacion': ubicacion,

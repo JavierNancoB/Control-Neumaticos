@@ -27,16 +27,12 @@ class NeumaticoService {
       final data = json.decode(responseNeumatico.body);
 
       // Imprimir el JSON recibido para revisar la respuesta
-      print("JSON recibido: $data");
 
       try {
         // Crear objeto Neumatico con los datos obtenidos
         final neumatico = Neumatico.fromJson(data);
 
         // Verificar si el neumático está habilitado
-        print("ubicacion original: ${neumatico.ubicacion}");
-        print("patente original: ${neumatico.idMovil}");
-        print("kilometraje original: ${neumatico.kmTotal}");
 
         return neumatico;
       } catch (e) {
@@ -95,10 +91,8 @@ class NeumaticoService {
   }
 
   Future<int> _getUserId() async {
-  print("Obteniendo userId...");
   final prefs = await SharedPreferences.getInstance();
   final userId = prefs.getInt('userId') ?? 0;
-  print("UserId obtenido: $userId");
   return userId;
   }
   // Método para modificar un neumático
@@ -108,23 +102,14 @@ Future<void> modificarNeumatico(Neumatico neumatico, String patente) async {
   final token = await _getToken();
   final idUsuario = await _getUserId();
   // Imprimir el token obtenido
-  print("Token obtenido: $token");
-  print("ID de usuario: $idUsuario");
 
   // Asegúrate de eliminar espacios adicionales de la patente
   String patenteTrimmed = patente.trim();
-  print("ubicacion original: ${neumatico.ubicacion}");
-  print("patente original: $patente");
 
   // Si la patente está vacía, la ubicación se ajusta a 'BODEGA' (ubicacion = 1)
   int ubicacionFinal = patenteTrimmed.isEmpty ? 1 : neumatico.ubicacion;
 
   // Imprimir la patente recortada y la ubicación final
-  print("Patente recortada: '$patenteTrimmed'");
-  print("Ubicación final: $ubicacionFinal");
-  print("Fecha de ingreso: ${neumatico.fechaIngreso.toIso8601String()}");
-  print("Kilometraje total: ${neumatico.kmTotal}");
-  print("Tipo de neumático: ${neumatico.tipoNeumatico}");
   
 
   // Construir la URL de la API con los parámetros
@@ -132,7 +117,6 @@ Future<void> modificarNeumatico(Neumatico neumatico, String patente) async {
       'http://localhost:5062/api/Neumaticos/ModificarNeumaticoPorCodigo?codigo=${neumatico.codigo}&ubicacion=$ubicacionFinal&patente=${Uri.encodeComponent(patenteTrimmed.isEmpty ? '' : patenteTrimmed)}&fechaIngreso=${neumatico.fechaIngreso.toIso8601String()}&kmTotal=${neumatico.kmTotal}&tipoNeumatico=${neumatico.tipoNeumatico}&idUsuario=$idUsuario';
 
   // Imprimir la URL generada
-  print("URL de la API: $url");
 
   // Realizar la solicitud PUT a la API
   final response = await http.put(
@@ -141,8 +125,6 @@ Future<void> modificarNeumatico(Neumatico neumatico, String patente) async {
   );
 
   // Imprimir el código de respuesta HTTP
-  print("Código de respuesta HTTP: ${response.statusCode}");
-  print("Cuerpo de la respuesta: ${response.body}");
 
   final estaHabilitado = await _verificarSiNeumaticoHabilitado(neumatico.codigo);
 

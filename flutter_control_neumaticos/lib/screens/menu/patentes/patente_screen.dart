@@ -40,7 +40,6 @@ class _PatentePageState extends State<PatentePage> {
       setState(() {
         _sugerenciasPatentes = [];
       });
-      print('Error al obtener patentes: $e');
     } finally {
       setState(() {
         _isLoading = false;

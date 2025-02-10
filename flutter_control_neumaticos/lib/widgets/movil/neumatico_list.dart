@@ -18,7 +18,6 @@ class NeumaticoList extends StatelessWidget {
 
               // Crear una variable 'codigo' que sea siempre un String
               String codigo = neumatico['codigo']?.toString() ?? '';
-              print("Tipo de la variable codigo: ${codigo.runtimeType}");
 
               // Agregar el código de ubicación usando Diccionario
               // Suponiendo que 'ubicacion' es un número que corresponde a la clave en el diccionario
@@ -26,12 +25,10 @@ class NeumaticoList extends StatelessWidget {
               String ubicacionDescripcion = Diccionario.obtenerDescripcion(Diccionario.ubicacionNeumaticos, ubicacionCodigo);
 
               // Agregamos un print para ver qué datos estamos obteniendo
-              print("Neumático $index: ID = ${neumatico['iD_NEUMATICO']}, Código = $codigo, Ubicación = $ubicacionDescripcion");
 
               return InkWell(
                 onTap: () {
                   // Imprimir antes de navegar para ver el código que estamos pasando
-                  print("Navegando a InformacionNeumatico con código: $codigo");
 
                   Navigator.push(
                     context,

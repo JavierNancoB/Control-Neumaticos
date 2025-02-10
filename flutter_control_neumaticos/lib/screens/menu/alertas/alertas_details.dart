@@ -8,7 +8,7 @@ import '../../../widgets/button.dart';
 class AlertDetailPage extends StatefulWidget {
   final int alertaId;
 
-  const AlertDetailPage({Key? key, required this.alertaId}) : super(key: key);
+  const AlertDetailPage({super.key, required this.alertaId});
 
   @override
   _AlertDetailPageState createState() => _AlertDetailPageState();
@@ -53,7 +53,23 @@ class _AlertDetailPageState extends State<AlertDetailPage> {
         usuarioAtendido = atendido;
       });
     } catch (e) {
-      print("Error al cargar los datos: $e");
+      await showDialog<void>(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Error"),
+            content: Text("Ha ocurrido un error al intentar cargar los datos de la alerta."),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Aceptar'),
+                onPressed: () {
+                  Navigator.of(context).pop(); // Cierra el diálogo
+                },
+              ),
+            ],
+          );
+        },
+      );
     }
   }
 
@@ -91,7 +107,23 @@ class _AlertDetailPageState extends State<AlertDetailPage> {
       await _alertaService.cambiarEstadoAlerta(widget.alertaId, estado);
       _fetchData(); // Recargar los datos para reflejar el cambio
     } catch (e) {
-      print("Error al cambiar el estado: $e");
+      await showDialog<void>(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Error"),
+            content: Text("Ha ocurrido un error al intentar cambiar el estado de la alerta."),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Aceptar'),
+                onPressed: () {
+                  Navigator.of(context).pop(); // Cierra el diálogo
+                },
+              ),
+            ],
+          );
+        },
+      );
     }
   }
 
