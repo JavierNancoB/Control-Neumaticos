@@ -583,9 +583,6 @@ C:\Users\empresapentacrom\Documents\Control-Neumaticos-2\api_control_neumaticos\
 C:\Users\empresapentacrom\Documents\Control-Neumaticos-2\api_control_neumaticos\bin\Debug\net9.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
 C:\Users\empresapentacrom\Documents\Control-Neumaticos-2\api_control_neumaticos\bin\Debug\net9.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
 C:\Users\empresapentacrom\Documents\Control-Neumaticos-2\api_control_neumaticos\bin\Debug\net9.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
-C:\Users\empresapentacrom\Documents\Control-Neumaticos-2\api_control_neumaticos\bin\Debug\net9.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
-C:\Users\empresapentacrom\Documents\Control-Neumaticos-2\api_control_neumaticos\bin\Debug\net9.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
-C:\Users\empresapentacrom\Documents\Control-Neumaticos-2\api_control_neumaticos\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
 C:\Users\empresapentacrom\Documents\Control-Neumaticos-2\api_control_neumaticos\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
 C:\Users\empresapentacrom\Documents\Control-Neumaticos-2\api_control_neumaticos\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\empresapentacrom\Documents\Control-Neumaticos-2\api_control_neumaticos\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
@@ -915,3 +912,8 @@ C:\Users\HP\Desktop\Control-Neumaticos\api_control_neumaticos\obj\Debug\net9.0\r
 C:\Users\HP\Desktop\Control-Neumaticos\api_control_neumaticos\obj\Debug\net9.0\api_control_neumaticos.pdb
 C:\Users\HP\Desktop\Control-Neumaticos\api_control_neumaticos\obj\Debug\net9.0\api_control_neumaticos.genruntimeconfig.cache
 C:\Users\HP\Desktop\Control-Neumaticos\api_control_neumaticos\obj\Debug\net9.0\ref\api_control_neumaticos.dll
+C:\Users\empresapentacrom\Documents\Control-Neumaticos-2\api_control_neumaticos\bin\Debug\net9.0\EPPlus.dll
+C:\Users\empresapentacrom\Documents\Control-Neumaticos-2\api_control_neumaticos\bin\Debug\net9.0\EPPlus.Interfaces.dll
+C:\Users\empresapentacrom\Documents\Control-Neumaticos-2\api_control_neumaticos\bin\Debug\net9.0\EPPlus.System.Drawing.dll
+C:\Users\empresapentacrom\Documents\Control-Neumaticos-2\api_control_neumaticos\bin\Debug\net9.0\Microsoft.IO.RecyclableMemoryStream.dll
+C:\Users\empresapentacrom\Documents\Control-Neumaticos-2\api_control_neumaticos\bin\Debug\net9.0\runtimes\win\lib\net8.0\Microsoft.Win32.SystemEvents.dll

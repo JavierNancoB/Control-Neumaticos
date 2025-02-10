@@ -1,5 +1,6 @@
 using api_control_neumaticos.Models;
 using api_control_neumaticos.Services;
+using api_control_neumaticos.Services.IExcelService; // Asegúrate de que el espacio de nombres sea correcto
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -7,14 +8,14 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 using SendingEmails;
 
-
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 
+// Registrar el servicio IExcelService
+builder.Services.AddScoped<IExcelService, IExcelService>(); // Aquí se registra la implementación
 
 builder.Services.AddControllersWithViews();
 
@@ -75,7 +76,6 @@ app.MapPost("/api/login", (LoginRequestApp request, TokenGenerator tokenGenerato
         access_token = tokenGenerator.GenerateToken(request.Email)
     };
 });
-
 
 // Habilita la redirección HTTPS
 app.UseHttpsRedirection();
