@@ -6,6 +6,7 @@ import 'patentes/patente_screen.dart';
 import 'alertas/alertas_menu.dart';
 import 'admin/admin_menu_screen.dart';
 import 'admin/usuario/reestablecer_passw_page.dart';
+import 'Reportes/generar_reporte_screen.dart';
 import '../../services/menu_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -143,9 +144,8 @@ class _MenuScreenState extends State<MenuScreen> {
               const SizedBox(height: 20),
               StandarButton(
                 text: 'Generar Reporte',
-                onPressed: () {
-                  Navigator.pop(context);
-                },
+                onPressed: isDisabled ? null : () => _navigateTo(context, GenerarReporteScreen()),
+                color: isDisabled ? Colors.grey[400] : null,
               ),
               const SizedBox(height: 20),
               StandarButton(

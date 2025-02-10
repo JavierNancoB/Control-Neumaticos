@@ -50,71 +50,7 @@ public class ReportesController : ControllerBase
             return StatusCode(500, $"Error al generar el Excel: {ex.Message}");
         }
     }
-    /*
-    [HttpPost("enviar-correo")]
-    public async Task<IActionResult> EnviarExcelPorCorreo([FromBody] EnviarExcelRequest request, DateTime? fromDate, DateTime? toDate)
-    {
-        if (string.IsNullOrEmpty(request.Email))
-        {
-            _logger.LogWarning("El correo proporcionado no es válido.");
-            return BadRequest("Debe proporcionar un correo válido.");
-        }
-
-        try
-        {
-            _logger.LogInformation($"Generando Excel para enviar a: {request.Email} con fechas de inicio: {fromDate?.ToString("yyyy-MM-dd") ?? "No especificada"} y fin: {toDate?.ToString("yyyy-MM-dd") ?? "No especificada"}");
-
-            var excelFile = await _excelService.GenerateExcelAsync(fromDate, toDate);
-            var fileName = $"Reporte_{DateTime.Now:yyyyMMdd_HHmmss}.xlsx";
-
-            _logger.LogInformation($"Archivo Excel generado para envío: {fileName}");
-            _logger.LogInformation($"Tamaño del archivo generado: {excelFile.Length} bytes");
-
-            // Log adicional antes de enviar el correo
-            _logger.LogInformation($"Iniciando proceso de envío de correo a {request.Email}...");
-            _logger.LogInformation($"Archivo Excel que se va a enviar: {fileName}, tamaño: {excelFile.Length} bytes");
-
-            _logger.LogInformation($"Iniciando el proceso de envío de correo a {request.Email} con el archivo {fileName} de tamaño {excelFile.Length} bytes");
-
-            // Log para asegurarnos de que el archivo Excel no está vacío o corrupto
-            if (excelFile == null || excelFile.Length == 0)
-            {
-                _logger.LogError("El archivo Excel está vacío o no se generó correctamente.");
-                return StatusCode(500, "El archivo Excel no se generó correctamente.");
-            }
-
-            try
-            {
-                // Log para ver cómo está el contenido del archivo antes de enviarlo
-                _logger.LogInformation("Se va a enviar el archivo adjunto al correo...");
-                
-                // Intentamos enviar el correo con el archivo adjunto
-                await _emailService.SendEmailWithAttachmentAsync(
-                    request.Email,
-                    "Reporte de Datos",
-                    "Adjunto encontrarás el reporte en formato Excel.",
-                    excelFile,
-                    fileName
-                );
-
-                // Si llegamos aquí, el correo se envió correctamente
-                _logger.LogInformation($"Correo enviado exitosamente a {request.Email} con el archivo adjunto {fileName}");
-                return Ok($"Excel enviado correctamente a {request.Email}");
-            }
-            catch (Exception ex)
-            {
-                // Log adicional en caso de fallo al enviar el correo
-                _logger.LogError($"Error al enviar el correo a {request.Email}: {ex.Message} - {ex.StackTrace}");
-                return StatusCode(500, $"Error al enviar el correo: {ex.Message}");
-            }
-        }
-        catch (Exception ex)
-        {
-            // Log adicional en caso de fallo al enviar el correo
-            _logger.LogError($"Error al enviar el correo a {request.Email}: {ex.Message} - {ex.StackTrace}");
-            return StatusCode(500, $"Error al enviar el correo: {ex.Message}");
-        }
-    }*/
+    
     [HttpPost("enviar-correo")]
     public async Task<IActionResult> EnviarExcelPorCorreo([FromBody] EnviarExcelRequest request, DateTime? fromDate, DateTime? toDate)
     {
@@ -192,6 +128,7 @@ public class ReportesController : ControllerBase
             return StatusCode(500, $"Error al enviar el correo: {ex.Message}");
         }
     }
+    
 
 
     public class EnviarExcelRequest

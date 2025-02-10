@@ -1,51 +1,73 @@
+using System;
 using System.Net.Mail;
 using System.Net;
-using System.IO; // Asegúrate de incluir esta directiva
+using System.IO;
+using System.Threading.Tasks;
 
 namespace SendingEmails
 {
     public class EmailSender : IEmailSender
     {
-        public Task SendEmailAsync(string email, string subject, string message)
+        public async Task SendEmailAsync(string email, string subject, string message)
         {
-            var mail = "prueba@pentacrom.cl";
-            var pw = "pentprueba";
-
-            var client = new SmtpClient("190.196.217.50", 25) // Puerto 25
+            try
             {
-                EnableSsl = false, // Deshabilitar SSL
-                Credentials = new NetworkCredential(mail, pw),
-                DeliveryMethod = SmtpDeliveryMethod.Network
-            };
+                var mail = "prueba@pentacrom.cl";
+                var pw = "pentprueba";
 
-            var mailMessage = new MailMessage(mail, email, subject, message);
-            return client.SendMailAsync(mailMessage);
-        }
+                using (var client = new SmtpClient("190.196.217.50", 25))
+                {
+                    client.EnableSsl = false;
+                    client.Credentials = new NetworkCredential(mail, pw);
+                    client.DeliveryMethod = SmtpDeliveryMethod.Network;
 
-        public Task SendEmailWithAttachmentAsync(string email, string subject, string message, byte[] attachment, string fileName)
-        {
-            var mail = "prueba@pentacrom.cl";
-            var pw = "pentprueba";
+                    using (var mailMessage = new MailMessage(mail, email, subject, message))
+                    {
+                        await client.SendMailAsync(mailMessage);
+                    }
+                }
 
-            var client = new SmtpClient("190.196.217.50", 25) // Puerto 25
+                Console.WriteLine("Correo enviado correctamente.");
+            }
+            catch (Exception ex)
             {
-                EnableSsl = false, // Deshabilitar SSL
-                Credentials = new NetworkCredential(mail, pw),
-                DeliveryMethod = SmtpDeliveryMethod.Network
-            };
-
-            var mailMessage = new MailMessage(mail, email, subject, message)
-            {
-                IsBodyHtml = true
-            };
-
-            // Asegúrate de usar el stream correctamente para adjuntar el archivo
-            using (var stream = new MemoryStream(attachment))
-            {
-                mailMessage.Attachments.Add(new Attachment(stream, fileName));
-                return client.SendMailAsync(mailMessage);
+                Console.WriteLine($"Error al enviar correo: {ex.Message}");
+                throw;
             }
         }
-        
+
+        public async Task SendEmailWithAttachmentAsync(string email, string subject, string message, byte[] attachment, string fileName)
+        {
+            try
+            {
+                var mail = "prueba@pentacrom.cl";
+                var pw = "pentprueba";
+
+                using (var client = new SmtpClient("190.196.217.50", 25))
+                {
+                    client.EnableSsl = false;
+                    client.Credentials = new NetworkCredential(mail, pw);
+                    client.DeliveryMethod = SmtpDeliveryMethod.Network;
+
+                    using (var mailMessage = new MailMessage(mail, email, subject, message)
+                    {
+                        IsBodyHtml = true
+                    })
+                    {
+                        var stream = new MemoryStream(attachment);
+                        mailMessage.Attachments.Add(new Attachment(stream, fileName));
+
+                        await client.SendMailAsync(mailMessage);
+                    }
+                }
+
+                Console.WriteLine("Correo con adjunto enviado correctamente.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al enviar correo con adjunto: {ex.Message}");
+                throw;
+            }
+        }
     }
 }
