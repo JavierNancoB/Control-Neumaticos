@@ -27,7 +27,6 @@ class _NFCReaderState extends State<NFCReader> {
 
   void _checkNfcAvailability() async {
     bool isNfcAvailable = await NfcManager.instance.isAvailable();
-    print('¿NFC disponible?: $isNfcAvailable');
     
     if (!isNfcAvailable) {
       setState(() {
@@ -88,7 +87,6 @@ class _NFCReaderState extends State<NFCReader> {
 
 
   Future<void> _showAddNeumaticoDialog(String nfcMessage) async {
-    print('Mostrando diálogo para añadir neumático...');
     showDialog(
       context: context,
       builder: (context) {
@@ -106,7 +104,6 @@ class _NFCReaderState extends State<NFCReader> {
               onPressed: () {
                 Navigator.pop(context);
                 
-                print('Redirigiendo para añadir neumático...');
                 Navigator.push(context, MaterialPageRoute(builder: (context) => IngresarPatentePage(tipo: 'Añadir', codigo: nfcMessage)));
               },
               child: Text('Sí'),
@@ -118,7 +115,6 @@ class _NFCReaderState extends State<NFCReader> {
   }
 
   Future<void> _showAbleNeumaticoDialog(String nfcMessage) async {
-    print('Mostrando diálogo para añadir neumático...');
     showDialog(
       context: context,
       builder: (context) {
@@ -136,7 +132,6 @@ class _NFCReaderState extends State<NFCReader> {
               onPressed: () {
                 Navigator.pop(context);
                 
-                print('Redirigiendo para habilitar neumático...');
                 Navigator.push(context, MaterialPageRoute(builder: (context) => InhabilitarNeumaticoPage(nfcData: nfcMessage)));
               },
               child: Text('Sí'),

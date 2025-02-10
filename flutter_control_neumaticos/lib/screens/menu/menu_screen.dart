@@ -37,7 +37,6 @@ class _MenuScreenState extends State<MenuScreen> {
         alertaColor = isAlertaPendiente ? Colors.yellow : Colors.grey[10];
       });
     }).catchError((e) {
-      print('Error al verificar alertas: $e');
     });
   }
 

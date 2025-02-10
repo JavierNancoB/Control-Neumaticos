@@ -12,33 +12,27 @@ class ReportService {
       if (Platform.isAndroid) {
         bool hasPermission = await requestStoragePermission();
         if (!hasPermission) {
-          print('🚨 No se puede guardar sin permiso');
           return;
         }
       }
 
       final response = await http.get(url);
-      print('Realizando solicitud GET a la API, Status Code: ${response.statusCode}');
 
       if (response.statusCode == 200) {
         Directory directory = Directory('/storage/emulated/0/Download'); // Carpeta Descargas
 
         if (!directory.existsSync()) {
-          print('🚨 La carpeta de descargas no existe');
           return;
         }
 
         String filePath = '${directory.path}/reporte.xlsx';
-        print('Guardando archivo en: $filePath');
 
         File file = File(filePath);
         await file.writeAsBytes(response.bodyBytes);
-        print('✅ Reporte guardado correctamente en: $filePath');
       } else {
-        print('❌ Error al descargar el reporte: ${response.statusCode}');
       }
     } catch (e) {
-      print('❌ Error al descargar el archivo: $e');
+        await Future.delayed(Duration(seconds: 1));
     }
   }
 
@@ -50,10 +44,8 @@ class ReportService {
     PermissionStatus status = await Permission.manageExternalStorage.request();
 
     if (status.isGranted) {
-      print('✅ Permiso de almacenamiento concedido');
       return true;
     } else {
-      print('❌ Permiso de almacenamiento denegado');
       return false;
     }
   }
@@ -63,7 +55,6 @@ class ReportService {
     String? email = prefs.getString('correo');
 
     if (email == null || email.isEmpty) {
-      print("❌ No se encontró un correo guardado.");
       throw Exception("No hay un correo registrado.");
     }
 
@@ -76,9 +67,7 @@ class ReportService {
     );
 
     if (response.statusCode == 200) {
-      print("✅ Reporte enviado correctamente a $email");
     } else {
-      print("❌ Error al enviar el reporte: ${response.body}");
       throw Exception("Error al enviar el reporte");
     }
   }

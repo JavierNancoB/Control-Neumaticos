@@ -5,13 +5,15 @@ import '../../../widgets/button.dart';
 import '../../../services/reporte/generar_reporte_services.dart';
 
 class GenerarReporteScreen extends StatefulWidget {
+  const GenerarReporteScreen({super.key});
+
   @override
   _GenerarReporteScreenState createState() => _GenerarReporteScreenState();
 }
 
 class _GenerarReporteScreenState extends State<GenerarReporteScreen> {
-  TextEditingController _desdeController = TextEditingController();
-  TextEditingController _hastaController = TextEditingController();
+  final TextEditingController _desdeController = TextEditingController();
+  final TextEditingController _hastaController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   Future<void> _selectDate(BuildContext context, TextEditingController controller) async {
@@ -81,7 +83,21 @@ class _GenerarReporteScreenState extends State<GenerarReporteScreen> {
           },
         );
       } catch (e) {
-        print("Error: $e");
+        await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Error"),
+              content: Text("Ha ocurrido un error al intentar enviar el reporte."),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text("Aceptar"),
+                ),
+              ],
+            );
+          },
+        );
       }
     }
   }

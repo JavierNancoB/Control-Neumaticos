@@ -30,7 +30,6 @@ class _ModificarMovilPageState extends State<ModificarMovilPage> {
 
   // Obtener el móvil por patente
   Future<void> _fetchMovilData() async {
-    print("Iniciando la carga de datos para la patente: ${widget.patente}");
     try {
       Movil? movil = await movilService.getMovilByPatente(widget.patente);
       if (movil != null) {
@@ -42,10 +41,8 @@ class _ModificarMovilPageState extends State<ModificarMovilPage> {
           _updateFieldsForTipoMovil(); // Actualizar los campos de ejes y neumáticos según el tipo de móvil
           _isLoading = false;
         });
-        print("Datos del móvil cargados: Marca - ${movil.marca}, Modelo - ${movil.modelo}, Tipo Movil - ${movil.tipoMovil}");
       }
     } catch (e) {
-      print("Error al cargar los datos: $e");
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error al cargar los datos del móvil'), backgroundColor: Colors.red),
       );
@@ -57,12 +54,10 @@ class _ModificarMovilPageState extends State<ModificarMovilPage> {
     final tipoMovil = _tiposMovil.firstWhere((tipo) => tipo['value'] == _tipoMovilSeleccionado);
     _ejesController.text = tipoMovil['ejes'].toString();
     _cantidadNeumaticosController.text = tipoMovil['neumaticos'].toString();
-    print("Actualizando campos: Ejes - ${tipoMovil['ejes']}, Neumáticos - ${tipoMovil['neumaticos']}");
   }
 
   // Modificar el móvil
   Future<void> _modificarMovil() async {
-    print("Iniciando la modificación del móvil con patente: ${widget.patente}");
     try {
       // Asignar los valores de los campos editables
       _movil.marca = _marcaController.text.trim();
@@ -74,24 +69,20 @@ class _ModificarMovilPageState extends State<ModificarMovilPage> {
       _movil.ejes = tipoMovil['ejes']; // Asignar el valor correspondiente de ejes
       _movil.cantidadNeumaticos = tipoMovil['neumaticos']; // Asignar el valor correspondiente de neumáticos
 
-      print("Datos para enviar al backend: Marca - ${_movil.marca}, Modelo - ${_movil.modelo}, Tipo Movil - ${_movil.tipoMovil}, Ejes - ${_movil.ejes}, Neumáticos - ${_movil.cantidadNeumaticos}");
 
       // Enviar los datos modificados al backend
       bool success = await movilService.modificarDatosMovil(widget.patente, _movil);
 
       if (success) {
-        print("Móvil modificado con éxito");
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Móvil modificado con éxito'), backgroundColor: Colors.green),
         );
       } else {
-        print("Error al modificar el móvil");
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error al modificar el móvil'), backgroundColor: Colors.red),
         );
       }
     } catch (e) {
-      print("Error al modificar los datos del móvil: $e");
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error al modificar los datos del móvil'), backgroundColor: Colors.red),
       );
@@ -152,7 +143,6 @@ class _ModificarMovilPageState extends State<ModificarMovilPage> {
                         setState(() {
                           _tipoMovilSeleccionado = value!;
                           _updateFieldsForTipoMovil(); // Actualizar los campos cuando se cambia el tipo de móvil
-                          print("Tipo de móvil seleccionado: $_tipoMovilSeleccionado");
                         });
                       },
                     ),

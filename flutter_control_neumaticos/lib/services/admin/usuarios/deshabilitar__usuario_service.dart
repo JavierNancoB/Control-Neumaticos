@@ -37,10 +37,6 @@ class UsuarioService {
     final idUsuario = await _getIdUsuario();
     if (token == null) throw Exception('Token no encontrado.');
 
-    print('Token: $token');
-    print('ID Usuario: $idUsuario');
-    print('Correo: $correo');
-    print('Estado: $estado');
 
     final url = '$_baseUrl/Usuarios/ModificarCodEstadoPorCorreo?mail=$correo&codEstado=$estado&idUsuarioBitacora=$idUsuario';
     final response = await http.put(
@@ -48,8 +44,6 @@ class UsuarioService {
       headers: {'Authorization': 'Bearer $token'},
     );
 
-    print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
 
     if (response.statusCode != 204) {
       throw Exception('Error al modificar el estado del usuario.');

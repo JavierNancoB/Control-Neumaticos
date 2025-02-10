@@ -10,8 +10,6 @@ class UsuarioService {
   static Future<void> crearUsuario(Usuario usuario) async {
     final token = await _getToken();
     final idUsuario = await _getIdUsuario();
-    print('Token: $token');
-    print('ID Usuario: $idUsuario');
     
     
     if (token == null) throw Exception('Token no encontrado.');

@@ -12,10 +12,8 @@ class NeumaticoService {
   }
     // Obtener userId almacenado en SharedPreferences
   static Future<int> _getUserId() async {
-    print("Obteniendo userId...");
     final prefs = await SharedPreferences.getInstance();
     final userId = prefs.getInt('userId') ?? 0;
-    print("UserId obtenido: $userId");
     return userId;
   }
 
@@ -24,25 +22,20 @@ class NeumaticoService {
     final token = await getToken();
     if (token == null) return null;
 
-    print('Buscando Movil por patente: $patente');
 
     final response = await http.get(
       Uri.parse('$_baseUrl/Movil/GetMovilByPatente?patente=$patente'),
       headers: {'Authorization': 'Bearer $token'},
     );
 
-    print('Respuesta de la API: ${response.body}');
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
-      print('Datos recibidos: $data');
 
       // Acceder al campo correctamente, con la misma estructura de la respuesta
       if (data['iD_MOVIL'] != null) {
-        print('Movil encontrado con ID: ${data['iD_MOVIL']}');
         return data['iD_MOVIL'];
       } else {
-        print('No se encontró el ID del móvil en la respuesta.');
         return null;
       }
     } else {
@@ -53,18 +46,18 @@ class NeumaticoService {
   // Nueva función para verificar si la posición es única
   static Future<bool> verificarPosicionUnica(String patente, int posicion) async {
     final token = await getToken();
-    print('Token para la solicitud: $token'); // Debugging
+    // Debugging
 
     final url = '$_baseUrl/Neumaticos/verificarSiPosicioneEsUnicaConPatente?idMovil=$patente&posicion=$posicion';
-    print('URL de la solicitud: $url'); // Debugging
+    // Debugging
 
     final response = await http.post(
       Uri.parse(url),
       headers: {'Authorization': 'Bearer $token'},
     );
 
-    print('Estado de la respuesta: ${response.statusCode}'); // Debugging
-    print('Cuerpo de la respuesta: ${response.body}'); // Debugging
+    // Debugging
+    // Debugging
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
@@ -91,16 +84,6 @@ class NeumaticoService {
     }
 
     // Imprimir los valores que estamos usando
-    print('Token: $token');
-    print('Patente: $patente');
-    print('MovilId: $movilId');
-    print('Neumatico Datos:');
-    print('Codigo: ${neumatico.codigo}');
-    print('Ubicacion: ${neumatico.ubicacion}');
-    print('Fecha Ingreso: ${neumatico.fechaIngreso.toIso8601String()}');
-    print('Estado: ${neumatico.estado}');
-    print('Kilometraje Total: ${neumatico.kilometrajeTotal}');
-    print('Tipo Neumatico: ${neumatico.tipo}');
 
     // Crear el objeto Neumatico con el formato esperado para el POST.
     final neumaticoData = {
@@ -115,8 +98,6 @@ class NeumaticoService {
     };
 
     // Imprimir los datos que se enviarán a la API
-    print('Datos a enviar a la API:');
-    print(neumaticoData);
 
     final response = await http.post(
       Uri.parse('$_baseUrl/Neumaticos?idUsuario=$userId'),
