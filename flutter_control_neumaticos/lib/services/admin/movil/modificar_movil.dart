@@ -55,6 +55,7 @@ Future<bool> modificarDatosMovil(String patenteOrigen, Movil movil) async {
     // Construcción de la URL con los parámetros en la query
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
+    final idUsuario = prefs.getInt('userId');
     
     final uri = Uri.parse('$baseUrl/ModificarMovilPorPatente')
         .replace(queryParameters: {
@@ -65,6 +66,7 @@ Future<bool> modificarDatosMovil(String patenteOrigen, Movil movil) async {
       'ejes': movil.ejes.toString(),
       'cantidadNeumaticos': movil.cantidadNeumaticos.toString(),
       'tipoMovil': movil.tipoMovil.toString(),
+      'idUsuario': idUsuario.toString(),
     });
 
     final response = await http.put(

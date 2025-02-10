@@ -246,7 +246,6 @@ namespace api_control_neumaticos.Controllers
             return NoContent();
         }
 
-
         // Comprobamos que usuario esta habilitado
         [HttpGet("ComprobarUsuarioHabilitado")]
         public async Task<ActionResult<bool>> ComprobarUsuarioHabilitado(string mail)
@@ -287,6 +286,8 @@ namespace api_control_neumaticos.Controllers
         {
             var usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.Correo == mail);
 
+            Console.WriteLine($"Intento de restablecer clave para: {mail}");
+
             if (usuario == null)
             {
                 return NotFound("Usuario no encontrado.");
@@ -303,6 +304,7 @@ namespace api_control_neumaticos.Controllers
                 // Contraseña autogenerada
                 var nuevaClave = mail.Split('@')[0]; // Usamos el nombre antes del '@' como clave
                 usuario.Clave = _passwordHasher.HashPassword(usuario, nuevaClave);
+                usuario.ContraseñaTemporal = _passwordHasher.HashPassword(usuario, nuevaClave);
 
                 await EnviarCorreoNotificacion(mail, "Restablecimiento de contraseña", $"Su contraseña ha sido restablecida con éxito. Posee 2 días para cambiarla.\n\nATENCION: No comparta esta información con nadie, su nueva contraseña es: {nuevaClave}. \n\nSe sugiere cambiar la contraseña INMEDIATAMENTE por una más segura.\n\nAtentamente el equipo de Control Neumáticos. Favor no responder a este correo automatizado.");
                 // si es administrador la fecha sera hoy menos 78 dias
@@ -324,12 +326,17 @@ namespace api_control_neumaticos.Controllers
 
                 await EnviarCorreoNotificacion(mail, "Restablecimiento de contraseña", $"Su contraseña ha sido restablecida con éxito. Posee 2 días para cambiarla.\n\nATENCION: No comparta esta información con nadie, su nueva contraseña es: {nuevaClave}. \n\nSe sugiere cambiar INMEDIATAMENTE la contraseña por una más segura.\n\nAtentamente el equipo de Control Neumáticos. Favor no responder a este correo automatizado.");
                 if(administrador){
+                    // Se crea con clave temporal para que el usuario la cambie
                     usuario.FechaClave = DateTime.Now.AddDays(-78);
+                    usuario.ContraseñaTemporal = _passwordHasher.HashPassword(usuario, nuevaClave);
                     Console.WriteLine($"Fecha antes de guardar1: {usuario.FechaClave}");
                 }
                 else{
                     usuario.FechaClave = DateTime.Now;
+                    // La unica forma de que la contraseña temporal sea nula es que el usuario la haya cambiado
+                    usuario.ContraseñaTemporal = null;
                     Console.WriteLine($"Fecha antes de guardar2: {usuario.FechaClave}");
+                    Console.WriteLine($"Contraseña temporal: {usuario.ContraseñaTemporal}");
                 }
             }
 
@@ -343,8 +350,6 @@ namespace api_control_neumaticos.Controllers
 
         return NoContent();
     }
-
-
 
         // Enviar correo de notificación de contraseña restablecida
         private async Task EnviarCorreoNotificacion(string to, string subject, string message)
