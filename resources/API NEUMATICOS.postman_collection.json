@@ -8,1724 +8,2017 @@
 	},
 	"item": [
 		{
-			"name": "Bodegas",
+			"name": "Primarias",
 			"item": [
 				{
 					"name": "Bodegas",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{authToken}}",
-									"type": "string"
+					"item": [
+						{
+							"name": "Bodegas",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/Bodega/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Bodega",
+										"1"
+									]
 								}
-							]
+							},
+							"response": []
 						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5062/api/Bodega/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"Bodega",
-								"1"
-							]
+						{
+							"name": "Bodegas",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"nombrE_BODEGA\": \"Perrot\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5062/api/Bodega",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Bodega"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Bodegas",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"nombrE_BODEGA\": \"PERROT\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5062/api/Bodega/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Bodega",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Bodegas",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/Bodega/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Bodega",
+										"2"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
-				},
-				{
-					"name": "Bodegas",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{authToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"nombrE_BODEGA\": \"Perrot\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
+					],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "{{authToken}}",
+								"type": "string"
 							}
-						},
-						"url": {
-							"raw": "http://localhost:5062/api/Bodega",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"Bodega"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Bodegas",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{authToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"nombrE_BODEGA\": \"PERROT\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:5062/api/Bodega/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"Bodega",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Bodegas",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{authToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5062/api/Bodega/2",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"Bodega",
-								"2"
-							]
-						}
-					},
-					"response": []
-				}
-			],
-			"auth": {
-				"type": "bearer",
-				"bearer": [
-					{
-						"key": "token",
-						"value": "{{authToken}}",
-						"type": "string"
-					}
-				]
-			},
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"type": "text/javascript",
-						"packages": {},
-						"exec": [
-							""
 						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"packages": {},
-						"exec": [
-							""
-						]
-					}
-				}
-			]
-		},
-		{
-			"name": "Usuarios",
-			"item": [
-				{
-					"name": "Usuarios",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{authToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5062/api/usuarios",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"usuarios"
-							]
-						}
 					},
-					"response": []
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						}
+					]
 				},
 				{
 					"name": "Usuarios",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{authToken}}",
-									"type": "string"
+					"item": [
+						{
+							"name": "Usuarios",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/usuarios",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"usuarios"
+									]
 								}
-							]
+							},
+							"response": []
 						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"nombres\": \"Juan Pablo\",\r\n  \"apellidos\": \"Martinez\",\r\n  \"correo\": \"juan.pablo@gmail.com\",\r\n  \"clave\": \"MiClave\",\r\n  \"codigO_PERFIL\": 1,\r\n  \"cod_estado\": 1,\r\n  \"iD_BODEGA\": 1\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
+						{
+							"name": "Usuarios",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nombres\": \"Javier\",\r\n    \"apellidos\": \"Nanco\",\r\n    \"correo\": \"javier.nanco@pentacrom.cl\",\r\n    \"clave\": \"ZapatillaAdidas\",\r\n    \"codigO_PERFIL\": 2,\r\n    \"cod_estado\": 1,\r\n    \"iD_BODEGA\": 1\r\n  }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5062/api/usuarios?idUsuarioBitacora=2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"usuarios"
+									],
+									"query": [
+										{
+											"key": "idUsuarioBitacora",
+											"value": "2"
+										}
+									]
 								}
-							}
+							},
+							"response": []
 						},
-						"url": {
-							"raw": "http://localhost:5062/api/usuarios",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"usuarios"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Usuarios",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{authToken}}",
-									"type": "string"
+						{
+							"name": "Usuarios",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/Usuarios/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Usuarios",
+										"1"
+									]
 								}
-							]
+							},
+							"response": []
 						},
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"iD_USUARIO\": 1,\r\n  \"nombres\": \"Javier Alonsoo\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
+						{
+							"name": "Correo",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/Usuarios/GetUsuarioByMail?mail=javiernancob@gmail.com",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Usuarios",
+										"GetUsuarioByMail"
+									],
+									"query": [
+										{
+											"key": "mail",
+											"value": "javiernancob@gmail.com"
+										}
+									]
 								}
-							}
+							},
+							"response": []
 						},
-						"url": {
-							"raw": "http://localhost:5062/api/Usuarios/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"Usuarios",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Usuarios",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5062/api/Usuarios/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"Usuarios",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Correo",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5062/api/Usuarios/GetUsuarioByMail?mail=pedro.jorquera@gmail.com",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"Usuarios",
-								"GetUsuarioByMail"
-							],
-							"query": [
-								{
-									"key": "mail",
-									"value": "pedro.jorquera@gmail.com"
+						{
+							"name": "Correo",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/Usuarios/ModificarCodEstadoPorCorreo?mail=javier.nanco@pentacrom.cl&codEstado=2&idUsuarioBitacora=2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Usuarios",
+										"ModificarCodEstadoPorCorreo"
+									],
+									"query": [
+										{
+											"key": "mail",
+											"value": "javier.nanco@pentacrom.cl"
+										},
+										{
+											"key": "codEstado",
+											"value": "2"
+										},
+										{
+											"key": "idUsuarioBitacora",
+											"value": "2"
+										}
+									]
 								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Correo",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5062/api/Usuarios/ModificarCodEstadoPorCorreo?mail=pedro.jorquera@gmail.com&codEstado=2",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"Usuarios",
-								"ModificarCodEstadoPorCorreo"
-							],
-							"query": [
-								{
-									"key": "mail",
-									"value": "pedro.jorquera@gmail.com"
-								},
-								{
-									"key": "codEstado",
-									"value": "2"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Modificar",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5062/api/Usuarios/ModificarDatosUsuario?mail=javiernancob@gmail.com&nuevosMail=javiernancob@gmail.com&nombres=Javier Alonso&apellidos=Nanco Becerra&codigoPerfil=1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"Usuarios",
-								"ModificarDatosUsuario"
-							],
-							"query": [
-								{
-									"key": "mail",
-									"value": "javiernancob@gmail.com"
-								},
-								{
-									"key": "nuevosMail",
-									"value": "javiernancob@gmail.com"
-								},
-								{
-									"key": "nombres",
-									"value": "Javier Alonso"
-								},
-								{
-									"key": "apellidos",
-									"value": "Nanco Becerra"
-								},
-								{
-									"key": "codigoPerfil",
-									"value": "1"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Comprobar Estado",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5062/api/Usuarios/ComprobarUsuarioHabilitado?mail=javiernancob@gmail.com",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"Usuarios",
-								"ComprobarUsuarioHabilitado"
-							],
-							"query": [
-								{
-									"key": "mail",
-									"value": "javiernancob@gmail.com"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Buscar Mientras Escribo",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5062/api/Usuarios/BuscarUsuariosPorCorreo?query=javiernancob@gmail.com",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"Usuarios",
-								"BuscarUsuariosPorCorreo"
-							],
-							"query": [
-								{
-									"key": "query",
-									"value": "javiernancob@gmail.com"
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Neumaticos",
-			"item": [
-				{
-					"name": "Neumaticos",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{authToken}}",
-									"type": "string"
-								}
-							]
+							},
+							"response": []
 						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5062/api/neumaticos",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"neumaticos"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Neumaticos",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{authToken}}",
-									"type": "string"
+						{
+							"name": "Modificar",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/Usuarios/ModificarDatosUsuario?mail=javier.nanco@pentacrom.cl&nuevosMail=javier.nanco@pentacrom.cl&nombres=Javier Alonso&apellidos=Nanco Becerra&codigoPerfil=1&idUsuarioBitacora=2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Usuarios",
+										"ModificarDatosUsuario"
+									],
+									"query": [
+										{
+											"key": "mail",
+											"value": "javier.nanco@pentacrom.cl"
+										},
+										{
+											"key": "nuevosMail",
+											"value": "javier.nanco@pentacrom.cl"
+										},
+										{
+											"key": "nombres",
+											"value": "Javier Alonso"
+										},
+										{
+											"key": "apellidos",
+											"value": "Nanco Becerra"
+										},
+										{
+											"key": "codigoPerfil",
+											"value": "1"
+										},
+										{
+											"key": "idUsuarioBitacora",
+											"value": "2"
+										}
+									]
 								}
-							]
+							},
+							"response": []
 						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"CODIGO\": 123190,\r\n    \"UBICACION\": 1,\r\n    \"ID_MOVIL\": null,\r\n    \"ID_BODEGA\": 1,\r\n    \"FECHA_INGRESO\": \"2025-01-23T10:00:00\",\r\n    \"ESTADO\": 1,\r\n    \"KM_TOTAL\": 5000,\r\n    \"TIPO_NEUMATICO\": 1\r\n}\r\n\r\n",
-							"options": {
-								"raw": {
-									"language": "json"
+						{
+							"name": "Comprobar Estado",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/Usuarios/ComprobarUsuarioHabilitado?mail=javiernancob@gmail.com",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Usuarios",
+										"ComprobarUsuarioHabilitado"
+									],
+									"query": [
+										{
+											"key": "mail",
+											"value": "javiernancob@gmail.com"
+										}
+									]
 								}
-							}
+							},
+							"response": []
 						},
-						"url": {
-							"raw": "http://localhost:5062/api/Neumaticos",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"Neumaticos"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Neumaticos",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{authToken}}",
-									"type": "string"
+						{
+							"name": "Buscar Mientras Escribo",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/Usuarios/BuscarUsuariosPorCorreo?query=j",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Usuarios",
+										"BuscarUsuariosPorCorreo"
+									],
+									"query": [
+										{
+											"key": "query",
+											"value": "j"
+										}
+									]
 								}
-							]
-						},
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"codigo\": 123476,\r\n  \"ubicacion\": 1,\r\n  \"iD_BODEGA\": 1,\r\n  \"fechA_SALIDA\": \"2025-01-22T14:17:53.732Z\",\r\n  \"estado\": 1,\r\n  \"kM_TOTAL\": 1800,\r\n  \"tipO_NEUMATICO\": 1,\r\n  \"id_movil\": null\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:5062/api/neumaticos/23",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"neumaticos",
-								"23"
-							]
+							},
+							"response": []
 						}
-					},
-					"response": []
-				},
-				{
-					"name": "Neumaticos",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5062/api/neumaticos/6",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"neumaticos",
-								"6"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Codigo",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5062/api/Neumaticos/GetNeumaticoByCodigo?codigo=123456 ",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"Neumaticos",
-								"GetNeumaticoByCodigo"
-							],
-							"query": [
-								{
-									"key": "codigo",
-									"value": "123456 "
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Codigo",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5062/api/Neumaticos/ModificarEstadoPorCodigo?codigo=123476&estado=2",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"Neumaticos",
-								"ModificarEstadoPorCodigo"
-							],
-							"query": [
-								{
-									"key": "codigo",
-									"value": "123476"
-								},
-								{
-									"key": "estado",
-									"value": "2"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Movil NULL",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5062/api/Neumaticos/GetNeumaticoByMovilNULL",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"Neumaticos",
-								"GetNeumaticoByMovilNULL"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Movil ID",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5062/api/Neumaticos/GetNeumaticoByMovilID?idMovil=5",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"Neumaticos",
-								"GetNeumaticoByMovilID"
-							],
-							"query": [
-								{
-									"key": "idMovil",
-									"value": "5"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Modificar",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5062/api/Neumaticos/ModificarNeumaticoPorCodigo?codigo=123456&ubicacion=1&patente=&fechaIngreso=2025-01-25T12:00:00.000&kmTotal=20020&tipoNeumatico=1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"Neumaticos",
-								"ModificarNeumaticoPorCodigo"
-							],
-							"query": [
-								{
-									"key": "codigo",
-									"value": "123456"
-								},
-								{
-									"key": "ubicacion",
-									"value": "1"
-								},
-								{
-									"key": "patente",
-									"value": ""
-								},
-								{
-									"key": "fechaIngreso",
-									"value": "2025-01-25T12:00:00.000"
-								},
-								{
-									"key": "kmTotal",
-									"value": "20020"
-								},
-								{
-									"key": "tipoNeumatico",
-									"value": "1"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Ubicacion Unica",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"idMovil\": 123,\r\n  \"posicion\": 2\r\n}\r\n",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:5062/api/Neumaticos/verificarSiPosicioneEsUnicaEnEseVehiculo?idMovil=&ubicacion=2",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"Neumaticos",
-								"verificarSiPosicioneEsUnicaEnEseVehiculo"
-							],
-							"query": [
-								{
-									"key": "idMovil",
-									"value": ""
-								},
-								{
-									"key": "ubicacion",
-									"value": "2"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Existe",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5062/api/Neumaticos/verificarSiNeumaticoExiste?codigo=105645",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"Neumaticos",
-								"verificarSiNeumaticoExiste"
-							],
-							"query": [
-								{
-									"key": "codigo",
-									"value": "105645"
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Movil",
-			"item": [
-				{
-					"name": "Movil",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:5062/api/Movil",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"Movil"
-							]
-						}
-					},
-					"response": []
+					]
 				},
 				{
 					"name": "Movil",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{authToken}}",
-									"type": "string"
+					"item": [
+						{
+							"name": "Movil",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5062/api/Movil",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Movil"
+									]
 								}
-							]
+							},
+							"response": []
 						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"ID_MOVIL\": 1,\r\n  \"PATENTE\": \"GH7890\",\r\n  \"MARCA\": \"SCANIA\",\r\n  \"MODELO\": \"SCANIA SUPER\",\r\n  \"EJES\": 4,\r\n  \"TIPO_MOVIL\": 1,\r\n  \"ID_BODEGA\": 1,\r\n  \"CANTIDAD_NEUMATICOS\": 18,\r\n  \"ESTADO\": 1\r\n}\r\n",
-							"options": {
-								"raw": {
-									"language": "json"
+						{
+							"name": "Movil",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "   {\r\n    \"PATENTE\": \"IG7891\",\r\n    \"MARCA\": \"DAF\",\r\n    \"MODELO\": \"XF\",\r\n    \"EJES\": 4,\r\n    \"TIPO_MOVIL\": 1,\r\n    \"ID_BODEGA\": 1,\r\n    \"CANTIDAD_NEUMATICOS\": 18,\r\n    \"ESTADO\": 1\r\n  }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5062/api/Movil?idUsuario=2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Movil"
+									],
+									"query": [
+										{
+											"key": "idUsuario",
+											"value": "2"
+										}
+									]
 								}
-							}
+							},
+							"response": []
 						},
-						"url": {
-							"raw": "http://localhost:5062/api/Movil",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"Movil"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Movil",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{authToken}}",
-									"type": "string"
+						{
+							"name": "Movil",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"ID_MOVIL\": 3,\r\n  \"PATENTE\": \"GH7891\",\r\n  \"MARCA\": \"SCANIA\",\r\n  \"MODELO\": \"SCANIA SUPER\",\r\n  \"EJES\": 4,\r\n  \"TIPO_MOVIL\": 1,\r\n  \"ID_BODEGA\": 1,\r\n  \"CANTIDAD_NEUMATICOS\": 18,\r\n  \"ESTADO\": \"0\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5062/api/Movil/3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Movil",
+										"3"
+									]
 								}
-							]
+							},
+							"response": []
 						},
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"ID_MOVIL\": 5,\r\n  \"PATENTE\": \"GH7891\",\r\n  \"MARCA\": \"SCANIA\",\r\n  \"MODELO\": \"SCANIA SUPER\",\r\n  \"EJES\": 4,\r\n  \"TIPO_MOVIL\": 1,\r\n  \"ID_BODEGA\": 1,\r\n  \"CANTIDAD_NEUMATICOS\": 18,\r\n  \"ESTADO\": \"0\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
+						{
+							"name": "Movil",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/Movil/48",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Movil",
+										"48"
+									]
 								}
-							}
+							},
+							"response": []
 						},
-						"url": {
-							"raw": "http://localhost:5062/api/Movil/5",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"Movil",
-								"5"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Movil",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{authToken}}",
-									"type": "string"
+						{
+							"name": "Estado",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/Movil/ComprobarEstadoMovil?patente=gh7891",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Movil",
+										"ComprobarEstadoMovil"
+									],
+									"query": [
+										{
+											"key": "patente",
+											"value": "gh7891"
+										}
+									]
 								}
-							]
+							},
+							"response": []
 						},
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5062/api/Movil/48",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"Movil",
-								"48"
-							]
+						{
+							"name": "Estado",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/Movil/CambiaEstadoMovilPorPatente?patente=GH3456&estado=2&idUsuario=2&eliminarNeumaticos=true",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Movil",
+										"CambiaEstadoMovilPorPatente"
+									],
+									"query": [
+										{
+											"key": "patente",
+											"value": "GH3456"
+										},
+										{
+											"key": "estado",
+											"value": "2"
+										},
+										{
+											"key": "idUsuario",
+											"value": "2"
+										},
+										{
+											"key": "eliminarNeumaticos",
+											"value": "true"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Patente",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/Movil/GetMovilByPatente?patente=GH7891",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Movil",
+										"GetMovilByPatente"
+									],
+									"query": [
+										{
+											"key": "patente",
+											"value": "GH7891"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Modificar",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/Movil/ModificarMovilPorPatente?patenteActual=IJ7891&patenteNueva=GH7891&marca=SCANIA&modelo=SCANIA 2019&ejes=4&cantidadNeumaticos=6&tipoMovil=5&idUsuario=2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Movil",
+										"ModificarMovilPorPatente"
+									],
+									"query": [
+										{
+											"key": "patenteActual",
+											"value": "IJ7891"
+										},
+										{
+											"key": "patenteNueva",
+											"value": "GH7891"
+										},
+										{
+											"key": "marca",
+											"value": "SCANIA"
+										},
+										{
+											"key": "modelo",
+											"value": "SCANIA 2019"
+										},
+										{
+											"key": "ejes",
+											"value": "4"
+										},
+										{
+											"key": "cantidadNeumaticos",
+											"value": "6"
+										},
+										{
+											"key": "tipoMovil",
+											"value": "5"
+										},
+										{
+											"key": "idUsuario",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				},
 				{
-					"name": "Estado",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5062/api/Movil/ComprobarEstadoMovil?patente=gh7891",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"Movil",
-								"ComprobarEstadoMovil"
-							],
-							"query": [
-								{
-									"key": "patente",
-									"value": "gh7891"
+					"name": "Neumaticos",
+					"item": [
+						{
+							"name": "Neumaticos",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/neumaticos",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"neumaticos"
+									]
 								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Estado",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5062/api/Movil/CambiaEstadoMovilPorPatente?patente=GH781&estado=1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"Movil",
-								"CambiaEstadoMovilPorPatente"
-							],
-							"query": [
-								{
-									"key": "patente",
-									"value": "GH781"
+							},
+							"response": []
+						},
+						{
+							"name": "Neumaticos",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
 								},
-								{
-									"key": "estado",
-									"value": "1"
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "    {\r\n        \"CODIGO\": 113181,\r\n        \"UBICACION\": 5,\r\n        \"ID_MOVIL\": 1,\r\n        \"ID_BODEGA\": 1,\r\n        \"FECHA_INGRESO\": \"2025-01-27T10:00:00\",\r\n        \"ESTADO\": 1,\r\n        \"KM_TOTAL\": 9000,\r\n        \"TIPO_NEUMATICO\": 2\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5062/api/Neumaticos?idUsuario=2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Neumaticos"
+									],
+									"query": [
+										{
+											"key": "idUsuario",
+											"value": "2"
+										}
+									]
 								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Patente",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5062/api/Movil/GetMovilByPatente?patente=GH7891",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"Movil",
-								"GetMovilByPatente"
-							],
-							"query": [
-								{
-									"key": "patente",
-									"value": "GH7891"
+							},
+							"response": []
+						},
+						{
+							"name": "Neumaticos",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"codigo\": 123476,\r\n  \"ubicacion\": 1,\r\n  \"iD_BODEGA\": 1,\r\n  \"fechA_SALIDA\": \"2025-01-22T14:17:53.732Z\",\r\n  \"estado\": 1,\r\n  \"kM_TOTAL\": 1800,\r\n  \"tipO_NEUMATICO\": 1,\r\n  \"id_movil\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5062/api/neumaticos/23",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"neumaticos",
+										"23"
+									]
 								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Modificar",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5062/api/Movil/ModificarMovilPorPatente?patenteActual=gh7891&patenteNueva=gh7891&marca=SCANIA&modelo=SCANIA 2019&ejes=4&cantidadNeumaticos=6&tipoMovil=5",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"Movil",
-								"ModificarMovilPorPatente"
-							],
-							"query": [
-								{
-									"key": "patenteActual",
-									"value": "gh7891"
-								},
-								{
-									"key": "patenteNueva",
-									"value": "gh7891"
-								},
-								{
-									"key": "marca",
-									"value": "SCANIA"
-								},
-								{
-									"key": "modelo",
-									"value": "SCANIA 2019"
-								},
-								{
-									"key": "ejes",
-									"value": "4"
-								},
-								{
-									"key": "cantidadNeumaticos",
-									"value": "6"
-								},
-								{
-									"key": "tipoMovil",
-									"value": "5"
+							},
+							"response": []
+						},
+						{
+							"name": "Neumaticos",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/neumaticos/6",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"neumaticos",
+										"6"
+									]
 								}
-							]
+							},
+							"response": []
+						},
+						{
+							"name": "Codigo",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/Neumaticos/GetNeumaticoByCodigo?codigo=123456 ",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Neumaticos",
+										"GetNeumaticoByCodigo"
+									],
+									"query": [
+										{
+											"key": "codigo",
+											"value": "123456 "
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Codigo",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/Neumaticos/ModificarEstadoPorCodigo?idUsuario=2&codigo=113180&estado=2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Neumaticos",
+										"ModificarEstadoPorCodigo"
+									],
+									"query": [
+										{
+											"key": "idUsuario",
+											"value": "2"
+										},
+										{
+											"key": "codigo",
+											"value": "113180"
+										},
+										{
+											"key": "estado",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Movil NULL",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/Neumaticos/GetNeumaticoByMovilNULL",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Neumaticos",
+										"GetNeumaticoByMovilNULL"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Movil ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/Neumaticos/GetNeumaticoByMovilID?idMovil=5",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Neumaticos",
+										"GetNeumaticoByMovilID"
+									],
+									"query": [
+										{
+											"key": "idMovil",
+											"value": "5"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Modificar",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/Neumaticos/ModificarNeumaticoPorCodigo?codigo=113180&ubicacion=3&patente=GH7891&fechaIngreso=2025-01-31T12:00:00.000&kmTotal=20022&tipoNeumatico=1&idUsuario=2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Neumaticos",
+										"ModificarNeumaticoPorCodigo"
+									],
+									"query": [
+										{
+											"key": "codigo",
+											"value": "113180"
+										},
+										{
+											"key": "ubicacion",
+											"value": "3"
+										},
+										{
+											"key": "patente",
+											"value": "GH7891"
+										},
+										{
+											"key": "fechaIngreso",
+											"value": "2025-01-31T12:00:00.000"
+										},
+										{
+											"key": "kmTotal",
+											"value": "20022"
+										},
+										{
+											"key": "tipoNeumatico",
+											"value": "1"
+										},
+										{
+											"key": "idUsuario",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Ubicacion Unica",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"idMovil\": 3,\r\n  \"posicion\": 2\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5062/api/Neumaticos/verificarSiPosicioneEsUnicaConPatente?idMovil=IJ7890&posicion=8",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Neumaticos",
+										"verificarSiPosicioneEsUnicaConPatente"
+									],
+									"query": [
+										{
+											"key": "idMovil",
+											"value": "IJ7890"
+										},
+										{
+											"key": "posicion",
+											"value": "8"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Existe",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/Neumaticos/verificarSiNeumaticoExiste?codigo=105645",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Neumaticos",
+										"verificarSiNeumaticoExiste"
+									],
+									"query": [
+										{
+											"key": "codigo",
+											"value": "105645"
+										}
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				}
 			]
 		},
 		{
-			"name": "Kilometros",
-			"item": [
-				{
-					"name": "Kilometros",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{authToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5062/api/Kilometros",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"Kilometros"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Kilometros",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{authToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"iD_MOVIL\": 5,\r\n  \"fechA_REGISTRO\": \"2025-01-22T13:31:48.061Z\",\r\n  \"kilometro\": 200\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:5062/api/Kilometros",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"Kilometros"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Kilometros",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{authToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"iD_KILOMETRO_DIARIO\": 2,\r\n  \"iD_MOVIL\": 5,\r\n  \"fechA_REGISTRO\": \"2025-01-22T13:37:04.988Z\",\r\n  \"kilometro\": 200\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:5062/api/Kilometros/2",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"Kilometros",
-								"2"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Kilometros",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{authToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5062/api/Kilometros/42",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"Kilometros",
-								"42"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Alertas",
+			"name": "Secundarias",
 			"item": [
 				{
 					"name": "Alertas",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5062/api/Alerta",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"Alerta"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Alertas",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{authToken}}",
-									"type": "string"
+					"item": [
+						{
+							"name": "Alertas",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/Alerta",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Alerta"
+									]
 								}
-							]
+							},
+							"response": []
 						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"iD_NEUMATICO\": 23,\r\n  \"fechA_ALERTA\": \"2025-01-22T16:10:03.104Z\",\r\n  \"codigO_ALERTA\": 1\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:5062/api/Alerta",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"Alerta"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Alertas",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{authToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"id\": 2,\r\n  \"iD_NEUMATICO\": 23,\r\n  \"fechA_ALERTA\": \"2025-01-22T16:11:06.032Z\",\r\n  \"codigO_ALERTA\": 2\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:5062/api/Alerta/2",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"Alerta",
-								"2"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Alertas",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{authToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5062/api/Alerta/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"Alerta",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Estado 1 y 2",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5062/api/Alerta/GetAlertasByEstadoAlerta1&2",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"Alerta",
-								"GetAlertasByEstadoAlerta1&2"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Estado 3",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5062/api/Alerta/GetAlertasByEstadoAlerta3",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"Alerta",
-								"GetAlertasByEstadoAlerta3"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Estado",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5062/api/Alerta/CambiarEstado?id=5&estado=2&idUsuario=1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"Alerta",
-								"CambiarEstado"
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "5"
+						{
+							"name": "Alertas",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
 								},
-								{
-									"key": "estado",
-									"value": "2"
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "    {\r\n        \"iD_NEUMATICO\": 1,\r\n        \"fechA_ALERTA\": \"2025-02-03T16:10:03.104Z\",\r\n        \"codigO_ALERTA\": 1,\r\n        \"estadO_ALERTA\": 1\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
 								},
-								{
-									"key": "idUsuario",
-									"value": "1"
+								"url": {
+									"raw": "http://localhost:5062/api/Alerta",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Alerta"
+									]
 								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Estado Copy",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5062/api/Alerta/CambiarEstado?id=4&estado=2&idUsuario=1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"Alerta",
-								"CambiarEstado"
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "4"
+							},
+							"response": []
+						},
+						{
+							"name": "Alertas",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
 								},
-								{
-									"key": "estado",
-									"value": "2"
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": 2,\r\n  \"iD_NEUMATICO\": 23,\r\n  \"fechA_ALERTA\": \"2025-01-22T16:11:06.032Z\",\r\n  \"codigO_ALERTA\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
 								},
-								{
-									"key": "idUsuario",
-									"value": "1"
+								"url": {
+									"raw": "http://localhost:5062/api/Alerta/2?xd=5154998465841",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Alerta",
+										"2"
+									],
+									"query": [
+										{
+											"key": "xd",
+											"value": "5154998465841"
+										}
+									]
 								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Bitacora Neumatico",
-			"item": [
-				{
-					"name": "Bitacora Neumatico",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+							},
+							"response": []
 						},
-						"url": {
-							"raw": "http://localhost:5062/api/BitacoraNeumatico",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"BitacoraNeumatico"
-							]
+						{
+							"name": "Alertas",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/Alerta/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Alerta",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Estado 1 y 2",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/Alerta/GetAlertasByEstadoAlerta1&2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Alerta",
+										"GetAlertasByEstadoAlerta1&2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Estado 3",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/Alerta/GetAlertasByEstadoAlerta3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Alerta",
+										"GetAlertasByEstadoAlerta3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Estado",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/Alerta/CambiarEstado?id=5&estado=2&idUsuario=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Alerta",
+										"CambiarEstado"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "5"
+										},
+										{
+											"key": "estado",
+											"value": "2"
+										},
+										{
+											"key": "idUsuario",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Estado Copy",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/Alerta/CambiarEstado?id=4&estado=2&idUsuario=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Alerta",
+										"CambiarEstado"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "4"
+										},
+										{
+											"key": "estado",
+											"value": "2"
+										},
+										{
+											"key": "idUsuario",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Pendiente",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/Alerta/HasAlertaPendiente",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Alerta",
+										"HasAlertaPendiente"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				},
 				{
-					"name": "Bitacora Neumatico",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{authToken}}",
-									"type": "string"
+					"name": "Historial Neumatico",
+					"item": [
+						{
+							"name": "Historial Neumatico",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5062/api/HistorialNeumatico",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"HistorialNeumatico"
+									]
 								}
-							]
+							},
+							"response": []
 						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"idNeumatico\": 23,\r\n  \"idUsuario\": 1,\r\n  \"codigo\": 2,\r\n  \"fecha\": \"2025-01-22T16:15:20.245Z\",\r\n  \"estado\": 2,\r\n  \"observacion\": \"Rueda Golpeada por el borde Izquierdo\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
+						{
+							"name": "Historial Neumatico",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"idNeumatico\": 6,\r\n  \"idUsuario\": 2,\r\n  \"codigo\": 5,\r\n  \"fecha\": \"2025-01-22T16:15:20.245Z\",\r\n  \"estado\": 2,\r\n  \"observacion\": \"Rueda Golpeada por el borde Izquierdo\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5062/api/HistorialNeumatico",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"HistorialNeumatico"
+									]
 								}
-							}
+							},
+							"response": []
 						},
-						"url": {
-							"raw": "http://localhost:5062/api/BitacoraNeumatico",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"BitacoraNeumatico"
-							]
+						{
+							"name": "Historial Neumatico",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": 2,\r\n  \"idNeumatico\": 4,\r\n  \"idUsuario\": 2,\r\n  \"codigo\": 1,\r\n  \"fecha\": \"2025-01-22T16:15:20.245Z\",\r\n  \"estado\": 1,\r\n  \"observacion\": \"Neumatico desaparecio del espacio tiempo\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5062/api/HistorialNeumatico/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"HistorialNeumatico",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Historial Neumatico",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/HistorialNeumatico/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"HistorialNeumatico",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ID Neumatico",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/HistorialNeumatico/GetHistorialNeumaticoByNeumaticoID?idNeumatico=6",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"HistorialNeumatico",
+										"GetHistorialNeumaticoByNeumaticoID"
+									],
+									"query": [
+										{
+											"key": "idNeumatico",
+											"value": "6"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Estado",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/HistorialNeumatico/UpdateEstadoHistorialNeumatico/3?estado=2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"HistorialNeumatico",
+										"UpdateEstadoHistorialNeumatico",
+										"3"
+									],
+									"query": [
+										{
+											"key": "estado",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ID Neumatico Estado",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/HistorialNeumatico/GetHistorialNeumaticoByNeumaticoIDAndEstado?idNeumatico=6&estado=2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"HistorialNeumatico",
+										"GetHistorialNeumaticoByNeumaticoIDAndEstado"
+									],
+									"query": [
+										{
+											"key": "idNeumatico",
+											"value": "6"
+										},
+										{
+											"key": "estado",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Existen 2 Pinchazos",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/HistorialNeumatico/ExistenDosPinchazos/7",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"HistorialNeumatico",
+										"ExistenDosPinchazos",
+										"7"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				},
-				{
-					"name": "Bitacora Neumatico",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{authToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"id\": 3,\r\n  \"idNeumatico\": 23,\r\n  \"idUsuario\": 1,\r\n  \"codigo\": 1,\r\n  \"fecha\": \"2025-01-22T16:15:20.245Z\",\r\n  \"estado\": 1,\r\n  \"observacion\": \"Neumatico Exploto\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:5062/api/BitacoraNeumatico/3",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"BitacoraNeumatico",
-								"3"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Bitacora Neumatico",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{authToken}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5062/api/BitacoraNeumatico/2",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"BitacoraNeumatico",
-								"2"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "ID Neumatico",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5062/api/BitacoraNeumatico/GetBitacoraByNeumaticoID?idNeumatico=23",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"BitacoraNeumatico",
-								"GetBitacoraByNeumaticoID"
-							],
-							"query": [
-								{
-									"key": "idNeumatico",
-									"value": "23"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Estado",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:5062/api/BitacoraNeumatico/UpdateEstadoBitacora/3?estado=2",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "5062",
-							"path": [
-								"api",
-								"BitacoraNeumatico",
-								"UpdateEstadoBitacora",
-								"3"
-							],
-							"query": [
-								{
-									"key": "estado",
-									"value": "2"
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Mail",
-			"item": [
 				{
 					"name": "Mail",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"to\": \"javiernancob@gmail.com\",\r\n  \"subject\": \"Asunto del correo\",\r\n  \"body\": \"Contenido del correo\"\r\n}\r\n",
-							"options": {
-								"raw": {
-									"language": "json"
+					"item": [
+						{
+							"name": "Mail",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "\r\n{\r\n    \"to\": \"yasna.pizarro@pentacrom.cl\",\r\n    \"subject\": \"Prueba desde API\",\r\n    \"message\": \"Este es un correo de prueba desde la API.\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5062/api/mail/send",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"mail",
+										"send"
+									]
 								}
-							}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Kilometros",
+					"item": [
+						{
+							"name": "Kilometros",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/Kilometros",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Kilometros"
+									]
+								}
+							},
+							"response": []
 						},
+						{
+							"name": "Kilometros",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": " {\r\n        \"iD_MOVIL\": 4,\r\n        \"fechA_REGISTRO\": \"2025-01-23T14:32:15.123Z\",\r\n        \"kilometro\": 250\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5062/api/Kilometros",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Kilometros"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Kilometros",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"iD_KILOMETRO_DIARIO\": 2,\r\n  \"iD_MOVIL\": 5,\r\n  \"fechA_REGISTRO\": \"2025-01-22T13:37:04.988Z\",\r\n  \"kilometro\": 200\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5062/api/Kilometros/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Kilometros",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Kilometros",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{authToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/Kilometros/42",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Kilometros",
+										"42"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Bitacora",
+					"item": [
+						{
+							"name": "Bitacora",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/Bitacora",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Bitacora"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Bitacora",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n        \"codigo\": 1,\r\n        \"iD_OBJETO\": 2,\r\n        \"tipO_OBJETO\": \"Movil\",\r\n        \"iD_USUARIO\": 2,\r\n        \"observacion\": \"Neumatico Sin Aire\",\r\n        \"estado\": 1,\r\n        \"usuario\": null,\r\n        \"neumatico\": null,\r\n        \"movil\": null\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5062/api/Bitacora",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Bitacora"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Recuperar Contraseña",
+			"item": [
+				{
+					"name": "Password",
+					"item": [
+						{
+							"name": "Autogenerada",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/Usuarios/RestablecerClave?mail=javier.nanco@pentacrom.cl&autogenerada=true&administrador=true",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Usuarios",
+										"RestablecerClave"
+									],
+									"query": [
+										{
+											"key": "mail",
+											"value": "javier.nanco@pentacrom.cl"
+										},
+										{
+											"key": "autogenerada",
+											"value": "true"
+										},
+										{
+											"key": "administrador",
+											"value": "true"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Manual",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/Usuarios/RestablecerClave?mail=javier.nanco@pentacrom.cl&NuevaClave=SuperJavier10?&administrador=false",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Usuarios",
+										"RestablecerClave"
+									],
+									"query": [
+										{
+											"key": "mail",
+											"value": "javier.nanco@pentacrom.cl"
+										},
+										{
+											"key": "NuevaClave",
+											"value": "SuperJavier10?"
+										},
+										{
+											"key": "administrador",
+											"value": "false"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Solicitud de Recuperar",
+					"item": [
+						{
+							"name": "Solicitar Recuperacón",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"CorreoSolicitante\": \"javier.nanco@pentacrom.cl\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://10.250.200.61:5062/api/solicitudcorreos",
+									"protocol": "http",
+									"host": [
+										"10",
+										"250",
+										"200",
+										"61"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"solicitudcorreos"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Reportes",
+			"item": [
+				{
+					"name": "Excel",
+					"request": {
+						"method": "GET",
+						"header": [],
 						"url": {
-							"raw": "http://localhost:5062/api/mail/send-email",
+							"raw": "http://localhost:5062/api/reportes/descargar",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1733,8 +2026,188 @@
 							"port": "5062",
 							"path": [
 								"api",
-								"mail",
-								"send-email"
+								"reportes",
+								"descargar"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/reportes/descargar",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"reportes",
+										"descargar"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "xml",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "9671"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 07 Feb 2025 20:23:48 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Content-Disposition",
+									"value": "attachment; filename=Reporte_20250207_172349.xlsx; filename*=UTF-8''Reporte_20250207_172349.xlsx"
+								}
+							],
+							"cookie": [],
+							"body": "PK\u0003\u0004\u0014\u0000\u0006\b\b\u0000��GZ�]��3\u0001\u0000\u0000�\u0006\u0000\u0000\u0013\u0000\u0014\u0000[Content_Types].xml��\u0010\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000͕�N\u00021\u0010�_e�[C\u000b�H�.\\�s�&�\u0003�v�m�_:\u0005���v�1\u0004\u0013� �մ=3�|���˽��\u000e\u0002*g\u001b2�cR�\u0015N*�n���q4'\u0015Fn%��BC\u000e�d��W\u0007\u000fX�Y�\r�b������p�΃MJ��1]Úy.6|\rl:\u001eϘp6����{�E}\u000f-��X�\r�uC��Z\t\u001e\u0013\u0016Kf�z�'q����\u000fs;+�`F_ 4��=�)�\u0017�\u0001I�>�9}LP\u0012�\u0015��V\t�NlM\u001a��\u0003p�\u001d@4��J\rWv\b}�!>q�\\�^�\u000f\u00176��mh��\u0002�G��o�YD�ˤ\u0014�i) ���\\�\u0002r]\nȬ\u0014��R@�g\u0004�xЀ�(\u0006��\u001d\u000f _cH;�4�φo\u0010�w��\u0013PK\u0003\u0004\u0014\u0000\u0006\b\b\u0000��GZ��닮\u0000\u0000\u0000'\u0001\u0000\u0000\u000b\u0000\u0014\u0000_rels/.rels��\u0010\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000���\u000e�0\f\u0006�WYz��\u0007c\f��1�j�\u0001�V\u0006\u0001�e�\no�b\n<xl���Ӳ^�=ч���\"ˁ�U�\u0007k\u0004����\b,Di��Ȣ�\u0015\u0003�Uy�I�t\u0012��\u0005�\f\u001b\u0004�1�\u0013�A�8ː�C�6\u001d�Y�4zÝT�4��y~��Ӏ��\u001a-�7�\u0000֮\u000e����\u0006�gR�\u0019m�Q�H��\u0006��e�/��h�\u0012\n�*����\rPK\u0003\u0004\u0014\u0000\u0006\b\b\u0000��GZ�\u000e��\u0001\u0000\u0000�\u0005\u0000\u0000\u0018\u0000\u0014\u0000xl/worksheets/sheet1.xml��\u0010\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000��Kr�0\u0018��d���Q�:��R|�:]tO!\b#\u0010&�һu�#�\n\rء�1�\u001d�o��?L�?���GU�3�� �\u000f�\u0005\u0001�\u0013�\u0016���'�=L�\"�ZB�,ǘ\u0003�k6�>�9o�\b�$�U�F����/#�����\u0007D��HpH�S�k�\u001c˚ �˘��X^4\f^V��Z��8N�\u0011��T\u0015\u00175\f��\u0010�w�\u0003�3\u001f.��ޅ\u0000\u0005^��\nܲ�k�=�;!��f����-�p�o�BA���T�W�nqqȹ�4�[?�y\u001cx��@$��8Iw��!`�ڂ3��9�\n    <t\u0016�$�b�\u000b[\u0016k]8�\bu���Y\u0017���t1��F\u0017\u0013Ylu�$��.����b6\b$�\u000e��!��'T+\u001b���@��\u0006��6\u0010��}���D[\u0003Q^��@�7������\u001dr�w�_\u0019��%�\rD�\u0014B\u0003�)�u�(����n\fD�m jn\u0003Qsߜ�\u001b]\u001d'�8�0�\b����p�\u0006?PK\u0003\u0004\u0014\u0000\u0006\b\b\u0000��GZf@��\u0001\u0000\u0000�\u0006\u0000\u0000\u0018\u0000\u0014\u0000xl/worksheets/sheet2.xml��\u0010\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000���r�0\u0014\u0006�W�d߆�Z�\u0000�z���E�\u0014�0\u0015�$Q�n]���\n��A��\u0019�\u0003���IN\u0006�����j������!v�\u001d�h�����!>��n�������((�H�Z�x�\u000b)�#BDZ�*\u0011�lOk�,g�J���[��L锥��֒x�3 ��\u0012�J���\u000b|I�O��s�dM\u000b��\u0012U%e�� +U��{�i\u001e�gw��1\"Q�ි���5:�䝱���2\u000b��Xb�)��QF�䰓�촠嶐j����i\"�(��Ԗ����|��b$�lŅ��\u0018yn@��P�G�\u0000�t2\u0001���)@z:�\u0001����&\u0003]́\u0010�,\u0000�%@�:Y\u0001�Q'k���N6\u0000��?Q�jg�3��w���\u0001b\fdb\u0013�hn\n\u0010c �n\u0012w\u0017�w�,�\u0015\u0019�gٝ���e\r\u00142R6\u0000\u0019�C�ۡ��;ơ\u001b\u0003�8t\u0013�x��lb.q\u0006\u00142�nܝ2\u0007�94��ewʪ��5�\"sh@J�\u0018\u001a��R\u0016�+Ny̘�����,�/PK\u0003\u0004\u0014\u0000\u0006\b\b\u0000��GZB�\u0002�\u0001\u0000\u0000\u001e\u0005\u0000\u0000\u0018\u0000\u0014\u0000xl/worksheets/sheet3.xml��\u0010\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000���n�0\u0018\u0006�[iz>\u000b(�\f`tοi��`�\u001d\u0014!\u0002%m���\u000evI��\u0015\\Ԗ&�\f���>y�?_���3���0��vς�\u0014!����Ó�\u001f�p\u001ax\u0015eG�\u0010\"��\u0005�0\u001f&B�\u0013�x��\u001c�\u001e-I!ߋ)˱���h\u001c�!Y��B ǲ���\f\u000b9�'i��%�?Y�d\u0004G�\nyv��qZ���R�^o\u000f\u0018�}8�'{\u0007\u0002\u0014x\r~OI��A�M>(=�7�ȇVcQ\u000b/��\fD$ƧL��jM�C\"�Cro�\u000b,p�1Z\u0001�Hl�NX_�l\bx�-9��������\u001c\u0014����8*y2��J\u0016\u00062Pɳ��*Y\u001a�P%+\u0003\u0019�d�&ZȦ-���a�X%/\u0006�]���J�\u0006rk\b�B��:�V��gl-v�&�ު��\u001a�ު��v���&�n�1\u0010m��a]����&}-e�=ho\u00184�zEw��D�*�-)\u0015�5\u0007���\u000b~\u0001PK\u0003\u0004\u0014\u0000\u0006\b\b\u0000��GZ\u0016\u001fҬ\u001b\u0001\u0000\u0000\u001d\u0002\u0000\u0000\u0018\u0000\u0014\u0000xl/worksheets/sheet4.xml��\u0010\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000��An�0\u0010E�by�\u0018��Rd�\u0012EQ����ޅ\u0001��\u0007�\u0006z�.z�^�\u0003�h\u00146�y��7����/��h\u001b6�u\u001aM��M�\u0019�\u001c\u000bm����|��}&G�\u0017W\u0003xF�q�My�}�\b��\u001aZ�6؁��\u0012m�<��\u0012X�:�\u0013�}\u000bƋ(\b��B�<�r��\u001c����r�\u0005U�#��U�*mx&\u000bM�izf�L�!L�\u0011g\"�3��at7k6��\u001d�2\u0015�Eʃ�\u0015+�\n        <7���R����\ttU{\n)��W��82�$�q�iq\b9s��pG�C��b�>�/q\\\u0013�nA\u0004\t\u0017k�X�՝0�Ӯ���N+n\u0006�)T�gD\u000fv�a���\u0007PK\u0003\u0004\u0014\u0000\u0006\b\b\u0000��GZ�e�v}\u0001\u0000\u0000�\u0004\u0000\u0000\u0018\u0000\u0014\u0000xl/worksheets/sheet5.xml��\u0010\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000���r�0\u0010\u0000�W��^\u0003X�\u0000���S\u000f�\u001ezO!HF L\u0012���C\u001f��Ј\u001d*!3�����fw���;��3p!\\PVx�\u001eX\u0010�\"b1-�\u001e<��a\n�[1~\u0012)!\u0012(^�\u0019�`*e9CHD)ɱ\u0018��\u0014�]�x����#bIB#\u0012�蜓B\"ǲƈ�\fK�J��\u0014�\u0016�?�D�\t��\u0012��\u0016*Ǵ��\u001bS\u0015�Z=�$��\u001d\u001c\b������Jܭ��$��]�A�����:�\u000b\u00071I�9����\u0012zL�j��/~�%�]�*�Zb�r��baC �؊\u000b���-\u0017]T��,�ı�de �6\t\f��(k\u0003q�$4�a�l\f�M�\u00062j�����do ڡ�\rd�&\u0007\u0003yj\bR�j��4Cs:���\u0011�]2Ԋ[u�D\u001b}`H�5j�OB\u0003�\u0012m�ɶ?Ѯ����s?9\u0018ZgkCCw]�n\u0004�C�$��O��R�\u000fPK\u0003\u0004\u0014\u0000\u0006\b\b\u0000��GZTgR��\u0000\u0000\u0000W\u0001\u0000\u0000\u0018\u0000\u0014\u0000xl/worksheets/sheet6.xml��\u0010\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000�P�N�0\u0010�\u0015�w�P\t��$�T\u0015�!\u000e�M�����hw��o\u001c�$~\u0001�\u0011\b�\u000b�}������G����\u0000q����M�\u0015�\u000e���F��n\u001e���\u0017�3{\u0000Q\u0019�xG��\"��\u0018�\n            <D�\u001b� �C�VrK�A�B\u0007\u0007��\bI̶��\r�h%K�\u000f\u0013��?\\<\u0011ؾX��J\u0015mH����%�¿ju5��x�6����-���\u000f�X4�H���<�3.�\u0010\u0006/9��rS`\u0007+��|�}�\u0003tD\u0014�B�\u0013Q�\u0005PK\u0003\u0004\u0014\u0000\u0006\b\b\u0000��GZ&́\u0017�\u0002\u0000\u0000*\u0011\u0000\u0000\u0018\u0000\u0014\u0000xl/worksheets/sheet7.xml��\u0010\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000��͒�@\u0014�_�b�\u0001��B��1b�RYdO�\u0015j��\u00005�E\u001e)�\u0010tR��\u001c�ݩ����?�\f�����_��9�LM>u�\u0017�ut�6�4�M�c��2r_g��\u0014\u001fe�u��x^N���T�a�y�:�Y\\�����mM��U���yf�M�za��L�����W�}\\ե�$=��g�3Y�����B�����4wg�&��/�;��Nݷ`����x��J�H���{�\\��Ә��\u001b������\u0000^^�+�����}�ݜW:�%Um��_�U<\u000b\u000bsvj'A�����-p��]�e��i6�ީ.����\t�}D�\u0011\u0019�\u001f�\u0005I�=\"_\t�D��tD�\u0011I\u0019<\"+�\"�U$e� ^��q�i\\vp�H�D�+�')�p�H�\u000b�$ElqiO�\u0010\u0019\tdeOQ$%�.���.���%\"ݡp�\b�D\u0004\\�\u0014�Ҟ\u0012�\u001d�1Z�S\u0014I�q���e\u000f׈��#\u0002�%\"�\u0012\u0011pIR�K{/\u0011ّ�q{/����x�q��5r�\u0011\u0001���KD�%I�.I�\u0002�\u0010\u0019�\u0019���HJˌ\u000f\u001a�\u0003\\#g\u001c\u0011p�\b�D\u0004\\�\u0014��\".���Hθ�\u0017ERZf|ظ\u001c�\u001a9㈀KD�%\"���H��^\"�#��ދB�m�G��\u0011V\u0016_�\u001c\u0011�߃\b�D\u0004\\�\u0014钴+z�\b\"�Z+{/�����q�rLbE�\u001c\u0019��\b�d��L�\"e\"\u00022Y!���ތ\"�Zl\u0006��q�'����\u0010\b%\f\u0018���3;ɑN\t\u0003Ri-9�O4�(�r�\f��A��\u001f��\u000eJ \u0014KN\u000e �\u0015�bI\u000e�E\u0006ŲZp �7�(�&�v(\n�\u0001a(Œs\u0011�}�`D�I�O\u001c�\b�bY-yW}�!E\u0019)ֻ;�':��biL���o\u0002ͯ\u001e�PK\u0003\u0004\u0014\u0000\u0006\b\b\u0000��GZe\u0002\u0013��\u0007\u0000\u00001<\u0000\u0000\u0018\u0000\u0014\u0000xl/worksheets/sheet8.xml��\u0010\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000��Kr�F\u0014E���<&���%�e���Y*��\u0019\t�X�H\u0015I[�[\u0006YR�\u0010JI��{O\u0001/3�>z�<\u0006��m����ŧ?�\u001e\u0007?��a��^\u000e�\u000f������6ۯ��������OW\u0017/����C�\u001c\u0007'|{���\u001c>\u001c��\u001fG���C�>|�=7�ӿ���O����������Y�n�?5��(\u001f���}�>��:\n                <l�\u000f��Ej\u001d�����m\nO���zZo�ë��ͩ���\u0007���r�9�xS.�����\u001b�ۦy9��y��Q~�����������\u001d\u0019\\����~p�ܯ�?\u001eݽ�4��\u000fǓ�I��Z\u001f�W\u0017�����$;�������ppx�}�\u000f���q5�/F?N\u0003���T��,\u001d�Ƌ6�\u0002&\u001b��/�dm��\u0019O��5 �6r\u0003\u001f*Mxt�tv��]��)�\u0015 ���/�rd6\u0011UP�\u0014S4�BT\u0011#un:'�rU�]\u0015�ӫ\u0000��S.�QW������4\u0019�����s�-W��U�ע^W�d�\\\\\u0001��\u001c1WPE]�d�\u00151�\"�tN��jrv5��)d�ʑL}.�QW��+���\u00001W4aY�n:'�r5=�����忠r$��\u001d\u0018u刹�R�dt�\"F׫ΡZ�fgW3��t\u001ft�]\u0001��\u001c1W�Uj����&F]u\u000e�r5?���+Y\u0006+G�\u00150��\u0011s�_����=H���\u001c��jqv���*�\u0018�\u0005��r�d�W�i2��\\\u0013��:�j��Ʃ\u001b\u001dCe]�\b��=�����X_\u0002ujb\n��\u0001��\u001a�=X�ٻ\u000e\u001e�f�\u0012�Y�T\u00195��\u0019W�_�&��T\u0019A�:�\u001c��,u򙷴�\n0K`ܙ3NML��#B�,��g��Ϩ���\bPQ��@W��t9\u000b\u0014���\u0005F�,2�{�,5�\u0019u�\u0013�\u0006�k�o�WXȴ�'�\u001a\u000b�>��v�ݣ���>?��y�ڨ\u0001�� ��\u0013�� {LT\u001b��\u00166��&�w�Yj�3�5L\u00024�0I��\u001a0n�!�\u0006��\u001aA�Z���Yj�3�K=�\u0000hn�`���\u0018�\u0006yĬѬ�\u001aA\u0013�\u0016O\u0001Y�\u0001\u0019�åu\u001e\u000e��Z\u000b$\u0001b�\u001a$\u0013�F�6k\u0004�~\u0010�\u0003Y\n\u0004Y�ۯ\u0000���\u0018\u00152k��5��\u001a\u0014rk\u0004��Z<\u0018�)\u0018��c�\u001d\n�\u001d�P!;}\r\u0004�@���R\n]\u00134�J7ݣ���d�Co<�T�CzJ��B&-\u0010\r\u0002ujb\\\u001a�\u0019MS݃���;�su;��oחXH�\u0005�A`���I��\b���{���\u0014\rr8��^\r\u0018w���+`�Y \u0017\u00103)�\u0019A�{v��v�rA�m��\u0013\u00150��\u0019�7+`�Y \u0014\u00103�,E\u001f̞(�3A�2A�-��\u00150\u000b{\u0000�n�\"�vN��\u00190��:#Hw�����R\"��)�ݛУOUZ \u0010\u0000��Y�A\u00001\u0013�\u0003\u001cZ�u\u0016�\u0003y�\u0003���z\rU��9�\u0012\u0018W�+\u000b<\u000f ƕA�Ѯ�{����\u0005r�\u0017vkRS�ʜ�\u001d�\u0019W\u0016x,@�T�m\u0011�V#�\u0004�\u0004r�\u0017\u001a���\u001d\u0000�|\u0001�;\u000b<\u001d fj�\u0006@�k�s@�r@A���g\u0004酆�D\u001a0&-P�&f�'�\b�z�=Z[Z�\u0001\u0005uº�\u0011d���\u00150.-�\u0003���\u0013N��*-\u001e\u0004�\u0014\u0004\n�uI#Ȥ9c\r\u001a0.-\u0010\u0004��j���6\u001bݣ��� PP+�\u000fV\b2i�ؚ\u0006�K\u000b$\u0001b��5B�\u000ft�֖��@\u0001���ִ����T�n�@\u0014�:&�&�\u0007B\u0004��F�hmi)\u000b\u0014�\fۛ�\u0000��\u00060~{:��\u0002Y\u0000'm\u001b\u0001$\u0018���Q�HQ��nxfo�\u0005�\u0000\u0015�\u000b-�\u0005��9�I�>\u0010�\u0002݃���,P@;��V\u0000Y\u0018�B�,\u0010\u0006��9�I��@\u0018�\u001e��,��\u0002�a}\u0001�\u0002�\u0017���\u0001`�Y \r���'A����@��@\u0001��L_}!Ȥ�q~��\u0002q 0V\r�\\\u0013\u00141����@��@\tݰ\u000e_\u0011�ʀѧ�+`LY`�\u001a��n\u0001��r�=V[Y�\u0002%����Q\u0001d�Y�Y\u0001��\u0002Q\u0000���o\f��f�c��� PB'l'�\u0000Y�\u0001�+\u000b\u0004\u0001��)�����$Fo����R\f(�\u000f֋�\u0002�\u001a\rbLY \u0006ЄL�3\u000b�1��\u001b�|\u0005��w\u0000�\u000b�{�\u0002�o�~f\u0005�+\u000b�\u0000`\\\u0019<\u000e�\u001b3\u001e\u0001�\u0014\u0001Jh��y\u0000@�\u0016\u001f0��\u0007\"\u0000MȔ�|�� ƾ;\u0011O\u0000eJ\u0000%����V\u0000�2H\t�,�\u0000hB��\u0018��4is\u0016O\u0000eJ\u0000%��z\u0005W\u0000�3H\t�,�\u0000hB�\u0018�5\t��,\u001e\u0001�\u0014\u0001J���\u0013@.���\u0006+`\\Z \u0002 c�\u0006A&-\u001e\u0001�\u0014\u0001J��\u001b;\u0000�4�\u0000&-\u0010\u0001hB&�\u0018[�\b2i�\u00100z�]ևf}�������߾\u001a{����?PK\u0003\u0004\u0014\u0000\u0006\b\b\u0000��GZ�[[�C\u0001\u0000\u0000�\u0002\u0000\u0000\r\u0000\u0014\u0000xl/styles.xml��\u0010\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000���N�0\f�_%ʝe�\u0004B��\u000e�&q�2\u000e\\�6i#%N��Sǫq��x\u0005��l݄\u0004';�N\u001d}|���hr\u0014�+\u000b\u0005�VkJ\u0004ԶQ�\u0016t@y�H�e��š\u0013\u0002I�\u0007_�\u000e�b�ם0ܯl/ |��\u0019���Z�{'x��h�Y�\u001f��\nh��`�\u0006=��\u0000X�В���p�2:\t��;9r\u001d�,U\u00017b\u0012v\\�ʩ���6\u0005\u001f�J�3jC'��{�(\u001c�Á���\u0017\u0005\u0005\u000bb��?�[�O��~�H!t��k�,��1Ie����p��R�������ĬQ���u����$�k��!�Û�j0J2\r��I��C��\bZ�&�����\u0001�\u0019�x�9�$�QA_�*�\u0005�\u001a�F\u0005�]-@�Q�,\u0004�,]�\rPK\u0003\u0004\u0014\u0000\u0006\b\b\u0000��GZ����;\u0001\u0000\u0000�\u0002\u0000\u0000\u000f\u0000\u0014\u0000xl/workbook.xml��\u0010\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000��KN�0\u0010��\u0012yO]�V��Ⱡ��\r�3i�ڞh�܍\u0005G�\n�\r\u0005Gٰ�x����h���ލN�@N����`�\u0012�\u0012\u000be�\u0019k|y�`�<= ��\u0010wIP[���U��KΝ��\b7�\u001al��HF�p�-ǲT\u0012nQ6\u0006���p�\t���%W�ڱ��z��@\u0014�\u0002�F���P����ի���3y�&\n                    <OyT;��3��@�\u001eq�4\u0004\u001b��\b㳄�*\u0004�.B̻�'h�!%1FF\u00112�!/�\u0011�:�8\u0002�=�\u001a\u000b؊X?�����J\u0003��~\u001a�=���h�S��,Bf=�N9�����?B�\u0011:�O���H\u001d��X�\b~^�\u0014Zn()\u001b�oB�l\u001fP�[9�6\u0004R�|Ӗ;/<�\u0006PK\u0003\u0004\u0014\u0000\u0006\b\b\u0000��GZ�g^�\u0003\u0001\u0000\u0000\u0010\u0006\u0000\u0000\u001a\u0000\u0014\u0000xl/_rels/workbook.xml.rels��\u0010\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000���j�0\f\u0006�W1�/N�6�J�^Ơ׭{\u0000�(qhb\u0007�[����XI��\u001d�OF\u0012�����_��}���h\u0001Y�\u0002C]��ӭ����S\t��Ե�F\u0001\u0013\u0012�w�7��_Hu#1��I�rn�pN��ARbF�~�\u0018;H�K��QV'�\"�Ӵ�v�\u0001���P\u000b��:\u0003v�F�O�i���\u0017S}\u000e�ݝ\u0015�l�\u0014��Ҷ�\u0004\\[��,���c�Ș<�YD�,B�ed�2�YEƬB�\"2�\ba֑1�\u0010���)C��Gb�M�?�W�o\u001dZ��\u000fݯ����Y��y�O�o.��\u001bPK\u0003\u0004\u0014\u0000\u0006\b\b\u0000��GZf�&�\f\u0006\u0000\u0000(\u0019\u0000\u0000\u0014\u0000\u0014\u0000xl/sharedStrings.xml��\u0010\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000�X�r�6\u0010�\u0015����D\")J�9�ZJbl&�E�3�LG�I�F\"\u0002\fIi��M?���>��\u001f�_�Rtl���bG�\u0019[\u000b`w��={�����䧏�R[�8\u0011J�֌�^Ӹ�U ��i�b���QMKR&\u0003�T���>���9I�T��29�ݤid7\u001a��C��U�%�\\�8d)���\u001bI\u0014s\u0016$7���a�z�\u00112!k��V2%��dv%Ň\u0015�=HȈ蜤\u001d/\u0018��X�4��I#\u0013��\tK�LyQ\n                        <d��@�\u0002�TE���'E�\\D�Ԝ�_t�}��)\u000etI�5X�1���\u0005#��0\b_�%��\u001a�OFQpv>\u0019\u001c�\u0005i\u0016z;��O'B�Mx���k���}�I�PŒ���j;E�;3!�>K1(�^�8g����79:�|Z\b��v��x���7K�i�^\f���\u001bC���\u0019H/�^��y�Q�����7��τ\u000bg杍�>�+O�n��Yx���;�%���\u0019x}X���%F^\u000f\u0017���\u0001���d�{�m\u0010�-˄\u0014�\u000f_��\u000bS7[�aح#�:�)E�U\u0014\u0014�c�M�\u0005\u001e�H,|%�X-\u0017��\u001bT����\u0005��:��\u000b.�\u0015�\u0005`�H��1B�\u0013��R\u0004X4=\u0015�\u001c���l\r��#d�V\u0013\u001e_��4V�I/��J�y2�`��d�<��������<�T���L-�/�U�\u0013W�\u0005\u000b\u0018hy�ւJϡ\u000e�`�\u0018�+��}\u001eǀ��6+�2��3�����\n�>x�q��9ί�:�ϝ\u001c�\u000f��j�x7W�����\u0014W\n                            <P��A�}��ȍ�lr5���o?~�.ڭ���{�`�5\u000f�������iUJ�޲1�f������Z.��RKN�g\\�X���H�?�߫S�>�yJ$@��������(-b�b��#������!g��%�9L,��;���\u001c�v\f�Uʀ\u000bLϻ1�R1(\u001b�]8So������ƿ:]2徉W\u001d�e���|\"v�ԌNx���;�d�xsJE�;s�oK{\f�o��v�EL\u0004��\u0011Q���\u0017��\"-�|�W��H�F�Dd���7JͿ��a����\u0007\u0013�n����C�x���aB��6oږn[��\n                                <f2\u0011�\u0003L�_�O\u0018��i��\u0012\u0010\u0014�������\"����\nڏm\u0003x�T�����d\u0013�P$���ƍ�WK��.�7�g�e\u0006��'���ei�\f4�7\u0017�;E�aB�6a���c�[T��&\u0012���gH^\u0013�7(k��&$8\"\u0006\u001c\u001dt�f�>H\u000bU\u0012��dL�a��\u001d��q��;\u0007��P��!Zs\u0007�H�����\u000b�Q\u0012��\u0012�V9�h��?�\u001f�;\"�i�`\f�����^ɽP\\�� \u0019�9�ڶʹJ�a@��R���=V[�\\\fH\u000bP\u001bmX�c��C\u0003Y�VX�Y\u001a\u0018P�SN<�(�\bE��2\u001b�\u0003�ۣ�i[\bG��\u001c٘��\u001c%��PW��mҪ�\u0002�̰ I\u0001�\u0003k b\u0006x��VpL�H`e����M����\u000e-\rи������=��v�\u001d\u001b�\u001e{t>�\u0006r6�^g\u001e��>n���<��[�y\f�����+�\u0000$�\u001a��qg�\u0018�$a�fГ�hﮊA��\u001a�~ɖ�D\\K��٘\u0018fe\u001b��\b}+s�[���\u001f\u001da\u0017\u0004c�E�E��V�\u0004i\u001e\u001b#x۷�C�\u0016��yr�.�R�[Y��\u0019\u000b�Z��AF����\u0002��\u001e�����]�?�\u000e\u0006J��u\u0016��}��/P���g�\u0014�\u0014�\u000evx������$����a.ϱ�5�\u0017�]�����2��K���=�\u0013�UB\r���\nZD�\fSPMa�qI���T�5]���vքSmB��\\D��]\u001aoO\u0016�\u001c�\u0001�̂mm�S#I���PK\u0001\u0002-\u0000\u0014\u0000\u0006\b\b\u0000��GZ�]��3\u0001\u0000\u0000�\u0006\u0000\u0000\u0013\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000[Content_Types].xmlPK\u0001\u0002-\u0000\u0014\u0000\u0006\b\b\u0000��GZ��닮\u0000\u0000\u0000'\u0001\u0000\u0000\u000b\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000x\u0001\u0000\u0000_rels/.relsPK\u0001\u0002-\u0000\u0014\u0000\u0006\b\b\u0000��GZ�\u000e��\u0001\u0000\u0000�\u0005\u0000\u0000\u0018\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000c\u0002\u0000\u0000xl/worksheets/sheet1.xmlPK\u0001\u0002-\u0000\u0014\u0000\u0006\b\b\u0000��GZf@��\u0001\u0000\u0000�\u0006\u0000\u0000\u0018\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000?\u0004\u0000\u0000xl/worksheets/sheet2.xmlPK\u0001\u0002-\u0000\u0014\u0000\u0006\b\b\u0000��GZB�\u0002�\u0001\u0000\u0000\u001e\u0005\u0000\u0000\u0018\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000?\u0006\u0000\u0000xl/worksheets/sheet3.xmlPK\u0001\u0002-\u0000\u0014\u0000\u0006\b\b\u0000��GZ\u0016\u001fҬ\u001b\u0001\u0000\u0000\u001d\u0002\u0000\u0000\u0018\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0010\b\u0000\u0000xl/worksheets/sheet4.xmlPK\u0001\u0002-\u0000\u0014\u0000\u0006\b\b\u0000��GZ�e�v}\u0001\u0000\u0000�\u0004\u0000\u0000\u0018\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000u\t\u0000\u0000xl/worksheets/sheet5.xmlPK\u0001\u0002-\u0000\u0014\u0000\u0006\b\b\u0000��GZTgR��\u0000\u0000\u0000W\u0001\u0000\u0000\u0018\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000<\u000b\u0000\u0000xl/worksheets/sheet6.xmlPK\u0001\u0002-\u0000\u0014\u0000\u0006\b\b\u0000��GZ&́\u0017�\u0002\u0000\u0000*\u0011\u0000\u0000\u0018\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000]\f\u0000\u0000xl/worksheets/sheet7.xmlPK\u0001\u0002-\u0000\u0014\u0000\u0006\b\b\u0000��GZe\u0002\u0013��\u0007\u0000\u00001<\u0000\u0000\u0018\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000�\u000f\u0000\u0000xl/worksheets/sheet8.xmlPK\u0001\u0002-\u0000\u0014\u0000\u0006\b\b\u0000��GZ�[[�C\u0001\u0000\u0000�\u0002\u0000\u0000\r\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000f\u0017\u0000\u0000xl/styles.xmlPK\u0001\u0002-\u0000\u0014\u0000\u0006\b\b\u0000��GZ����;\u0001\u0000\u0000�\u0002\u0000\u0000\u000f\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000�\u0018\u0000\u0000xl/workbook.xmlPK\u0001\u0002-\u0000\u0014\u0000\u0006\b\b\u0000��GZ�g^�\u0003\u0001\u0000\u0000\u0010\u0006\u0000\u0000\u001a\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000d\u001a\u0000\u0000xl/_rels/workbook.xml.relsPK\u0001\u0002-\u0000\u0014\u0000\u0006\b\b\u0000��GZf�&�\f\u0006\u0000\u0000(\u0019\u0000\u0000\u0014\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000�\u001b\u0000\u0000xl/sharedStrings.xmlPK\u0005\u0006\u0000\u0000\u0000\u0000\u000e\u0000\u000e\u0000�\u0003\u0000\u0000\u0005\"\u0000\u0000\u0000\u0000"
+						}
+					]
+				},
+				{
+					"name": "Excel con Fecha",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"fromDate\": \"2025-02-06T00:00:00\",\r\n  \"toDate\": \"2025-02-05T23:59:59\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5062/api/reportes/descargar/?fromDate=2025-02-07T00:00:00&toDate=2025-02-08T00:00:00",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"reportes",
+								"descargar",
+								""
+							],
+							"query": [
+								{
+									"key": "fromDate",
+									"value": "2025-02-07T00:00:00"
+								},
+								{
+									"key": "toDate",
+									"value": "2025-02-08T00:00:00"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/reportes/descargar",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"reportes",
+										"descargar"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "xml",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "9671"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 07 Feb 2025 20:23:48 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Content-Disposition",
+									"value": "attachment; filename=Reporte_20250207_172349.xlsx; filename*=UTF-8''Reporte_20250207_172349.xlsx"
+								}
+							],
+							"cookie": [],
+							"body": "PK\u0003\u0004\u0014\u0000\u0006\b\b\u0000��GZ�]��3\u0001\u0000\u0000�\u0006\u0000\u0000\u0013\u0000\u0014\u0000[Content_Types].xml��\u0010\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000͕�N\u00021\u0010�_e�[C\u000b�H�.\\�s�&�\u0003�v�m�_:\u0005���v�1\u0004\u0013� �մ=3�|���˽��\u000e\u0002*g\u001b2�cR�\u0015N*�n���q4'\u0015Fn%��BC\u000e�d��W\u0007\u000fX�Y�\r�b������p�΃MJ��1]Úy.6|\rl:\u001eϘp6����{�E}\u000f-��X�\r�uC��Z\t\u001e\u0013\u0016Kf�z�'q����\u000fs;+�`F_ 4��=�)�\u0017�\u0001I�>�9}LP\u0012�\u0015��V\t�NlM\u001a��\u0003p�\u001d@4��J\rWv\b}�!>q�\\�^�\u000f\u00176��mh��\u0002�G��o�YD�ˤ\u0014�i) ���\\�\u0002r]\nȬ\u0014��R@�g\u0004�xЀ�(\u0006��\u001d\u000f _cH;�4�φo\u0010�w��\u0013PK\u0003\u0004\u0014\u0000\u0006\b\b\u0000��GZ��닮\u0000\u0000\u0000'\u0001\u0000\u0000\u000b\u0000\u0014\u0000_rels/.rels��\u0010\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000���\u000e�0\f\u0006�WYz��\u0007c\f��1�j�\u0001�V\u0006\u0001�e�\no�b\n<xl���Ӳ^�=ч���\"ˁ�U�\u0007k\u0004����\b,Di��Ȣ�\u0015\u0003�Uy�I�t\u0012��\u0005�\f\u001b\u0004�1�\u0013�A�8ː�C�6\u001d�Y�4zÝT�4��y~��Ӏ��\u001a-�7�\u0000֮\u000e����\u0006�gR�\u0019m�Q�H��\u0006��e�/��h�\u0012\n�*����\rPK\u0003\u0004\u0014\u0000\u0006\b\b\u0000��GZ�\u000e��\u0001\u0000\u0000�\u0005\u0000\u0000\u0018\u0000\u0014\u0000xl/worksheets/sheet1.xml��\u0010\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000��Kr�0\u0018��d���Q�:��R|�:]tO!\b#\u0010&�һu�#�\n\rء�1�\u001d�o��?L�?���GU�3�� �\u000f�\u0005\u0001�\u0013�\u0016���'�=L�\"�ZB�,ǘ\u0003�k6�>�9o�\b�$�U�F����/#�����\u0007D��HpH�S�k�\u001c˚ �˘��X^4\f^V��Z��8N�\u0011��T\u0015\u00175\f��\u0010�w�\u0003�3\u001f.��ޅ\u0000\u0005^��\nܲ�k�=�;!��f����-�p�o�BA���T�W�nqqȹ�4�[?�y\u001cx��@$��8Iw��!`�ڂ3��9�\n    <t\u0016�$�b�\u000b[\u0016k]8�\bu���Y\u0017���t1��F\u0017\u0013Ylu�$��.����b6\b$�\u000e��!��'T+\u001b���@��\u0006��6\u0010��}���D[\u0003Q^��@�7������\u001dr�w�_\u0019��%�\rD�\u0014B\u0003�)�u�(����n\fD�m jn\u0003Qsߜ�\u001b]\u001d'�8�0�\b����p�\u0006?PK\u0003\u0004\u0014\u0000\u0006\b\b\u0000��GZf@��\u0001\u0000\u0000�\u0006\u0000\u0000\u0018\u0000\u0014\u0000xl/worksheets/sheet2.xml��\u0010\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000���r�0\u0014\u0006�W�d߆�Z�\u0000�z���E�\u0014�0\u0015�$Q�n]���\n��A��\u0019�\u0003���IN\u0006�����j������!v�\u001d�h�����!>��n�������((�H�Z�x�\u000b)�#BDZ�*\u0011�lOk�,g�J���[��L锥��֒x�3 ��\u0012�J���\u000b|I�O��s�dM\u000b��\u0012U%e�� +U��{�i\u001e�gw��1\"Q�ි���5:�䝱���2\u000b��Xb�)��QF�䰓�촠嶐j����i\"�(��Ԗ����|��b$�lŅ��\u0018yn@��P�G�\u0000�t2\u0001���)@z:�\u0001����&\u0003]́\u0010�,\u0000�%@�:Y\u0001�Q'k���N6\u0000��?Q�jg�3��w���\u0001b\fdb\u0013�hn\n\u0010c �n\u0012w\u0017�w�,�\u0015\u0019�gٝ���e\r\u00142R6\u0000\u0019�C�ۡ��;ơ\u001b\u0003�8t\u0013�x��lb.q\u0006\u00142�nܝ2\u0007�94��ewʪ��5�\"sh@J�\u0018\u001a��R\u0016�+Ny̘�����,�/PK\u0003\u0004\u0014\u0000\u0006\b\b\u0000��GZB�\u0002�\u0001\u0000\u0000\u001e\u0005\u0000\u0000\u0018\u0000\u0014\u0000xl/worksheets/sheet3.xml��\u0010\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000���n�0\u0018\u0006�[iz>\u000b(�\f`tοi��`�\u001d\u0014!\u0002%m���\u000evI��\u0015\\Ԗ&�\f���>y�?_���3���0��vς�\u0014!����Ó�\u001f�p\u001ax\u0015eG�\u0010\"��\u0005�0\u001f&B�\u0013�x��\u001c�\u001e-I!ߋ)˱���h\u001c�!Y��B ǲ���\f\u000b9�'i��%�?Y�d\u0004G�\nyv��qZ���R�^o\u000f\u0018�}8�'{\u0007\u0002\u0014x\r~OI��A�M>(=�7�ȇVcQ\u000b/��\fD$ƧL��jM�C\"�Cro�\u000b,p�1Z\u0001�Hl�NX_�l\bx�-9��������\u001c\u0014����8*y2��J\u0016\u00062Pɳ��*Y\u001a�P%+\u0003\u0019�d�&ZȦ-���a�X%/\u0006�]���J�\u0006rk\b�B��:�V��gl-v�&�ު��\u001a�ު��v���&�n�1\u0010m��a]����&}-e�=ho\u00184�zEw��D�*�-)\u0015�5\u0007���\u000b~\u0001PK\u0003\u0004\u0014\u0000\u0006\b\b\u0000��GZ\u0016\u001fҬ\u001b\u0001\u0000\u0000\u001d\u0002\u0000\u0000\u0018\u0000\u0014\u0000xl/worksheets/sheet4.xml��\u0010\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000��An�0\u0010E�by�\u0018��Rd�\u0012EQ����ޅ\u0001��\u0007�\u0006z�.z�^�\u0003�h\u00146�y��7����/��h\u001b6�u\u001aM��M�\u0019�\u001c\u000bm����|��}&G�\u0017W\u0003xF�q�My�}�\b��\u001aZ�6؁��\u0012m�<��\u0012X�:�\u0013�}\u000bƋ(\b��B�<�r��\u001c����r�\u0005U�#��U�*mx&\u000bM�izf�L�!L�\u0011g\"�3��at7k6��\u001d�2\u0015�Eʃ�\u0015+�\n        <7���R����\ttU{\n)��W��82�$�q�iq\b9s��pG�C��b�>�/q\\\u0013�nA\u0004\t\u0017k�X�՝0�Ӯ���N+n\u0006�)T�gD\u000fv�a���\u0007PK\u0003\u0004\u0014\u0000\u0006\b\b\u0000��GZ�e�v}\u0001\u0000\u0000�\u0004\u0000\u0000\u0018\u0000\u0014\u0000xl/worksheets/sheet5.xml��\u0010\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000���r�0\u0010\u0000�W��^\u0003X�\u0000���S\u000f�\u001ezO!HF L\u0012���C\u001f��Ј\u001d*!3�����fw���;��3p!\\PVx�\u001eX\u0010�\"b1-�\u001e<��a\n�[1~\u0012)!\u0012(^�\u0019�`*e9CHD)ɱ\u0018��\u0014�]�x����#bIB#\u0012�蜓B\"ǲƈ�\fK�J��\u0014�\u0016�?�D�\t��\u0012��\u0016*Ǵ��\u001bS\u0015�Z=�$��\u001d\u001c\b������Jܭ��$��]�A�����:�\u000b\u00071I�9����\u0012zL�j��/~�%�]�*�Zb�r��baC �؊\u000b���-\u0017]T��,�ı�de �6\t\f��(k\u0003q�$4�a�l\f�M�\u00062j�����do ڡ�\rd�&\u0007\u0003yj\bR�j��4Cs:���\u0011�]2Ԋ[u�D\u001b}`H�5j�OB\u0003�\u0012m�ɶ?Ѯ����s?9\u0018ZgkCCw]�n\u0004�C�$��O��R�\u000fPK\u0003\u0004\u0014\u0000\u0006\b\b\u0000��GZTgR��\u0000\u0000\u0000W\u0001\u0000\u0000\u0018\u0000\u0014\u0000xl/worksheets/sheet6.xml��\u0010\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000�P�N�0\u0010�\u0015�w�P\t��$�T\u0015�!\u000e�M�����hw��o\u001c�$~\u0001�\u0011\b�\u000b�}������G����\u0000q����M�\u0015�\u000e���F��n\u001e���\u0017�3{\u0000Q\u0019�xG��\"��\u0018�\n            <D�\u001b� �C�VrK�A�B\u0007\u0007��\bI̶��\r�h%K�\u000f\u0013��?\\<\u0011ؾX��J\u0015mH����%�¿ju5��x�6����-���\u000f�X4�H���<�3.�\u0010\u0006/9��rS`\u0007+��|�}�\u0003tD\u0014�B�\u0013Q�\u0005PK\u0003\u0004\u0014\u0000\u0006\b\b\u0000��GZ&́\u0017�\u0002\u0000\u0000*\u0011\u0000\u0000\u0018\u0000\u0014\u0000xl/worksheets/sheet7.xml��\u0010\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000��͒�@\u0014�_�b�\u0001��B��1b�RYdO�\u0015j��\u00005�E\u001e)�\u0010tR��\u001c�ݩ����?�\f�����_��9�LM>u�\u0017�ut�6�4�M�c��2r_g��\u0014\u001fe�u��x^N���T�a�y�:�Y\\�����mM��U���yf�M�za��L�����W�}\\ե�$=��g�3Y�����B�����4wg�&��/�;��Nݷ`����x��J�H���{�\\��Ә��\u001b������\u0000^^�+�����}�ݜW:�%Um��_�U<\u000b\u000bsvj'A�����-p��]�e��i6�ީ.����\t�}D�\u0011\u0019�\u001f�\u0005I�=\"_\t�D��tD�\u0011I\u0019<\"+�\"�U$e� ^��q�i\\vp�H�D�+�')�p�H�\u000b�$ElqiO�\u0010\u0019\tdeOQ$%�.���.���%\"ݡp�\b�D\u0004\\�\u0014�Ҟ\u0012�\u001d�1Z�S\u0014I�q���e\u000f׈��#\u0002�%\"�\u0012\u0011pIR�K{/\u0011ّ�q{/����x�q��5r�\u0011\u0001���KD�%I�.I�\u0002�\u0010\u0019�\u0019���HJˌ\u000f\u001a�\u0003\\#g\u001c\u0011p�\b�D\u0004\\�\u0014��\".���Hθ�\u0017ERZf|ظ\u001c�\u001a9㈀KD�%\"���H��^\"�#��ދB�m�G��\u0011V\u0016_�\u001c\u0011�߃\b�D\u0004\\�\u0014钴+z�\b\"�Z+{/�����q�rLbE�\u001c\u0019��\b�d��L�\"e\"\u00022Y!���ތ\"�Zl\u0006��q�'����\u0010\b%\f\u0018���3;ɑN\t\u0003Ri-9�O4�(�r�\f��A��\u001f��\u000eJ \u0014KN\u000e �\u0015�bI\u000e�E\u0006ŲZp �7�(�&�v(\n�\u0001a(Œs\u0011�}�`D�I�O\u001c�\b�bY-yW}�!E\u0019)ֻ;�':��biL���o\u0002ͯ\u001e�PK\u0003\u0004\u0014\u0000\u0006\b\b\u0000��GZe\u0002\u0013��\u0007\u0000\u00001<\u0000\u0000\u0018\u0000\u0014\u0000xl/worksheets/sheet8.xml��\u0010\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000��Kr�F\u0014E���<&���%�e���Y*��\u0019\t�X�H\u0015I[�[\u0006YR�\u0010JI��{O\u0001/3�>z�<\u0006��m����ŧ?�\u001e\u0007?��a��^\u000e�\u000f������6ۯ��������OW\u0017/����C�\u001c\u0007'|{���\u001c>\u001c��\u001fG���C�>|�=7�ӿ���O����������Y�n�?5��(\u001f���}�>��:\n                <l�\u000f��Ej\u001d�����m\nO���zZo�ë��ͩ���\u0007���r�9�xS.�����\u001b�ۦy9��y��Q~�����������\u001d\u0019\\����~p�ܯ�?\u001eݽ�4��\u000fǓ�I��Z\u001f�W\u0017�����$;�������ppx�}�\u000f���q5�/F?N\u0003���T��,\u001d�Ƌ6�\u0002&\u001b��/�dm��\u0019O��5 �6r\u0003\u001f*Mxt�tv��]��)�\u0015 ���/�rd6\u0011UP�\u0014S4�BT\u0011#un:'�rU�]\u0015�ӫ\u0000��S.�QW������4\u0019�����s�-W��U�ע^W�d�\\\\\u0001��\u001c1WPE]�d�\u00151�\"�tN��jrv5��)d�ʑL}.�QW��+���\u00001W4aY�n:'�r5=�����忠r$��\u001d\u0018u刹�R�dt�\"F׫ΡZ�fgW3��t\u001ft�]\u0001��\u001c1W�Uj����&F]u\u000e�r5?���+Y\u0006+G�\u00150��\u0011s�_����=H���\u001c��jqv���*�\u0018�\u0005��r�d�W�i2��\\\u0013��:�j��Ʃ\u001b\u001dCe]�\b��=�����X_\u0002ujb\n��\u0001��\u001a�=X�ٻ\u000e\u001e�f�\u0012�Y�T\u00195��\u0019W�_�&��T\u0019A�:�\u001c��,u򙷴�\n0K`ܙ3NML��#B�,��g��Ϩ���\bPQ��@W��t9\u000b\u0014���\u0005F�,2�{�,5�\u0019u�\u0013�\u0006�k�o�WXȴ�'�\u001a\u000b�>��v�ݣ���>?��y�ڨ\u0001�� ��\u0013�� {LT\u001b��\u00166��&�w�Yj�3�5L\u00024�0I��\u001a0n�!�\u0006��\u001aA�Z���Yj�3�K=�\u0000hn�`���\u0018�\u0006yĬѬ�\u001aA\u0013�\u0016O\u0001Y�\u0001\u0019�åu\u001e\u000e��Z\u000b$\u0001b�\u001a$\u0013�F�6k\u0004�~\u0010�\u0003Y\n\u0004Y�ۯ\u0000���\u0018\u00152k��5��\u001a\u0014rk\u0004��Z<\u0018�)\u0018��c�\u001d\n�\u001d�P!;}\r\u0004�@���R\n]\u00134�J7ݣ���d�Co<�T�CzJ��B&-\u0010\r\u0002ujb\\\u001a�\u0019MS݃���;�su;��oחXH�\u0005�A`���I��\b���{���\u0014\rr8��^\r\u0018w���+`�Y \u0017\u00103)�\u0019A�{v��v�rA�m��\u0013\u00150��\u0019�7+`�Y \u0014\u00103�,E\u001f̞(�3A�2A�-��\u00150\u000b{\u0000�n�\"�vN��\u00190��:#Hw�����R\"��)�ݛУOUZ \u0010\u0000��Y�A\u00001\u0013�\u0003\u001cZ�u\u0016�\u0003y�\u0003���z\rU��9�\u0012\u0018W�+\u000b<\u000f ƕA�Ѯ�{����\u0005r�\u0017vkRS�ʜ�\u001d�\u0019W\u0016x,@�T�m\u0011�V#�\u0004�\u0004r�\u0017\u001a���\u001d\u0000�|\u0001�;\u000b<\u001d fj�\u0006@�k�s@�r@A���g\u0004酆�D\u001a0&-P�&f�'�\b�z�=Z[Z�\u0001\u0005uº�\u0011d���\u00150.-�\u0003���\u0013N��*-\u001e\u0004�\u0014\u0004\n�uI#Ȥ9c\r\u001a0.-\u0010\u0004��j���6\u001bݣ��� PP+�\u000fV\b2i�ؚ\u0006�K\u000b$\u0001b��5B�\u000ft�֖��@\u0001���ִ����T�n�@\u0014�:&�&�\u0007B\u0004��F�hmi)\u000b\u0014�\fۛ�\u0000��\u00060~{:��\u0002Y\u0000'm\u001b\u0001$\u0018���Q�HQ��nxfo�\u0005�\u0000\u0015�\u000b-�\u0005��9�I�>\u0010�\u0002݃���,P@;��V\u0000Y\u0018�B�,\u0010\u0006��9�I��@\u0018�\u001e��,��\u0002�a}\u0001�\u0002�\u0017���\u0001`�Y \r���'A����@��@\u0001��L_}!Ȥ�q~��\u0002q 0V\r�\\\u0013\u00141����@��@\tݰ\u000e_\u0011�ʀѧ�+`LY`�\u001a��n\u0001��r�=V[Y�\u0002%����Q\u0001d�Y�Y\u0001��\u0002Q\u0000���o\f��f�c��� PB'l'�\u0000Y�\u0001�+\u000b\u0004\u0001��)�����$Fo����R\f(�\u000f֋�\u0002�\u001a\rbLY \u0006ЄL�3\u000b�1��\u001b�|\u0005��w\u0000�\u000b�{�\u0002�o�~f\u0005�+\u000b�\u0000`\\\u0019<\u000e�\u001b3\u001e\u0001�\u0014\u0001Jh��y\u0000@�\u0016\u001f0��\u0007\"\u0000MȔ�|�� ƾ;\u0011O\u0000eJ\u0000%����V\u0000�2H\t�,�\u0000hB��\u0018��4is\u0016O\u0000eJ\u0000%��z\u0005W\u0000�3H\t�,�\u0000hB�\u0018�5\t��,\u001e\u0001�\u0014\u0001J���\u0013@.���\u0006+`\\Z \u0002 c�\u0006A&-\u001e\u0001�\u0014\u0001J��\u001b;\u0000�4�\u0000&-\u0010\u0001hB&�\u0018[�\b2i�\u00100z�]ևf}�������߾\u001a{����?PK\u0003\u0004\u0014\u0000\u0006\b\b\u0000��GZ�[[�C\u0001\u0000\u0000�\u0002\u0000\u0000\r\u0000\u0014\u0000xl/styles.xml��\u0010\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000���N�0\f�_%ʝe�\u0004B��\u000e�&q�2\u000e\\�6i#%N��Sǫq��x\u0005��l݄\u0004';�N\u001d}|���hr\u0014�+\u000b\u0005�VkJ\u0004ԶQ�\u0016t@y�H�e��š\u0013\u0002I�\u0007_�\u000e�b�ם0ܯl/ |��\u0019���Z�{'x��h�Y�\u001f��\nh��`�\u0006=��\u0000X�В���p�2:\t��;9r\u001d�,U\u00017b\u0012v\\�ʩ���6\u0005\u001f�J�3jC'��{�(\u001c�Á���\u0017\u0005\u0005\u000bb��?�[�O��~�H!t��k�,��1Ie����p��R�������ĬQ���u����$�k��!�Û�j0J2\r��I��C��\bZ�&�����\u0001�\u0019�x�9�$�QA_�*�\u0005�\u001a�F\u0005�]-@�Q�,\u0004�,]�\rPK\u0003\u0004\u0014\u0000\u0006\b\b\u0000��GZ����;\u0001\u0000\u0000�\u0002\u0000\u0000\u000f\u0000\u0014\u0000xl/workbook.xml��\u0010\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000��KN�0\u0010��\u0012yO]�V��Ⱡ��\r�3i�ڞh�܍\u0005G�\n�\r\u0005Gٰ�x����h���ލN�@N����`�\u0012�\u0012\u000be�\u0019k|y�`�<= ��\u0010wIP[���U��KΝ��\b7�\u001al��HF�p�-ǲT\u0012nQ6\u0006���p�\t���%W�ڱ��z��@\u0014�\u0002�F���P����ի���3y�&\n                    <OyT;��3��@�\u001eq�4\u0004\u001b��\b㳄�*\u0004�.B̻�'h�!%1FF\u00112�!/�\u0011�:�8\u0002�=�\u001a\u000b؊X?�����J\u0003��~\u001a�=���h�S��,Bf=�N9�����?B�\u0011:�O���H\u001d��X�\b~^�\u0014Zn()\u001b�oB�l\u001fP�[9�6\u0004R�|Ӗ;/<�\u0006PK\u0003\u0004\u0014\u0000\u0006\b\b\u0000��GZ�g^�\u0003\u0001\u0000\u0000\u0010\u0006\u0000\u0000\u001a\u0000\u0014\u0000xl/_rels/workbook.xml.rels��\u0010\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000���j�0\f\u0006�W1�/N�6�J�^Ơ׭{\u0000�(qhb\u0007�[����XI��\u001d�OF\u0012�����_��}���h\u0001Y�\u0002C]��ӭ����S\t��Ե�F\u0001\u0013\u0012�w�7��_Hu#1��I�rn�pN��ARbF�~�\u0018;H�K��QV'�\"�Ӵ�v�\u0001���P\u000b��:\u0003v�F�O�i���\u0017S}\u000e�ݝ\u0015�l�\u0014��Ҷ�\u0004\\[��,���c�Ș<�YD�,B�ed�2�YEƬB�\"2�\ba֑1�\u0010���)C��Gb�M�?�W�o\u001dZ��\u000fݯ����Y��y�O�o.��\u001bPK\u0003\u0004\u0014\u0000\u0006\b\b\u0000��GZf�&�\f\u0006\u0000\u0000(\u0019\u0000\u0000\u0014\u0000\u0014\u0000xl/sharedStrings.xml��\u0010\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000�X�r�6\u0010�\u0015����D\")J�9�ZJbl&�E�3�LG�I�F\"\u0002\fIi��M?���>��\u001f�_�Rtl���bG�\u0019[\u000b`w��={�����䧏�R[�8\u0011J�֌�^Ӹ�U ��i�b���QMKR&\u0003�T���>���9I�T��29�ݤid7\u001a��C��U�%�\\�8d)���\u001bI\u0014s\u0016$7���a�z�\u00112!k��V2%��dv%Ň\u0015�=HȈ蜤\u001d/\u0018��X�4��I#\u0013��\tK�LyQ\n                        <d��@�\u0002�TE���'E�\\D�Ԝ�_t�}��)\u000etI�5X�1���\u0005#��0\b_�%��\u001a�OFQpv>\u0019\u001c�\u0005i\u0016z;��O'B�Mx���k���}�I�PŒ���j;E�;3!�>K1(�^�8g����79:�|Z\b��v��x���7K�i�^\f���\u001bC���\u0019H/�^��y�Q�����7��τ\u000bg杍�>�+O�n��Yx���;�%���\u0019x}X���%F^\u000f\u0017���\u0001���d�{�m\u0010�-˄\u0014�\u000f_��\u000bS7[�aح#�:�)E�U\u0014\u0014�c�M�\u0005\u001e�H,|%�X-\u0017��\u001bT����\u0005��:��\u000b.�\u0015�\u0005`�H��1B�\u0013��R\u0004X4=\u0015�\u001c���l\r��#d�V\u0013\u001e_��4V�I/��J�y2�`��d�<��������<�T���L-�/�U�\u0013W�\u0005\u000b\u0018hy�ւJϡ\u000e�`�\u0018�+��}\u001eǀ��6+�2��3�����\n�>x�q��9ί�:�ϝ\u001c�\u000f��j�x7W�����\u0014W\n                            <P��A�}��ȍ�lr5���o?~�.ڭ���{�`�5\u000f�������iUJ�޲1�f������Z.��RKN�g\\�X���H�?�߫S�>�yJ$@��������(-b�b��#������!g��%�9L,��;���\u001c�v\f�Uʀ\u000bLϻ1�R1(\u001b�]8So������ƿ:]2徉W\u001d�e���|\"v�ԌNx���;�d�xsJE�;s�oK{\f�o��v�EL\u0004��\u0011Q���\u0017��\"-�|�W��H�F�Dd���7JͿ��a����\u0007\u0013�n����C�x���aB��6oږn[��\n                                <f2\u0011�\u0003L�_�O\u0018��i��\u0012\u0010\u0014�������\"����\nڏm\u0003x�T�����d\u0013�P$���ƍ�WK��.�7�g�e\u0006��'���ei�\f4�7\u0017�;E�aB�6a���c�[T��&\u0012���gH^\u0013�7(k��&$8\"\u0006\u001c\u001dt�f�>H\u000bU\u0012��dL�a��\u001d��q��;\u0007��P��!Zs\u0007�H�����\u000b�Q\u0012��\u0012�V9�h��?�\u001f�;\"�i�`\f�����^ɽP\\�� \u0019�9�ڶʹJ�a@��R���=V[�\\\fH\u000bP\u001bmX�c��C\u0003Y�VX�Y\u001a\u0018P�SN<�(�\bE��2\u001b�\u0003�ۣ�i[\bG��\u001c٘��\u001c%��PW��mҪ�\u0002�̰ I\u0001�\u0003k b\u0006x��VpL�H`e����M����\u000e-\rи������=��v�\u001d\u001b�\u001e{t>�\u0006r6�^g\u001e��>n���<��[�y\f�����+�\u0000$�\u001a��qg�\u0018�$a�fГ�hﮊA��\u001a�~ɖ�D\\K��٘\u0018fe\u001b��\b}+s�[���\u001f\u001da\u0017\u0004c�E�E��V�\u0004i\u001e\u001b#x۷�C�\u0016��yr�.�R�[Y��\u0019\u000b�Z��AF����\u0002��\u001e�����]�?�\u000e\u0006J��u\u0016��}��/P���g�\u0014�\u0014�\u000evx������$����a.ϱ�5�\u0017�]�����2��K���=�\u0013�UB\r���\nZD�\fSPMa�qI���T�5]���vքSmB��\\D��]\u001aoO\u0016�\u001c�\u0001�̂mm�S#I���PK\u0001\u0002-\u0000\u0014\u0000\u0006\b\b\u0000��GZ�]��3\u0001\u0000\u0000�\u0006\u0000\u0000\u0013\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000[Content_Types].xmlPK\u0001\u0002-\u0000\u0014\u0000\u0006\b\b\u0000��GZ��닮\u0000\u0000\u0000'\u0001\u0000\u0000\u000b\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000x\u0001\u0000\u0000_rels/.relsPK\u0001\u0002-\u0000\u0014\u0000\u0006\b\b\u0000��GZ�\u000e��\u0001\u0000\u0000�\u0005\u0000\u0000\u0018\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000c\u0002\u0000\u0000xl/worksheets/sheet1.xmlPK\u0001\u0002-\u0000\u0014\u0000\u0006\b\b\u0000��GZf@��\u0001\u0000\u0000�\u0006\u0000\u0000\u0018\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000?\u0004\u0000\u0000xl/worksheets/sheet2.xmlPK\u0001\u0002-\u0000\u0014\u0000\u0006\b\b\u0000��GZB�\u0002�\u0001\u0000\u0000\u001e\u0005\u0000\u0000\u0018\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000?\u0006\u0000\u0000xl/worksheets/sheet3.xmlPK\u0001\u0002-\u0000\u0014\u0000\u0006\b\b\u0000��GZ\u0016\u001fҬ\u001b\u0001\u0000\u0000\u001d\u0002\u0000\u0000\u0018\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0010\b\u0000\u0000xl/worksheets/sheet4.xmlPK\u0001\u0002-\u0000\u0014\u0000\u0006\b\b\u0000��GZ�e�v}\u0001\u0000\u0000�\u0004\u0000\u0000\u0018\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000u\t\u0000\u0000xl/worksheets/sheet5.xmlPK\u0001\u0002-\u0000\u0014\u0000\u0006\b\b\u0000��GZTgR��\u0000\u0000\u0000W\u0001\u0000\u0000\u0018\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000<\u000b\u0000\u0000xl/worksheets/sheet6.xmlPK\u0001\u0002-\u0000\u0014\u0000\u0006\b\b\u0000��GZ&́\u0017�\u0002\u0000\u0000*\u0011\u0000\u0000\u0018\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000]\f\u0000\u0000xl/worksheets/sheet7.xmlPK\u0001\u0002-\u0000\u0014\u0000\u0006\b\b\u0000��GZe\u0002\u0013��\u0007\u0000\u00001<\u0000\u0000\u0018\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000�\u000f\u0000\u0000xl/worksheets/sheet8.xmlPK\u0001\u0002-\u0000\u0014\u0000\u0006\b\b\u0000��GZ�[[�C\u0001\u0000\u0000�\u0002\u0000\u0000\r\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000f\u0017\u0000\u0000xl/styles.xmlPK\u0001\u0002-\u0000\u0014\u0000\u0006\b\b\u0000��GZ����;\u0001\u0000\u0000�\u0002\u0000\u0000\u000f\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000�\u0018\u0000\u0000xl/workbook.xmlPK\u0001\u0002-\u0000\u0014\u0000\u0006\b\b\u0000��GZ�g^�\u0003\u0001\u0000\u0000\u0010\u0006\u0000\u0000\u001a\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000d\u001a\u0000\u0000xl/_rels/workbook.xml.relsPK\u0001\u0002-\u0000\u0014\u0000\u0006\b\b\u0000��GZf�&�\f\u0006\u0000\u0000(\u0019\u0000\u0000\u0014\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000�\u001b\u0000\u0000xl/sharedStrings.xmlPK\u0005\u0006\u0000\u0000\u0000\u0000\u000e\u0000\u000e\u0000�\u0003\u0000\u0000\u0005\"\u0000\u0000\u0000\u0000"
+						}
+					]
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"javier.nanco@pentacrom.cl\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5062/api/reportes/enviar-correo?fromDate=2025-02-06T00:00:00&toDate=2025-02-07T00:00:00",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5062",
+							"path": [
+								"api",
+								"reportes",
+								"enviar-correo"
+							],
+							"query": [
+								{
+									"key": "fromDate",
+									"value": "2025-02-06T00:00:00"
+								},
+								{
+									"key": "toDate",
+									"value": "2025-02-07T00:00:00"
+								}
 							]
 						}
 					},
@@ -1798,7 +2271,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"Correo\": \"javiernancob@gmail.com\",\r\n    \"Clave\": \"ZapatillaAdidas\"\r\n}\r\n",
+					"raw": "{\r\n    \"Correo\": \"javier.nanco@pentacrom.cl\",\r\n    \"Clave\": \"Superjavier17?\"\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"

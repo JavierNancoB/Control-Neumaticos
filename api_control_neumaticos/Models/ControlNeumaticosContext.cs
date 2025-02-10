@@ -182,6 +182,11 @@ public partial class ControlNeumaticosContext : DbContext
                 .HasColumnName("INTENTOS_FALLIDOS")
                 .HasDefaultValueSql("((0))")
                 .IsRequired();
+            
+            entity.Property(e => e.ContraseñaTemporal)
+                .HasColumnName("CONTRASENA_TEMPORAL")
+                .HasDefaultValueSql("((0))")
+                .IsRequired();
 
             // Relación con SolicitudCorreos (uno a muchos)
             entity.HasMany(u => u.SolicitudesEnviadas)
@@ -294,6 +299,10 @@ public partial class ControlNeumaticosContext : DbContext
             entity.Property(e => e.FechaSolicitud)
                 .IsRequired()
                 .HasColumnName("FECHA_SOLICITUD");
+            entity.Property(e => e.Estado)
+                .HasMaxLength(320)
+                .IsRequired()
+                .HasColumnName("ESTADO");
 
             // Relación uno a muchos con Usuario
             entity.HasOne(e => e.Solicitante)
