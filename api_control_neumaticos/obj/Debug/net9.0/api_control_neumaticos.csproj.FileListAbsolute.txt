@@ -917,3 +917,17 @@ C:\Users\empresapentacrom\Documents\Control-Neumaticos-2\api_control_neumaticos\
 C:\Users\empresapentacrom\Documents\Control-Neumaticos-2\api_control_neumaticos\bin\Debug\net9.0\EPPlus.System.Drawing.dll
 C:\Users\empresapentacrom\Documents\Control-Neumaticos-2\api_control_neumaticos\bin\Debug\net9.0\Microsoft.IO.RecyclableMemoryStream.dll
 C:\Users\empresapentacrom\Documents\Control-Neumaticos-2\api_control_neumaticos\bin\Debug\net9.0\runtimes\win\lib\net8.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\empresapentacrom\Documents\Control-Neumaticos-2\api_control_neumaticos\bin\Debug\net9.0\itext.barcodes.dll
+C:\Users\empresapentacrom\Documents\Control-Neumaticos-2\api_control_neumaticos\bin\Debug\net9.0\itext.bouncy-castle-connector.dll
+C:\Users\empresapentacrom\Documents\Control-Neumaticos-2\api_control_neumaticos\bin\Debug\net9.0\itext.forms.dll
+C:\Users\empresapentacrom\Documents\Control-Neumaticos-2\api_control_neumaticos\bin\Debug\net9.0\itext.io.dll
+C:\Users\empresapentacrom\Documents\Control-Neumaticos-2\api_control_neumaticos\bin\Debug\net9.0\itext.kernel.dll
+C:\Users\empresapentacrom\Documents\Control-Neumaticos-2\api_control_neumaticos\bin\Debug\net9.0\itext.layout.dll
+C:\Users\empresapentacrom\Documents\Control-Neumaticos-2\api_control_neumaticos\bin\Debug\net9.0\itext.pdfa.dll
+C:\Users\empresapentacrom\Documents\Control-Neumaticos-2\api_control_neumaticos\bin\Debug\net9.0\itext.pdfua.dll
+C:\Users\empresapentacrom\Documents\Control-Neumaticos-2\api_control_neumaticos\bin\Debug\net9.0\itext.sign.dll
+C:\Users\empresapentacrom\Documents\Control-Neumaticos-2\api_control_neumaticos\bin\Debug\net9.0\itext.styledxmlparser.dll
+C:\Users\empresapentacrom\Documents\Control-Neumaticos-2\api_control_neumaticos\bin\Debug\net9.0\itext.svg.dll
+C:\Users\empresapentacrom\Documents\Control-Neumaticos-2\api_control_neumaticos\bin\Debug\net9.0\itext.commons.dll
+C:\Users\empresapentacrom\Documents\Control-Neumaticos-2\api_control_neumaticos\bin\Debug\net9.0\Microsoft.DotNet.PlatformAbstractions.dll
+C:\Users\empresapentacrom\Documents\Control-Neumaticos-2\api_control_neumaticos\bin\Debug\net9.0\Newtonsoft.Json.dll

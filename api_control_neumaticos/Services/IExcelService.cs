@@ -166,9 +166,17 @@ namespace api_control_neumaticos.Services.IExcelService
                         var bodega = await _context.Bodegas.FindAsync(estado2);
                         sheet.Cells[row + 2, col + 1].Value = GetDescripcion<int>(estado2, Estado);
                     }
+                    // esta condicion y que la tabla sea diferente de neumatico
                     else if (properties[col].Name == "CODIGO" && value is int idBitacora)
                     {
-                        sheet.Cells[row + 2, col + 1].Value = GetDescripcion<int>(idBitacora, CodigoBitacora);
+                        if (sheetName != "Neumaticos")
+                        {
+                            sheet.Cells[row + 2, col + 1].Value = GetDescripcion<int>(idBitacora, CodigoBitacora);
+                        }
+                        else
+                        {
+                            sheet.Cells[row + 2, col + 1].Value = value;
+                        }
                     }
                     else
                     {
