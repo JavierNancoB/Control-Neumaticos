@@ -28,11 +28,14 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    print("Inicio de HomePage");
     _loadUserData();
   }
 
   Future<void> _loadUserData() async {
+    print("Cargando datos del usuario");
     var userData = await _authService.loadUserData();
+    print("Datos cargados: $userData");
     if (userData['username'] != null && userData['password'] != null) {
       _usernameController.text = userData['username']!;
       _passwordController.text = userData['password']!;
@@ -43,6 +46,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _login() async {
+    print("Intentando login");
     setState(() {
       _isLoading = true;
     });
@@ -51,6 +55,7 @@ class _HomePageState extends State<HomePage> {
     final String password = _passwordController.text;
 
     if (username.isEmpty || password.isEmpty) {
+      print("Faltan campos");
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Por favor, llena todos los campos')),
       );
@@ -72,14 +77,17 @@ class _HomePageState extends State<HomePage> {
       int? perfil = response['codigO_PERFIL']; // Usamos 'ID_PERFIL' en lugar de 'perfil'
       String correo = response['correo']; // Usamos 'correO_USUARIO' en lugar de 'correo'
       String dateString = response['fechA_CLAVE'];
+      String? contrasenaTemporal = response['contraseñA_TEMPORAL'];
       DateTime date = DateTime.parse(dateString);
 
       print("Fecha: $date");
       print("Token: $token");
       print("User ID: $userId");
+      print("Perfil: $perfil");
+      print("Correo: $correo");
+      print("Contraseña temporal: $contrasenaTemporal");
 
-      await _authService.saveTokenAndUserId(token, userId ?? 0, perfil ?? 0, correo, date);
-
+      await _authService.saveTokenAndUserId(token, userId ?? 0, perfil ?? 0, correo, date, contrasenaTemporal ?? '');
 
       // Si 'userId' es null, podemos proceder de todas maneras
       if (userId == null) {

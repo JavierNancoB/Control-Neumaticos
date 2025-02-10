@@ -46,5 +46,6 @@ namespace SendingEmails
                 return client.SendMailAsync(mailMessage);
             }
         }
+        
     }
 }

@@ -21,12 +21,13 @@ class _MenuScreenState extends State<MenuScreen> {
   String? userEmail;
   bool isDisabled = false;
   String errorMessage = '';
+  String warningMessage = '';
 
   @override
   void initState() {
     super.initState();
     _checkAlertaPendiente();
-    _loadUserData(); // Cargar el correo y fecha del usuario después de loguearse
+    _loadUserData();
   }
 
   void _checkAlertaPendiente() {
@@ -39,45 +40,40 @@ class _MenuScreenState extends State<MenuScreen> {
     });
   }
 
-  // Método para cargar el correo y la fecha del usuario autenticado
   void _loadUserData() async {
-  final prefs = await SharedPreferences.getInstance();
-  final String? dateString = prefs.getString('date');
-  final String? username = prefs.getString('username');
+    final prefs = await SharedPreferences.getInstance();
+    final String? dateString = prefs.getString('date');
+    final String? username = prefs.getString('username');
+    final String? contrasenaTemporal = prefs.getString('contrasenaTemporal');
 
-  print('Fecha guardada en preferencias: $dateString');
-  print('Usuario guardado en preferencias: $username');
+    if (username != null) {
+      setState(() {
+        userEmail = username;
+      });
+    }
 
-  if (dateString != null && username != null) {
-    setState(() {
-      userEmail = username;
-    });
-
-    // Convertir la fecha guardada de string a DateTime
-    DateTime fechaClave = DateTime.parse(dateString);
     DateTime now = DateTime.now();
-    int difference = now.difference(fechaClave).inDays;
+    if (dateString != null) {
+      DateTime fechaClave = DateTime.parse(dateString);
+      int difference = now.difference(fechaClave).inDays;
+      
+      if (difference > 70) {
+        setState(() {
+          warningMessage = 'Te quedan ${80 - difference} días para cambiar tu contraseña.';
+        });
+      }
+    }
 
-    print('Fecha actual: $now');
-    print('Fecha clave almacenada: $fechaClave');
-    print('Diferencia en días: $difference');
-
-    // Si la diferencia es mayor a 70, deshabilitamos las opciones
-    if (difference > 70) {
+    if (contrasenaTemporal != null && contrasenaTemporal.isNotEmpty) {
       setState(() {
         isDisabled = true;
-        errorMessage = 'Te quedan ${80 - difference} días para cambiar tu contraseña. Se deshabilitarán opciones, en caso de exceder el tiempo se bloqueará tu cuenta.';
+        errorMessage = 'Debes cambiar tu contraseña temporal antes de acceder a otras opciones.';
       });
-      print('Usuario deshabilitado. Mensaje de error: $errorMessage');
     }
   }
-}
-
 
   void _navigateTo(BuildContext context, Widget page) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => page))
-        .then((_) {
-      // Cuando volvemos de la pantalla, recargamos el menú
+    Navigator.push(context, MaterialPageRoute(builder: (context) => page)).then((_) {
       setState(() {
         _checkAlertaPendiente();
       });
@@ -93,17 +89,28 @@ class _MenuScreenState extends State<MenuScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              if (isDisabled)
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Center(
-                  child: Text(
-                    errorMessage,
-                    style: TextStyle(color: Colors.red, fontSize: 16),
-                    textAlign: TextAlign.center, // Asegura que el texto esté centrado
+              if (errorMessage.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                    child: Text(
+                      errorMessage,
+                      style: TextStyle(color: Colors.red, fontSize: 16),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
-              ),
+              if (warningMessage.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                    child: Text(
+                      warningMessage,
+                      style: TextStyle(color: Colors.orange, fontSize: 16),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
               StandarButton(
                 text: 'Información por patente',
                 onPressed: isDisabled ? null : () => _navigateTo(context, PatentePage()),
@@ -135,6 +142,13 @@ class _MenuScreenState extends State<MenuScreen> {
               ),
               const SizedBox(height: 20),
               StandarButton(
+                text: 'Generar Reporte',
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              const SizedBox(height: 20),
+              StandarButton(
                 text: 'Reestablecer Contraseña',
                 onPressed: () {
                   if (userEmail != null) {
@@ -149,7 +163,7 @@ class _MenuScreenState extends State<MenuScreen> {
                   }
                 },
               ),
-            ]
+            ],
           ),
         ),
       ),
