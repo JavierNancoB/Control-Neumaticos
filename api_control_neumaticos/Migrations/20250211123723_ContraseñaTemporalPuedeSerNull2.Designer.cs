@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using api_control_neumaticos.Models;
 
@@ -11,9 +12,11 @@ using api_control_neumaticos.Models;
 namespace api_control_neumaticos.Migrations
 {
     [DbContext(typeof(ControlNeumaticosContext))]
-    partial class ControlNeumaticosContextModelSnapshot : ModelSnapshot
+    [Migration("20250211123723_ContraseñaTemporalPuedeSerNull2")]
+    partial class ContraseñaTemporalPuedeSerNull2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
