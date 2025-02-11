@@ -184,9 +184,7 @@ public partial class ControlNeumaticosContext : DbContext
                 .IsRequired();
             
             entity.Property(e => e.ContraseñaTemporal)
-                .HasColumnName("CONTRASENA_TEMPORAL")
-                .HasDefaultValueSql("((0))")
-                .IsRequired();
+                .HasColumnName("CONTRASENA_TEMPORAL");
 
             // Relación con SolicitudCorreos (uno a muchos)
             entity.HasMany(u => u.SolicitudesEnviadas)
