@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -6,42 +7,50 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace api_control_neumaticos.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AlterDatabase()
+                .Annotation("MySql:CharSet", "utf8mb4");
+
             migrationBuilder.CreateTable(
                 name: "BITACORA",
                 columns: table => new
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     CODIGO = table.Column<int>(type: "int", nullable: false),
                     ID_OBJETO = table.Column<int>(type: "int", nullable: false),
-                    TIPO_OBJETO = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    TIPO_OBJETO = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     ID_USUARIO = table.Column<int>(type: "int", nullable: false),
-                    FECHA = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    OBSERVACION = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    FECHA = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    OBSERVACION = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     ESTADO = table.Column<int>(type: "int", unicode: false, maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_BITACORA", x => x.ID);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "BODEGA",
                 columns: table => new
                 {
                     ID_BODEGA = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    NOMBRE_BODEGA = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    NOMBRE_BODEGA = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK__BODEGA__3F5C45522D15E7A1", x => x.ID_BODEGA);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "TABLA",
@@ -49,23 +58,28 @@ namespace api_control_neumaticos.Migrations
                 {
                     COD_TABLA = table.Column<int>(type: "int", nullable: false),
                     CODIGO = table.Column<int>(type: "int", nullable: false),
-                    DESCRIPCION = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
+                    DESCRIPCION = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     ESTADO = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK__TABLA__B22008D28B9CFED8", x => new { x.COD_TABLA, x.CODIGO });
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "MOVIL",
                 columns: table => new
                 {
                     ID_MOVIL = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PATENTE = table.Column<string>(type: "char(6)", unicode: false, fixedLength: true, maxLength: 6, nullable: false),
-                    MARCA = table.Column<string>(type: "char(50)", unicode: false, fixedLength: true, maxLength: 50, nullable: false),
-                    MODELO = table.Column<string>(type: "char(50)", unicode: false, fixedLength: true, maxLength: 50, nullable: false),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    PATENTE = table.Column<string>(type: "char(6)", unicode: false, fixedLength: true, maxLength: 6, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    MARCA = table.Column<string>(type: "char(50)", unicode: false, fixedLength: true, maxLength: 50, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    MODELO = table.Column<string>(type: "char(50)", unicode: false, fixedLength: true, maxLength: 50, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     EJES = table.Column<int>(type: "int", nullable: false),
                     TIPO_MOVIL = table.Column<int>(type: "int", nullable: false),
                     ID_BODEGA = table.Column<int>(type: "int", nullable: true),
@@ -80,23 +94,30 @@ namespace api_control_neumaticos.Migrations
                         column: x => x.ID_BODEGA,
                         principalTable: "BODEGA",
                         principalColumn: "ID_BODEGA");
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "USUARIO",
                 columns: table => new
                 {
                     ID_USUARIO = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    NOMBRES = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: false),
-                    APELLIDOS = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: false),
-                    CORREO = table.Column<string>(type: "nvarchar(320)", maxLength: 320, nullable: false),
-                    CLAVE = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    NOMBRES = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    APELLIDOS = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CORREO = table.Column<string>(type: "varchar(320)", maxLength: 320, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CLAVE = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     CODIGO_PERFIL = table.Column<int>(type: "int", nullable: false),
                     COD_ESTADO = table.Column<int>(type: "int", nullable: false),
                     ID_BODEGA = table.Column<int>(type: "int", nullable: false),
-                    FECHA_CLAVE = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "(getdate())"),
-                    INTENTOS_FALLIDOS = table.Column<int>(type: "int", nullable: false, defaultValueSql: "((0))")
+                    FECHA_CLAVE = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    INTENTOS_FALLIDOS = table.Column<int>(type: "int", nullable: false, defaultValueSql: "((0))"),
+                    CONTRASENA_TEMPORAL = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -107,16 +128,17 @@ namespace api_control_neumaticos.Migrations
                         principalTable: "BODEGA",
                         principalColumn: "ID_BODEGA",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "KILOMETROS",
                 columns: table => new
                 {
                     ID_KILOMETRO_DIARIO = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     ID_MOVIL = table.Column<int>(type: "int", nullable: false),
-                    FECHA_REGISTRO = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FECHA_REGISTRO = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     KILOMETRO = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -127,20 +149,21 @@ namespace api_control_neumaticos.Migrations
                         column: x => x.ID_MOVIL,
                         principalTable: "MOVIL",
                         principalColumn: "ID_MOVIL");
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "NEUMATICOS",
                 columns: table => new
                 {
                     ID_NEUMATICO = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     CODIGO = table.Column<int>(type: "int", nullable: false),
                     UBICACION = table.Column<int>(type: "int", unicode: false, fixedLength: true, maxLength: 50, nullable: true),
                     MOVIL_ASIGNADO = table.Column<int>(type: "int", nullable: true),
                     ID_BODEGA = table.Column<int>(type: "int", nullable: false),
-                    FECHA_INGRESO = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    FECHA_SALIDA = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    FECHA_INGRESO = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    FECHA_SALIDA = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     ESTADO = table.Column<int>(type: "int", unicode: false, maxLength: 50, nullable: false),
                     KM_TOTAL = table.Column<int>(type: "int", nullable: false),
                     TIPO_NEUMATICO = table.Column<int>(type: "int", unicode: false, maxLength: 50, nullable: false)
@@ -159,17 +182,18 @@ namespace api_control_neumaticos.Migrations
                         principalTable: "MOVIL",
                         principalColumn: "ID_MOVIL",
                         onDelete: ReferentialAction.SetNull);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "SOLICITUD_CORREOS",
                 columns: table => new
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     ID_SOLICITANTE = table.Column<int>(type: "int", nullable: false),
-                    FECHA_SOLICITUD = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Estado = table.Column<bool>(type: "bit", nullable: false)
+                    FECHA_SOLICITUD = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    ESTADO = table.Column<byte>(type: "tinyint unsigned", maxLength: 320, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -179,18 +203,19 @@ namespace api_control_neumaticos.Migrations
                         column: x => x.ID_SOLICITANTE,
                         principalTable: "USUARIO",
                         principalColumn: "ID_USUARIO");
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "ALERTA",
                 columns: table => new
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     ID_NEUMATICO = table.Column<int>(type: "int", nullable: false),
-                    FECHA_INGRESO = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    FECHA_LEIDO = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    FECHA_ATENDIDO = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    FECHA_INGRESO = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    FECHA_LEIDO = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    FECHA_ATENDIDO = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     ESTADO_ALERTA = table.Column<int>(type: "int", nullable: false),
                     CODIGO_ALERTA = table.Column<int>(type: "int", nullable: false),
                     ID_USUARIO_LEIDO = table.Column<int>(type: "int", nullable: true),
@@ -214,20 +239,22 @@ namespace api_control_neumaticos.Migrations
                         column: x => x.ID_USUARIO_LEIDO,
                         principalTable: "USUARIO",
                         principalColumn: "ID_USUARIO");
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "HISTORIAL_NEUMATICO",
                 columns: table => new
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     ID_NEUMATICO = table.Column<int>(type: "int", nullable: false),
                     ID_USUARIO = table.Column<int>(type: "int", nullable: false),
                     CODIGO = table.Column<int>(type: "int", nullable: false),
-                    FECHA = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FECHA = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     ESTADO = table.Column<int>(type: "int", nullable: false),
-                    OBSERVACION = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false)
+                    OBSERVACION = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -242,7 +269,8 @@ namespace api_control_neumaticos.Migrations
                         column: x => x.ID_USUARIO,
                         principalTable: "USUARIO",
                         principalColumn: "ID_USUARIO");
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ALERTA_ID_NEUMATICO",

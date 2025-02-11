@@ -52,7 +52,7 @@ class _IngresarCorreoPageState extends State<IngresarCorreoPage> {
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Usuario deshabilitado/no encontrado')),
+          SnackBar(content: Text('Usuario invalido, por favor ingrese un correo existente y habilitado')),
         );
       }
     } else {

@@ -76,7 +76,7 @@ namespace api_control_neumaticos.Controllers
             {
             IdSolicitante = solicitante.IdUsuario,
             FechaSolicitud = DateTime.UtcNow,
-            Estado = true, // Puedes cambiarlo si el estado inicial debe ser diferente
+            Estado = 1, // Puedes cambiarlo si el estado inicial debe ser diferente
             Solicitante = solicitante // Asignamos el solicitante correctamente
             };
 

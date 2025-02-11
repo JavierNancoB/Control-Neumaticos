@@ -34,8 +34,14 @@ builder.Services.AddControllers();
 builder.Services.AddSingleton<TokenGenerator>();
 
 // Configuración de la base de datos
+//builder.Services.AddDbContext<ControlNeumaticosContext>(options =>
+//    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 builder.Services.AddDbContext<ControlNeumaticosContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"), 
+        new MySqlServerVersion(new Version(10, 4, 17))));
+
+
 
 // Configuración de autorización y autenticación JWT
 builder.Services.AddAuthorization();
