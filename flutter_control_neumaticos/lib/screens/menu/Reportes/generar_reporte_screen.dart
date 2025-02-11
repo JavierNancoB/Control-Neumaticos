@@ -16,7 +16,7 @@ class _GenerarReporteScreenState extends State<GenerarReporteScreen> {
   final TextEditingController _hastaController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  Future<void> _selectDate(BuildContext context, TextEditingController controller) async {
+  Future<void> _selectDate(BuildContext context, TextEditingController controller, {bool isDesde = true}) async {
     DateTime? selectedDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -25,10 +25,43 @@ class _GenerarReporteScreenState extends State<GenerarReporteScreen> {
     );
 
     if (selectedDate != null) {
-      controller.text = DateFormat('yyyy-MM-dd').format(selectedDate);
+      String formattedDate = DateFormat('yyyy-MM-dd').format(selectedDate);
+
+      if (isDesde) {
+        if (_hastaController.text.isNotEmpty &&
+            selectedDate.isAfter(DateTime.parse(_hastaController.text))) {
+          _showErrorDialog("La fecha 'Desde' no puede ser mayor que 'Hasta'");
+          return;
+        }
+        _desdeController.text = formattedDate;
+      } else {
+        if (_desdeController.text.isNotEmpty &&
+            selectedDate.isBefore(DateTime.parse(_desdeController.text))) {
+          _showErrorDialog("La fecha 'Hasta' no puede ser menor que 'Desde'");
+          return;
+        }
+        _hastaController.text = formattedDate;
+      }
     }
   }
 
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Error"),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text("Aceptar"),
+            ),
+          ],
+        );
+      },
+    );
+  }
   Future<void> _downloadReport() async {
     if (_formKey.currentState?.validate() ?? false) {
       await ReportService.downloadReport(_desdeController.text, _hastaController.text);
@@ -102,8 +135,6 @@ class _GenerarReporteScreenState extends State<GenerarReporteScreen> {
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -122,11 +153,13 @@ class _GenerarReporteScreenState extends State<GenerarReporteScreen> {
                   hintText: 'Seleccionar fecha',
                   suffixIcon: IconButton(
                     icon: Icon(Icons.calendar_today),
-                    onPressed: () => _selectDate(context, _desdeController),
+                    onPressed: () => _selectDate(context, _desdeController, isDesde: true),
                   ),
                 ),
                 readOnly: true,
-                validator: (value) => value == null || value.isEmpty ? 'Por favor, selecciona una fecha desde' : null,
+                validator: (value) => value == null || value.isEmpty
+                    ? 'Por favor, selecciona una fecha desde'
+                    : null,
               ),
               SizedBox(height: 10),
               TextFormField(
@@ -136,22 +169,41 @@ class _GenerarReporteScreenState extends State<GenerarReporteScreen> {
                   hintText: 'Seleccionar fecha',
                   suffixIcon: IconButton(
                     icon: Icon(Icons.calendar_today),
-                    onPressed: () => _selectDate(context, _hastaController),
+                    onPressed: () => _selectDate(context, _hastaController, isDesde: false),
                   ),
                 ),
                 readOnly: true,
-                validator: (value) => value == null || value.isEmpty ? 'Por favor, selecciona una fecha hasta' : null,
+                validator: (value) => value == null || value.isEmpty
+                    ? 'Por favor, selecciona una fecha hasta'
+                    : null,
               ),
               SizedBox(height: 20),
               StandarButton(
                 text: 'Descargar Reporte',
-                onPressed: _downloadReport,
+                onPressed: () {
+                  if (_formKey.currentState?.validate() ?? false) {
+                    if (DateTime.parse(_desdeController.text)
+                        .isAfter(DateTime.parse(_hastaController.text))) {
+                      _showErrorDialog("La fecha 'Desde' no puede ser mayor que 'Hasta'");
+                      return;
+                    }
+                    _downloadReport();
+                  }
+                },
               ),
               SizedBox(height: 20),
-              // Botón Enviar al Correo (sin funcionalidad por ahora)
               StandarButton(
                 text: 'Enviar al Correo',
-                onPressed: _sendReportByEmail,
+                onPressed: () {
+                  if (_formKey.currentState?.validate() ?? false) {
+                    if (DateTime.parse(_desdeController.text)
+                        .isAfter(DateTime.parse(_hastaController.text))) {
+                      _showErrorDialog("La fecha 'Desde' no puede ser mayor que 'Hasta'");
+                      return;
+                    }
+                    _sendReportByEmail();
+                  }
+                },
               ),
             ],
           ),
