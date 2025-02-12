@@ -72,7 +72,7 @@ Para ejecutar la aplicación en un dispositivo físico o emulador, usa:
 ### **1. Login**
 La pantalla de inicio de sesión permite a los usuarios autenticarse.
 
-![Pantalla de Login](assets/readme/Screenshot_login.png)
+![Pantalla de Login](assets/readme/Screenshot_login.jpg)
 
 #### **Elementos Principales:**
 - **UsernameField:** Campo de entrada para el usuario.
@@ -90,7 +90,7 @@ La pantalla de inicio de sesión permite a los usuarios autenticarse.
 ### **2. Menú Principal**
 El menú proporciona acceso a las principales funcionalidades:
 
-![Pantalla de Menú](assets/readme/Screenshot_menu.png)
+![Pantalla de Menú](assets/readme/Screenshot_menu.jpg)
 
 #### Alertas.
 Alertas en caso de existir algun tipo de alerta pendiente o leida se mostrara en el menú principal de color amarillo indicando que existen alertas pendientes. La opcion de alertas nos dará 2 opciones:
