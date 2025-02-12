@@ -72,6 +72,8 @@ Para ejecutar la aplicación en un dispositivo físico o emulador, usa:
 ### **1. Login**
 La pantalla de inicio de sesión permite a los usuarios autenticarse.
 
+![Pantalla de Login](assets/readme/Screenshot_login.png)
+
 #### **Elementos Principales:**
 - **UsernameField:** Campo de entrada para el usuario.
 - **PasswordField:** Campo de entrada de contraseña con opción de ocultar/mostrar.
@@ -88,20 +90,23 @@ La pantalla de inicio de sesión permite a los usuarios autenticarse.
 ### **2. Menú Principal**
 El menú proporciona acceso a las principales funcionalidades:
 
+![Pantalla de Menú](assets/readme/Screenshot_menu.png)
+
 #### Alertas.
 Alertas en caso de existir algun tipo de alerta pendiente o leida se mostrara en el menú principal de color amarillo indicando que existen alertas pendientes. La opcion de alertas nos dará 2 opciones:
 - **Alertas Pendientes:** Recaen aquí tanto las alertas pendientes como leidas. 
 - **Alertas Atendidas:** Para mayor facilidad se mostraran solamente las últimas 50 alertas atendidas.
 
-Para mayor información sobre la opción Alertas [aquí].
+Para mayor información sobre la opción Alertas: [alertas_menu.dart](./lib/screens/menu/alertas/alertas_menu.dart).
 
 #### Información Patentes.
-Podemos buscar la información por patente 
+Podemos buscar la información de un movil a tarves de su patente, [patente_screen.dart] 
 
 #### Bitacora.
-Nos redigirá a la pagina lector NFC, nos permitirá leer los chips y reedirigirnos al [especificaciones del neumatico].
+Nos redigirá a la pagina [lector NFC](./lib/screens/nfc/nfc_reader.dart), nos permitirá leer los chips y reedirigirnos a [informacion_neumatica.dart](./lib/screens/menu/bitacora/informacion_neumatico.dart).
 
 #### Stock.
+Stock se encarga de mostrarnos todos los neumaticos que no esten asignados a ningun vehiculo o que su ubicacion sea BODEGA, [stock_page.dart](./lib/screens/menu/stock/stock_page.dart).
 
 #### Administración.
 Administración nos da la posibilidad de poder elegir entre estas 3 opciones que a su vez tienen un desgloce de más opciones:
@@ -109,19 +114,13 @@ Administración nos da la posibilidad de poder elegir entre estas 3 opciones que
 - **Neumatico:** Se puede gestionar y deshabilitar un neumatico
 - **Usuario:** Esta opcion se podra visibilizar en la apliacion solo para aquellos que posean una cuenta de administrador. Tiene las capacidades de gestionar, modificar, añadir a un usuario y reestablecer su contraseña.
 
-Todas las pantallas de administracion se crean en base a [admin_menu_screen.dart](./lib/screens/menu/admin/admin_menu_screen.dart), para más detalle sobre esta ventana puedes verlo [aqui]
+Todas las pantallas de administracion se crean en base a [admin_menu_screen.dart](./lib/screens/menu/admin/admin_menu_screen.dart), para más detalle sobre esta ventana puedes verlo [admin_actions_screen.dart](./lib/screens/menu/admin/admin_actions_screen.dart).
 
 #### Generar Reportes.
-
-
+Podemos generar un archivo excel con la informacion de usuarios, moviles y neumaticos. Este archivo debe ser filtrado entre 2 fechas. Más información en [generar_reporte_screen.dart](./lib/screens/menu/Reportes/generar_reporte_screen.dart).
 
 #### Reestablecer Contraseña.
-
-
-
-
-### **3. NFC**
-Pantalla dedicada a la lectura de chips NFC, permitiendo registrar y consultar información de los neumáticos en tiempo real.
+La última opcion nos permite reestablecer nuestra contraseña, al momento de hacerlo nos devolveremos al inicio de sesión y tendremos que entrar con nuestras credenciales nuevamente. esta opción es la unica que no se bloquea cuando el administrador reestablece nuestra contraseña, esto con el fin de que lo primero que vea el usaurio al momento de entrar cuando su contraseña sea reestablecida por el administrador sea reestablecer por parte del usuario la contraseña. [reestablecer_passw_page.dart](./lib/screens/menu/admin/usuario/reestablecer_passw_page.dart).
 
 ---
 
