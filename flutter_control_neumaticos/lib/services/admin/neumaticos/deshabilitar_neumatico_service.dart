@@ -1,8 +1,9 @@
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../../models/config.dart';
 
 class DeshabilitarNeumaticoService {
-  static const String _baseUrl = 'http://localhost:5062/api';
+  static const String _baseUrl = '${Config.awsUrl}/api';
 
   // Método para modificar el estado de un neumático por su código NFC
   static Future<void> modificarEstadoNeumatico(String codigo, int estado, int confirmacionMovil) async {

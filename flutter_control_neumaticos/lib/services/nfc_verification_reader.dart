@@ -1,14 +1,16 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../../models/config.dart';
 
 class NfcVerificationReader {
+  static const String _baseUrl = '${Config.awsUrl}/api';
   // Método de verificación de habilitación del neumático
   Future<bool> verificarSiNeumaticoHabilitado(String codigo) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
 
-    final urlHabilitado = 'http://localhost:5062/api/Neumaticos/verificarSiNeumaticoHabilitado?codigo=$codigo';
+    final urlHabilitado = '$_baseUrl/Neumaticos/verificarSiNeumaticoHabilitado?codigo=$codigo';
     
     try {
       final response = await http.post(
@@ -33,7 +35,7 @@ class NfcVerificationReader {
     String? token = prefs.getString('token');
 
     // Actualizar la URL para incluir el código como query parameter
-    final urlExiste = 'http://localhost:5062/api/Neumaticos/verificarSiNeumaticoExiste?codigo=$codigo';
+    final urlExiste = '$_baseUrl/Neumaticos/verificarSiNeumaticoExiste?codigo=$codigo';
     
     try {
       final response = await http.post(

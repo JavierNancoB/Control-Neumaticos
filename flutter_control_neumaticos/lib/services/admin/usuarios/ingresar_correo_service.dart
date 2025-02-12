@@ -1,8 +1,9 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import '../../../models/config.dart';
 
 class UsuarioService {
-  static const String apiUrl = 'http://localhost:5062/api/Usuarios';
+  static const String apiUrl = '${Config.awsUrl}/api/Usuarios';
 
   // Función para comprobar si el usuario está habilitado
   Future<bool> buscarUsuarioPorCorreo(String email) async {

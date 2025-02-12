@@ -1,9 +1,10 @@
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
+import '../../../models/config.dart';
 
 class UsuarioService {
-  static const String _baseUrl = 'http://localhost:5062/api';
+  static const String _baseUrl = '${Config.awsUrl}/api';
 
   // Buscar usuarios por correo mientras el usuario escribe
   static Future<List<String>> buscarUsuariosPorCorreo(String query) async {

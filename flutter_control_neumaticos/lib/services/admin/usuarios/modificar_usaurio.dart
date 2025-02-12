@@ -2,9 +2,10 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../../../models/usuario_modifcar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../../models/config.dart';
 
 class UsuarioService {
-  final String baseUrl = 'http://localhost:5062/api/Usuarios';
+  final String baseUrl = '${Config.awsUrl}/api/Usuarios';
 
   // Obtener el usuario por correo
   Future<Usuario?> getUsuarioByEmail(String email) async {

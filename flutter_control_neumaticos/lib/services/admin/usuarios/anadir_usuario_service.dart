@@ -2,9 +2,10 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../models/usuario.dart';
+import '../../../models/config.dart';
 
 class UsuarioService {
-  static const String _baseUrl = 'http://localhost:5062/api/usuarios';
+  static const String _baseUrl = '${Config.awsUrl}/api/usuarios';
 
   // Añadir usuario
   static Future<void> crearUsuario(Usuario usuario) async {
@@ -16,7 +17,7 @@ class UsuarioService {
 
 
     final response = await http.post(
-      Uri.parse('$_baseUrl?idUsuarioBitacora=$idUsuario'),
+      Uri.parse('$_baseUrl/?idUsuarioBitacora=$idUsuario'),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $token',

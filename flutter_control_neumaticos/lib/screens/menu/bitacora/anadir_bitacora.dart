@@ -19,6 +19,7 @@ class _AnadirBitacoraScreenState extends State<AnadirBitacoraScreen> {
   int? _codigo;
   int? _estado;
   final TextEditingController _observacionController = TextEditingController();
+  bool _confirmadoPinchazo = false; // Flag para evitar múltiples diálogos
 
   @override
   void initState() {
@@ -26,52 +27,45 @@ class _AnadirBitacoraScreenState extends State<AnadirBitacoraScreen> {
     _getUserId();
   }
 
-  // Obtener el userId desde SharedPreferences
   Future<void> _getUserId() async {
     _userId = await BitacoraService.getUserId();
     setState(() {});
   }
 
-  // Función para enviar el formulario
   Future<void> _submitForm() async {
+    if (_formKey.currentState!.validate()) {
+      // Verificar si el código es 11 (pinchazo) y si no ha sido confirmado aún
+      if (_codigo == 11 && !_confirmadoPinchazo) {
+        bool existenPinchazos = await BitacoraService.existenDosPinchazos(widget.idNeumatico);
 
-  if (_formKey.currentState!.validate()) {
-    // Verificar si el código es 11 (pinchazo)
-    if (_codigo == 11) {
-      bool existenPinchazos = await BitacoraService.existenDosPinchazos(widget.idNeumatico);
+        if (existenPinchazos) {
+          _mostrarDialogoPinchazos();
+          return;
+        }
+      }
 
-      if (existenPinchazos) { // AHORA EL DIÁLOGO SE MUESTRA CUANDO ES TRUE
-        _mostrarDialogoPinchazos();
-        return; // DETIENE EL ENVÍO HASTA QUE EL USUARIO CONFIRME
+      // Si el usuario ya confirmó o no es pinchazo, proceder con el envío
+      final response = await BitacoraService.addBitacora(
+        widget.idNeumatico,
+        _userId,
+        _codigo,
+        _estado,
+        _observacionController.text,
+      );
+
+      if (response) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Bitácora añadida con éxito')),
+        );
+        Navigator.pop(context);
       } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Error al añadir bitácora')),
+        );
       }
     }
-
-    // Si no hay problemas con los pinchazos, enviar la bitácora
-    final response = await BitacoraService.addBitacora(
-      widget.idNeumatico,
-      _userId,
-      _codigo,
-      _estado,
-      _observacionController.text,
-    );
-
-    if (response) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Bitácora añadida con éxito')),
-      );
-      Navigator.pop(context);
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Error al añadir bitácora')),
-      );
-    }
-  } else {
   }
-}
 
-
-  // Función para mostrar el diálogo de recomendación
   void _mostrarDialogoPinchazos() {
     showDialog(
       context: context,
@@ -84,14 +78,18 @@ class _AnadirBitacoraScreenState extends State<AnadirBitacoraScreen> {
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.of(context).pop(); // Cerrar diálogo
               },
               child: const Text('Cancelar'),
             ),
             TextButton(
               onPressed: () {
+                setState(() {
+                  _confirmadoPinchazo = true; // Marcar que el usuario aceptó
+                });
+                Navigator.of(context).pop(); // Cerrar el diálogo
+                _submitForm(); // Reintentar el envío sin mostrar el diálogo otra vez
                 Navigator.of(context).pop();
-                _submitForm(); // Si el usuario acepta, se envía la bitácora
               },
               child: const Text('Entendido'),
             ),
@@ -100,6 +98,8 @@ class _AnadirBitacoraScreenState extends State<AnadirBitacoraScreen> {
       },
     );
   }
+
+
 
   @override
   Widget build(BuildContext context) {

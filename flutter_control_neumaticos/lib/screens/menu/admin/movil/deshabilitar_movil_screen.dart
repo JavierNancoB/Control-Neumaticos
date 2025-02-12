@@ -53,25 +53,17 @@ class _CambiarEstadoMovilPageState extends State<CambiarEstadoMovilPage> {
               onPressed: () async {
                 Navigator.of(context).pop();  // Cierra el diálogo
                 // Llama a la función para habilitar el camión
-                await cambiarEstadoCamion(EstadoMovil(id: 1, descripcion: 'Habilitar'), true); // Habilitar con neumáticos
+                await cambiarEstadoCamion(EstadoMovil(id: 1, descripcion: 'Habilitar')); // Habilitar con neumáticos
               },
-              child: Text('Habilitar con neumáticos'),
+              child: Text('Habilitar'),
             ),
             TextButton(
               onPressed: () async {
                 Navigator.of(context).pop();  // Cierra el diálogo
                 // Llama a la función para deshabilitar el camión
-                await cambiarEstadoCamion(EstadoMovil(id: 2, descripcion: 'Deshabilitar'), true); // Deshabilitar con neumáticos
+                await cambiarEstadoCamion(EstadoMovil(id: 2, descripcion: 'Deshabilitar')); // Deshabilitar con neumáticos
               },
-              child: Text('Deshabilitar con neumáticos'),
-            ),
-            TextButton(
-              onPressed: () async {
-                Navigator.of(context).pop();  // Cierra el diálogo
-                // Llama a la función para deshabilitar el camión sin neumáticos
-                await cambiarEstadoCamion(EstadoMovil(id: 3, descripcion: 'Deshabilitar sin neumáticos'), false); // Deshabilitar sin neumáticos
-              },
-              child: Text('Deshabilitar sin neumáticos'),
+              child: Text('Deshabilitar'),
             ),
           ],
         );
@@ -79,7 +71,7 @@ class _CambiarEstadoMovilPageState extends State<CambiarEstadoMovilPage> {
     );
   }
 
-  Future<void> cambiarEstadoCamion(EstadoMovil estado, bool conNeumaticos) async {
+  Future<void> cambiarEstadoCamion(EstadoMovil estado) async {
     setState(() {
       isLoading = true;
     });
@@ -96,7 +88,7 @@ class _CambiarEstadoMovilPageState extends State<CambiarEstadoMovilPage> {
 
 
     try {
-      bool success = await movilService.cambiarEstadoMovil(patente, estado, conNeumaticos);
+      bool success = await movilService.cambiarEstadoMovil(patente, estado);
 
       if (success) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Estado modificado con éxito')));

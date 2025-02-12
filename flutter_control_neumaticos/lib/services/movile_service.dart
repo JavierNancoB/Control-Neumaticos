@@ -1,15 +1,17 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../../models/config.dart';
 
 class MovilService {
+  static const String _baseUrl = '${Config.awsUrl}/api';
   // Función para obtener los datos del móvil por patente
   static Future<Map<String, dynamic>?> getMovilDataByPatente(String patente) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
 
     final response = await http.get(
-      Uri.parse('http://localhost:5062/api/Movil/GetMovilByPatente?patente=$patente'),
+      Uri.parse('$_baseUrl/Movil/GetMovilByPatente?patente=$patente'),
       headers: {
         'Authorization': 'Bearer $token',
       },
@@ -30,7 +32,7 @@ class MovilService {
     throw Exception("No se encontró el token de autenticación.");
   }
 
-  final url = Uri.parse('http://localhost:5062/api/Movil/BuscarMovilesPorPatente?query=$query');
+  final url = Uri.parse('$_baseUrl/Movil/BuscarMovilesPorPatente?query=$query');
   final response = await http.get(
     url,
     headers: {'Authorization': 'Bearer $token'},
@@ -49,7 +51,7 @@ class MovilService {
     String? token = prefs.getString('token');
 
     final response = await http.get(
-      Uri.parse('http://localhost:5062/api/Neumaticos/GetNeumaticoByMovilID?idMovil=$idMovil'),
+      Uri.parse('$_baseUrl/Neumaticos/GetNeumaticoByMovilID?idMovil=$idMovil'),
       headers: {
         'Authorization': 'Bearer $token',
       },

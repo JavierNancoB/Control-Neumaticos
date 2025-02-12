@@ -2,9 +2,10 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../models/movil.dart';
+import '../../../models/config.dart';
 
 class MovilService {
-  static const String _baseUrl = 'http://localhost:5062/api/Movil';
+  static const String _baseUrl = '${Config.awsUrl}/api/Movil';
 
   // Crear móvil
   static Future<void> crearMovil(Movil movil) async {

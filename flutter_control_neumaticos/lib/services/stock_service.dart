@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import '../../../models/config.dart';
 
 Future<List<dynamic>> fetchNeumaticos() async {
+  const String baseUrl = '${Config.awsUrl}/api';
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? token = prefs.getString('token');
 
@@ -11,7 +13,7 @@ Future<List<dynamic>> fetchNeumaticos() async {
   }
 
   final response = await http.get(
-    Uri.parse('http://localhost:5062/api/Neumaticos/GetNeumaticoByMovilNULL'),
+    Uri.parse('$baseUrl/Neumaticos/GetNeumaticoByMovilNULL'),
     headers: {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token',
@@ -27,6 +29,7 @@ Future<List<dynamic>> fetchNeumaticos() async {
 }
 
 Future<List<String>> fetchPatentesSugeridas(String query) async {
+  const String baseUrl = '${Config.awsUrl}/api';
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? token = prefs.getString('token');
 
@@ -34,7 +37,7 @@ Future<List<String>> fetchPatentesSugeridas(String query) async {
     throw Exception("No se encontró el token de autenticación.");
   }
 
-  final url = Uri.parse('http://localhost:5062/api/Movil/BuscarMovilesPorPatente?query=$query');
+  final url = Uri.parse('$baseUrl/Movil/BuscarMovilesPorPatente?query=$query');
   final response = await http.get(
     url,
     headers: {
