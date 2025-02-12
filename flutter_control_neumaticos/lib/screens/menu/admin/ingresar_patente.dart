@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../services/ingresar_patente_service.dart';
 
 class IngresarPatentePage extends StatefulWidget {
@@ -26,7 +27,7 @@ class _IngresarPatentePageState extends State<IngresarPatentePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Ingresar Patente'),
+        title: Text('Buscar Patente'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -65,7 +66,7 @@ class _IngresarPatentePageState extends State<IngresarPatentePage> {
               controller: controller,
               focusNode: focusNode,
               decoration: const InputDecoration(
-                labelText: 'Ingresa la patente del móvil',
+                labelText: 'Seleccione la patente del móvil',
               ),
               onEditingComplete: onEditingComplete,
               onChanged: (value) {
@@ -81,7 +82,7 @@ class _IngresarPatentePageState extends State<IngresarPatentePage> {
           const Padding(
             padding: EdgeInsets.only(top: 8.0),
             child: Text(
-              'Si no ingresa ninguna patente, el neumático no se asignará a ningun movil.',
+              'Si no SELECCIONA ninguna patente, el neumático no se asignará a ningun movil.',
               style: TextStyle(fontSize: 16, color: Colors.grey),
             ),
           ),
@@ -92,11 +93,41 @@ class _IngresarPatentePageState extends State<IngresarPatentePage> {
   /// **Botón para Enviar la Patente**
   Widget _buildSubmitButton(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {
+      onPressed: () async {
         final patente = _patenteController.text.trim();
+
+        // Si la patente está vacía, no mostrar mensaje de error y continuar
         if (patente.isEmpty) {
-          _patenteController.clear(); // Limpiar el controlador si está vacío
+          // Proceder igual, sin mostrar el mensaje de error.
+          // Aquí solo deberías pasar al siguiente flujo sin hacer nada adicional
+          IngresarPatenteService.handlePatente(
+            context: context,
+            patente: patente,
+            tipo: widget.tipo,
+            codigo: widget.codigo,
+          );
+          return; // No se muestra el SnackBar porque es un flujo válido.
         }
+
+        // Verificar si la patente existe
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        String? token = prefs.getString('token');
+        if (token == null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('No se encontró el token de autenticación.')),
+          );
+          return;
+        }
+
+        bool patenteExiste = await IngresarPatenteService.checkPatenteExistence(patente, token);  // Llamada correcta al método estático
+        if (!patenteExiste) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('La patente ingresada no existe.')),
+          );
+          return;
+        }
+
+        // Si la patente existe, proceder con la lógica original
         IngresarPatenteService.handlePatente(
           context: context,
           patente: patente,

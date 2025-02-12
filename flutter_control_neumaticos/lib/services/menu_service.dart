@@ -1,8 +1,10 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import '../../../models/config.dart';
 
 Future<bool> checkAlertaPendiente() async {
-  final response = await http.get(Uri.parse('http://localhost:5062/api/Alerta/HasAlertaPendiente'));
+  const String baseUrl = '${Config.awsUrl}/api';
+  final response = await http.get(Uri.parse('$baseUrl/Alerta/HasAlertaPendiente'));
 
   if (response.statusCode == 200) {
     // Decodificar la respuesta JSON

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../../../models/neumatico_modifcar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../../models/config.dart';
 
 class NeumaticoService {
   // Obtiene el token desde SharedPreferences
@@ -11,12 +12,14 @@ class NeumaticoService {
     return token;
   }
 
+  static const String _baseUrl = '${Config.awsUrl}/api';
+
   // Busca el neumático por código y verifica si está habilitado
   static Future<Neumatico?> fetchNeumaticoByCodigo(String codigo) async {
     final token = await _getToken();
 
     // URL para obtener los datos del neumático
-    final urlNeumatico = 'http://localhost:5062/api/Neumaticos/GetNeumaticoByCodigo?codigo=$codigo';
+    final urlNeumatico = '$_baseUrl/Neumaticos/GetNeumaticoByCodigo?codigo=$codigo';
 
     final responseNeumatico = await http.get(
       Uri.parse(urlNeumatico),
@@ -26,13 +29,9 @@ class NeumaticoService {
     if (responseNeumatico.statusCode == 200) {
       final data = json.decode(responseNeumatico.body);
 
-      // Imprimir el JSON recibido para revisar la respuesta
-
       try {
         // Crear objeto Neumatico con los datos obtenidos
         final neumatico = Neumatico.fromJson(data);
-
-        // Verificar si el neumático está habilitado
 
         return neumatico;
       } catch (e) {
@@ -48,7 +47,7 @@ class NeumaticoService {
     final token = await _getToken();
 
     // URL para verificar si el neumático está habilitado
-    final urlHabilitado = 'http://localhost:5062/api/Neumaticos/verificarSiNeumaticoHabilitado?codigo=$codigo';
+    final urlHabilitado = '$_baseUrl/Neumaticos/verificarSiNeumaticoHabilitado?codigo=$codigo';
 
     final response = await http.post(
       Uri.parse(urlHabilitado),
@@ -64,80 +63,77 @@ class NeumaticoService {
   }
 
   // Verifica si la posición del neumático es única para el vehículo
-    static Future<bool> verificarPosicionUnica(String patente, int posicion) async {
-      
-      final token = await _getToken();
+  static Future<bool> verificarPosicionUnica(String patente, int posicion) async {
+    final token = await _getToken();
 
-      final url =
-          'http://localhost:5062/api/Neumaticos/verificarSiPosicioneEsUnicaConPatente?idMovil=$patente&posicion=$posicion';
+    final url =
+        '$_baseUrl/Neumaticos/verificarSiPosicioneEsUnicaConPatente?idMovil=$patente&posicion=$posicion';
 
+    try {
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {'Authorization': 'Bearer $token'},
+      );
 
-      try {
-        final response = await http.post(
-          Uri.parse(url),
-          headers: {'Authorization': 'Bearer $token'},
-        );
-
-
-        if (response.statusCode == 200) {
-          final data = json.decode(response.body);
-          return data == true;
-        } else {
-          throw Exception('Error al verificar si la posición es única');
-        }
-      } catch (e) {
-        throw Exception('Error en la verificación de posición única');
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        return data == true;
+      } else {
+        throw Exception('Error al verificar si la posición es única');
       }
+    } catch (e) {
+      throw Exception('Error en la verificación de posición única');
+    }
   }
 
   Future<int> _getUserId() async {
-  final prefs = await SharedPreferences.getInstance();
-  final userId = prefs.getInt('userId') ?? 0;
-  return userId;
+    final prefs = await SharedPreferences.getInstance();
+    final userId = prefs.getInt('userId') ?? 0;
+    return userId;
   }
+
   // Método para modificar un neumático
-  // Método para modificar un neumático
- // Método para modificar un neumático
-Future<void> modificarNeumatico(Neumatico neumatico, String patente) async {
-  final token = await _getToken();
-  final idUsuario = await _getUserId();
-  // Imprimir el token obtenido
+  Future<void> modificarNeumatico(Neumatico neumatico, String patente) async {
+    final token = await _getToken();
+    final idUsuario = await _getUserId();
+    
+    // Asegúrate de eliminar espacios adicionales de la patente
+    String patenteTrimmed = patente.trim();
+    
+    // Verificar si la posición es única antes de continuar
+    bool isPosicionUnica = await verificarPosicionUnica(patenteTrimmed, neumatico.ubicacion);
 
-  // Asegúrate de eliminar espacios adicionales de la patente
-  String patenteTrimmed = patente.trim();
+    if (!isPosicionUnica) {
+      throw Exception('La posición ${neumatico.ubicacion} ya está ocupada por otro neumático. Por favor, elija otra posición.');
+    }
 
-  // Si la patente está vacía, la ubicación se ajusta a 'BODEGA' (ubicacion = 1)
-  int ubicacionFinal = patenteTrimmed.isEmpty ? 1 : neumatico.ubicacion;
+    // Si la patente está vacía, la ubicación se ajusta a 'BODEGA' (ubicacion = 1)
+    int ubicacionFinal = patenteTrimmed.isEmpty ? 1 : neumatico.ubicacion;
 
-  // Imprimir la patente recortada y la ubicación final
-  
+    // Construir la URL de la API con los parámetros
+    final url =
+        '$_baseUrl/Neumaticos/ModificarNeumaticoPorCodigo?codigo=${neumatico.codigo}&ubicacion=$ubicacionFinal&patente=${Uri.encodeComponent(patenteTrimmed.isEmpty ? '' : patenteTrimmed)}&fechaIngreso=${neumatico.fechaIngreso.toIso8601String()}&kmTotal=${neumatico.kmTotal}&tipoNeumatico=${neumatico.tipoNeumatico}&idUsuario=$idUsuario';
 
-  // Construir la URL de la API con los parámetros
-  final url =
-      'http://localhost:5062/api/Neumaticos/ModificarNeumaticoPorCodigo?codigo=${neumatico.codigo}&ubicacion=$ubicacionFinal&patente=${Uri.encodeComponent(patenteTrimmed.isEmpty ? '' : patenteTrimmed)}&fechaIngreso=${neumatico.fechaIngreso.toIso8601String()}&kmTotal=${neumatico.kmTotal}&tipoNeumatico=${neumatico.tipoNeumatico}&idUsuario=$idUsuario';
+    // Realizar la solicitud PUT a la API
+    final response = await http.put(
+      Uri.parse(url),
+      headers: {'Authorization': 'Bearer $token'},
+    );
 
-  // Imprimir la URL generada
+    // Verificar si el neumático está habilitado
+    final estaHabilitado = await _verificarSiNeumaticoHabilitado(neumatico.codigo);
 
-  // Realizar la solicitud PUT a la API
-  final response = await http.put(
-    Uri.parse(url),
-    headers: {'Authorization': 'Bearer $token'},
-  );
+    // Si no está habilitado, se lanza una excepción
+    if (!estaHabilitado) {
+      throw Exception('El neumático no está habilitado');
+    }
 
-  // Imprimir el código de respuesta HTTP
-
-  final estaHabilitado = await _verificarSiNeumaticoHabilitado(neumatico.codigo);
-
-  // Si no está habilitado, se lanza una excepción
-  if (!estaHabilitado) {
-    throw Exception('El neumático no está habilitado');
+    // Manejar la respuesta del servidor
+    if (response.statusCode != 204) {
+      if (response.statusCode == 409) {
+        throw Exception('Error 409: La posición ya está ocupada por otro neumático.');
+      }
+      throw Exception('Error al modificar el neumático. Código: ${response.statusCode}');
+    }
   }
-
-  if (response.statusCode != 204) {
-    throw Exception('Error al modificar el neumático. Código: ${response.statusCode}');
-  }
-}
-
-
-
 }

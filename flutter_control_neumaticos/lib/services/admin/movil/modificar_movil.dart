@@ -2,9 +2,10 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../../../models/movil_modificar.dart'; // Asegúrate de tener un modelo 'Movil'.
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../../models/config.dart';
 
 class MovilService {
-  final String baseUrl = 'http://localhost:5062/api/Movil';
+  final String baseUrl = '${Config.awsUrl}/api/Movil';  // URL base de la API
 
   // Obtener el token de SharedPreferences
   Future<String?> _getToken() async {

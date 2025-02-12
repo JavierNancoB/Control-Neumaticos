@@ -92,18 +92,18 @@ El menú proporciona acceso a las principales funcionalidades:
 
 <img src="assets/readme/Screenshot_menu.jpg" width="300">
 
+#### Información Patentes.
+Podemos buscar la información de un movil a tarves de su patente, [patente_screen.dart] 
+
+#### Bitacora.
+Nos redigirá a la pagina [lector NFC](./lib/screens/nfc/nfc_reader.dart), nos permitirá leer los chips y reedirigirnos a [informacion_neumatica.dart](./lib/screens/menu/bitacora/informacion_neumatico.dart).
+
 #### Alertas.
 Alertas en caso de existir algun tipo de alerta pendiente o leida se mostrara en el menú principal de color amarillo indicando que existen alertas pendientes. La opcion de alertas nos dará 2 opciones:
 - **Alertas Pendientes:** Recaen aquí tanto las alertas pendientes como leidas. 
 - **Alertas Atendidas:** Para mayor facilidad se mostraran solamente las últimas 50 alertas atendidas.
 
 Para mayor información sobre la opción Alertas: [alertas_menu.dart](./lib/screens/menu/alertas/alertas_menu.dart).
-
-#### Información Patentes.
-Podemos buscar la información de un movil a tarves de su patente, [patente_screen.dart] 
-
-#### Bitacora.
-Nos redigirá a la pagina [lector NFC](./lib/screens/nfc/nfc_reader.dart), nos permitirá leer los chips y reedirigirnos a [informacion_neumatica.dart](./lib/screens/menu/bitacora/informacion_neumatico.dart).
 
 #### Stock.
 Stock se encarga de mostrarnos todos los neumaticos que no esten asignados a ningun vehiculo o que su ubicacion sea BODEGA, [stock_page.dart](./lib/screens/menu/stock/stock_page.dart).
@@ -125,5 +125,5 @@ La última opcion nos permite reestablecer nuestra contraseña, al momento de ha
 ---
 
 ## Contacto
-Para consultas o soporte, contactar javiernancob@gmail.com o javier.nanco@pentacrom.cl.
+Para consultas o soporte, contactar javiernancob@gmail.com.
 

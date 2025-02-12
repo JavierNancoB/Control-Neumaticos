@@ -17,7 +17,8 @@ class NFCReader extends StatefulWidget {
 class _NFCReaderState extends State<NFCReader> {
   String nfcData = 'Acerca tu dispositivo NFC para leerlo...';
   bool isNfcReading = false;
-  String? statusMessage; // Mensaje que muestra si el neumático está habilitado o no.
+  bool isLoading = false; // Bandera para saber si está cargando
+  String? statusMessage;
 
   @override
   void initState() {
@@ -41,15 +42,18 @@ class _NFCReaderState extends State<NFCReader> {
   }
 
   void _startNFC() async {
+    setState(() {
+      isLoading = true; // Marcar como cargando
+      nfcData = 'Cargando...'; // Mostrar mensaje de carga
+    });
+
     bool isNfcAvailable = await NfcManager.instance.isAvailable();
     if (!isNfcAvailable) {
       setState(() {
         nfcData = 'NFC no está habilitado en este dispositivo.';
+        isLoading = false;
       });
     } else {
-      setState(() {
-        nfcData = 'Acerque el chip para leerlo...';
-      });
       NfcManager.instance.startSession(
         onDiscovered: (NfcTag tag) async {
           var nfcMessage = await _extractNfcData(tag);
@@ -57,26 +61,24 @@ class _NFCReaderState extends State<NFCReader> {
             nfcData = nfcMessage;
           });
 
-          // Primero, verificar si el neumático existe
           NfcVerificationReader reader = NfcVerificationReader();
           bool exists = await reader.verificarSiNeumaticoExiste(int.parse(nfcMessage));
 
           if (exists) {
-            // Si el neumático existe, verificar si está habilitado
             bool isHabilitado = await reader.verificarSiNeumaticoHabilitado(nfcMessage);
             setState(() {
               statusMessage = isHabilitado ? 'Neumático Habilitado' : 'Lea Nuevamente';
               if (!isHabilitado) {
-                // No redirigir, solo mostrar que está deshabilitado
-                nfcData = 'Neumatico Deshabilitado: ';
+                nfcData = 'Neumático Deshabilitado: ';
                 _showAbleNeumaticoDialog(nfcMessage);
               }
+              isLoading = false; // Terminar carga
             });
           } else {
-            // Si no existe, preguntar si desea añadirlo
             setState(() {
               nfcData = 'Neumático no encontrado.';
-              statusMessage = null; // Limpiar mensaje de estado
+              statusMessage = null;
+              isLoading = false; // Terminar carga
             });
             _showAddNeumaticoDialog(nfcMessage);
           }
@@ -84,7 +86,6 @@ class _NFCReaderState extends State<NFCReader> {
       );
     }
   }
-
 
   Future<void> _showAddNeumaticoDialog(String nfcMessage) async {
     showDialog(
@@ -103,8 +104,10 @@ class _NFCReaderState extends State<NFCReader> {
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
-                
-                Navigator.push(context, MaterialPageRoute(builder: (context) => IngresarPatentePage(tipo: 'Añadir', codigo: nfcMessage)));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => IngresarPatentePage(tipo: 'Añadir', codigo: nfcMessage)),
+                );
               },
               child: Text('Sí'),
             ),
@@ -131,8 +134,11 @@ class _NFCReaderState extends State<NFCReader> {
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
-                
-                Navigator.push(context, MaterialPageRoute(builder: (context) => InhabilitarNeumaticoPage(nfcData: nfcMessage)));
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => InhabilitarNeumaticoPage(nfcData: nfcMessage)),
+                );
               },
               child: Text('Sí'),
             ),
@@ -141,6 +147,7 @@ class _NFCReaderState extends State<NFCReader> {
       },
     );
   }
+
   @override
   void dispose() {
     NfcManager.instance.stopSession();
@@ -183,22 +190,22 @@ class _NFCReaderState extends State<NFCReader> {
             ),
             if (statusMessage != null)
               Text(
-                statusMessage!, // Mostrar el estado de habilitación
+                statusMessage!,
                 style: TextStyle(fontSize: 18, color: statusMessage == 'Neumático Habilitado' ? Colors.green : Colors.red),
               ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: isNfcReading
-                  ? null
-                  : nfcData != 'Acerque el chip para leerlo...'
-                      ? () {
+              onPressed: isLoading
+                  ? null // Deshabilitar el botón mientras se está procesando
+                  : isNfcReading
+                      ? null
+                      : () {
                           if (nfcData == 'No se pudo leer un ID válido.' ||
                               nfcData == 'No se encontró mensaje NDEF.' ||
                               nfcData == 'Error al procesar los datos.' ||
                               nfcData == 'Neumático no encontrado.' ||
                               nfcData == 'NFC no está habilitado en este dispositivo.' ||
-                              nfcData == 'Neumatico Deshabilitado: '
-                              ) {
+                              nfcData == 'Neumático Deshabilitado: ') {
                             setState(() {
                               nfcData = 'Acerca tu dispositivo NFC para leerlo...';
                               statusMessage = null;
@@ -208,35 +215,26 @@ class _NFCReaderState extends State<NFCReader> {
                             if (widget.action == 'informacion') {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(
-                                  builder: (context) => InformacionNeumatico(nfcData: nfcData),
-                                ),
+                                MaterialPageRoute(builder: (context) => InformacionNeumatico(nfcData: nfcData)),
                               );
                             } else if (widget.action == 'Añadir') {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(
-                                  builder: (context) => IngresarPatentePage(tipo: 'Añadir', codigo: nfcData)
-                                ),
+                                MaterialPageRoute(builder: (context) => IngresarPatentePage(tipo: 'Añadir', codigo: nfcData)),
                               );
                             } else if (widget.action == 'Modificar') {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(
-                                  builder: (context) => IngresarPatentePage(tipo: 'Modificar', codigo: nfcData)
-                                ),
+                                MaterialPageRoute(builder: (context) => IngresarPatentePage(tipo: 'Modificar', codigo: nfcData)),
                               );
                             } else if (widget.action == 'Deshabilitar') {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(
-                                  builder: (context) => InhabilitarNeumaticoPage(nfcData: nfcData)
-                                ),
+                                MaterialPageRoute(builder: (context) => InhabilitarNeumaticoPage(nfcData: nfcData)),
                               );
                             }
                           }
-                        }
-                      : _startNFC,
+                        },
               child: Text(
                 nfcData != 'Acerca tu dispositivo NFC para leerlo...'
                     ? widget.action == 'Añadir'

@@ -2,12 +2,13 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../models/movil_estado.dart';
+import '../../../models/config.dart';
 
 class MovilService {
-  final String baseUrl = 'http://localhost:5062/api/Movil';
+  final String baseUrl = '${Config.awsUrl}/api/Movil';
 
   // Cambiar el estado del móvil y eliminar neumáticos si es necesario
-  Future<bool> cambiarEstadoMovil(String patente, EstadoMovil estado, bool eliminarNeumaticos) async {
+  Future<bool> cambiarEstadoMovil(String patente, EstadoMovil estado) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? token = prefs.getString('token');
   int? idUsuario = prefs.getInt('userId');
@@ -19,8 +20,8 @@ class MovilService {
 
   final response = await http.put(
     
-    Uri.parse('$baseUrl/CambiaEstadoMovilPorPatente?patente=$patente&estado=${estado.id}&idUsuario=$idUsuario&eliminarNeumaticos=$eliminarNeumaticos'),
-    
+    // Uri.parse('$baseUrl/CambiaEstadoMovilPorPatente?patente=$patente&estado=${estado.id}&idUsuario=$idUsuario&eliminarNeumaticos=$eliminarNeumaticos'),
+    Uri.parse('$baseUrl/CambiaEstadoMovilPorPatente?patente=$patente&estado=${estado.id}&idUsuario=$idUsuario'),
     headers: {
       'Authorization': 'Bearer $token',
     },
@@ -45,7 +46,7 @@ class MovilService {
       throw Exception("No se encontró el token de autenticación.");
     }
 
-    final url = Uri.parse('http://localhost:5062/api/Movil/BuscarMovilesPorPatente?query=$query');
+    final url = Uri.parse('$baseUrl/BuscarMovilesPorPatente?query=$query');
     final response = await http.get(
       url,
       headers: {'Authorization': 'Bearer $token'},

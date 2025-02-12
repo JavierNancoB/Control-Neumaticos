@@ -2,9 +2,10 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../models/neumatico_crear.dart';
+import '../../../models/config.dart';
 
 class NeumaticoService {
-  static const String _baseUrl = 'http://localhost:5062/api';
+  static const String _baseUrl = '${Config.awsUrl}/api';
 
   static Future<String?> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
