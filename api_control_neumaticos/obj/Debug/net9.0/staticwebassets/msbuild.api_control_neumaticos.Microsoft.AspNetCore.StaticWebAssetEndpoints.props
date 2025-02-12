@@ -4,13 +4,13 @@
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\api_control_neumaticos.xnzo10d24j.bundle.scp.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-c0QESuxOL8rjl1dSmPO7YFH\u002BZSfYuiENmdVkdYnN\u002BaM="}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"1140"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022c0QESuxOL8rjl1dSmPO7YFH\u002BZSfYuiENmdVkdYnN\u002BaM=\u0022"},{"Name":"Last-Modified","Value":"Tue, 11 Feb 2025 19:05:30 GMT"}]]]></ResponseHeaders>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"1140"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022c0QESuxOL8rjl1dSmPO7YFH\u002BZSfYuiENmdVkdYnN\u002BaM=\u0022"},{"Name":"Last-Modified","Value":"Wed, 12 Feb 2025 15:18:38 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/api_control_neumaticos/api_control_neumaticos.xnzo10d24j.bundle.scp.css">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\api_control_neumaticos.xnzo10d24j.bundle.scp.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"xnzo10d24j"},{"Name":"integrity","Value":"sha256-c0QESuxOL8rjl1dSmPO7YFH\u002BZSfYuiENmdVkdYnN\u002BaM="},{"Name":"label","Value":"_content/api_control_neumaticos/api_control_neumaticos.bundle.scp.css"}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"1140"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022c0QESuxOL8rjl1dSmPO7YFH\u002BZSfYuiENmdVkdYnN\u002BaM=\u0022"},{"Name":"Last-Modified","Value":"Tue, 11 Feb 2025 19:05:30 GMT"}]]]></ResponseHeaders>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"1140"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022c0QESuxOL8rjl1dSmPO7YFH\u002BZSfYuiENmdVkdYnN\u002BaM=\u0022"},{"Name":"Last-Modified","Value":"Wed, 12 Feb 2025 15:18:38 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/api_control_neumaticos/css/site.b9sayid5wm.css">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\site.css'))</AssetFile>

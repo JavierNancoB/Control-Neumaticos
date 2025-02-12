@@ -33,13 +33,13 @@ builder.Services.AddControllers();
 // Inyección del Token Generator
 builder.Services.AddSingleton<TokenGenerator>();
 
-// Configuración de la base de datos
-//builder.Services.AddDbContext<ControlNeumaticosContext>(options =>
-//    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+//Configuración de la base de datos
 builder.Services.AddDbContext<ControlNeumaticosContext>(options =>
-    options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"), 
-        new MySqlServerVersion(new Version(10, 4, 17))));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+//builder.Services.AddDbContext<ControlNeumaticosContext>(options =>
+    //options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"), 
+        //new MySqlServerVersion(new Version(10, 4, 17))));
 
 
 
