@@ -18,9 +18,9 @@ namespace api_control_neumaticos.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "9.0.1")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("api_control_neumaticos.Models.Alerta", b =>
                 {
@@ -29,7 +29,7 @@ namespace api_control_neumaticos.Migrations
                         .HasColumnType("int")
                         .HasColumnName("ID");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CODIGO_ALERTA")
                         .HasColumnType("int")
@@ -40,15 +40,15 @@ namespace api_control_neumaticos.Migrations
                         .HasColumnName("ESTADO_ALERTA");
 
                     b.Property<DateTime?>("FECHA_ATENDIDO")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("datetime2")
                         .HasColumnName("FECHA_ATENDIDO");
 
                     b.Property<DateTime>("FECHA_INGRESO")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("datetime2")
                         .HasColumnName("FECHA_INGRESO");
 
                     b.Property<DateTime?>("FECHA_LEIDO")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("datetime2")
                         .HasColumnName("FECHA_LEIDO");
 
                     b.Property<int>("ID_NEUMATICO")
@@ -82,7 +82,7 @@ namespace api_control_neumaticos.Migrations
                         .HasColumnType("int")
                         .HasColumnName("ID");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("ID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
                     b.Property<int>("CODIGO")
                         .HasColumnType("int")
@@ -95,7 +95,7 @@ namespace api_control_neumaticos.Migrations
                         .HasColumnName("ESTADO");
 
                     b.Property<DateTime>("FECHA")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("datetime2")
                         .HasColumnName("FECHA");
 
                     b.Property<int>("ID_OBJETO")
@@ -110,7 +110,7 @@ namespace api_control_neumaticos.Migrations
                         .IsRequired()
                         .HasMaxLength(500)
                         .IsUnicode(true)
-                        .HasColumnType("varchar(500)")
+                        .HasColumnType("nvarchar(500)")
                         .HasColumnName("OBSERVACION");
 
                     b.Property<string>("TIPO_OBJETO")
@@ -133,13 +133,13 @@ namespace api_control_neumaticos.Migrations
                         .HasColumnType("int")
                         .HasColumnName("ID_BODEGA");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("ID_BODEGA"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID_BODEGA"));
 
                     b.Property<string>("NOMBRE_BODEGA")
                         .IsRequired()
                         .HasMaxLength(100)
                         .IsUnicode(true)
-                        .HasColumnType("varchar(100)")
+                        .HasColumnType("nvarchar(100)")
                         .HasColumnName("NOMBRE_BODEGA");
 
                     b.HasKey("ID_BODEGA")
@@ -154,7 +154,7 @@ namespace api_control_neumaticos.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("ID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
                     b.Property<int>("CODIGO")
                         .HasColumnType("int");
@@ -163,7 +163,7 @@ namespace api_control_neumaticos.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("FECHA")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("IDNeumatico")
                         .HasColumnType("int")
@@ -176,7 +176,7 @@ namespace api_control_neumaticos.Migrations
                     b.Property<string>("OBSERVACION")
                         .IsRequired()
                         .HasMaxLength(250)
-                        .HasColumnType("varchar(250)");
+                        .HasColumnType("nvarchar(250)");
 
                     b.HasKey("ID");
 
@@ -193,10 +193,10 @@ namespace api_control_neumaticos.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("ID_KILOMETRO_DIARIO"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID_KILOMETRO_DIARIO"));
 
                     b.Property<DateTime>("FECHA_REGISTRO")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("ID_MOVIL")
                         .HasColumnType("int");
@@ -218,7 +218,7 @@ namespace api_control_neumaticos.Migrations
                         .HasColumnType("int")
                         .HasColumnName("ID_MOVIL");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("IdMovil"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdMovil"));
 
                     b.Property<int?>("CantidadNeumaticos")
                         .HasColumnType("int")
@@ -281,7 +281,7 @@ namespace api_control_neumaticos.Migrations
                         .HasColumnType("int")
                         .HasColumnName("ID_NEUMATICO");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("ID_NEUMATICO"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID_NEUMATICO"));
 
                     b.Property<int>("CODIGO")
                         .HasColumnType("int")
@@ -294,11 +294,11 @@ namespace api_control_neumaticos.Migrations
                         .HasColumnName("ESTADO");
 
                     b.Property<DateTime>("FECHA_INGRESO")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("datetime2")
                         .HasColumnName("FECHA_INGRESO");
 
                     b.Property<DateTime?>("FECHA_SALIDA")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("datetime2")
                         .HasColumnName("FECHA_SALIDA");
 
                     b.Property<int>("ID_BODEGA")
@@ -343,15 +343,15 @@ namespace api_control_neumaticos.Migrations
                         .HasColumnType("int")
                         .HasColumnName("ID");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<byte>("Estado")
                         .HasMaxLength(320)
-                        .HasColumnType("tinyint unsigned")
+                        .HasColumnType("tinyint")
                         .HasColumnName("ESTADO");
 
                     b.Property<DateTime>("FechaSolicitud")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("datetime2")
                         .HasColumnName("FECHA_SOLICITUD");
 
                     b.Property<int>("IdSolicitante")
@@ -399,7 +399,7 @@ namespace api_control_neumaticos.Migrations
                         .HasColumnType("int")
                         .HasColumnName("ID_USUARIO");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("IdUsuario"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdUsuario"));
 
                     b.Property<string>("Apellidos")
                         .IsRequired()
@@ -411,7 +411,7 @@ namespace api_control_neumaticos.Migrations
                     b.Property<string>("Clave")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)")
+                        .HasColumnType("nvarchar(255)")
                         .HasColumnName("CLAVE");
 
                     b.Property<int>("CodEstado")
@@ -423,20 +423,20 @@ namespace api_control_neumaticos.Migrations
                         .HasColumnName("CODIGO_PERFIL");
 
                     b.Property<string>("ContraseñaTemporal")
-                        .HasColumnType("longtext")
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("CONTRASENA_TEMPORAL");
 
                     b.Property<string>("Correo")
                         .IsRequired()
                         .HasMaxLength(320)
-                        .HasColumnType("varchar(320)")
+                        .HasColumnType("nvarchar(320)")
                         .HasColumnName("CORREO");
 
                     b.Property<DateTime>("FechaClave")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("datetime2")
                         .HasColumnName("FECHA_CLAVE")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+                        .HasDefaultValueSql("(getdate())");
 
                     b.Property<int>("ID_BODEGA")
                         .HasColumnType("int");
