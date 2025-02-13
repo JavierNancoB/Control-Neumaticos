@@ -14,6 +14,7 @@ builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 
+
 // Registrar el servicio IExcelService
 builder.Services.AddScoped<IExcelService, IExcelService>(); // Aquí se registra la implementación
 

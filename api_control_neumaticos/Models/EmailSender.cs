@@ -3,21 +3,32 @@ using System.Net.Mail;
 using System.Net;
 using System.IO;
 using System.Threading.Tasks;
+using DotNetEnv;
 
 namespace SendingEmails
 {
     public class EmailSender : IEmailSender
     {
+        // Constructor para cargar el archivo .env
+        public EmailSender()
+        {
+            // Carga las variables de entorno desde el archivo .env
+            Env.Load();
+        }
+
         public async Task SendEmailAsync(string email, string subject, string message)
         {
             try
             {
-                var mail = "prueba@pentacrom.cl";
-                var pw = "pentprueba";
+                // Obtener las variables de entorno del archivo .env
+                var mail = Env.GetString("SMTP_EMAIL");
+                var pw = Env.GetString("SMTP_PASSWORD");
+                var smtpServer = Env.GetString("SMTP_SERVER");
+                var smtpPort = int.Parse(Env.GetString("SMTP_PORT") ?? "25");
 
-                using (var client = new SmtpClient("190.196.217.50", 25))
+                using (var client = new SmtpClient(smtpServer, smtpPort))
                 {
-                    client.EnableSsl = false;
+                    client.EnableSsl = false;  // Cambia esto según tu servidor
                     client.Credentials = new NetworkCredential(mail, pw);
                     client.DeliveryMethod = SmtpDeliveryMethod.Network;
 
@@ -40,12 +51,15 @@ namespace SendingEmails
         {
             try
             {
-                var mail = "prueba@pentacrom.cl";
-                var pw = "pentprueba";
+                // Obtener las variables de entorno del archivo .env
+                var mail = Env.GetString("SMTP_EMAIL");
+                var pw = Env.GetString("SMTP_PASSWORD");
+                var smtpServer = Env.GetString("SMTP_SERVER");
+                var smtpPort = int.Parse(Env.GetString("SMTP_PORT") ?? "25");
 
-                using (var client = new SmtpClient("190.196.217.50", 25))
+                using (var client = new SmtpClient(smtpServer, smtpPort))
                 {
-                    client.EnableSsl = false;
+                    client.EnableSsl = false;  // Cambia esto según tu servidor
                     client.Credentials = new NetworkCredential(mail, pw);
                     client.DeliveryMethod = SmtpDeliveryMethod.Network;
 
