@@ -33,7 +33,8 @@ class _PatentePageState extends State<PatentePage> {
     });
 
     try {
-      List<String> patentes = await MovilService.fetchPatentesSugeridas(query);
+      var movilService = MovilService();
+      List<String> patentes = await movilService.fetchPatentesSugeridas(query);
       setState(() {
         _sugerenciasPatentes = patentes;
       });
@@ -55,7 +56,8 @@ class _PatentePageState extends State<PatentePage> {
     });
 
     try {
-      var movilResponse = await MovilService.getMovilDataByPatente(patente);
+      var movilService = MovilService();
+      var movilResponse = await movilService.getMovilDataByPatente(patente);
       if (movilResponse != null) {
         setState(() {
           _movilData = movilResponse;
@@ -82,7 +84,8 @@ class _PatentePageState extends State<PatentePage> {
   // Función para obtener los neumáticos
   Future<void> _fetchNeumaticosData(int idMovil) async {
     try {
-      var neumaticosResponse = await MovilService.getNeumaticosDataByMovilId(idMovil);
+      var movilService = MovilService();
+      var neumaticosResponse = await movilService.getNeumaticosDataByMovilId(idMovil);
       setState(() {
         _neumaticosData = neumaticosResponse;
       });

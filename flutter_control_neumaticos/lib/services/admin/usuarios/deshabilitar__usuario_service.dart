@@ -4,7 +4,7 @@ import 'dart:convert';
 import '../../../models/config.dart';
 
 class UsuarioService {
-  static const String _baseUrl = '${Config.awsUrl}/api';
+  static final String _baseUrl = '${Config.awsUrl}/api';
 
   // Buscar usuarios por correo mientras el usuario escribe
   static Future<List<String>> buscarUsuariosPorCorreo(String query) async {

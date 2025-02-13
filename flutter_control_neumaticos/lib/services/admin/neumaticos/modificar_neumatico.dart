@@ -12,7 +12,7 @@ class NeumaticoService {
     return token;
   }
 
-  static const String _baseUrl = '${Config.awsUrl}/api';
+  static final String _baseUrl = '${Config.awsUrl}/api';
 
   // Busca el neumático por código y verifica si está habilitado
   static Future<Neumatico?> fetchNeumaticoByCodigo(String codigo) async {

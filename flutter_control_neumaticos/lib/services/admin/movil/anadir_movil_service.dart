@@ -5,7 +5,7 @@ import '../../../models/movil.dart';
 import '../../../models/config.dart';
 
 class MovilService {
-  static const String _baseUrl = '${Config.awsUrl}/api/Movil';
+  static final String _baseUrl = '${Config.awsUrl}/api/Movil';
 
   // Crear móvil
   static Future<void> crearMovil(Movil movil) async {

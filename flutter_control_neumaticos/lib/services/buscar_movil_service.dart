@@ -4,10 +4,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../models/config.dart';
 
 class MovilService {
-  static const String _baseUrl = '${Config.awsUrl}/api';
+  final String _baseUrl = '${Config.awsUrl}/api';
 
   // Función para obtener los datos del móvil por patente
-  static Future<Map<String, dynamic>?> getMovilDataByPatente(String patente) async {
+  Future<Map<String, dynamic>?> getMovilDataByPatente(String patente) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
 
@@ -25,7 +25,7 @@ class MovilService {
     }
   }
 
-  static Future<List<String>> fetchPatentesSugeridas(String query) async {
+  Future<List<String>> fetchPatentesSugeridas(String query) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
 
@@ -48,7 +48,7 @@ class MovilService {
   }
 
   // Función para obtener los neumáticos de un móvil
-  static Future<List<dynamic>?> getNeumaticosDataByMovilId(int idMovil) async {
+  Future<List<dynamic>?> getNeumaticosDataByMovilId(int idMovil) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
 

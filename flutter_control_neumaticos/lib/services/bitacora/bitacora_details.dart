@@ -6,7 +6,7 @@ import '../../models/usuario_alertas.dart'; // Importa el modelo de usuario.
 import '../../../models/config.dart';
 
 class BitacoraServices {
-  static const String baseUrl = '${Config.awsUrl}/api';
+  static final String baseUrl = '${Config.awsUrl}/api';
   // Función para obtener la bitácora por su ID
   static Future<Bitacora> fetchBitacoraData(int id) async {
     // Obtiene las preferencias compartidas (SharedPreferences) para acceder al token almacenado.

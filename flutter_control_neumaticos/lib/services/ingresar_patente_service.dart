@@ -10,7 +10,7 @@ import '../screens/menu/bitacora/asignar_neumatico.dart';
 import '../../../models/config.dart';
 
 class IngresarPatenteService {
-  static const String _baseUrl = '${Config.awsUrl}/api';
+  static final String _baseUrl = '${Config.awsUrl}/api';
   static Future<void> handlePatente({
     required BuildContext context,
     required String patente,
@@ -30,16 +30,13 @@ class IngresarPatenteService {
 
     // Verificar si la patente existe solo si es un móvil
     if (tipo == 'movil' && patente.isNotEmpty) {
-      print('Verificando existencia de patente para móvil...');
       bool patenteExiste = await checkPatenteExistence(patente, token);
 
       if (patenteExiste) {
-        print('La patente existe.');
         // Verificar el estado del móvil
         bool estadoMovil = await _checkEstadoMovil(patente, token);
 
         if (estadoMovil) {
-          print('El móvil está activo.');
           // Si el estado es verdadero, navegar al móvil
           Navigator.push(
             context,
@@ -48,29 +45,24 @@ class IngresarPatenteService {
             ),
           );
         } else {
-          print('El móvil no está activo.');
           // Si el estado es falso, mostrar mensaje de error
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('El móvil no está activo, no se puede modificar.')),
           );
         }
       } else {
-        print('La patente no existe.');
         // Si no existe, mostrar el mensaje de error para añadir un móvil
         _showAddMovilDialog(context);
       }
     } else if (tipo != 'movil' && patente.isNotEmpty) {
-      print('Verificando existencia de patente para neumático...');
       // Para neumáticos, si hay patente, comprobar si existe
       bool patenteExiste = await checkPatenteExistence(patente, token);
 
       if (patenteExiste) {
-        print('La patente existe.');
         // Verificar el estado del móvil si estamos modificando o añadiendo
         bool estadoMovil = await _checkEstadoMovil(patente, token);
 
         if (estadoMovil && tipo == 'Añadir') {
-          print('Añadiendo neumático...');
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -78,7 +70,6 @@ class IngresarPatenteService {
             ),
           );
         } else if (estadoMovil && tipo == 'Modificar') {
-          print('Modificando neumático...');
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -86,7 +77,6 @@ class IngresarPatenteService {
             ),
           );
         } else if (estadoMovil && tipo == 'Asignar') {
-          print('Asignando neumático...');
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -94,21 +84,17 @@ class IngresarPatenteService {
             ),
           );
         } else {
-          print('El móvil o neumático no está activo.');
           // Si el estado es falso, mostrar mensaje de error
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('El móvil o Neumatico no está activo, no se puede modificar.')),
           );
         }
       } else {
-        print('La patente no existe.');
         // Si la patente no existe, mostrar ventana que diga no existe desea añadir
         _showAddMovilDialog(context);
       }
     } else if (patente.isEmpty) {
-      print('La patente está vacía.');
       if (tipo == 'Añadir') {
-        print('Añadiendo neumático...');
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -117,7 +103,6 @@ class IngresarPatenteService {
         );
       }
       if (tipo == 'Modificar') {
-        print('Modificando neumático...');
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -126,7 +111,6 @@ class IngresarPatenteService {
         );
       }
       if (tipo == 'Asignar') {
-        print('Asignando neumático...');
         Navigator.push(
           context,
           MaterialPageRoute(

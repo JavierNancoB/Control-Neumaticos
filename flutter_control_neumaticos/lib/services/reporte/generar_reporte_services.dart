@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart'; // Importa la libre
 import '../../../models/config.dart';
 
 class ReportService {
-  static const String baseUrl = '${Config.awsUrl}/api';
+  static final String baseUrl = '${Config.awsUrl}/api';
   // Método estático para descargar un reporte entre dos fechas.
   static Future<void> downloadReport(String fromDate, String toDate) async {
     // Crea la URL con los parámetros fromDate y toDate.

@@ -6,7 +6,7 @@ import '../../../models/config.dart';
 Future<Map<String, dynamic>> fetchNeumaticoData(String nfcData) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? token = prefs.getString('token');
-  const String baseUrl = '${Config.awsUrl}/api';
+  final String baseUrl = '${Config.awsUrl}/api';
 
   if (token == null) {
     throw Exception("Token no encontrado.");
@@ -39,7 +39,7 @@ Future<Map<String, dynamic>> fetchNeumaticoData(String nfcData) async {
 }
 
   Future<String> fetchMovilPatente(String idMovil) async {
-    const String baseUrl = '${Config.awsUrl}/api';
+    final String baseUrl = '${Config.awsUrl}/api';
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
     // Verifica si es el token correcto
@@ -66,7 +66,7 @@ Future<Map<String, dynamic>> fetchNeumaticoData(String nfcData) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? token = prefs.getString('token');
   // Verifica si es el token correcto
-  const String baseUrl = '${Config.awsUrl}/api';
+  final String baseUrl = '${Config.awsUrl}/api';
   
   final url = Uri.parse('$baseUrl/Bodega/$idBodega');
   final response = await http.get(

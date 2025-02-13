@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../models/config.dart';
 
 class NfcVerificationReader {
-  static const String _baseUrl = '${Config.awsUrl}/api';
+  static final String _baseUrl = '${Config.awsUrl}/api';
   // Método de verificación de habilitación del neumático
   Future<bool> verificarSiNeumaticoHabilitado(String codigo) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

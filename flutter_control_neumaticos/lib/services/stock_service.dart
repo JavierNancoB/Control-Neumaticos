@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import '../../../models/config.dart';
 
 Future<List<dynamic>> fetchNeumaticos() async {
-  const String baseUrl = '${Config.awsUrl}/api';
+  final String baseUrl = '${Config.awsUrl}/api';
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? token = prefs.getString('token');
 
@@ -29,7 +29,7 @@ Future<List<dynamic>> fetchNeumaticos() async {
 }
 
 Future<List<String>> fetchPatentesSugeridas(String query) async {
-  const String baseUrl = '${Config.awsUrl}/api';
+  final String baseUrl = '${Config.awsUrl}/api';
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? token = prefs.getString('token');
 

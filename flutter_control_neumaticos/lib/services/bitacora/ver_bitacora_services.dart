@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http; // Importa la librería para realizar s
 import '../../../models/config.dart';
 
 class VerBitacoraServices {
-  static const String baseUrl = '${Config.awsUrl}/api';
+  static final String baseUrl = '${Config.awsUrl}/api';
   // Función estática para obtener las bitácoras de un neumático específico.
   static Future<List<Map<String, dynamic>>> getBitacoraByNeumatico(int idNeumatico) async {
     

@@ -3,7 +3,7 @@ import 'dart:convert';
 import '../../../models/config.dart';
 
 class UsuarioService {
-  static const String apiUrl = '${Config.awsUrl}/api/Usuarios';
+  static final String apiUrl = '${Config.awsUrl}/api/Usuarios';
 
   // Función para comprobar si el usuario está habilitado
   Future<bool> buscarUsuarioPorCorreo(String email) async {

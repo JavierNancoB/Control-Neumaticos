@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart'; // Importa la libre
 import '../../../models/config.dart';
 
 class BitacoraService {
-  static const String baseUrl = '${Config.awsUrl}/api';
+  static final String baseUrl = '${Config.awsUrl}/api';
   // Método estático para obtener el token almacenado en SharedPreferences.
   static Future<String?> getToken() async {
     final prefs = await SharedPreferences.getInstance(); // Accede a las preferencias compartidas.
