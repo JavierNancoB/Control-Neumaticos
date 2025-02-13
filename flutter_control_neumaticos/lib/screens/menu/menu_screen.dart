@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../widgets/button.dart';
 import '../../screens/nfc/nfc_reader.dart';
 import 'stock/stock_page.dart';
-import 'patentes/patente_screen.dart';
+import 'patentes/buscar_movil_screen.dart';
 import 'alertas/alertas_menu.dart';
 import 'admin/admin_menu_screen.dart';
 import 'admin/usuario/reestablecer_passw_page.dart';

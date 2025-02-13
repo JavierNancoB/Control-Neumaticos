@@ -94,15 +94,17 @@ class _InformacionNeumaticoState extends State<InformacionNeumatico> {
         padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: [
-            const Text(
-              "Detalles del Neumático",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            Text(
+              // Añadimos que diga detalles del neumatico con codigo tanto
+              'Neumático: ${_neumaticoInfo!["codigo"].toString()}',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              
             ),
             const SizedBox(height: 16),
             InfoRow(label: "ID Neumático", value: _neumaticoInfo!["iD_NEUMATICO"].toString()),
             InfoRow(label: "Código", value: _neumaticoInfo!["codigo"].toString()),
             InfoRow(label: "Ubicación", value: _getUbicacion(_neumaticoInfo!["ubicacion"])),
-            InfoRow(label: "Patente Móvil", value: movilPatente ?? "N/A"),
+            InfoRow(label: "Patente Móvil", value: movilPatente ?? "No asignado"),
             InfoRow(label: "Fecha Ingreso", value: _formatFecha(_neumaticoInfo!["fechA_INGRESO"].toString())),
             InfoRow(label: "Fecha Salida", value: _neumaticoInfo!["fechA_SALIDA"] != null ? _formatFecha(_neumaticoInfo!["fechA_SALIDA"].toString()) : "N/A"),
             InfoRow(label: "Estado", value: _getEstado(_neumaticoInfo!["estado"])),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'correo_text_field.dart';
-import 'enviar_button.dart';
 import '../../services/contrasena/recover_password_service.dart'; // Importar el servicio
+import '../button.dart';
 
 class RecuperarContrasenaForm extends StatefulWidget {
   const RecuperarContrasenaForm({super.key});
@@ -55,7 +55,10 @@ class _RecuperarContrasenaFormState extends State<RecuperarContrasenaForm> {
           const SizedBox(height: 20),
           CorreoTextField(controller: _correoController), // Usar el controller
           const SizedBox(height: 20),
-          EnviarButton(onPressed: _enviarSolicitud), // Pasar la lógica de envío
+          StandarButton(
+            text: 'Enviar Solicitud',
+            onPressed: _enviarSolicitud,
+          ) // Pasar la lógica de envío
         ],
       ),
     );
