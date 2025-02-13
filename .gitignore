@@ -1,4 +1,4 @@
 **/appsettings.json
-**/appsettings.Development.json
+api_control_neumaticos/appsettings.Development.json
 **/appsettings.Production.json
 **/.env
