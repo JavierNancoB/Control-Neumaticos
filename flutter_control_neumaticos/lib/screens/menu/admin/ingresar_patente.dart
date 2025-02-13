@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../services/ingresar_patente_service.dart';
+import '../../../widgets/button.dart';
 
 class IngresarPatentePage extends StatefulWidget {
   final String tipo;
@@ -92,7 +93,8 @@ class _IngresarPatentePageState extends State<IngresarPatentePage> {
 
   /// **Botón para Enviar la Patente**
   Widget _buildSubmitButton(BuildContext context) {
-    return ElevatedButton(
+    // reemplazar ElevatedButton por StandarButton
+    return StandarButton(
       onPressed: () async {
         final patente = _patenteController.text.trim();
 
@@ -135,7 +137,7 @@ class _IngresarPatentePageState extends State<IngresarPatentePage> {
           codigo: widget.codigo,
         );
       },
-      child: Text('Ir a Modificar ${widget.tipo == 'movil' ? 'Móvil' : 'Neumático'}'),
+      text: 'Ir a Modificar ${widget.tipo == 'movil' ? 'Móvil' : 'Neumático'}',
     );
   }
 }

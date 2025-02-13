@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'admin_actions_screen.dart';
 import '../../../services/admin/admin_menu_service.dart';
+import '../../../widgets/button.dart';
 
 class AdminOptions extends StatefulWidget {
   const AdminOptions({super.key});
@@ -48,7 +49,9 @@ class _AdminOptionsState extends State<AdminOptions> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   if (perfil == 1) _buildButton(context, 'Usuario'), // Se muestra solo si perfil == 1
+                  const SizedBox(height: 20),
                   _buildButton(context, 'Movil'),
+                  const SizedBox(height: 20),
                   _buildButton(context, 'Neumatico'),
                 ],
               ),
@@ -57,13 +60,10 @@ class _AdminOptionsState extends State<AdminOptions> {
   }
 
   Widget _buildButton(BuildContext context, String label) {
-    return Container(
-      width: 250,
-      margin: const EdgeInsets.only(bottom: 20),
-      child: ElevatedButton(
-        onPressed: () => _navigateToOptions(context, label),
-        child: Text(label),
-      ),
+    // Se reemplaza el ElevatedButton por el widget Button
+    return StandarButton(
+      text: label,
+      onPressed: () => _navigateToOptions(context, label),
     );
   }
 }

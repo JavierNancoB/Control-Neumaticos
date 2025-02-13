@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'modificar_usuario_screen.dart';
 import 'seleccionar_restablecimiento_page.dart';
 import '../../../../services/admin/usuarios/ingresar_correo_service.dart';
+import '../../../../widgets/button.dart';
 
 class IngresarCorreoPage extends StatefulWidget {
   final String actionType;
@@ -94,9 +95,10 @@ class _IngresarCorreoPageState extends State<IngresarCorreoPage> {
                   },
                 ),
               SizedBox(height: 20),
-              ElevatedButton(
+              // Cambiamos el ElevatedButton por StandarButton
+              StandarButton(
+                text: widget.actionType == 'usuario' ? 'Modificar Usuario' : 'Restablecer Contraseña',
                 onPressed: realizarAccion,
-                child: Text(widget.actionType == 'usuario' ? 'Modificar Usuario' : 'Restablecer Contraseña'),
               ),
             ],
           ),

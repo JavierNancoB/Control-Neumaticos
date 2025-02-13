@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import '../../../../models/movil.dart';
 import '../../../../services/admin/movil/anadir_movil_service.dart';
+import '../../../../widgets/button.dart';
 
 class AnadirMovilPage extends StatefulWidget {
   const AnadirMovilPage({super.key});
@@ -143,10 +144,11 @@ class _AnadirMovilPageState extends State<AnadirMovilPage> {
                 readOnly: true,
               ),
               const SizedBox(height: 20),
-              ElevatedButton(
+              // Cambiamos el ElevatedButton por StandarButton
+              StandarButton(
+                text: 'Guardar Móvil',
                 onPressed: _guardarMovil,
-                child: const Text('Guardar Móvil'),
-              ),
+              )
             ],
           ),
         ),
