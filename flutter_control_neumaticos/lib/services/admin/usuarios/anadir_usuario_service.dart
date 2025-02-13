@@ -5,7 +5,7 @@ import '../../../models/usuario.dart';
 import '../../../models/config.dart';
 
 class UsuarioService {
-  static const String _baseUrl = '${Config.awsUrl}/api/usuarios';
+  static final String _baseUrl = '${Config.awsUrl}/api/usuarios';
 
   // Añadir usuario
   static Future<void> crearUsuario(Usuario usuario) async {

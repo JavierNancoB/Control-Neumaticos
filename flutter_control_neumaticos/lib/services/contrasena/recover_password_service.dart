@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http; // Importa la librería para realizar s
 import '../../../models/config.dart';
 
 class RecoverPasswordService {
-  static const String baseUrl = '${Config.awsUrl}/api';
+  static final String baseUrl = '${Config.awsUrl}/api';
   // Método para enviar una solicitud de recuperación de contraseña con el correo del usuario.
   Future<void> enviarSolicitud(String correo) async {
     // Si el correo está vacío, lanza una excepción.

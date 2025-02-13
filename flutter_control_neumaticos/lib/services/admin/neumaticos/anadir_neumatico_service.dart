@@ -5,7 +5,7 @@ import '../../../models/neumatico_crear.dart';
 import '../../../models/config.dart';
 
 class NeumaticoService {
-  static const String _baseUrl = '${Config.awsUrl}/api';
+  static final String _baseUrl = '${Config.awsUrl}/api';
 
   static Future<String?> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

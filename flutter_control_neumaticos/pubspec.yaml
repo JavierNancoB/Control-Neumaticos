@@ -23,6 +23,7 @@ dependencies:
   path_provider: ^2.1.5
   permission_handler: ^11.3.1
   open_file: ^3.5.10
+  flutter_dotenv: ^5.2.1
 
 dev_dependencies:
   flutter_test:
@@ -32,3 +33,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/.env  # Asegúrate de que esté correctamente incluido
+

@@ -6,7 +6,7 @@ import '../../models/movil.dart'; // Importa el modelo de móvil.
 import '../../../models/config.dart';
 
 class AlertaService {
-  static const String baseUrl = "${Config.awsUrl}/api"; // URL base de la API.
+  static final String baseUrl = "${Config.awsUrl}/api"; // URL base de la API.
 
   // Método privado para obtener el token de las preferencias compartidas.
   Future<String> _getToken() async {
