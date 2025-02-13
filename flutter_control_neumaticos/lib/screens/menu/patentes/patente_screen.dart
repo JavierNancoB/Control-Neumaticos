@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../services/movile_service.dart';
 import '../../../widgets/movil/movil_info.dart';
+import '../../../widgets/button.dart';
 
 class PatentePage extends StatefulWidget {
   const PatentePage({super.key});
@@ -110,7 +111,7 @@ class _PatentePageState extends State<PatentePage> {
                     controller: controller,
                     focusNode: focusNode,
                     decoration: InputDecoration(
-                      labelText: 'Ingrese Patente del Movil',
+                      labelText: 'Seleccione Patente del Movil',
                       suffixIcon: _isLoading
                           ? const CircularProgressIndicator()
                           : null, // Mostrar un cargando mientras buscamos
@@ -120,11 +121,12 @@ class _PatentePageState extends State<PatentePage> {
                 },
               ),
               const SizedBox(height: 16),
-              ElevatedButton(
+              // Cambiamos elevetedButton por StandarButton
+              StandarButton(
                 onPressed: () {
                   _fetchMovilData(_patenteController.text);
                 },
-                child: const Text('Buscar'),
+                text: 'Buscar',
               ),
               const SizedBox(height: 16),
               // Mostrar los datos del móvil o mensaje de error

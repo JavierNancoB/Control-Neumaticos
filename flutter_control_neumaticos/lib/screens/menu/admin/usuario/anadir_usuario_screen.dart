@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../models/usuario.dart';
 import '../../../../services/admin/usuarios/anadir_usuario_service.dart';
 import 'package:email_validator/email_validator.dart';
+import '../../../../widgets/button.dart';
 
 class AnadirUsuarioPage extends StatefulWidget {
   const AnadirUsuarioPage({super.key});
@@ -235,10 +236,11 @@ class _AnadirUsuarioPageState extends State<AnadirUsuarioPage> {
                 },
               ),
               const SizedBox(height: 20),
-              ElevatedButton(
+              // reemplazamos el ElevatedButton por StandarButton
+              StandarButton(
                 onPressed: _guardarUsuario,
-                child: const Text('Guardar Usuario'),
-              ),
+                text: 'Guardar Usuario',
+              )
             ],
           ),
         ),

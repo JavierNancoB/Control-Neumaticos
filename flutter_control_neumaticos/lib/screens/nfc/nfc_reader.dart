@@ -44,7 +44,7 @@ class _NFCReaderState extends State<NFCReader> {
   void _startNFC() async {
     setState(() {
       isLoading = true; // Marcar como cargando
-      nfcData = 'Cargando...'; // Mostrar mensaje de carga
+      nfcData = 'Acerca tu dispositivo NFC para leerlo...'; // Mostrar mensaje de carga
     });
 
     bool isNfcAvailable = await NfcManager.instance.isAvailable();

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../../services/informacion_neumatico_service.dart';
-import '../../../widgets/action_button.dart';
 import '../../../widgets/info_row.dart';
 import 'anadir_bitacora.dart';
 import 'ver_bitacora_screen.dart';
 import '../../../widgets/diccionario.dart';
+import '../../../widgets/button.dart';
 import '../../menu/admin/ingresar_patente.dart';
 
 class InformacionNeumatico extends StatefulWidget {
@@ -109,11 +109,12 @@ class _InformacionNeumaticoState extends State<InformacionNeumatico> {
             InfoRow(label: "KM Total", value: "${_neumaticoInfo!["kM_TOTAL"]} km"),
             InfoRow(label: "Tipo Neumático", value: _getTipoNeumatico(_neumaticoInfo!["tipO_NEUMATICO"])),
             const SizedBox(height: 24),
-            Row(
+            Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                ActionButton(
-                  label: 'Añadir Evento',
+                SizedBox(height: 16),
+                StandarButton(
+                  text: 'Añadir Evento',
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -125,8 +126,9 @@ class _InformacionNeumaticoState extends State<InformacionNeumatico> {
                     );
                   },
                 ),
-                ActionButton(
-                  label: 'Ver Historial',
+                SizedBox(height: 16),
+                StandarButton(
+                  text: 'Ver Historial',
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -138,21 +140,22 @@ class _InformacionNeumaticoState extends State<InformacionNeumatico> {
                     );
                   },
                 ),
+                SizedBox(height: 16),
+                StandarButton(
+                  text: 'Reasignar Neumático',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => IngresarPatentePage(
+                          tipo: 'Asignar',
+                          codigo: widget.nfcData,
+                        ),
+                      ),
+                    );
+                  },
+                )
               ],
-            ),
-            ActionButton(
-              label: 'Reasignar Neumático',
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => IngresarPatentePage(
-                      tipo: 'Asignar',
-                      codigo: widget.nfcData,
-                    ),
-                  ),
-                );
-              },
             ),
           ],
         ),

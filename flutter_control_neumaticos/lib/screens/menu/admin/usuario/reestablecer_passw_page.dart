@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../services/admin/usuarios/reestablecer_passw_service.dart'; // Importar el servicio
+import '../../../../widgets/button.dart';
 
 class ReestablecerPasswPage extends StatefulWidget {
   final String email;
@@ -130,31 +131,32 @@ class _ReestablecerPasswPageState extends State<ReestablecerPasswPage> {
                       },
                     ),
                     SizedBox(height: 20),
-                    ElevatedButton(
-                    onPressed: () async {
-                      if (_formKey.currentState?.validate() ?? false) {
-                        bool exito = await _service.restablecerContrasenaManual(widget.email, nuevaClave, widget.admin);
+                    // Cambiamos elevated button por StandarButton
+                    StandarButton(
+                      text: 'Ingresar Nueva Contraseña',
+                      onPressed: () async {
+                        if (_formKey.currentState?.validate() ?? false) {
+                          bool exito = await _service.restablecerContrasenaManual(widget.email, nuevaClave, widget.admin);
 
-                        if (exito) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Contraseña manualmente cambiada para ${widget.email}')),
-                          );
+                          if (exito) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Contraseña manualmente cambiada para ${widget.email}')),
+                            );
 
-                          // Verificar si admin es false y realizar dos pops
-                          if (!widget.admin) {
-                            Navigator.pop(context); // Primer pop
-                            Navigator.pop(context); // Segundo pop
+                            // Verificar si admin es false y realizar dos pops
+                            if (!widget.admin) {
+                              Navigator.pop(context); // Primer pop
+                              Navigator.pop(context); // Segundo pop
+                            }
+                          } else {
+                            // Si el servidor ha enviado un mensaje, se lo mostramos
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Error: ${_service.errorMessage}')),
+                            );
                           }
-                        } else {
-                          // Si el servidor ha enviado un mensaje, se lo mostramos
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Error: ${_service.errorMessage}')),
-                          );
                         }
-                      }
-                    },
-                    child: Text('Ingresar Nueva Contraseña'),
-                  ),
+                      },
+                    ),                  
                 ],
               ),
             ],

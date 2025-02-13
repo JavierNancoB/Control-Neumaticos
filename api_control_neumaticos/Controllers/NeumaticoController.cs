@@ -572,6 +572,7 @@ namespace api_control_neumaticos.Controllers
         }
         
         // POST: api/Neumaticos/verificarSiPosicioneEsUnicaConPatente
+        // POST: api/Neumaticos/verificarSiPosicioneEsUnicaConPatente
         [HttpPost("verificarSiPosicioneEsUnicaConPatente")]
         public async Task<ActionResult<bool>> verificarSiPosicioneEsUnicaConPatente(string? patente, int posicion)
         {
@@ -588,6 +589,13 @@ namespace api_control_neumaticos.Controllers
             if (movil == null)
             {
                 Console.WriteLine("Móvil no encontrado con esa patente, devolviendo true");
+                return Ok(true);
+            }
+
+            // Si la posición es 16, se permite repetirla
+            if (posicion == 16)
+            {
+                Console.WriteLine("Posición 16, se permite repetir, devolviendo true");
                 return Ok(true);
             }
 
