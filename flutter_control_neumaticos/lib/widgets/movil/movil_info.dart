@@ -29,7 +29,7 @@ class MovilInfo extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         const Text('Neumaticos:'),
-        NeumaticoList(neumaticosData: neumaticosData),
+        NeumaticoList(neumaticosData: neumaticosData, patente: movilData['patente']),
       ],
     );
   }

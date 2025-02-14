@@ -413,11 +413,10 @@ namespace api_control_neumaticos.Controllers
             }
 
             // Verificar y registrar cambios en otros campos
-            if (neumatico.UBICACION != ubicacion && mismovehiculo)
+            if (neumatico.UBICACION != ubicacion && mismovehiculo && ubicacion != 1)
             {
                 Console.WriteLine($"Cambio de ubicación: {neumatico.UBICACION} -> {ubicacion}");
                 neumatico.UBICACION = ubicacion;
-                if (ubicacion == 1) ubicacion = 2;
                 await RegistrarHistorial(neumatico, idUsuario, 4, $"Rotación dentro del mismo vehiculo ubicación cambiada a {diccionarioUbicaciones[ubicacion]}");
                 await RegistrarBitacora(idUsuario, 4, neumatico.ID_NEUMATICO, "Neumatico", $"Rotación dentro del mismo vehiculo ubicación cambiada a {diccionarioUbicaciones[ubicacion]}");
             }
@@ -441,25 +440,25 @@ namespace api_control_neumaticos.Controllers
             if (neumatico.TIPO_NEUMATICO != tipoNeumatico)
             {
                 Console.WriteLine($"Cambio de tipo de neumático: {neumatico.TIPO_NEUMATICO} -> {tipoNeumatico}");
-                if (tipoNeumatico == 2 && neumatico.TIPO_NEUMATICO != 2)
+                if (tipoNeumatico == 2)
                 {
                     await RegistrarHistorial(neumatico, idUsuario, 5, "Transición a Direccional");
                     await RegistrarBitacora(idUsuario, 5, neumatico.ID_NEUMATICO, "Neumatico", "Transición a Direccional");
                 }
-                else if (tipoNeumatico != 2 && neumatico.TIPO_NEUMATICO == 2)
+                else if (tipoNeumatico == 1)
                 {
                     await RegistrarHistorial(neumatico, idUsuario, 6, "Transición a Traccional");
                     await RegistrarBitacora(idUsuario, 6, neumatico.ID_NEUMATICO, "Neumatico", "Transición a Traccional");
                 }
                 else if(tipoNeumatico == 3)
                 {
-                    await RegistrarHistorial(neumatico, idUsuario, 9, "Transición a Repuesto");
-                    await RegistrarBitacora(idUsuario, 9, neumatico.ID_NEUMATICO, "Neumatico", "Transición a Repuesto");
+                    await RegistrarHistorial(neumatico, idUsuario, 30, "Transición a Repuesto");
+                    await RegistrarBitacora(idUsuario, 30, neumatico.ID_NEUMATICO, "Neumatico", "Transición a Repuesto");
                 }
                 else if(tipoNeumatico == 4)
                 {
-                    await RegistrarHistorial(neumatico, idUsuario, 3, "Transición a bodega");
-                    await RegistrarBitacora(idUsuario, 3, neumatico.ID_NEUMATICO, "Neumatico", "Se guarda neumático en bodega");
+                    await RegistrarHistorial(neumatico, idUsuario, 29, "Transición a bodega");
+                    await RegistrarBitacora(idUsuario, 29, neumatico.ID_NEUMATICO, "Neumatico", "Se guarda neumático en bodega");
                 }
                 neumatico.TIPO_NEUMATICO = tipoNeumatico;
             }
@@ -571,7 +570,33 @@ namespace api_control_neumaticos.Controllers
             return Ok(false);
         }
         
-        // POST: api/Neumaticos/verificarSiPosicioneEsUnicaConPatente
+        [HttpPost("verificarSiNeumaticoEnMovil")]
+        public async Task<ActionResult<bool>> verificarSiNeumaticoEnMovil(int codigo, int idMovil)
+        {
+            var neumatico = await _context.Neumaticos.FirstOrDefaultAsync(n => n.CODIGO == codigo);
+            var movil = await _context.Movils.FirstOrDefaultAsync(m => m.IdMovil == idMovil);
+
+            // Agregamos excepción por si no existe el neumático o el móvil
+            if (neumatico == null && movil == null)
+            {
+            return NotFound("Neumático y móvil no encontrados.");
+            }
+            else if (neumatico == null)
+            {
+            return NotFound("Neumático no encontrado.");
+            }
+            else if (movil == null)
+            {
+            return NotFound("Móvil no encontrado.");
+            }
+
+            if (neumatico.ID_MOVIL == idMovil)
+            {
+            return Ok(true);
+            }
+
+            return Ok(false);
+        }
         // POST: api/Neumaticos/verificarSiPosicioneEsUnicaConPatente
         [HttpPost("verificarSiPosicioneEsUnicaConPatente")]
         public async Task<ActionResult<bool>> verificarSiPosicioneEsUnicaConPatente(string? patente, int posicion)

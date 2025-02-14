@@ -341,6 +341,26 @@ namespace api_control_neumaticos.Controllers
             return patentes;
         }
 
+        // Actualizar fechad de ultima comprobación
+        [HttpPut("ActualizarFechaUltimaComprobacion")]
+        public async Task<IActionResult> ActualizarFechaUltimaComprobacion(int idMovil)
+        {
+            var movil = await _context.Movils.FindAsync(idMovil);
+
+            if (movil == null)
+            {
+                return NotFound();
+            }
+
+            movil.FechaUltimaComprobacion = DateTime.Now;
+
+            _context.Entry(movil).State = EntityState.Modified;
+
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
         private bool MovilExists(int id)
         {
             return _context.Movils.Any(e => e.IdMovil == id);

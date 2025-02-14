@@ -2,3 +2,4 @@
 api_control_neumaticos/appsettings.Development.json
 **/appsettings.Production.json
 **/.env
+flutter_control_neumaticos/lib/models/config.dart

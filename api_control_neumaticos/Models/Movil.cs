@@ -21,5 +21,7 @@ namespace api_control_neumaticos.Models
 
         // Nueva propiedad para Estado
         public int Estado { get; set; }
+
+        public DateTime? FechaUltimaComprobacion { get; set; }
     }
 }

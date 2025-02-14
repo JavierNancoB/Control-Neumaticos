@@ -22,5 +22,7 @@ namespace api_control_neumaticos.Dtos.Movil
         public int? CantidadNeumaticos { get; set; }
         [JsonPropertyName("ESTADO")]
         public int Estado { get; set; }
+        [JsonPropertyName("FECHA_ULTIMA_COMPROBACION")]
+        public DateTime? FechaUltimaComprobacion { get; set; }
     }
 }

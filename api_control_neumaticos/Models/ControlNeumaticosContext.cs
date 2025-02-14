@@ -62,6 +62,8 @@ public partial class ControlNeumaticosContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("ESTADO");
+            entity.Property(e => e.FechaUltimaComprobacion).HasColumnName("FECHA_ULTIMA_COMPROBACION")
+                .HasColumnName("FECHA_ULTIMA_COMPROBACION");
             
             entity.Property(e => e.ID_BODEGA).HasColumnName("ID_BODEGA");
 

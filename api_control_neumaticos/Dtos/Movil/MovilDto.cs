@@ -17,6 +17,7 @@ namespace api_control_neumaticos.Dtos.Movil
         public int? ID_BODEGA { get; set; }
         public int? CANTIDAD_NEUMATICOS { get; set; }
         public int ESTADO { get; set; }
+        public DateTime? FECHA_ULTIMA_COMPROBACION { get; set; }
     }
 
 }

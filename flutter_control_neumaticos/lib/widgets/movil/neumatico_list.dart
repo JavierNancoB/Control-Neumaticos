@@ -1,19 +1,45 @@
 import 'package:flutter/material.dart';
 import '../../screens/menu/bitacora/informacion_neumatico.dart';
+import '../button.dart';
 import '../diccionario.dart';
+import '../../screens/menu/patentes/comprobar_neumaticos.dart';
 
 class NeumaticoList extends StatelessWidget {
   final List<dynamic>? neumaticosData;
+  
+  final dynamic patente;
 
-  const NeumaticoList({super.key, required this.neumaticosData});
+  const NeumaticoList({super.key, required this.neumaticosData, required this.patente});
 
   @override
   Widget build(BuildContext context) {
     return neumaticosData != null
         ? ListView.builder(
             shrinkWrap: true,
-            itemCount: neumaticosData!.length,
+            itemCount: neumaticosData!.length + 1, // Incrementar el itemCount en 1
             itemBuilder: (context, index) {
+              if (index == neumaticosData!.length) {
+                // Este es el último elemento, que será el botón
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  child: StandarButton(
+                    text: 'Comprobar neumáticos',
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ComprobarNeumaticosScreen(
+                            neumaticosData: neumaticosData,
+                            //lo mandamos con id neumatico
+                            patente: patente,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                );
+              }
+
               final neumatico = neumaticosData![index];
 
               // Crear una variable 'codigo' que sea siempre un String

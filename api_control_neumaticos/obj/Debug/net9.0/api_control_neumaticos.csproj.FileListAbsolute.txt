@@ -945,3 +945,4 @@ C:\Users\empresapentacrom\Documents\Control-Neumaticos-2\api_control_neumaticos\
 C:\Users\empresapentacrom\Documents\Control-Neumaticos-2\api_control_neumaticos\obj\Debug\net9.0\ref\api_control_neumaticos.dll
 C:\Users\empresapentacrom\Documents\Control-Neumaticos-2\api_control_neumaticos\bin\Debug\net9.0\DotNetEnv.dll
 C:\Users\empresapentacrom\Documents\Control-Neumaticos-2\api_control_neumaticos\bin\Debug\net9.0\Sprache.dll
+C:\Users\empresapentacrom\Documents\Control-Neumaticos-2\api_control_neumaticos\bin\Debug\net9.0\appsettings.Ejemplo.json
