@@ -21,10 +21,22 @@ namespace SendingEmails
             try
             {
                 // Obtener las variables de entorno del archivo .env
+                
                 var mail = Env.GetString("SMTP_EMAIL");
                 var pw = Env.GetString("SMTP_PASSWORD");
                 var smtpServer = Env.GetString("SMTP_SERVER");
                 var smtpPort = int.Parse(Env.GetString("SMTP_PORT") ?? "25");
+                
+
+
+                // RECORDAR BORRAR ANTES DE SUBIR A GITHUB
+
+
+
+
+
+
+
 
                 using (var client = new SmtpClient(smtpServer, smtpPort))
                 {
@@ -52,10 +64,15 @@ namespace SendingEmails
             try
             {
                 // Obtener las variables de entorno del archivo .env
+                
                 var mail = Env.GetString("SMTP_EMAIL");
                 var pw = Env.GetString("SMTP_PASSWORD");
                 var smtpServer = Env.GetString("SMTP_SERVER");
                 var smtpPort = int.Parse(Env.GetString("SMTP_PORT") ?? "25");
+                
+
+
+
 
                 using (var client = new SmtpClient(smtpServer, smtpPort))
                 {

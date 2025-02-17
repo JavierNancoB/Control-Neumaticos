@@ -176,17 +176,18 @@ public partial class ControlNeumaticosContext : DbContext
                 .HasColumnName("NOMBRES");
             
             //entity para sql server
-            entity.Property(e => e.FechaClave)
-                .HasColumnName("FECHA_CLAVE")
-                .IsRequired()
-                .HasDefaultValueSql("(getdate())"); // Fecha actual para sql server
-            
             /*
             entity.Property(e => e.FechaClave)
                 .HasColumnName("FECHA_CLAVE")
                 .IsRequired()
-                .HasDefaultValueSql("CURRENT_TIMESTAMP"); // Fecha actual para mysql 
+                .HasDefaultValueSql("(getdate())"); // Fecha actual para sql server
             */
+            
+            entity.Property(e => e.FechaClave)
+                .HasColumnName("FECHA_CLAVE")
+                .IsRequired()
+                .HasDefaultValueSql("CURRENT_TIMESTAMP"); // Fecha actual para mysql 
+            
             entity.Property(e => e.IntentosFallidos)
                 .HasColumnName("INTENTOS_FALLIDOS")
                 .HasDefaultValueSql("((0))")
