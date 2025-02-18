@@ -1,50 +1,48 @@
 using System;
-using System.Net.Mail;
-using System.Net;
 using System.IO;
+using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
-using DotNetEnv;
+using Microsoft.Extensions.Configuration;
 
 namespace SendingEmails
 {
     public class EmailSender : IEmailSender
     {
-        // Constructor para cargar el archivo .env
+        private readonly string _smtpServer;
+        private readonly int _smtpPort;
+        private readonly string _smtpUser;
+        private readonly string _smtpPassword;
+
         public EmailSender()
         {
-            // Carga las variables de entorno desde el archivo .env
-            Env.Load();
+            // Configuración para leer appsettings.json
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory()) // Establece el directorio base
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true) // Carga el archivo JSON
+                .Build();
+
+            // Obtener valores del archivo appsettings.json
+            var mailSettings = configuration.GetRequiredSection("MailSettings");
+
+            _smtpServer = mailSettings["SmtpServer"] ?? throw new InvalidOperationException("SmtpServer is required");
+            _smtpPort = int.Parse(mailSettings["SmtpPort"] ?? throw new InvalidOperationException("SmtpPort is required"));
+            _smtpUser = mailSettings["SmtpUser"] ?? throw new InvalidOperationException("SmtpUser is required");
+            _smtpPassword = mailSettings["SmtpPassword"] ?? throw new InvalidOperationException("SmtpPassword is required");
+
         }
 
         public async Task SendEmailAsync(string email, string subject, string message)
         {
             try
             {
-                // Obtener las variables de entorno del archivo .env
-                
-                var mail = Env.GetString("SMTP_EMAIL");
-                var pw = Env.GetString("SMTP_PASSWORD");
-                var smtpServer = Env.GetString("SMTP_SERVER");
-                var smtpPort = int.Parse(Env.GetString("SMTP_PORT") ?? "25");
-                
-
-
-                // RECORDAR BORRAR ANTES DE SUBIR A GITHUB
-
-
-
-
-
-
-
-
-                using (var client = new SmtpClient(smtpServer, smtpPort))
+                using (var client = new SmtpClient(_smtpServer, _smtpPort))
                 {
-                    client.EnableSsl = false;  // Cambia esto según tu servidor
-                    client.Credentials = new NetworkCredential(mail, pw);
+                    client.EnableSsl = false; // Ajustar según tu servidor SMTP
+                    client.Credentials = new NetworkCredential(_smtpUser, _smtpPassword);
                     client.DeliveryMethod = SmtpDeliveryMethod.Network;
 
-                    using (var mailMessage = new MailMessage(mail, email, subject, message))
+                    using (var mailMessage = new MailMessage(_smtpUser, email, subject, message))
                     {
                         await client.SendMailAsync(mailMessage);
                     }
@@ -63,24 +61,13 @@ namespace SendingEmails
         {
             try
             {
-                // Obtener las variables de entorno del archivo .env
-                
-                var mail = Env.GetString("SMTP_EMAIL");
-                var pw = Env.GetString("SMTP_PASSWORD");
-                var smtpServer = Env.GetString("SMTP_SERVER");
-                var smtpPort = int.Parse(Env.GetString("SMTP_PORT") ?? "25");
-                
-
-
-
-
-                using (var client = new SmtpClient(smtpServer, smtpPort))
+                using (var client = new SmtpClient(_smtpServer, _smtpPort))
                 {
-                    client.EnableSsl = false;  // Cambia esto según tu servidor
-                    client.Credentials = new NetworkCredential(mail, pw);
+                    client.EnableSsl = false;
+                    client.Credentials = new NetworkCredential(_smtpUser, _smtpPassword);
                     client.DeliveryMethod = SmtpDeliveryMethod.Network;
 
-                    using (var mailMessage = new MailMessage(mail, email, subject, message)
+                    using (var mailMessage = new MailMessage(_smtpUser, email, subject, message)
                     {
                         IsBodyHtml = true
                     })

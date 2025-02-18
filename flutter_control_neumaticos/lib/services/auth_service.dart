@@ -76,6 +76,7 @@ class AuthService {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('token', token);
     prefs.setInt('userId', userId);
+    print('IDUsuario guardado: $userId');
     prefs.setInt('perfil', perfil);
     prefs.setString('correo', correo);
     prefs.setString('date', date.toString());

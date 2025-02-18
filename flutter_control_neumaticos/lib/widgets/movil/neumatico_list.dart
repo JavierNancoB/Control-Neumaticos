@@ -3,79 +3,133 @@ import '../../screens/menu/bitacora/informacion_neumatico.dart';
 import '../button.dart';
 import '../diccionario.dart';
 import '../../screens/menu/patentes/comprobar_neumaticos.dart';
+import '../../screens/menu/patentes/historial_movil_list.dart';
+import '../../widgets/rango_fechas.dart';
 
 class NeumaticoList extends StatelessWidget {
   final List<dynamic>? neumaticosData;
-  
   final dynamic patente;
 
   const NeumaticoList({super.key, required this.neumaticosData, required this.patente});
 
+  void _showDateRangeDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => CustomDatePickerDialog(
+        onDateSelected: (startDate, endDate) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => HistorialMovilListScreen(
+                startDate: startDate,
+                endDate: endDate,
+                isWithDateRange: true,
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  void _showPreviousChecksDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Comprobaciones Anteriores'),
+          content: const Text('¿Cómo desea realizar la revisión?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context); // Cierra este diálogo
+                _showDateRangeDialog(context); // Abre el selector de fechas
+              },
+              child: const Text('Entre un rango de Fechas'),
+            ),
+            TextButton(
+              onPressed: () {
+                // Acción para comprobaciones anteriores propias
+              },
+              child: const Text('Comprobaciones anteriores Propias'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancelar', style: TextStyle(color: Colors.red)),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return neumaticosData != null
-        ? ListView.builder(
-            shrinkWrap: true,
-            itemCount: neumaticosData!.length + 1, // Incrementar el itemCount en 1
-            itemBuilder: (context, index) {
-              if (index == neumaticosData!.length) {
-                // Este es el último elemento, que será el botón
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                  child: StandarButton(
-                    text: 'Comprobar neumáticos',
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ComprobarNeumaticosScreen(
-                            neumaticosData: neumaticosData,
-                            //lo mandamos con id neumatico
-                            patente: patente,
-                          ),
+        ? SingleChildScrollView(
+            child: Column(
+              children: [
+                ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: neumaticosData!.length + 2,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    if (index == neumaticosData!.length) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                        child: StandarButton(
+                          text: 'Comprobar neumáticos',
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ComprobarNeumaticosScreen(
+                                  neumaticosData: neumaticosData,
+                                  patente: patente,
+                                ),
+                              ),
+                            );
+                          },
                         ),
                       );
-                    },
-                  ),
-                );
-              }
+                    } else if (index == neumaticosData!.length + 1) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                        child: StandarButton(
+                          text: 'Comprobaciones Anteriores',
+                          onPressed: () => _showPreviousChecksDialog(context),
+                        ),
+                      );
+                    }
 
-              final neumatico = neumaticosData![index];
+                    final neumatico = neumaticosData![index];
+                    String codigo = neumatico['codigo']?.toString() ?? '';
+                    int ubicacionCodigo = neumatico['ubicacion'] ?? 1;
+                    String ubicacionDescripcion = Diccionario.obtenerDescripcion(Diccionario.ubicacionNeumaticos, ubicacionCodigo);
 
-              // Crear una variable 'codigo' que sea siempre un String
-              String codigo = neumatico['codigo']?.toString() ?? '';
-
-              // Agregar el código de ubicación usando Diccionario
-              // Suponiendo que 'ubicacion' es un número que corresponde a la clave en el diccionario
-              int ubicacionCodigo = neumatico['ubicacion'] ?? 1;  // Usar '1' como valor por defecto
-              String ubicacionDescripcion = Diccionario.obtenerDescripcion(Diccionario.ubicacionNeumaticos, ubicacionCodigo);
-
-              // Agregamos un print para ver qué datos estamos obteniendo
-
-              return InkWell(
-                onTap: () {
-                  // Imprimir antes de navegar para ver el código que estamos pasando
-
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => InformacionNeumatico(
-                        nfcData: codigo, // Pasamos la variable 'codigo'
+                    return InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => InformacionNeumatico(nfcData: codigo),
+                          ),
+                        );
+                      },
+                      child: Card(
+                        elevation: 4,
+                        margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                        child: ListTile(
+                          leading: const Icon(Icons.info_outline),
+                          title: Text('Codigo: $codigo'),
+                          subtitle: Text('Ubicación: $ubicacionDescripcion'),
+                        ),
                       ),
-                    ),
-                  );
-                },
-                child: Card(
-                  elevation: 4,
-                  margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                  child: ListTile(
-                    leading: Icon(Icons.info_outline), // Ícono visual
-                    title: Text('Codigo: $codigo'),
-                    subtitle: Text('Ubicación: $ubicacionDescripcion'),
-                  ),
+                    );
+                  },
                 ),
-              );
-            },
+              ],
+            ),
           )
         : const Text('No se encontraron neumáticos.');
   }

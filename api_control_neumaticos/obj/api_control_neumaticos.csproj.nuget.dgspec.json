@@ -1,32 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\empresapentacrom\\Documents\\Control-Neumaticos-2\\api_control_neumaticos\\api_control_neumaticos.csproj": {}
+    "C:\\Users\\HP\\Desktop\\Trabajo\\Control-Neumaticos\\api_control_neumaticos\\api_control_neumaticos.csproj": {}
   },
   "projects": {
-    "C:\\Users\\empresapentacrom\\Documents\\Control-Neumaticos-2\\api_control_neumaticos\\api_control_neumaticos.csproj": {
+    "C:\\Users\\HP\\Desktop\\Trabajo\\Control-Neumaticos\\api_control_neumaticos\\api_control_neumaticos.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\empresapentacrom\\Documents\\Control-Neumaticos-2\\api_control_neumaticos\\api_control_neumaticos.csproj",
+        "projectUniqueName": "C:\\Users\\HP\\Desktop\\Trabajo\\Control-Neumaticos\\api_control_neumaticos\\api_control_neumaticos.csproj",
         "projectName": "api_control_neumaticos",
-        "projectPath": "C:\\Users\\empresapentacrom\\Documents\\Control-Neumaticos-2\\api_control_neumaticos\\api_control_neumaticos.csproj",
-        "packagesPath": "C:\\Users\\empresapentacrom\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\empresapentacrom\\Documents\\Control-Neumaticos-2\\api_control_neumaticos\\obj\\",
+        "projectPath": "C:\\Users\\HP\\Desktop\\Trabajo\\Control-Neumaticos\\api_control_neumaticos\\api_control_neumaticos.csproj",
+        "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\HP\\Desktop\\Trabajo\\Control-Neumaticos\\api_control_neumaticos\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\empresapentacrom\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {

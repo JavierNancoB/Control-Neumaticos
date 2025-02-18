@@ -7,6 +7,9 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
+    <!-- Permiso para acceso a internet -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <!-- Indicar que la aplicación requiere NFC -->
     <uses-feature android:name="android.hardware.nfc" android:required="true" />
 

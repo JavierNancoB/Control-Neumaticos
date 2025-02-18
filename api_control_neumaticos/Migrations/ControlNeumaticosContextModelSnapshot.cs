@@ -148,6 +148,52 @@ namespace api_control_neumaticos.Migrations
                     b.ToTable("BODEGA", (string)null);
                 });
 
+            modelBuilder.Entity("api_control_neumaticos.Models.HistorialMovil", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("ID");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<int>("CODIGO")
+                        .HasColumnType("int")
+                        .HasColumnName("CODIGO");
+
+                    b.Property<int>("ESTADO")
+                        .HasColumnType("int")
+                        .HasColumnName("ESTADO");
+
+                    b.Property<DateTime>("FECHA")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("FECHA");
+
+                    b.Property<int>("IDMovil")
+                        .HasColumnType("int")
+                        .HasColumnName("ID_MOVIL");
+
+                    b.Property<int>("IDUsuario")
+                        .HasColumnType("int")
+                        .HasColumnName("ID_USUARIO");
+
+                    b.Property<string>("OBSERVACION")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .IsUnicode(true)
+                        .HasColumnType("varchar(250)")
+                        .HasColumnName("OBSERVACIÓN");
+
+                    b.HasKey("ID")
+                        .HasName("PK_HISTORIAL_MOVIL");
+
+                    b.HasIndex("IDMovil");
+
+                    b.HasIndex("IDUsuario");
+
+                    b.ToTable("HISTORIAL_MOVIL", (string)null);
+                });
+
             modelBuilder.Entity("api_control_neumaticos.Models.HistorialNeumatico", b =>
                 {
                     b.Property<int>("ID")
@@ -488,6 +534,23 @@ namespace api_control_neumaticos.Migrations
                     b.Navigation("UsuarioLeido");
                 });
 
+            modelBuilder.Entity("api_control_neumaticos.Models.HistorialMovil", b =>
+                {
+                    b.HasOne("api_control_neumaticos.Models.Movil", "Movil")
+                        .WithMany("Historiales")
+                        .HasForeignKey("IDMovil")
+                        .IsRequired();
+
+                    b.HasOne("api_control_neumaticos.Models.Usuario", "Usuario")
+                        .WithMany("Historiales")
+                        .HasForeignKey("IDUsuario")
+                        .IsRequired();
+
+                    b.Navigation("Movil");
+
+                    b.Navigation("Usuario");
+                });
+
             modelBuilder.Entity("api_control_neumaticos.Models.HistorialNeumatico", b =>
                 {
                     b.HasOne("api_control_neumaticos.Models.Neumatico", "Neumatico")
@@ -562,8 +625,15 @@ namespace api_control_neumaticos.Migrations
                     b.Navigation("Bodega");
                 });
 
+            modelBuilder.Entity("api_control_neumaticos.Models.Movil", b =>
+                {
+                    b.Navigation("Historiales");
+                });
+
             modelBuilder.Entity("api_control_neumaticos.Models.Usuario", b =>
                 {
+                    b.Navigation("Historiales");
+
                     b.Navigation("SolicitudesEnviadas");
                 });
 #pragma warning restore 612, 618

@@ -23,5 +23,6 @@ namespace api_control_neumaticos.Models
         public int Estado { get; set; }
 
         public DateTime? FechaUltimaComprobacion { get; set; }
+        public ICollection<HistorialMovil> Historiales { get; set; } = new List<HistorialMovil>();
     }
 }

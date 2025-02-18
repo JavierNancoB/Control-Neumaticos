@@ -15,6 +15,7 @@ public class MovilProfile : Profile
             .ForMember(dest => dest.ID_BODEGA, opt => opt.MapFrom(src => src.ID_BODEGA))
             .ForMember(dest => dest.CantidadNeumaticos, opt => opt.MapFrom(src => src.CANTIDAD_NEUMATICOS))
             .ForMember(dest => dest.Estado, opt => opt.MapFrom(src => src.ESTADO));
+            
 
         CreateMap<UpdateMovilRequestDto, Movil>()
             .ForMember(dest => dest.Patente, opt => opt.MapFrom(src => src.Patente))
@@ -35,7 +36,8 @@ public class MovilProfile : Profile
             .ForMember(dest => dest.TIPO_MOVIL, opt => opt.MapFrom(src => src.TipoMovil))
             .ForMember(dest => dest.ID_BODEGA, opt => opt.MapFrom(src => src.ID_BODEGA))
             .ForMember(dest => dest.CANTIDAD_NEUMATICOS, opt => opt.MapFrom(src => src.CantidadNeumaticos))
-            .ForMember(dest => dest.ESTADO, opt => opt.MapFrom(src => src.Estado));
+            .ForMember(dest => dest.ESTADO, opt => opt.MapFrom(src => src.Estado))
+            .ForMember(dest => dest.FECHA_ULTIMA_COMPROBACION, opt => opt.MapFrom(src => src.FechaUltimaComprobacion));
     }
 }
 

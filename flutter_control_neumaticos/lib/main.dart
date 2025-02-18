@@ -5,7 +5,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Puedes eliminar todo el código relacionado con dotenv aquí.
-  print('La aplicación está lista para ejecutarse.');
 
   runApp(const MyApp());
 }

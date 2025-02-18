@@ -98,7 +98,7 @@ namespace api_control_neumaticos.Controllers
             }
 
             // Verificar si ya existe un neumático en la misma ubicación para el mismo vehículo
-            if (createNeumaticoDto.ID_MOVIL != null)
+            if (createNeumaticoDto.ID_MOVIL != null && createNeumaticoDto.UBICACION != 16)
             {
                 var existeNeumatico = await _context.Neumaticos
                     .AnyAsync(n => n.ID_MOVIL == createNeumaticoDto.ID_MOVIL && n.UBICACION == createNeumaticoDto.UBICACION);

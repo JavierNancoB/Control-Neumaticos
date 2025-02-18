@@ -33,5 +33,6 @@ namespace api_control_neumaticos.Models
         public string? ContraseñaTemporal { get; set; }
 
         public virtual ICollection<SolicitudCorreos> SolicitudesEnviadas { get; set; } = new List<SolicitudCorreos>();
+        public ICollection<HistorialMovil> Historiales { get; set; } = new List<HistorialMovil>();
     }
 }

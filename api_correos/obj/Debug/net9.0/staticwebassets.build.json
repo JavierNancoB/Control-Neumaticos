@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "ZELxleWI+eGFBlVSRzUmVLa9tCFZMsV07/BnuOTJ+xs=",
+  "Source": "api_correos",
+  "BasePath": "_content/api_correos",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

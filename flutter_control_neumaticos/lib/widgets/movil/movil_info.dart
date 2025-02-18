@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'neumatico_list.dart';
 
 class MovilInfo extends StatelessWidget {
@@ -22,6 +23,7 @@ class MovilInfo extends StatelessWidget {
         Text('Modelo: ${movilData['modelo']}'),
         Text('Ejes: ${movilData['ejes']}'),
         Text('Cantidad de Neumaticos: ${movilData['cantidaD_NEUMATICOS']}'),
+        Text('Fecha de Ultima comprobación: ${DateFormat('dd/MM/yyyy').format(DateTime.parse(movilData['fechA_ULTIMA_COMPROBACION']))}'),
         // Mostrar el estado con el color correspondiente
         Text(
           'Estado: $estadoText',

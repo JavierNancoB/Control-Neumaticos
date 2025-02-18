@@ -102,63 +102,58 @@ class _PatentePageState extends State<PatentePage> {
     appBar: AppBar(
       title: const Text('Buscar Movil por Patente'),
     ),
-    body: SingleChildScrollView( // Permite el desplazamiento
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start, // Asegura que los elementos estén alineados a la izquierda
-          children: [
-            // Autocomplete para las patentes
-            Autocomplete<String>(
-              optionsBuilder: (TextEditingValue textEditingValue) {
-                if (textEditingValue.text.isEmpty) {
-                  return const Iterable<String>.empty();
-                } else {
-                  _buscarPatentes(textEditingValue.text);
-                  return _sugerenciasPatentes;
-                }
-              },
-              onSelected: (String selection) {
-                _patenteController.text = selection;
-                _fetchMovilData(selection);
-              },
-              fieldViewBuilder: (context, controller, focusNode, onEditingComplete) {
-                return TextField(
-                  controller: controller,
-                  focusNode: focusNode,
-                  decoration: InputDecoration(
-                    labelText: 'Seleccione Patente del Movil',
-                    suffixIcon: _isLoading
-                        ? const CircularProgressIndicator() // Indicador de carga
-                        : const SizedBox(width: 24), // Espacio vacío para que no cambie el tamaño
-                  ),
-                  onEditingComplete: onEditingComplete,
-                );
-              },
-            ),
-            const SizedBox(height: 16),
-            
-            // Centramos el botón
-            Center(
-              child: StandarButton(
-                onPressed: () {
-                  _fetchMovilData(_patenteController.text);
-                },
-                text: 'Buscar',
+    body: ListView( // Usamos ListView para el desplazamiento
+      padding: const EdgeInsets.all(16.0),
+      children: [
+        // Autocomplete para las patentes
+        Autocomplete<String>(
+          optionsBuilder: (TextEditingValue textEditingValue) {
+            if (textEditingValue.text.isEmpty) {
+              return const Iterable<String>.empty();
+            } else {
+              _buscarPatentes(textEditingValue.text);
+              return _sugerenciasPatentes;
+            }
+          },
+          onSelected: (String selection) {
+            _patenteController.text = selection;
+            _fetchMovilData(selection);
+          },
+          fieldViewBuilder: (context, controller, focusNode, onEditingComplete) {
+            return TextField(
+              controller: controller,
+              focusNode: focusNode,
+              decoration: InputDecoration(
+                labelText: 'Seleccione Patente del Movil',
+                suffixIcon: _isLoading
+                    ? const CircularProgressIndicator() // Indicador de carga
+                    : const SizedBox(width: 24), // Espacio vacío para que no cambie el tamaño
               ),
-            ),
-            const SizedBox(height: 16),
-            
-            // Alineación del contenido principal (los datos o el mensaje de error)
-            Align(
-              alignment: Alignment.centerLeft, // Alineamos el contenido a la izquierda
-              child: _movilData != null
-                  ? MovilInfo(movilData: _movilData!, neumaticosData: _neumaticosData)
-                  : const Text(''),
-            ),
-          ],
+              onEditingComplete: onEditingComplete,
+            );
+          },
         ),
-      ),
+        const SizedBox(height: 16),
+
+        // Centramos el botón
+        Center(
+          child: StandarButton(
+            onPressed: () {
+              _fetchMovilData(_patenteController.text);
+            },
+            text: 'Buscar',
+          ),
+        ),
+        const SizedBox(height: 16),
+
+        // Alineación del contenido principal (los datos o el mensaje de error)
+        Align(
+          alignment: Alignment.centerLeft, // Alineamos el contenido a la izquierda
+          child: _movilData != null
+              ? MovilInfo(movilData: _movilData!, neumaticosData: _neumaticosData)
+              : const Text(''),
+        ),
+      ],
     ),
   );
   }

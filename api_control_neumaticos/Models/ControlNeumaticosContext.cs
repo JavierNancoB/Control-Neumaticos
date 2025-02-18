@@ -31,6 +31,8 @@ public partial class ControlNeumaticosContext : DbContext
 
     public DbSet<SolicitudCorreos> SolicitudesCorreos { get; set; }
 
+    public DbSet<HistorialMovil> HistorialesMoviles { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Movil>(entity =>
@@ -319,5 +321,32 @@ public partial class ControlNeumaticosContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull); // Cambia a Cascade si quieres eliminar en cascada
         });
 
+        modelBuilder.Entity<HistorialMovil>(entity =>
+{
+    entity.ToTable("HISTORIAL_MOVIL");
+
+    entity.HasKey(e => e.ID).HasName("PK_HISTORIAL_MOVIL");
+
+    entity.Property(e => e.ID).HasColumnName("ID");
+    entity.Property(e => e.IDMovil).HasColumnName("ID_MOVIL");
+    entity.Property(e => e.IDUsuario).HasColumnName("ID_USUARIO");
+    entity.Property(e => e.CODIGO).HasColumnName("CODIGO");
+    entity.Property(e => e.FECHA).HasColumnName("FECHA");
+    entity.Property(e => e.OBSERVACION)
+        .HasMaxLength(250)
+        .IsUnicode(true)
+        .HasColumnName("OBSERVACIÓN");
+    entity.Property(e => e.ESTADO).HasColumnName("ESTADO");
+
+    entity.HasOne(e => e.Movil)
+        .WithMany(m => m.Historiales) // Aquí se define la relación inversa
+        .HasForeignKey(e => e.IDMovil)
+        .OnDelete(DeleteBehavior.ClientSetNull);
+
+    entity.HasOne(e => e.Usuario)
+        .WithMany(u => u.Historiales) // Aquí se define la relación inversa
+        .HasForeignKey(e => e.IDUsuario)
+        .OnDelete(DeleteBehavior.ClientSetNull);
+    });
     }
 }
