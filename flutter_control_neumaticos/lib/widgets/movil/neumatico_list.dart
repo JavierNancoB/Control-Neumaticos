@@ -24,6 +24,7 @@ class NeumaticoList extends StatelessWidget {
                 startDate: startDate,
                 endDate: endDate,
                 isWithDateRange: true,
+                patente: patente,
               ),
             ),
           );
@@ -49,7 +50,15 @@ class NeumaticoList extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                // Acción para comprobaciones anteriores propias
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => HistorialMovilListScreen(
+                      isWithDateRange: false,
+                      patente: patente,
+                    ),
+                  ),
+                );
               },
               child: const Text('Comprobaciones anteriores Propias'),
             ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pentacrom_neumaticos_2/widgets/button.dart';
 import '../../../../services/admin/usuarios/modificar_usaurio.dart';
 import '../../../../models/usuario_modifcar.dart';
+
 
 class ModificarUsuarioPage extends StatefulWidget {
   final String email;
@@ -154,9 +156,9 @@ class _ModificarUsuarioPageState extends State<ModificarUsuarioPage> {
                     },
                   ),
                   SizedBox(height: 20),
-                  ElevatedButton(
+                  StandarButton(
                     onPressed: _saveChanges,
-                    child: Text('Guardar Cambios'),
+                    text: 'Guardar Cambios',
                   ),
                 ],
               ),

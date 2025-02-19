@@ -100,40 +100,55 @@ namespace api_control_neumaticos.Controllers
             return Ok(historialDtos);
         }
 
-        // GET filtrado por id de movil y rango de fechas
-        [HttpGet("movil/{movilId}/fecha/{fechaInicio}/{fechaFin}")]
-        public async Task<ActionResult<IEnumerable<HistorialMovilDto>>> GetHistorialMovilesByMovilAndFecha(int movilId, DateTime fechaInicio, DateTime fechaFin)
+        // GET filtrado por patente del movil y un rango de fechas
+        // GET filtrado por patente y fechas
+        [HttpGet("buscarPorPatenteYFechas/{patente}/fechaInicio/{fechaInicio}/fechaFin/{fechaFin}")]
+        public async Task<ActionResult<IEnumerable<HistorialMovilDto>>> GetHistorialMovilesByPatenteAndFecha(string patente, DateTime fechaInicio, DateTime fechaFin)
         {
+            var movil = await _context.Movils.FirstOrDefaultAsync(m => m.Patente == patente);
+            if (movil == null)
+            {
+                return NotFound("No se encontró un móvil con esa patente.");
+            }
+
             var historiales = await _context.HistorialesMoviles
-                .Where(h => h.IDMovil == movilId && h.FECHA >= fechaInicio && h.FECHA <= fechaFin)
+                .Where(h => h.IDMovil == movil.IdMovil && h.FECHA >= fechaInicio && h.FECHA <= fechaFin + TimeSpan.FromDays(1))
+                .OrderByDescending(h => h.FECHA)  // Ordena los registros por fecha descendente
                 .ToListAsync();
-            
+
             if (!historiales.Any())
             {
                 return NotFound("No se encontraron historiales para este móvil y rango de fechas.");
             }
-            
+
             var historialDtos = _mapper.Map<List<HistorialMovilDto>>(historiales);
             return Ok(historialDtos);
         }
 
-        // GET filtrado por id movil y el id del usuario que lo creó
-        // localhost:5001/api/HistorialMovil/movilPorId/1/usuarios/1
-        [HttpGet("movilPorId/{movilId}/usuarios/{usuarioId}")]
-        public async Task<ActionResult<IEnumerable<HistorialMovilDto>>> GetHistorialMovilesByMovilAndUsuario(int movilId, int usuarioId)
+        // GET filtrado por patente del movil y un id de usuario
+        [HttpGet("buscarPorPatenteUsuarioId/{patente}/usuario/{usuarioId}")]
+        public async Task<ActionResult<IEnumerable<HistorialMovilDto>>> GetHistorialMovilesByPatenteAndUsuario(string patente, int usuarioId)
         {
+            var movil = await _context.Movils.FirstOrDefaultAsync(m => m.Patente == patente);
+            if (movil == null)
+            {
+                return NotFound("No se encontró un móvil con esa patente.");
+            }
+
             var historiales = await _context.HistorialesMoviles
-                .Where(h => h.IDMovil == movilId && h.IDUsuario == usuarioId)
+                .Where(h => h.IDMovil == movil.IdMovil && h.IDUsuario == usuarioId)
+                .OrderByDescending(h => h.FECHA) // Ordena los registros por fecha descendente
                 .ToListAsync();
-            
+
             if (!historiales.Any())
             {
                 return NotFound("No se encontraron historiales para este móvil y usuario.");
             }
-            
+
             var historialDtos = _mapper.Map<List<HistorialMovilDto>>(historiales);
             return Ok(historialDtos);
         }
+
 
         // Post por patente del movil, hay que buscarlo en el modelo de movil porque no se encuentra en el historial
         // la idea es que se mande la patente por la url pero aun asi haga el match con la id del movil

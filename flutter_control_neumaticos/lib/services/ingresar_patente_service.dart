@@ -41,7 +41,7 @@ class IngresarPatenteService {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => ModificarMovilPage(patente: patente, codigo: codigo),
+              builder: (context) => ModificarMovilPage(patente: patente),
             ),
           );
         } else {

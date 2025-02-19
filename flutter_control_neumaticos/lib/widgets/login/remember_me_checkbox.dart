@@ -8,11 +8,14 @@ class RememberMeCheckbox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Checkbox(
-          value: rememberMe,
-          onChanged: onChanged,
+        Transform.translate(
+          offset: Offset(10, 0), // Mueve el checkbox 4 píxeles a la izquierda (puedes poner un valor negativo)
+          child: Checkbox(
+            value: rememberMe,
+            onChanged: onChanged,
+          ),
         ),
         const Text('Recordar correo y contraseña'),
       ],

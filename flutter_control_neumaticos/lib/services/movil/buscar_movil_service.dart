@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../models/config.dart';
+import '../../../../models/config.dart';
 
 class MovilService {
   final String _baseUrl = '${Config.awsUrl}/api';

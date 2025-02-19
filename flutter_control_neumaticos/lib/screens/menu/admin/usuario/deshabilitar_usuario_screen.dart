@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../services/admin/usuarios/deshabilitar__usuario_service.dart';
+import '../../../../widgets/button.dart';
 
 class InhabilitarUsuarioPage extends StatefulWidget {
   const InhabilitarUsuarioPage({super.key});
@@ -102,17 +103,19 @@ class _InhabilitarUsuarioPageState extends State<InhabilitarUsuarioPage> {
                     ),
                     const SizedBox(height: 20),
 
-                    // Botones para habilitar o inhabilitar
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    // Columna para botones, uno debajo del otro
+                    Column(
                       children: [
-                        ElevatedButton(
+                        StandarButton(
                           onPressed: () => _modificarEstado(1), // Estado "habilitado"
-                          child: const Text('Habilitar'),
+                          text: 'Habilitar',
+                          color: Colors.green, // Ajusta el color si lo deseas
                         ),
-                        ElevatedButton(
+                        const SizedBox(height: 10), // Espaciado entre botones
+                        StandarButton(
                           onPressed: () => _modificarEstado(2), // Estado "inhabilitado"
-                          child: const Text('Inhabilitar'),
+                          text: 'Inhabilitar',
+                          color: Colors.red, // Ajusta el color si lo deseas
                         ),
                       ],
                     ),

@@ -72,14 +72,14 @@ class AuthService {
   }
 
   // Guarda el token y el ID del usuario
-  Future<void> saveTokenAndUserId(String token, int userId, int perfil, String correo, DateTime date, String contrasenaTemporal) async {
+  Future<void> saveTokenAndUserId(String token, int userId, int perfil, String correo, DateTime date, String contrasenaTemporal, String nombres) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('token', token);
     prefs.setInt('userId', userId);
-    print('IDUsuario guardado: $userId');
     prefs.setInt('perfil', perfil);
     prefs.setString('correo', correo);
     prefs.setString('date', date.toString());
     prefs.setString('contrasenaTemporal', contrasenaTemporal);
+    prefs.setString('nombres', nombres);
   }
 }

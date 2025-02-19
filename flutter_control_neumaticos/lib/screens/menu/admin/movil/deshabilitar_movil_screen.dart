@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../models/movil_estado.dart';
 import '../../../../services/admin/movil/deshabilitar_movil_service.dart';
+import '../../../../widgets/button.dart';
 
 class CambiarEstadoMovilPage extends StatefulWidget {
   const CambiarEstadoMovilPage({super.key});
@@ -28,7 +29,6 @@ class _CambiarEstadoMovilPageState extends State<CambiarEstadoMovilPage> {
       setState(() {
         patentesSugeridas = sugerencias;
       });
-      // Debug print
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
     }
@@ -40,30 +40,26 @@ class _CambiarEstadoMovilPageState extends State<CambiarEstadoMovilPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Confirmar Acción'),
+          title: const Text('Confirmar Acción'),
           content: Text('¿Qué acción desea realizar con el camión con patente ${patenteController.text}?'),
           actions: <Widget>[
             TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();  // Cierra el diálogo sin hacer nada
-              },
-              child: Text('Cancelar'),
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Cancelar'),
             ),
             TextButton(
               onPressed: () async {
-                Navigator.of(context).pop();  // Cierra el diálogo
-                // Llama a la función para habilitar el camión
-                await cambiarEstadoCamion(EstadoMovil(id: 1, descripcion: 'Habilitar')); // Habilitar con neumáticos
+                Navigator.of(context).pop();
+                await cambiarEstadoCamion(EstadoMovil(id: 1, descripcion: 'Habilitar'));
               },
-              child: Text('Habilitar'),
+              child: const Text('Habilitar'),
             ),
             TextButton(
               onPressed: () async {
-                Navigator.of(context).pop();  // Cierra el diálogo
-                // Llama a la función para deshabilitar el camión
-                await cambiarEstadoCamion(EstadoMovil(id: 2, descripcion: 'Deshabilitar')); // Deshabilitar con neumáticos
+                Navigator.of(context).pop();
+                await cambiarEstadoCamion(EstadoMovil(id: 2, descripcion: 'Deshabilitar'));
               },
-              child: Text('Deshabilitar'),
+              child: const Text('Deshabilitar'),
             ),
           ],
         );
@@ -82,16 +78,15 @@ class _CambiarEstadoMovilPageState extends State<CambiarEstadoMovilPage> {
       setState(() {
         isLoading = false;
       });
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Por favor, ingrese una patente')));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Por favor, ingrese una patente')));
       return;
     }
-
 
     try {
       bool success = await movilService.cambiarEstadoMovil(patente, estado);
 
       if (success) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Estado modificado con éxito')));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Estado modificado con éxito')));
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
@@ -106,10 +101,10 @@ class _CambiarEstadoMovilPageState extends State<CambiarEstadoMovilPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Modificar Estado del Movil'),
+        title: const Text('Modificar Estado del Móvil'),
       ),
       body: isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -130,17 +125,18 @@ class _CambiarEstadoMovilPageState extends State<CambiarEstadoMovilPage> {
                       return TextField(
                         controller: textEditingController,
                         focusNode: focusNode,
-                        decoration: InputDecoration(labelText: 'Patente del Camión'),
+                        decoration: const InputDecoration(labelText: 'Patente del Camión'),
                         onChanged: (value) => cargarSugerencias(value),
                       );
                     },
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Text('¿Qué acción desea realizar con el camión con patente ${patenteController.text}?'),
-                  SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: _mostrarDialogoConfirmacion,  // Llama a la ventana emergente con las tres opciones
-                    child: Text('Cambiar Estado'),
+                  const SizedBox(height: 20),
+                  
+                  StandarButton(
+                    onPressed: _mostrarDialogoConfirmacion,
+                    text: 'Cambiar Estado',
                   ),
                 ],
               ),

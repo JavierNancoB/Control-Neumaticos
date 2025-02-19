@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../button.dart';
 
 class SubmitButton extends StatelessWidget {
   final VoidCallback onPressed;
@@ -7,9 +8,9 @@ class SubmitButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    return StandarButton(
       onPressed: onPressed,
-      child: const Text('Añadir Bitácora'),
+      text: 'Añadir Bitácora',
     );
   }
 }

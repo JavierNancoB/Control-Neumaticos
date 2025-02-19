@@ -20,6 +20,8 @@ class MenuScreen extends StatefulWidget {
 class _MenuScreenState extends State<MenuScreen> {
   Color? alertaColor = Colors.grey[10];
   String? userEmail;
+  String? username;
+  String nombres = ''; // Aquí mantienes la variable 'nombres' para el nombre de la persona
   bool isDisabled = false;
   String errorMessage = '';
   String warningMessage = '';
@@ -36,21 +38,20 @@ class _MenuScreenState extends State<MenuScreen> {
       setState(() {
         alertaColor = isAlertaPendiente ? Colors.yellow : Colors.grey[10];
       });
-    }).catchError((e) {
-    });
+    }).catchError((e) {});
   }
 
   void _loadUserData() async {
     final prefs = await SharedPreferences.getInstance();
     final String? dateString = prefs.getString('date');
-    final String? username = prefs.getString('username');
-    final String? contrasenaTemporal = prefs.getString('contrasenaTemporal');
+    final String? username = prefs.getString('username'); // Esto sigue siendo para el email
+    final String contrasenaTemporal = prefs.getString('contrasenaTemporal') ?? '';
+    final String nombres = prefs.getString('nombres') ?? ''; // Aquí obtienes el nombre de la persona
 
-    if (username != null) {
-      setState(() {
-        userEmail = username;
-      });
-    }
+    setState(() {
+      this.nombres = nombres; // Aquí se actualiza la variable de instancia 'nombres'
+      userEmail = username; // Solo actualizas 'userEmail' si es necesario
+    });
 
     DateTime now = DateTime.now();
     if (dateString != null) {
@@ -64,7 +65,7 @@ class _MenuScreenState extends State<MenuScreen> {
       }
     }
 
-    if (contrasenaTemporal != null && contrasenaTemporal.isNotEmpty) {
+    if (contrasenaTemporal.isNotEmpty) {
       setState(() {
         isDisabled = true;
         errorMessage = 'Debes cambiar tu contraseña temporal antes de acceder a otras opciones.';
@@ -83,34 +84,42 @@ class _MenuScreenState extends State<MenuScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Selecciona una opción')),
+      appBar: AppBar(title: Text('Bienvenido $nombres')),
       body: Center(
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              if (errorMessage.isNotEmpty)
+              // Usamos un Spacer aquí para centrar los mensajes en la parte superior
+              if (errorMessage.isNotEmpty || warningMessage.isNotEmpty || (errorMessage.isEmpty && warningMessage.isEmpty))
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Center(
-                    child: Text(
-                      errorMessage,
-                      style: TextStyle(color: Colors.red, fontSize: 16),
-                      textAlign: TextAlign.center,
+                    child: Column(
+                      children: [
+                        if (errorMessage.isNotEmpty)
+                          Text(
+                            errorMessage,
+                            style: TextStyle(color: Colors.red, fontSize: 16),
+                            textAlign: TextAlign.center,
+                          ),
+                        if (warningMessage.isNotEmpty)
+                          Text(
+                            warningMessage,
+                            style: TextStyle(color: Colors.orange, fontSize: 16),
+                            textAlign: TextAlign.center,
+                          ),
+                        if (errorMessage.isEmpty && warningMessage.isEmpty)
+                          Text(
+                            'Selecciona una opción',
+                            style: TextStyle(fontSize: 18),
+                            textAlign: TextAlign.center,
+                          ),
+                      ],
                     ),
                   ),
                 ),
-              if (warningMessage.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                    child: Text(
-                      warningMessage,
-                      style: TextStyle(color: Colors.orange, fontSize: 16),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
+              const SizedBox(height: 20), // Espacio entre los mensajes y los botones
               StandarButton(
                 text: 'Información por patente',
                 onPressed: isDisabled ? null : () => _navigateTo(context, PatentePage()),
@@ -128,6 +137,8 @@ class _MenuScreenState extends State<MenuScreen> {
                 onPressed: isDisabled ? null : () => _navigateTo(context, AlertasMenu()),
                 color: isDisabled ? Colors.grey[400] : alertaColor,
               ),
+
+
               const SizedBox(height: 20),
               StandarButton(
                 text: 'Stock',
@@ -168,4 +179,5 @@ class _MenuScreenState extends State<MenuScreen> {
       ),
     );
   }
+
 }

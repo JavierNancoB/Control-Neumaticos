@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import '../../../../models/movil_modificar.dart';
 import '../../../../services/admin/movil/modificar_movil.dart';
+import '../../../../widgets/button.dart';
 
 class ModificarMovilPage extends StatefulWidget {
   final String patente;
 
-  const ModificarMovilPage({super.key, required this.patente, required String codigo});
+  const ModificarMovilPage({super.key, required this.patente});
 
   @override
   _ModificarMovilPageState createState() => _ModificarMovilPageState();
@@ -21,14 +22,13 @@ class _ModificarMovilPageState extends State<ModificarMovilPage> {
   final TextEditingController _ejesController = TextEditingController();
   final TextEditingController _cantidadNeumaticosController = TextEditingController();
 
-  int _tipoMovilSeleccionado = 1; // Valor inicial
+  int _tipoMovilSeleccionado = 1;
   final List<Map<String, dynamic>> _tiposMovil = [
     {'label': '4x2', 'value': 1, 'ejes': 2, 'neumaticos': 6},
     {'label': '6x2', 'value': 2, 'ejes': 2, 'neumaticos': 10},
     {'label': 'Rampla', 'value': 3, 'ejes': 2, 'neumaticos': 12},
   ];
 
-  // Obtener el móvil por patente
   Future<void> _fetchMovilData() async {
     try {
       Movil? movil = await movilService.getMovilByPatente(widget.patente);
@@ -37,54 +37,49 @@ class _ModificarMovilPageState extends State<ModificarMovilPage> {
           _movil = movil;
           _marcaController.text = movil.marca;
           _modeloController.text = movil.modelo;
-          _tipoMovilSeleccionado = movil.tipoMovil; // Asignar el tipo de móvil existente
-          _updateFieldsForTipoMovil(); // Actualizar los campos de ejes y neumáticos según el tipo de móvil
+          _tipoMovilSeleccionado = movil.tipoMovil;
+          _updateFieldsForTipoMovil();
           _isLoading = false;
         });
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error al cargar los datos del móvil'), backgroundColor: Colors.red),
+        const SnackBar(content: Text('Error al cargar los datos del móvil'), backgroundColor: Colors.red),
       );
     }
   }
 
-  // Actualizar los campos de ejes y neumáticos según el tipo de móvil
   void _updateFieldsForTipoMovil() {
     final tipoMovil = _tiposMovil.firstWhere((tipo) => tipo['value'] == _tipoMovilSeleccionado);
     _ejesController.text = tipoMovil['ejes'].toString();
     _cantidadNeumaticosController.text = tipoMovil['neumaticos'].toString();
   }
 
-  // Modificar el móvil
   Future<void> _modificarMovil() async {
     try {
-      // Asignar los valores de los campos editables
       _movil.marca = _marcaController.text.trim();
       _movil.modelo = _modeloController.text.trim();
       _movil.tipoMovil = _tipoMovilSeleccionado;
 
-      // Actualizar los valores de ejes y cantidad de neumáticos
       final tipoMovil = _tiposMovil.firstWhere((tipo) => tipo['value'] == _tipoMovilSeleccionado);
-      _movil.ejes = tipoMovil['ejes']; // Asignar el valor correspondiente de ejes
-      _movil.cantidadNeumaticos = tipoMovil['neumaticos']; // Asignar el valor correspondiente de neumáticos
+      _movil.ejes = tipoMovil['ejes'];
+      _movil.cantidadNeumaticos = tipoMovil['neumaticos'];
 
-
-      // Enviar los datos modificados al backend
       bool success = await movilService.modificarDatosMovil(widget.patente, _movil);
 
       if (success) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Móvil modificado con éxito'), backgroundColor: Colors.green),
+          const SnackBar(content: Text('Móvil modificado con éxito'), backgroundColor: Colors.green),
         );
+        Navigator.pop(context); // Regresa a la pantalla anterior después de éxito
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error al modificar el móvil'), backgroundColor: Colors.red),
+          const SnackBar(content: Text('Error al modificar el móvil'), backgroundColor: Colors.red),
         );
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error al modificar los datos del móvil'), backgroundColor: Colors.red),
+        const SnackBar(content: Text('Error al modificar los datos del móvil'), backgroundColor: Colors.red),
       );
     }
   }
@@ -102,7 +97,7 @@ class _ModificarMovilPageState extends State<ModificarMovilPage> {
         title: Text('Modificar Móvil - ${widget.patente}'),
       ),
       body: _isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : Padding(
               padding: const EdgeInsets.all(16.0),
               child: SingleChildScrollView(
@@ -120,13 +115,13 @@ class _ModificarMovilPageState extends State<ModificarMovilPage> {
                     const SizedBox(height: 10),
                     TextField(
                       controller: _ejesController,
-                      enabled: false, // Deshabilitar la edición
+                      enabled: false,
                       decoration: const InputDecoration(labelText: 'Ejes'),
                     ),
                     const SizedBox(height: 10),
                     TextField(
                       controller: _cantidadNeumaticosController,
-                      enabled: false, // Deshabilitar la edición
+                      enabled: false,
                       decoration: const InputDecoration(labelText: 'Cantidad de Neumáticos'),
                     ),
                     const SizedBox(height: 10),
@@ -142,14 +137,14 @@ class _ModificarMovilPageState extends State<ModificarMovilPage> {
                       onChanged: (value) {
                         setState(() {
                           _tipoMovilSeleccionado = value!;
-                          _updateFieldsForTipoMovil(); // Actualizar los campos cuando se cambia el tipo de móvil
+                          _updateFieldsForTipoMovil();
                         });
                       },
                     ),
                     const SizedBox(height: 20),
-                    ElevatedButton(
+                    StandarButton(
                       onPressed: _modificarMovil,
-                      child: const Text('Guardar Cambios'),
+                      text: 'Guardar Cambios',
                     ),
                   ],
                 ),

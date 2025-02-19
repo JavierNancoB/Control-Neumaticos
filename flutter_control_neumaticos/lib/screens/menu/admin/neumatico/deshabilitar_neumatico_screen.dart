@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../services/admin/neumaticos/deshabilitar_neumatico_service.dart';
+import '../../../../widgets/button.dart';
 
 class InhabilitarNeumaticoPage extends StatefulWidget {
   final String nfcData;
@@ -119,17 +120,19 @@ class _InhabilitarNeumaticoPageState extends State<InhabilitarNeumaticoPage> {
                   ),
                   const SizedBox(height: 20),
 
-                  // Botones para habilitar o inhabilitar
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  // Columna para botones, uno debajo del otro
+                  Column(
                     children: [
-                      ElevatedButton(
+                      StandarButton(
                         onPressed: () => _mostrarDialogoConfirmacion(1), // Estado "habilitado"
-                        child: const Text('Habilitar'),
+                        text: 'Habilitar',
+                        color: Colors.green, // Ajusta el color si lo deseas
                       ),
-                      ElevatedButton(
+                      const SizedBox(height: 10), // Espaciado entre botones
+                      StandarButton(
                         onPressed: () => _mostrarDialogoConfirmacion(2), // Estado "inhabilitado"
-                        child: const Text('Inhabilitar'),
+                        text: 'Inhabilitar',
+                        color: Colors.red, // Ajusta el color si lo deseas
                       ),
                     ],
                   ),

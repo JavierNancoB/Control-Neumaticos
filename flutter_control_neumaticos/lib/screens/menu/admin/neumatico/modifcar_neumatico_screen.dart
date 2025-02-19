@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pentacrom_neumaticos_2/widgets/button.dart';
 import '../../../../models/neumatico_modifcar.dart';
 import '../../../../services/admin/neumaticos/modificar_neumatico.dart';
 import '../../../../widgets/admin/neumatico/ubicacion_dropdown.dart';
@@ -218,11 +219,11 @@ class _ModificarNeumaticoPageState extends State<ModificarNeumaticoPage> {
                     // Botón de Guardar Cambios
                     Align(
                       alignment: Alignment.center,
-                      child: ElevatedButton(
+                      child: StandarButton(
                         onPressed: (_neumatico!.ubicacion != 0 && _neumatico!.tipoNeumatico != 0) 
                             ? _submitForm 
                             : null,
-                        child: const Text('Guardar Cambios'),
+                        text: 'Guardar Cambios',
                       ),
                     ),
                   ],

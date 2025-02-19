@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
-import 'screens/login/login_screen.dart'; // Importa la página de inicio
+import 'package:pentacrom_neumaticos_2/screens/splash/splash_screen.dart';
+import 'models/app_themes.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  // Puedes eliminar todo el código relacionado con dotenv aquí.
-
+void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-  
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const HomePage(),
+      theme: AppTheme.theme, // Usa el tema global
+      home: const SplashScreen(), // Mostramos el SplashScreen primero
     );
   }
 }

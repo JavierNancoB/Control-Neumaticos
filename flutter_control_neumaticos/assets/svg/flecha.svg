@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60.85 60.85">
+  <defs>
+    <style>
+      .cls-1 {
+        stroke: #00c0f3;
+      }
+
+      .cls-1, .cls-2 {
+        fill: none;
+        stroke-miterlimit: 10;
+        stroke-width: 2px;
+      }
+
+      .cls-2 {
+        stroke: #fff;
+      }
+    </style>
+  </defs>
+  <g id="Screen_01" data-name="Screen 01">
+    <g id="Background">
+      <g>
+        <rect class="cls-2" x="1" y="1" width="58.85" height="58.85" rx="10.2" ry="10.2"/>
+        <polyline class="cls-1" points="34.03 41.95 21.89 29.81 34.03 17.68"/>
+      </g>
+    </g>
+  </g>
+</svg>

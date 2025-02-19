@@ -3,7 +3,7 @@ import 'package:nfc_manager/nfc_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../widgets/button.dart';
 import '../../../widgets/diccionario.dart';
-import '../../../services/comprobar_neumatico_service.dart';
+import '../../../services/movil/comprobar_neumatico_service.dart';
 
 class ComprobarNeumaticosScreen extends StatefulWidget {
   final List<dynamic>? neumaticosData;

@@ -5,19 +5,17 @@ import '../../widgets/login/remember_me_checkbox.dart';
 import '../../widgets/login/login_button.dart';
 import '../../widgets/login/forgot_password_link.dart';
 import '../../services/auth_service.dart';
-import '../menu/menu_screen.dart';
-import 'recover_password.dart';
+import '../../screens/menu/menu_screen.dart';
+import '../../screens/login/recover_password.dart';
 
-
-
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class LoginForm extends StatefulWidget {
+  const LoginForm({super.key});
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _LoginFormState createState() => _LoginFormState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _LoginFormState extends State<LoginForm> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
   bool _obscureText = true;
@@ -68,24 +66,23 @@ class _HomePageState extends State<HomePage> {
       );
     } else {
       String token = response['token'];
-      int? userId = response['iD_USUARIO']; // Usamos 'iD_USUARIO' en lugar de 'id'
-      int? perfil = response['codigO_PERFIL']; // Usamos 'ID_PERFIL' en lugar de 'perfil'
-      String correo = response['correo']; // Usamos 'correO_USUARIO' en lugar de 'correo'
+      int? userId = response['iD_USUARIO'];
+      int? perfil = response['codigO_PERFIL'];
+      String correo = response['correo'];
       String dateString = response['fechA_CLAVE'];
       String? contrasenaTemporal = response['contraseñA_TEMPORAL'];
       DateTime date = DateTime.parse(dateString);
+      String nombreUsuario = response['nombres'];
 
+      await _authService.saveTokenAndUserId(
+        token, userId ?? 0, perfil ?? 0, correo, date, contrasenaTemporal ?? '', nombreUsuario);
 
-      await _authService.saveTokenAndUserId(token, userId ?? 0, perfil ?? 0, correo, date, contrasenaTemporal ?? '');
-
-      // Si 'userId' es null, podemos proceder de todas maneras
       if (userId == null) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('ID de usuario no disponible, pero puedes continuar.')),
         );
       }
 
-      // Guarda siempre el token y el userId si está disponible
       await _authService.saveUserData(username, password, _rememberMe);
 
       Navigator.push(
@@ -99,7 +96,6 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-
   void _togglePasswordVisibility() {
     setState(() {
       _obscureText = !_obscureText;
@@ -109,42 +105,54 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true, // Asegúrate de que esto esté habilitado
+      backgroundColor: Colors.white,
       body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const Text(
-                'Iniciar sesión',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 20),
-              UsernameField(controller: _usernameController),
-              const SizedBox(height: 20),
-              PasswordField(
-                controller: _passwordController,
-                obscureText: _obscureText,
-                toggleVisibility: _togglePasswordVisibility,
-              ),
-              const SizedBox(height: 20),
-              RememberMeCheckbox(
-                rememberMe: _rememberMe,
-                onChanged: (bool? value) {
-                  setState(() {
-                    _rememberMe = value ?? false;
-                  });
-                },
-              ),
-              const SizedBox(height: 20),
-              LoginButton(isLoading: _isLoading, onPressed: _login),
-              const SizedBox(height: 10),
-              ForgotPasswordLink(onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const RecuperarContrasenaPage()),
-                );
-              }),
-            ],
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Text(
+                  'Iniciar sesión',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: Column(
+                    children: [
+                      UsernameField(controller: _usernameController),
+                      const SizedBox(height: 20),
+                      PasswordField(
+                        controller: _passwordController,
+                        obscureText: _obscureText,
+                        toggleVisibility: _togglePasswordVisibility,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 20),
+                RememberMeCheckbox(
+                  rememberMe: _rememberMe,
+                  onChanged: (bool? value) {
+                    setState(() {
+                      _rememberMe = value ?? false;
+                    });
+                  },
+                ),
+                const SizedBox(height: 20),
+                LoginButton(isLoading: _isLoading, onPressed: _login),
+                const SizedBox(height: 10),
+                ForgotPasswordLink(onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const RecuperarContrasenaPage()),
+                  );
+                }),
+              ],
+            ),
           ),
         ),
       ),
