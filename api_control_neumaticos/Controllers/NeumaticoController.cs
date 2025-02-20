@@ -396,6 +396,7 @@ namespace api_control_neumaticos.Controllers
             {
                 Console.WriteLine("No se proporciona patente, asignando a la bodega.");
                 ubicacion = 1;
+                neumatico.UBICACION = ubicacion;
                 neumatico.ID_MOVIL = null;
             }
 

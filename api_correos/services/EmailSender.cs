@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Options;
 using System;
+using System.IO;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
@@ -39,12 +40,14 @@ namespace api_correos.services
 
                 mailMessage.To.Add(toEmail);
 
+                Attachment? attachment = null;
+
                 if (!string.IsNullOrEmpty(attachmentPath))
                 {
                     try
                     {
                         Console.WriteLine("Attempting to attach file...");
-                        var attachment = new Attachment(attachmentPath);
+                        attachment = new Attachment(attachmentPath);
                         mailMessage.Attachments.Add(attachment);
                         Console.WriteLine("Attachment added successfully.");
                     }
@@ -59,8 +62,16 @@ namespace api_correos.services
                     smtpClient.Credentials = new NetworkCredential(_emailSettings.SenderEmail, _emailSettings.SenderPassword);
                     smtpClient.EnableSsl = false;  // Deshabilitamos SSL
                     Console.WriteLine("Sending email...");
-                    await smtpClient.SendMailAsync(mailMessage); // linea 62
+                    await smtpClient.SendMailAsync(mailMessage); // línea 62
                     Console.WriteLine("Email sent successfully!");
+                }
+
+                // Eliminar el archivo después de enviar el correo
+                if (attachment != null)
+                {
+                    attachment.Dispose(); // Liberamos el archivo antes de eliminarlo
+                    File.Delete(attachmentPath);
+                    Console.WriteLine($"File {attachmentPath} has been deleted.");
                 }
             }
             catch (Exception ex)

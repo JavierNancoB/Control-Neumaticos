@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("api_correos")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4109d7b407c65beb95517328ba8da16af459c402")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5d2cf5173a9e876b267e5af89058fd9a4356b5ee")]
 [assembly: System.Reflection.AssemblyProductAttribute("api_correos")]
 [assembly: System.Reflection.AssemblyTitleAttribute("api_correos")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

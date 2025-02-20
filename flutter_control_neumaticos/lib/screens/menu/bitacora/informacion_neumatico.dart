@@ -101,15 +101,14 @@ class _InformacionNeumaticoState extends State<InformacionNeumatico> {
               
             ),
             const SizedBox(height: 16),
-            InfoRow(label: "ID Neumático", value: _neumaticoInfo!["iD_NEUMATICO"].toString()),
-            InfoRow(label: "Código", value: _neumaticoInfo!["codigo"].toString()),
             InfoRow(label: "Ubicación", value: _getUbicacion(_neumaticoInfo!["ubicacion"])),
+            InfoRow(label: "Tipo Neumático", value: _getTipoNeumatico(_neumaticoInfo!["tipO_NEUMATICO"])),
             InfoRow(label: "Patente Móvil", value: movilPatente ?? "No asignado"),
             InfoRow(label: "Fecha Ingreso", value: _formatFecha(_neumaticoInfo!["fechA_INGRESO"].toString())),
             InfoRow(label: "Fecha Salida", value: _neumaticoInfo!["fechA_SALIDA"] != null ? _formatFecha(_neumaticoInfo!["fechA_SALIDA"].toString()) : "N/A"),
             InfoRow(label: "Estado", value: _getEstado(_neumaticoInfo!["estado"])),
             InfoRow(label: "KM Total", value: "${_neumaticoInfo!["kM_TOTAL"]} km"),
-            InfoRow(label: "Tipo Neumático", value: _getTipoNeumatico(_neumaticoInfo!["tipO_NEUMATICO"])),
+
             const SizedBox(height: 24),
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

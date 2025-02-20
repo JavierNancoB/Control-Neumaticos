@@ -60,7 +60,7 @@ class _AlertListPageState extends State<AlertListPage> {
               String estadoTexto;
 
               if (alerta.estadoAlerta == 1) {
-                estadoColor = const Color.fromARGB(255, 252, 237, 171); // Pendiente -> Rojo
+                estadoColor = Colors.yellow;
                 estadoTexto = 'Pendiente';
               } else if (alerta.estadoAlerta == 2) {
                 estadoColor = const Color.fromARGB(255, 233, 245, 255); // Leído -> Azul
@@ -74,9 +74,15 @@ class _AlertListPageState extends State<AlertListPage> {
                 margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 color: estadoColor, // Usando color con opacidad
                 child: ListTile(
-                  title: Text(Diccionario.obtenerDescripcion(Diccionario.codigoAlerta, alerta.codigoAlerta)),
-                  subtitle: Text("Estado: $estadoTexto\nFecha: ${alerta.fechaIngreso}\nID: ${alerta.id}"),
-                  trailing: Icon(Icons.arrow_forward),
+                  title: Text(
+                    Diccionario.obtenerDescripcion(Diccionario.codigoAlerta, alerta.codigoAlerta),
+                    style: TextStyle(color: Colors.black), // Letras negras
+                  ),
+                  subtitle: Text(
+                    "Estado: $estadoTexto\nFecha: ${alerta.fechaIngreso}\nID: ${alerta.id}",
+                    style: TextStyle(color: Colors.black), // Letras negras
+                  ),
+                  trailing: Icon(Icons.arrow_forward, color: Colors.black), // Icono negro
                   onTap: () {
                     Navigator.push(
                       context,
