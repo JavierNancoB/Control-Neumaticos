@@ -1,10 +1,9 @@
-// ignore_for_file: use_build_context_synchronously, library_private_types_in_public_api
-
 import 'package:flutter/material.dart';
 import '../../../../models/neumatico_modifcar.dart';
 import '../../../../services/admin/neumaticos/modificar_neumatico.dart';
 import '../../../../widgets/admin/neumatico/ubicacion_dropdown.dart';
 import '../../../../widgets/diccionario.dart';
+import '../../../../widgets/button.dart';
 
 class AsignarNeumaticoPage extends StatefulWidget {
   final String patente;
@@ -96,8 +95,9 @@ class _AsignarNeumaticoPageState extends State<AsignarNeumaticoPage> {
           const SnackBar(
             content: Text(
               'Por seguridad no se recomienda traspasar un neumático traccional a direccional.',
-              style: TextStyle(color: Colors.red),
+              style: TextStyle(color: Colors.black), // Texto blanco
             ),
+            backgroundColor: Colors.yellow, // Fondo rojo
           ),
         );
         _alertaTipoMostrada = true; // Marcar que ya se mostró la alerta
@@ -182,11 +182,12 @@ class _AsignarNeumaticoPageState extends State<AsignarNeumaticoPage> {
                     // Botón de Guardar Cambios
                     Align(
                       alignment: Alignment.center,
-                      child: ElevatedButton(
+                      // Cambiamos elevatedButton por nuestro widget StandarButton
+                      child: StandarButton(
                         onPressed: (_neumatico!.ubicacion != 0 && _neumatico!.tipoNeumatico != 0) 
                             ? _submitForm 
                             : null,
-                        child: const Text('Guardar Cambios'),
+                        text: 'Guardar Cambios',
                       ),
                     ),
                   ],

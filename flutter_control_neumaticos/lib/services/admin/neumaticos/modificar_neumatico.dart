@@ -4,6 +4,16 @@ import '../../../models/neumatico_modifcar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../models/config.dart';
 
+// Excepción personalizada para cuando la posición ya está ocupada
+class NeumaticoYaAsignadoException implements Exception {
+  final String message;
+
+  NeumaticoYaAsignadoException(this.message);
+
+  @override
+  String toString() => message;
+}
+
 class NeumaticoService {
   // Obtiene el token desde SharedPreferences
   static Future<String?> _getToken() async {
@@ -119,7 +129,8 @@ class NeumaticoService {
     print('¿Posición única?: $isPosicionUnica');
 
     if (!isPosicionUnica) {
-      throw Exception('La posición ${neumatico.ubicacion} ya está ocupada por otro neumático. Por favor, elija otra posición.');
+      // Aquí lanzamos la excepción personalizada en lugar de la genérica
+      throw NeumaticoYaAsignadoException('La posición ${neumatico.ubicacion} ya está ocupada por otro neumático. Por favor, elija otra posición.');
     }
 
     // Si la patente está vacía, la ubicación se ajusta a 'BODEGA' (ubicacion = 1)
@@ -151,7 +162,7 @@ class NeumaticoService {
     // Manejar la respuesta del servidor
     if (response.statusCode != 204) {
       if (response.statusCode == 409) {
-        throw Exception('Error 409: La posición ya está ocupada por otro neumático.');
+        throw NeumaticoYaAsignadoException('La posición ya está ocupada por otro neumático.');
       }
       throw Exception('Error al modificar el neumático. Código: ${response.statusCode}');
     }

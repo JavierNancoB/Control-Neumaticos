@@ -2,6 +2,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../models/config.dart';
+import 'dart:io';  // Necesario para manejar SocketException
+import 'package:http/http.dart';  // Necesario para ClientException
 
 class AuthService {
   final String apiUrl = '${Config.awsUrl}/api/Auth/Login';
@@ -13,7 +15,6 @@ class AuthService {
       'Clave': password,
     });
 
-
     try {
       final response = await http.post(
         Uri.parse(apiUrl),
@@ -21,14 +22,20 @@ class AuthService {
         body: body,
       );
 
-
       if (response.statusCode == 200) {
         return _handleLoginResponse(response.body);
       } else {
         return _handleErrorResponse(response.body);
       }
+    } on SocketException catch (_) {
+      // Si hay un error de red, lo manejamos aquí
+      return {'error': 'No se pudo conectar al servidor. Verifica tu conexión a Internet.'};
+    } on ClientException catch (_) {
+      // Error relacionado con la API o cliente, como mal formado el request
+      return {'error': 'Error de conexión con el servidor. Puede que el servidor esté inactivo o haya un problema con la API.'};
     } catch (e) {
-      return {'error': e.toString()};  // Muestra el error en limpio, tal cual viene
+      // Para otros errores generales
+      return {'error': 'Error desconocido: ${e.toString()}'};
     }
   }
 
@@ -47,7 +54,7 @@ class AuthService {
     try {
       // Intentamos parsear como JSON, si no podemos, devolvemos el texto tal cual
       final Map<String, dynamic> errorResponse = json.decode(responseBody);
-      return {'error': errorResponse['message'] ?? 'Ha ocurrido un error desconocido.'};
+      return {'error': errorResponse['message'] ?? 'Error desconocido en el servidor'};
     } catch (e) {
       // Si no es JSON, solo devolvemos el texto tal cual
       return {'error': responseBody};

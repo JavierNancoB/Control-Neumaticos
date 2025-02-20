@@ -50,7 +50,13 @@ class _LoginFormState extends State<LoginForm> {
 
     if (username.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Por favor, llena todos los campos')),
+        SnackBar(
+          content: Text(
+            'Por favor, llena todos los campos',
+            style: TextStyle(color: Colors.white), // Texto blanco
+          ),
+          backgroundColor: Colors.red, // Fondo rojo
+        ),
       );
       setState(() {
         _isLoading = false;
@@ -61,9 +67,18 @@ class _LoginFormState extends State<LoginForm> {
     var response = await _authService.login(username, password);
 
     if (response['error'] != null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(response['error'])),
-      );
+      if (response['error'] != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              response['error'],
+              style: TextStyle(color: Colors.white), // Texto blanco
+            ),
+            backgroundColor: Colors.red, // Fondo rojo
+          ),
+        );
+      }
+
     } else {
       String token = response['token'];
       int? userId = response['iD_USUARIO'];
