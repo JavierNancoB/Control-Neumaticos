@@ -1,9 +1,7 @@
 **/appsettings.json
 api_control_neumaticos/appsettings.Development.json
+api_correos/appsettings.Development.json
+
 flutter_control_neumaticos/lib/models/config.dart
 **/appsettings.Production.json
-**/.env
-
-
-
-.fake
+**/.env/api_correos/appsettings.Development.json
