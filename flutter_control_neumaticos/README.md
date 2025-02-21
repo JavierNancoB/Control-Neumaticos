@@ -76,16 +76,20 @@ Para ejecutar la aplicación en un dispositivo físico o emulador, usa:
 Cabe resaltar que muchas de las caracteristicas que se ven aqui si bien se arman en screens, estan construidas en la carpeta widgets.
 
 ### **1. Login**
-La pantalla de inicio de sesión permite a los usuarios autenticarse.
+La pantalla de inicio de sesión permite a los usuarios autenticarse, esta pantalla se crea junto con [splash_screen.dart](./lib/screens/splash/splash_screen.dart), en esta pantalla encontraras todo lo relacionado a la animación de inicio como al formulario de inicio de sesión.
 
-<img src="assets/readme/Screenshot_login.png" width="200">
+<div style="display: flex; gap: 20px;">
+  <img src="assets/readme/Screenshot_login.png" width="150">
+  <img src="assets/readme/Screenshot_prelogin.png" width="150">
+</div>
 
 #### **Elementos Principales:**
+- **[LoginForms](./lib/widgets/login/login_form.dart):** Tiene como objetivo unir todos los widgets relacionados al login, ademas es escencial puesto que es llamado desde el splash para que junto con la animación al momento de la apertura de la aplicación aparezca este widgets en la pantalla posterior a la animación.
 - **[UsernameField](./lib/widgets/login/username_field.dart):** Campo de entrada para el usuario.
 - **[PasswordField](./lib/widgets/login/password_field.dart):** Campo de entrada de contraseña con opción de ocultar/mostrar.
-- **RememberMeCheckbox:** Opción para recordar las credenciales.
-- **ForgotPasswordLink:** Enlace a la pantalla de recuperación de contraseña.
-- **LoginButton:** Envío de datos al servicio de autenticación.
+- **[RememberMeCheckbox](./lib/widgets/login/remember_me_checkbox.dart):** Opción para recordar las credenciales.
+- **[ForgotPasswordLink](./lib/widgets/login/forgot_password_link.dart):** Enlace a la pantalla de recuperación de contraseña.
+- **[LoginButton](./lib/widgets/login/login_button.dart):** Envío de datos al servicio de autenticación.
 
 #### **Lógica Implementada:**
 - **Autocompletar:** Si el usuario seleccionó "Recordarme", se cargan los datos desde el almacenamiento local.
