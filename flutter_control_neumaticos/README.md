@@ -73,15 +73,16 @@ Para ejecutar la aplicación en un dispositivo físico o emulador, usa:
 ---
 
 ## Descripción de Pantallas
+Cabe resaltar que muchas de las caracteristicas que se ven aqui si bien se arman en screens, estan construidas en la carpeta widgets.
 
 ### **1. Login**
-La pantalla de inicio de sesión permite a los usuarios autenticarse, cabe resaltar que muchas de las caracteristicas que se ven aqui si bien se arman en screens, estan construidas en la carpeta widgets.
+La pantalla de inicio de sesión permite a los usuarios autenticarse.
 
 <img src="assets/readme/Screenshot_login.png" width="200">
 
 #### **Elementos Principales:**
-- **UsernameField:** Campo de entrada para el usuario.
-- **PasswordField:** Campo de entrada de contraseña con opción de ocultar/mostrar.
+- **[UsernameField](./lib/widgets/login/username_field.dart):** Campo de entrada para el usuario.
+- **[PasswordField](./lib/widgets/login/password_field.dart):** Campo de entrada de contraseña con opción de ocultar/mostrar.
 - **RememberMeCheckbox:** Opción para recordar las credenciales.
 - **ForgotPasswordLink:** Enlace a la pantalla de recuperación de contraseña.
 - **LoginButton:** Envío de datos al servicio de autenticación.
