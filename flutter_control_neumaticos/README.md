@@ -24,6 +24,9 @@ Ejecuta el siguiente comando en la terminal:
   cd flutter_control_neumaticos
 ```
 
+### 2.1 config.dart
+en la carpeta de models copia el archivo [config_ejemplo.dart](./lib/models/config_ejemplo.dart) y renómbralo a `config.dart`. Luego, modifica la URL base según tu API, sin esto la aplicación no funcionará.
+
 ### 3. Instalar Dependencias
 Dentro de la carpeta del proyecto, ejecuta:
 ```bash
@@ -77,25 +80,27 @@ Para obtener una APK en modo perfil:
 
 ---
 
-## Dependencias Utilizadas
+## 📦 Dependencias del Proyecto
 
-### **Principales Librerías**
-- **`flutter`**: SDK principal.
-- **`cupertino_icons`**: Iconos con estilo iOS.
-- **`nfc_manager`**: Manejo de NFC.
-- **`pin_code_fields`**: Campos de entrada para códigos PIN.
-- **`http`**: Realizar peticiones a la API.
-- **`shared_preferences`**: Almacenamiento local de datos.
-- **`intl`**: Manejo de fechas y formatos.
-- **`email_validator`**: Validación de correos electrónicos.
-- **`path_provider`**: Acceso a directorios del dispositivo.
-- **`permission_handler`**: Manejo de permisos.
-- **`open_file`**: Abrir archivos desde la aplicación.
-- **`flutter_dotenv`**: Cargar variables de entorno.
-- **`flutter_svg`**: Soporte para SVG en Flutter.
-- **`flutter_native_splash`**: Configuración de splash screen.
-- **`flutter_launcher_icons`**: Generar íconos de la app.
-- **`google_fonts`**: Fuentes de Google Fonts.
+| Dependencia              | Versión   | Descripción |
+|--------------------------|----------|-------------|
+| `flutter`               | SDK      | Framework principal para la app. |
+| `cupertino_icons`       | ^1.0.8   | Íconos estilo iOS para Flutter. |
+| `nfc_manager`           | ^3.5.0   | Permite leer y escribir etiquetas NFC. |
+| `pin_code_fields`       | ^8.0.1   | Campos de entrada para códigos PIN/OTP. |
+| `http`                  | ^1.3.0   | Cliente HTTP para realizar peticiones a APIs. |
+| `shared_preferences`    | ^2.3.5   | Almacenamiento local de datos clave-valor. |
+| `intl`                  | ^0.20.2  | Soporte para formatos de fecha, hora y número. |
+| `email_validator`       | ^3.0.0   | Valida direcciones de correo electrónico. |
+| `path_provider`         | ^2.1.5   | Obtiene rutas de almacenamiento en el dispositivo. |
+| `permission_handler`    | ^11.3.1  | Maneja permisos de usuario en iOS/Android. |
+| `open_file`             | ^3.5.10  | Abre archivos con apps predeterminadas del sistema. |
+| `flutter_dotenv`        | ^5.2.1   | Carga variables de entorno desde un archivo `.env`. |
+| `flutter_svg`           | ^2.0.17  | Renderiza imágenes SVG en Flutter. |
+| `flutter_native_splash` | ^2.4.5   | Configura una pantalla de carga personalizada. |
+| `flutter_launcher_icons`| ^0.14.3  | Personaliza los íconos de la app en iOS/Android. |
+| `google_fonts`          | ^6.2.1   | Permite usar fuentes de Google fácilmente. |
+
 
 ---
 
@@ -190,6 +195,9 @@ El AuthService es el servicio encargado de manejar la autenticación de usuarios
 
 #### Modelo de Configuracion de Endpoint o [config.dart](./lib/models/config_ejemplo.dart)
 La clase Config es un modelo simple que almacena la URL base del servidor de la API. Su propósito principal es centralizar la configuración del endpoint, facilitando los cambios sin necesidad de modificar múltiples archivos dentro del código, un dato sumamente relevante es que en el repositorio hay un config de ejemplo el cual debe ser cambiado por un endpoint donde la API este corriendo y sea accesible desde el dispositivo.
+
+RECUERDA: Copia el archivo `config_ejemplo.dart` y renómbralo a `config.dart`. Luego, modifica la URL base según tu API.
+
 
 #### Modelo de Temas o [app_colors.dart](./lib/models/temas/app_colors.dart) y [app_themes.dart](./lib/models/temas/app_themes.dart)
 La clase AppColors define una paleta de colores centralizada para la aplicación, asegurando coherencia visual en toda la interfaz. La clase AppTheme define el tema global de la aplicación utilizando la paleta de colores y la tipografía Figtree.
