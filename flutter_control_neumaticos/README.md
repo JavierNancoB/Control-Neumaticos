@@ -45,7 +45,7 @@ Para ejecutar la aplicación en un dispositivo físico o emulador, usa:
 - **`screens/`**: Contiene las pantallas principales de la aplicación, como login, menú y gestión de neumáticos.
 - **`widgets/`**: Componentes reutilizables, como botones y cuadros de diálogo.
 - **`services/`**: Manejo de la lógica de negocio, NFC y llamadas a la API.
-- **`models/`**: Definición de clases y estructuras de datos.
+- **`models/`**: Definición de clases y estructuras de datos, ademas de los temas que utiliza la aplicación.
 - **`utils/`**: Funciones de utilidad, como el formateo de fechas.
 
 ---
@@ -64,16 +64,16 @@ Para ejecutar la aplicación en un dispositivo físico o emulador, usa:
 - **`path_provider`**: Acceso a directorios del dispositivo.
 - **`permission_handler`**: Manejo de permisos.
 - **`open_file`**: Abrir archivos desde la aplicación.
-  flutter_dotenv:
-  flutter_svg: 
-  flutter_native_splash: 
-  flutter_launcher_icons: 
-  google_fonts: 
+- **`flutter_dotenv`**: Cargar variables de entorno.
+- **`flutter_svg`**: Soporte para SVG en Flutter.
+- **`flutter_native_splash`**: Configuración de splash screen.
+- **`flutter_launcher_icons`**: Generar íconos de la app.
+- **`google_fonts`**: Fuentes de Google Fonts.
 
 ---
 
-## Descripción de Pantallas
-Cabe resaltar que muchas de las caracteristicas que se ven aqui si bien se arman en screens, estan construidas en la carpeta widgets.
+## Descripción de Pantallas [(./screens)](./lib/screens/)
+Aquí es donde se generan todas las pantallas que uno vé en la aplicación, posee muy poca lógica de eso se encarga servicios, para los temas se encarga models, ambos se encuentran más abajo. Cabe resaltar que muchas de las caracteristicas que se ven aqui si bien se arman en screens, estan construidas en la carpeta widgets.
 
 ### **1. Login**
 La pantalla de inicio de sesión permite a los usuarios autenticarse, esta pantalla se crea junto con [splash_screen.dart](./lib/screens/splash/splash_screen.dart), en esta pantalla encontraras todo lo relacionado a la animación de inicio como al formulario de inicio de sesión.
@@ -152,7 +152,33 @@ Podemos generar un archivo excel con la informacion de usuarios, moviles y neuma
 La última opcion nos permite reestablecer nuestra contraseña, al momento de hacerlo nos devolveremos al inicio de sesión y tendremos que entrar con nuestras credenciales nuevamente. esta opción es la unica que no se bloquea cuando el administrador reestablece nuestra contraseña, esto con el fin de que lo primero que vea el usaurio al momento de entrar cuando su contraseña sea reestablecida por el administrador sea reestablecer por parte del usuario la contraseña. [reestablecer_passw_page.dart](./lib/screens/menu/admin/usuario/reestablecer_passw_page.dart).
 
 <img src="assets/readme/reestablecerContraseña/flutter_01.png" width="150">
+
 ---
+
+## Models [(./models)](./lib/models/) y Services [(./services)](./lib/services/) 
+El objetivo de services es recibir y mandar toda la logica a traves de solicitudes a la API. La mayoria de models y services trabajan en conjunto, principalmente es cuando se hace la solicitud a la api y la respuesta de aquella es un .JSON, con el fin de ordenar en variables los datos que nos llega de la solicitud se crean ciertos models. A continuacion se mostraran algunos services y models más importantes:
+
+#### Servicio de autenticacion o [auth_service.dart](./lib/services/auth_service.dart)
+
+#### Modelo de Configuracion de Endpoint o [config.dart](./lib/models/config_ejemplo.dart)
+
+#### Modelo de Temas o [app_colors.dart](./lib/models/temas/app_colors.dart) y [app_themes.dart](./lib/models/temas/app_themes.dart)
+
+---
+
+## Widgets [(./widgets)](./lib/widgets/)
+Aquí en su mayoria se encuentra el mayor contenido reutilizable de la aplicación, cosas como el StandarButton que es casi el unico boton perteneciente y diccionario que se utiliza para traducir lo que nos entrega la api para un formato más amigable para el usuario, los revisaremos a continuación:
+
+#### StandarButton [button.dart](./lib/widgets/button.dart)
+
+#### Diccionario [diccionario.dart](./lib/widgets/diccionario.dart)
+
+---
+
+## Utils [./utils/](./lib/utils/)
+Por el moemnto solo encontraremos el de snackbar.
+
+#### Snackbar [./snackbar_util.dart](./lib/utils/snackbar_util.dart)
 
 ## Contacto
 Para consultas o soporte, contactar javiernancob@gmail.com.
