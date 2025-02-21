@@ -98,7 +98,7 @@ El menú proporciona acceso a las principales funcionalidades:
 <img src="assets/readme/Screenshot_menu.png" width="300">
 
 #### Información Patentes.
-Podemos buscar la información de un movil a tarves de su patente, [patente_screen.dart] 
+Podemos buscar la información de un movil a tarves de su patente, [buscar_movil_screen.dart](./lib/screens/menu/patentes/buscar_movil_screen.dart)
 
 <img src="assets/readme/patente/Screenshot_patente.png" width="300">
 
