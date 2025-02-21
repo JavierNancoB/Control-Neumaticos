@@ -7,7 +7,7 @@ Este repositorio ha sido desarrollado por Javier Alonso Nanco Becerra para la em
 La aplicación permite gestionar neumáticos utilizando chips NFC implantados en cada uno de ellos. Cada chip cuenta con un identificador único (ID), lo que facilita el registro y la visualización del historial de cada neumático. Entre las funcionalidades principales de la aplicación se incluyen:
 
 - Registro y monitoreo del kilometraje de cada neumático.
-- Identificación del tipo de neumático.
+- Comprobaciones en movil de la existencia de los neumáticos.
 - Alerta temprana para jefes de planta o administradores sobre cualquier peligro relacionado al estado de los neumáticos.
 
 El sistema está diseñado para mejorar la seguridad, reducir costos y evitar irregularidades en la gestión de los neumáticos.
@@ -58,8 +58,8 @@ En caso de no tener instalado Flutter, [haz clic aquí](./flutter_control_neumat
 ## Recursos de Documentación
 En la carpeta [resources](./resources/README.md) encontrarás:
 
-1. **Colección de Postman:** Permite probar los endpoints de la API de forma sencilla.
-2. **Diagrama de flujo:** Describe el flujo de la base de datos.
+1. **Colección de Postman:** Se encuentran los endpoints de la API para pruebas de forma sencilla.
+2. **Diagrama de flujo:** Describe el flujo de la base de datos de la API principal.
 
 ## Contacto
 Si tienes dudas se encuentra mas documentación en las carpetas de las aplicacions o si necesitas más información, no dudes en contactarme a través de mi correo personal javiernancob@gmail.com.

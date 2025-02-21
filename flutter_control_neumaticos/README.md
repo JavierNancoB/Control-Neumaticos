@@ -64,15 +64,20 @@ Para ejecutar la aplicación en un dispositivo físico o emulador, usa:
 - **`path_provider`**: Acceso a directorios del dispositivo.
 - **`permission_handler`**: Manejo de permisos.
 - **`open_file`**: Abrir archivos desde la aplicación.
+  flutter_dotenv:
+  flutter_svg: 
+  flutter_native_splash: 
+  flutter_launcher_icons: 
+  google_fonts: 
 
 ---
 
 ## Descripción de Pantallas
 
 ### **1. Login**
-La pantalla de inicio de sesión permite a los usuarios autenticarse.
+La pantalla de inicio de sesión permite a los usuarios autenticarse, cabe resaltar que muchas de las caracteristicas que se ven aqui si bien se arman en screens, estan construidas en la carpeta widgets.
 
-<img src="assets/readme/Screenshot_login.jpg" width="300">
+<img src="assets/readme/Screenshot_login.png" width="300">
 
 #### **Elementos Principales:**
 - **UsernameField:** Campo de entrada para el usuario.
@@ -90,7 +95,7 @@ La pantalla de inicio de sesión permite a los usuarios autenticarse.
 ### **2. Menú Principal**
 El menú proporciona acceso a las principales funcionalidades:
 
-<img src="assets/readme/Screenshot_menu.jpg" width="300">
+<img src="assets/readme/Screenshot_menu.png" width="300">
 
 #### Información Patentes.
 Podemos buscar la información de un movil a tarves de su patente, [patente_screen.dart] 
