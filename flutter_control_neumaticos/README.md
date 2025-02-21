@@ -100,8 +100,16 @@ El menú proporciona acceso a las principales funcionalidades:
 #### Información Patentes.
 Podemos buscar la información de un movil a tarves de su patente, [patente_screen.dart] 
 
+<img src="assets/readme/patente/Screenshot_patente.png" width="300">
+
 #### Bitacora.
 Nos redigirá a la pagina [lector NFC](./lib/screens/nfc/nfc_reader.dart), nos permitirá leer los chips y reedirigirnos a [informacion_neumatica.dart](./lib/screens/menu/bitacora/informacion_neumatico.dart).
+
+<div style="display: flex; gap: 10px;">
+  <img src="assets/readme/bitacora/flutter_01.png" width="200">
+  <img src="assets/readme/bitacora/flutter_02.png" width="200">
+  <img src="assets/readme/bitacora/flutter_03.png" width="200">
+</div>
 
 #### Alertas.
 Alertas en caso de existir algun tipo de alerta pendiente o leida se mostrara en el menú principal de color amarillo indicando que existen alertas pendientes. La opcion de alertas nos dará 2 opciones:
