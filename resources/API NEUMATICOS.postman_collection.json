@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "2788164a-4ded-4c70-82cb-3b6931a81ade",
-		"name": "API NEUMATICOS",
+		"name": "Api Neumáticos",
 		"description": "1. **Inicio de sesión (POST /login)**  \n    El proceso de autenticación comienza con la solicitud de inicio de sesión mediante el método `POST` al endpoint `/login`. En esta solicitud:\n    \n\n- Se debe enviar un cuerpo con los campos `usuario` y `contraseña` en formato plano .JSON (sin codificar).\n    \n- Si las credenciales son correctas, el servidor retornará un **token** de autenticación en la respuesta (Este tiene una duracion de 15 minutos y posterior a esto debe ser renovada, la respuesta del por que es tan corta es principalmente para evitar abusos de terceros, para facilitar las cosas, la aplicacion se encargara de actualizar el token a su debido tiempo).\n    \n\n2\\. **Incluir el token en las solicitudes subsiguientes**\n\n- Se **incluye por defecto el token para cada solicitud**, en caso de que salga el **error 401 UNAUHTORIZED** puede incluir el token de manera manual. Para incluir el token en cada solicitud se debe ajustar, para este proceso en la solicitud se debe marcar **AUTHORIZATION**, posteriormente en el desplegable **AUTH TYPE** se marca **Bearer Token**, y en el campo que aparece se inserta el token anteriormente retornado por login",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "33000682"
@@ -69,10 +69,13 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:5062/api/Bodega",
+									"raw": "http://127.0.0.1:5062/api/Bodega",
 									"protocol": "http",
 									"host": [
-										"localhost"
+										"127",
+										"0",
+										"0",
+										"1"
 									],
 									"port": "5062",
 									"path": [
@@ -207,12 +210,15 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:5062/api/usuarios",
+									"raw": "http://ec2-3-15-226-208.us-east-2.compute.amazonaws.com/api/usuarios",
 									"protocol": "http",
 									"host": [
-										"localhost"
+										"ec2-3-15-226-208",
+										"us-east-2",
+										"compute",
+										"amazonaws",
+										"com"
 									],
-									"port": "5062",
 									"path": [
 										"api",
 										"usuarios"
@@ -355,7 +361,7 @@
 								"method": "PUT",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:5062/api/Usuarios/ModificarDatosUsuario?mail=javier.nanco@pentacrom.cl&nuevosMail=javier.nanco@pentacrom.cl&nombres=Javier Alonso&apellidos=Nanco Becerra&codigoPerfil=1&idUsuarioBitacora=2",
+									"raw": "http://localhost:5062/api/Usuarios/ModificarDatosUsuario?mail=javier.nanco@perrot.cl&nuevosMail=javier.nanco@pentacrom.cl&nombres=Javier Alonso&apellidos=Nanco Becerra&codigoPerfil=1&idUsuarioBitacora=2",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -369,7 +375,7 @@
 									"query": [
 										{
 											"key": "mail",
-											"value": "javier.nanco@pentacrom.cl"
+											"value": "javier.nanco@perrot.cl"
 										},
 										{
 											"key": "nuevosMail",
@@ -1114,6 +1120,46 @@
 										{
 											"key": "codigo",
 											"value": "105645"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "verificar Si Neumatico En Movil",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"codigo\": 111111\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5062/api/Neumaticos/verificarSiNeumaticoEnMovil?codigo=208837&idMovil=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Neumaticos",
+										"verificarSiNeumaticoEnMovil"
+									],
+									"query": [
+										{
+											"key": "codigo",
+											"value": "208837"
+										},
+										{
+											"key": "idMovil",
+											"value": "1"
 										}
 									]
 								}
@@ -1887,6 +1933,121 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Registra Comprobar Neumatico En Movil",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/Bitacora/RegistraComprobarNeumaticoEnMovil",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"Bitacora",
+										"RegistraComprobarNeumaticoEnMovil"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Historial Movil",
+					"item": [
+						{
+							"name": "Historial Movil",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/HistorialMovil",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"HistorialMovil"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "HistorialMovil",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"IDMovil\": 1,\r\n  \"IDUsuario\": 1,\r\n  \"CODIGO\": 2,\r\n  \"FECHA\": \"2025-02-18T14:30:00\",\r\n  \"ESTADO\": 1,\r\n  \"OBSERVACION\": \"Historial de mantenimiento creado\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5062/api/HistorialMovil",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"HistorialMovil"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Rango de Fechas",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						},
+						{
+							"name": "usuarios",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5062/api/HistorialMovil/movilPorId/1/usuarios/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5062",
+									"path": [
+										"api",
+										"HistorialMovil",
+										"movilPorId",
+										"1",
+										"usuarios",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Patentes",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
 						}
 					]
 				}
@@ -1939,7 +2100,7 @@
 								"method": "PUT",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:5062/api/Usuarios/RestablecerClave?mail=javier.nanco@pentacrom.cl&NuevaClave=SuperJavier10?&administrador=false",
+									"raw": "http://localhost:5062/api/Usuarios/RestablecerClave?mail=javier.nanco@pentacrom.cl&NuevaClave=SuperJavier10?&administrador=true",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1961,7 +2122,7 @@
 										},
 										{
 											"key": "administrador",
-											"value": "false"
+											"value": "true"
 										}
 									]
 								}
@@ -2174,7 +2335,7 @@
 					]
 				},
 				{
-					"name": "New Request",
+					"name": "Enviar con Fecha",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -2271,7 +2432,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"Correo\": \"javier.nanco@pentacrom.cl\",\r\n    \"Clave\": \"Superjavier17?\"\r\n}\r\n",
+					"raw": "{\r\n    \"Correo\": \"javier.nanco@pentacrom.cl\",\r\n    \"Clave\": \"SuperJavier10?*\"\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -2279,15 +2440,15 @@
 					}
 				},
 				"url": {
-					"raw": "http://10.250.200.61:5062/api/Auth/Login",
+					"raw": "http://18.221.116.96:80/api/Auth/Login",
 					"protocol": "http",
 					"host": [
-						"10",
-						"250",
-						"200",
-						"61"
+						"18",
+						"221",
+						"116",
+						"96"
 					],
-					"port": "5062",
+					"port": "80",
 					"path": [
 						"api",
 						"Auth",

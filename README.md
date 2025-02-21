@@ -17,6 +17,7 @@ El repositorio está organizado de la siguiente manera:
 
 - **`/flutter_control_neumaticos`**: Contiene el código fuente de la aplicación móvil desarrollada en Flutter.
 - **`/api_control_neumaticos`**: Contiene el código fuente de la API desarrollada en ASP.NET Core.
+- **`/api_correos`**: Contiene el código fuente de la API que tiene como objetivo enviar correos.
 - **`/resources`**: Incluye los recursos de documentación:
 
 ## Tecnologías Utilizadas
@@ -29,6 +30,7 @@ El repositorio está organizado de la siguiente manera:
 ## Uso del Repositorio
 
 ### 1. Clonar el repositorio
+
 ```bash
 git clone https://github.com/JavierNancoB/Control-Neumaticos.git
 ```
@@ -38,6 +40,7 @@ En caso de no tener instalado ASP.NET Core, [haz clic aquí](./api_control_neuma
 1. Dirígete a la carpeta `aspnet-core-api`.
 2. Configura la cadena de conexión a la base de datos en el archivo `appsettings.json`.
 3. Ejecuta la API utilizando Visual Studio o la CLI de .NET:
+
    ```bash
    dotnet run
    ```
@@ -47,6 +50,7 @@ En caso de no tener instalado Flutter, [haz clic aquí](./flutter_control_neumat
 1. Dirígete a la carpeta `flutter-app`.
 2. Asegúrate de tener Flutter configurado.
 3. Ejecuta la aplicación:
+
    ```bash
    flutter run
    ```
