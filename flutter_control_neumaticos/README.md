@@ -131,7 +131,9 @@ Para mayor información sobre la opción Alertas: [alertas_menu.dart](./lib/scre
 </div>
 
 #### Stock.
-Stock se encarga de mostrarnos todos los neumaticos que no esten asignados a ningun vehiculo o que su ubicacion sea BODEGA, [stock_page.dart](./lib/screens/menu/stock/stock_page.dart).
+Stock se encarga de mostrarnos todos los neumaticos que esten habilitados y que ademas que su ubicacion sea BODEGA, esto quiere decir que no esten asignados a ningun vehiculo. Para informacion más especifica sobre Stock se encuentra en su archivo: [stock_page.dart](./lib/screens/menu/stock/stock_page.dart).
+
+<img src="assets/readme/stock/flutter_01.png" width="150">
 
 #### Administración.
 Administración nos da la posibilidad de poder elegir entre estas 3 opciones que a su vez tienen un desgloce de más opciones:
