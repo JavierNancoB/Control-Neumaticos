@@ -170,15 +170,32 @@ El objetivo de services es recibir y mandar toda la logica a traves de solicitud
 Aquí en su mayoria se encuentra el mayor contenido reutilizable de la aplicación, cosas como el StandarButton que es casi el unico boton perteneciente y diccionario que se utiliza para traducir lo que nos entrega la api para un formato más amigable para el usuario, los revisaremos a continuación:
 
 #### StandarButton [button.dart](./lib/widgets/button.dart)
+El StandarButton es un widget personalizado que representa un botón estándar con varias configuraciones opcionales. Permite personalizar el texto, el color de fondo, el gradiente, la acción al presionar (callback) y el radio de bordes. Si no se pasa una acción al presionar (onPressed), el botón se deshabilita y se vuelve gris. Este widget es útil para mantener un diseño consistente y reutilizable a lo largo de la aplicación. El StandarButton ofrece:
+
+- Un botón de tamaño fijo (250x50) con un texto personalizado.
+- Configuración de color de fondo y gradiente.
+- Radio de bordes personalizable.
+- Acción opcional al presionar (onPressed).
+- Comportamiento deshabilitado cuando no se proporciona una acción.
+
+Este botón se usa para crear interfaces limpias y consistentes, ayudando a mantener la coherencia del diseño en toda la aplicación.
 
 #### Diccionario [diccionario.dart](./lib/widgets/diccionario.dart)
+El widget Diccionario es una clase estática que contiene varios diccionarios (mapas) con valores clave-valor. Cada diccionario mapea un número entero a una descripción legible que se utiliza en la aplicación. Los diccionarios cubren diversas categorías, como tipos de perfiles de usuario, estados de objetos (neumáticos, móviles, alertas), ubicaciones de neumáticos y eventos en una bitácora.
 
+La clase también proporciona un método estático obtenerDescripcion() que permite obtener una descripción legible a partir de una clave en cualquier diccionario. Si la clave no existe en el diccionario, devuelve un valor por defecto de "Desconocido".
 ---
 
-## Utils [./utils/](./lib/utils/)
-Por el moemnto solo encontraremos el de snackbar.
+## Utils [(./utils/)](./lib/utils/)
+Por el momento solo encontraremos el de snackbar.
 
 #### Snackbar [./snackbar_util.dart](./lib/utils/snackbar_util.dart)
+La función personalizada showCustomSnackBar permite mostrar un SnackBar con un mensaje en la aplicación. La función recibe un BuildContext, un mensaje de tipo String y un parámetro opcional isError, que por defecto está configurado como false. Dependiendo del valor de isError, el color de fondo del SnackBar será rojo (para errores) o verde (para mensajes exitosos).
+
+La función utiliza el ScaffoldMessenger.of(context) para mostrar el SnackBar en la pantalla. El SnackBar tiene el mensaje proporcionado y siempre muestra el texto en color blanco, sin importar el color de fondo.
+
+En resumen, showCustomSnackBar proporciona una forma rápida y reutilizable de mostrar mensajes breves en la parte inferior de la pantalla, con colores diferenciados para indicar si es un mensaje de error o de éxito. Esto mejora la experiencia del usuario al recibir notificaciones visuales claras y consistentes.
+---
 
 ## Contacto
 Para consultas o soporte, contactar javiernancob@gmail.com.
