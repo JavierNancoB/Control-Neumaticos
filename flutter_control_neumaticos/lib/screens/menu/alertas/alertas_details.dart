@@ -16,32 +16,36 @@ class AlertDetailPage extends StatefulWidget {
 }
 
 class _AlertDetailPageState extends State<AlertDetailPage> {
-  final AlertaDetailsService _alertaService = AlertaDetailsService();
-  Map<String, dynamic>? alerta;
-  Map<String, dynamic>? neumatico;
-  Usuario? usuarioLeido;
-  Usuario? usuarioAtendido;
+  final AlertaDetailsService _alertaService = AlertaDetailsService(); // Servicio para obtener detalles de la alerta
+  Map<String, dynamic>? alerta; // Mapa para almacenar los detalles de la alerta
+  Map<String, dynamic>? neumatico; // Mapa para almacenar los detalles del neumático
+  Usuario? usuarioLeido; // Usuario que ha leído la alerta
+  Usuario? usuarioAtendido; // Usuario que ha atendido la alerta
 
   @override
   void initState() {
     super.initState();
-    _fetchData();
+    _fetchData(); // Llamada para obtener los datos al iniciar el estado
   }
 
+  // Función para obtener los datos de la alerta y el neumático
   Future<void> _fetchData() async {
     try {
-      final fetchedAlerta = await _alertaService.getAlertaById(widget.alertaId);
-      final fetchedNeumatico = await _alertaService.getNeumaticoById(fetchedAlerta['iD_NEUMATICO']);
+      final fetchedAlerta = await _alertaService.getAlertaById(widget.alertaId); // Obtener alerta por ID
+      final fetchedNeumatico = await _alertaService.getNeumaticoById(fetchedAlerta['iD_NEUMATICO']); // Obtener neumático por ID de alerta
       Usuario? leido;
       Usuario? atendido;
 
+      // Obtener usuario que ha leído la alerta si existe
       if (fetchedAlerta['usuariO_LEIDO_ID'] != null) {
         leido = await _alertaService.getUsuarioById(fetchedAlerta['usuariO_LEIDO_ID']);
       }
+      // Obtener usuario que ha atendido la alerta si existe
       if (fetchedAlerta['usuariO_ATENDIDO_ID'] != null) {
         atendido = await _alertaService.getUsuarioById(fetchedAlerta['usuariO_ATENDIDO_ID']);
       }
 
+      // Actualizar el estado con los datos obtenidos
       setState(() {
         alerta = fetchedAlerta;
         neumatico = fetchedNeumatico;
@@ -49,10 +53,11 @@ class _AlertDetailPageState extends State<AlertDetailPage> {
         usuarioAtendido = atendido;
       });
     } catch (e) {
-      _mostrarError("Ha ocurrido un error al intentar cargar los datos de la alerta.");
+      _mostrarError("Ha ocurrido un error al intentar cargar los datos de la alerta."); // Mostrar error si ocurre una excepción
     }
   }
 
+  // Función para mostrar un diálogo de error
   Future<void> _mostrarError(String mensaje) async {
     showDialog(
       context: context,
@@ -62,7 +67,7 @@ class _AlertDetailPageState extends State<AlertDetailPage> {
         actions: [
           TextButton(
             child: Text("Aceptar"),
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () => Navigator.of(context).pop(), // Cerrar el diálogo
           ),
         ],
       ),
@@ -72,9 +77,9 @@ class _AlertDetailPageState extends State<AlertDetailPage> {
   // Función para formatear la fecha
   String formatDate(String date) {
     try {
-      final DateTime parsedDate = DateTime.parse(date);
-      final DateFormat formatter = DateFormat('dd/MM/yyyy HH:mm'); // El formato que desees
-      return formatter.format(parsedDate);
+      final DateTime parsedDate = DateTime.parse(date); // Parsear la fecha
+      final DateFormat formatter = DateFormat('dd/MM/yyyy HH:mm'); // Formato deseado
+      return formatter.format(parsedDate); // Formatear la fecha
     } catch (e) {
       return date; // Si ocurre un error, se regresa la fecha original
     }
@@ -83,25 +88,26 @@ class _AlertDetailPageState extends State<AlertDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Detalle de Alerta")),
+      appBar: AppBar(title: Text("Detalle de Alerta")), // Título de la AppBar
       body: alerta == null || neumatico == null
-          ? Center(child: CircularProgressIndicator())
+          ? Center(child: CircularProgressIndicator()) // Mostrar indicador de carga si los datos no están disponibles
           : Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  _buildAlertInfo(),
+                  _buildAlertInfo(), // Construir la información de la alerta
                   SizedBox(height: 16),
-                  _buildUserInfo(),
+                  _buildUserInfo(), // Construir la información del usuario
                   SizedBox(height: 16),
-                  _buildActions(),
+                  _buildActions(), // Construir las acciones disponibles
                 ],
               ),
             ),
     );
   }
 
+  // Widget para construir la información de la alerta
   Widget _buildAlertInfo() {
     return Card(
       elevation: 4,
@@ -124,6 +130,7 @@ class _AlertDetailPageState extends State<AlertDetailPage> {
     );
   }
 
+  // Widget para construir la información del usuario
   Widget _buildUserInfo() {
     return Card(
       elevation: 4,
@@ -150,6 +157,7 @@ class _AlertDetailPageState extends State<AlertDetailPage> {
     );
   }
 
+  // Widget para construir las acciones disponibles
   Widget _buildActions() {
     return Column(
       children: [
@@ -172,6 +180,7 @@ class _AlertDetailPageState extends State<AlertDetailPage> {
     );
   }
 
+  // Función para mostrar un diálogo de confirmación
   Future<void> _mostrarConfirmacion(String accion, int estado) async {
     showDialog(
       context: context,
@@ -179,12 +188,12 @@ class _AlertDetailPageState extends State<AlertDetailPage> {
         title: Text("Confirmar acción"),
         content: Text("¿Estás seguro de que deseas marcar como '$accion'?"),
         actions: [
-          TextButton(child: Text("Cancelar"), onPressed: () => Navigator.of(context).pop()),
+          TextButton(child: Text("Cancelar"), onPressed: () => Navigator.of(context).pop()), // Cerrar el diálogo
           TextButton(
             child: Text("Aceptar"),
             onPressed: () async {
-              await _cambiarEstado(estado);  // Cambiar estado
-              Navigator.of(context).pop();  // Cerrar el dialogo
+              await _cambiarEstado(estado);  // Cambiar estado de la alerta
+              Navigator.of(context).pop();  // Cerrar el diálogo
             },
           ),
         ],
@@ -192,8 +201,9 @@ class _AlertDetailPageState extends State<AlertDetailPage> {
     );
   }
 
+  // Función para cambiar el estado de la alerta
   Future<void> _cambiarEstado(int estado) async {
-    await _alertaService.cambiarEstadoAlerta(widget.alertaId, estado);
-    _fetchData();  // Actualizar datos después de cam
+    await _alertaService.cambiarEstadoAlerta(widget.alertaId, estado); // Llamar al servicio para cambiar el estado
+    _fetchData();  // Actualizar datos después de cambiar el estado
   }
 }

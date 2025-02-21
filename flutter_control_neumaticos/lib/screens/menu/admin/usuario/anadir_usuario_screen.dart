@@ -13,21 +13,26 @@ class AnadirUsuarioPage extends StatefulWidget {
 }
 
 class _AnadirUsuarioPageState extends State<AnadirUsuarioPage> {
+  // Controladores para los campos de texto
   final TextEditingController _nombresController = TextEditingController();
   final TextEditingController _apellidosController = TextEditingController();
   final TextEditingController _correoController = TextEditingController();
   final TextEditingController _claveController = TextEditingController();
   final TextEditingController _repetirClaveController = TextEditingController();
 
+  // Variables para los valores seleccionados en los Dropdowns
   String _perfilSeleccionado = 'ADMINISTRADOR';
   String _estadoSeleccionado = 'HABILITADO';
 
+  // Listas de opciones para los Dropdowns
   final List<String> _perfiles = ['ADMINISTRADOR', 'JEFE DE PLANTA'];
   final List<String> _estados = ['HABILITADO', 'DESHABILITADO'];
 
+  // Variables para controlar la visibilidad de las contraseñas
   bool _isPasswordVisible = false;
   bool _isRepetirClaveVisible = false;
 
+  // Método para guardar el usuario
   Future<void> _guardarUsuario() async {
     final String nombres = _nombresController.text;
     final String apellidos = _apellidosController.text;
@@ -37,6 +42,7 @@ class _AnadirUsuarioPageState extends State<AnadirUsuarioPage> {
     final int codigoPerfil = _perfiles.indexOf(_perfilSeleccionado) + 1;
     final int codigoEstado = _estadoSeleccionado == 'HABILITADO' ? 1 : 2;
 
+    // Validaciones de los campos
     if (nombres.isEmpty || apellidos.isEmpty || correo.isEmpty || clave.isEmpty || repetirClave.isEmpty) {
       showCustomSnackBar(context, 'Por favor, completa todos los campos');
       return;
@@ -72,6 +78,7 @@ class _AnadirUsuarioPageState extends State<AnadirUsuarioPage> {
       return;
     }
 
+    // Creación del objeto usuario
     final usuario = Usuario(
       nombres: nombres,
       apellidos: apellidos,
@@ -83,6 +90,7 @@ class _AnadirUsuarioPageState extends State<AnadirUsuarioPage> {
     );
 
     try {
+      // Llamada al servicio para crear el usuario
       await UsuarioService.crearUsuario(usuario);
       showCustomSnackBar(context, 'Usuario creado con éxito');
       Navigator.pop(context);
@@ -102,16 +110,19 @@ class _AnadirUsuarioPageState extends State<AnadirUsuarioPage> {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
+              // Campo de texto para los nombres
               TextField(
                 controller: _nombresController,
                 decoration: const InputDecoration(labelText: 'Nombres'),
               ),
               const SizedBox(height: 10),
+              // Campo de texto para los apellidos
               TextField(
                 controller: _apellidosController,
                 decoration: const InputDecoration(labelText: 'Apellidos'),
               ),
               const SizedBox(height: 10),
+              // Dropdown para seleccionar el perfil
               DropdownButtonFormField(
                 value: _perfilSeleccionado,
                 decoration: const InputDecoration(labelText: 'Perfil'),
@@ -128,6 +139,7 @@ class _AnadirUsuarioPageState extends State<AnadirUsuarioPage> {
                 },
               ),
               const SizedBox(height: 10),
+              // Dropdown para seleccionar el estado
               DropdownButtonFormField(
                 value: _estadoSeleccionado,
                 decoration: const InputDecoration(labelText: 'Estado'),
@@ -144,11 +156,13 @@ class _AnadirUsuarioPageState extends State<AnadirUsuarioPage> {
                 },
               ),
               const SizedBox(height: 10),
+              // Campo de texto para el correo
               TextField(
                 controller: _correoController,
                 decoration: const InputDecoration(labelText: 'Correo'),
               ),
               const SizedBox(height: 10),
+              // Campo de texto para la clave
               TextFormField(
                 controller: _claveController,
                 decoration: InputDecoration(
@@ -167,6 +181,7 @@ class _AnadirUsuarioPageState extends State<AnadirUsuarioPage> {
                 obscureText: !_isPasswordVisible,
               ),
               const SizedBox(height: 10),
+              // Campo de texto para repetir la clave
               TextFormField(
                 controller: _repetirClaveController,
                 decoration: InputDecoration(
@@ -185,6 +200,7 @@ class _AnadirUsuarioPageState extends State<AnadirUsuarioPage> {
                 obscureText: !_isRepetirClaveVisible,
               ),
               const SizedBox(height: 20),
+              // Botón para guardar el usuario
               StandarButton(
                 onPressed: _guardarUsuario,
                 text: 'Guardar Usuario',

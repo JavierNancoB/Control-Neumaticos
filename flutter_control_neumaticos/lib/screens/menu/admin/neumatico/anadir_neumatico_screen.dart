@@ -24,6 +24,7 @@ class _AnadirNeumaticoScreenState extends State<AnadirNeumaticoScreen> {
   @override
   void initState() {
     super.initState();
+    // Inicializa el objeto NeumaticoCrear con valores por defecto
     _neumatico = NeumaticoCrear(
       codigo: widget.nfcData,
       patente: widget.patente.isEmpty ? 'SIN PATENTE' : widget.patente,
@@ -34,9 +35,11 @@ class _AnadirNeumaticoScreenState extends State<AnadirNeumaticoScreen> {
       estado: 1, // Valor por defecto (Habilitado)
     );
 
+    // Establece el texto del controlador del tipo de neumático
     _tipoNeumaticoController.text = Diccionario.tipoNeumatico[_neumatico.tipo] ?? 'Desconocido';
   }
 
+  // Actualiza el tipo de neumático según la ubicación seleccionada
   void _actualizarTipoSegunUbicacion(int nuevaUbicacion) {
     setState(() {
       _neumatico.ubicacion = nuevaUbicacion;
@@ -51,10 +54,12 @@ class _AnadirNeumaticoScreenState extends State<AnadirNeumaticoScreen> {
         _neumatico.tipo = 3; // REPUESTO
       }
 
+      // Actualiza el texto del controlador del tipo de neumático
       _tipoNeumaticoController.text = Diccionario.tipoNeumatico[_neumatico.tipo] ?? 'Desconocido';
     });
   }
 
+  // Envía el formulario para añadir un nuevo neumático
   void _submitForm() async {
     if (_formKey.currentState!.validate()) {
       try {
@@ -85,7 +90,7 @@ class _AnadirNeumaticoScreenState extends State<AnadirNeumaticoScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Código Neumático
+              // Campo de texto para el código del neumático
               TextFormField(
                 initialValue: _neumatico.codigo.toUpperCase(),
                 readOnly: true,
@@ -93,7 +98,7 @@ class _AnadirNeumaticoScreenState extends State<AnadirNeumaticoScreen> {
                 style: const TextStyle(color: Colors.grey),
               ),
               const SizedBox(height: 16),
-              // Patente
+              // Campo de texto para la patente
               TextFormField(
                 initialValue: widget.patente.isEmpty ? 'SIN PATENTE' : widget.patente.toUpperCase(),
                 readOnly: true,
@@ -101,14 +106,14 @@ class _AnadirNeumaticoScreenState extends State<AnadirNeumaticoScreen> {
                 style: const TextStyle(color: Colors.grey),
               ),
               const SizedBox(height: 16),
-              // Ubicación
+              // Dropdown para seleccionar la ubicación del neumático
               UbicacionDropdown(
                 ubicacion: _neumatico.ubicacion,
                 onChanged: _actualizarTipoSegunUbicacion,
                 patente: widget.patente,
               ),
               const SizedBox(height: 16),
-              // Tipo de Neumático
+              // Campo de texto para el tipo de neumático
               TextFormField(
                 controller: _tipoNeumaticoController,
                 readOnly: true,
@@ -116,7 +121,7 @@ class _AnadirNeumaticoScreenState extends State<AnadirNeumaticoScreen> {
                 style: const TextStyle(color: Colors.grey),
               ),
               const SizedBox(height: 16),
-              // Fecha de Ingreso
+              // Campo de texto para la fecha de ingreso
               Text('Fecha de Ingreso', style: Theme.of(context).textTheme.titleMedium),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -141,7 +146,7 @@ class _AnadirNeumaticoScreenState extends State<AnadirNeumaticoScreen> {
                 ],
               ),
               const SizedBox(height: 16),
-              // Kilometraje Total
+              // Campo de texto para el kilometraje total
               TextFormField(
                 initialValue: _neumatico.kilometrajeTotal.toString(),
                 keyboardType: TextInputType.number,
@@ -153,7 +158,7 @@ class _AnadirNeumaticoScreenState extends State<AnadirNeumaticoScreen> {
                 },
               ),
               const SizedBox(height: 16),
-              // Estado
+              // Dropdown para seleccionar el estado del neumático
               DropdownButtonFormField<int>(
                 value: _neumatico.estado,
                 onChanged: (newValue) => setState(() => _neumatico.estado = newValue!),
@@ -166,7 +171,7 @@ class _AnadirNeumaticoScreenState extends State<AnadirNeumaticoScreen> {
                 }).toList(),
               ),
               const SizedBox(height: 16),
-              // Botón de Guardar Cambios
+              // Botón para guardar los cambios
               Align(
                 alignment: Alignment.center,
                 child: StandarButton(

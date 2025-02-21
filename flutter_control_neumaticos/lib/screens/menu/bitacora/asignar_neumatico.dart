@@ -27,8 +27,10 @@ class _AsignarNeumaticoPageState extends State<AsignarNeumaticoPage> {
   @override
   void initState() {
     super.initState();
+    // Inicializamos el controlador de patente con el valor proporcionado o 'Sin Patente' si está vacío
     _patenteController.text = widget.patente.isEmpty ? 'Sin Patente' : widget.patente.toUpperCase();
     
+    // Creamos una instancia de Neumatico con valores por defecto
     _neumatico = Neumatico(
       codigo: widget.nfcData,
       ubicacion: 0, // Ubicación no seleccionada por defecto
@@ -41,19 +43,22 @@ class _AsignarNeumaticoPageState extends State<AsignarNeumaticoPage> {
       estado: 1,
     );
     
+    // Inicializamos el controlador de tipo de neumático con la descripción correspondiente
     _tipoNeumaticoController.text = Diccionario.obtenerDescripcion(Diccionario.tipoNeumatico, _neumatico!.tipoNeumatico);
-    _loadNeumaticoData();
+    _loadNeumaticoData(); // Cargamos los datos del neumático
   }
 
+  // Función para cargar los datos del neumático desde el servicio
   void _loadNeumaticoData() async {
     Neumatico? neumatico = await NeumaticoService.fetchNeumaticoByCodigo(widget.nfcData);
     setState(() {
       _neumatico = neumatico;
       _kmController.text = _neumatico!.kmTotal.toString();
-      _updateTipoNeumatico();
+      _updateTipoNeumatico(); // Actualizamos el tipo de neumático según la ubicación
     });
-}
+  }
 
+  // Función para actualizar el tipo de neumático basado en la ubicación
   void _updateTipoNeumatico() {
     if (_neumatico != null) {
       int tipoAnterior = _neumatico!.tipoNeumatico; // Guardamos el tipo anterior
@@ -96,9 +101,9 @@ class _AsignarNeumaticoPageState extends State<AsignarNeumaticoPage> {
           const SnackBar(
             content: Text(
               'Por seguridad no se recomienda traspasar un neumático traccional a direccional.',
-              style: TextStyle(color: Colors.black), // Texto blanco
+              style: TextStyle(color: Colors.black), // Texto negro
             ),
-            backgroundColor: Colors.yellow, // Fondo rojo
+            backgroundColor: Colors.yellow, // Fondo amarillo
           ),
         );
         _alertaTipoMostrada = true; // Marcar que ya se mostró la alerta
@@ -106,6 +111,7 @@ class _AsignarNeumaticoPageState extends State<AsignarNeumaticoPage> {
     }
   }
 
+  // Función para enviar el formulario
   void _submitForm() async {
     if (_formKey.currentState!.validate()) {
       if (_neumatico!.ubicacion == 0) {
@@ -138,7 +144,7 @@ class _AsignarNeumaticoPageState extends State<AsignarNeumaticoPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Código Neumático
+                    // Campo de texto para el código del neumático
                     TextFormField(
                       initialValue: _neumatico!.codigo.toString(),
                       readOnly: true,
@@ -146,7 +152,7 @@ class _AsignarNeumaticoPageState extends State<AsignarNeumaticoPage> {
                       style: TextStyle(color: Colors.grey),
                     ),
                     const SizedBox(height: 16),
-                    // Patente
+                    // Campo de texto para la patente
                     TextFormField(
                       controller: _patenteController,
                       readOnly: true,
@@ -154,19 +160,19 @@ class _AsignarNeumaticoPageState extends State<AsignarNeumaticoPage> {
                       style: TextStyle(color: Colors.grey),
                     ),
                     const SizedBox(height: 16),
-                    // Ubicación del Neumático
+                    // Dropdown para seleccionar la ubicación del neumático
                     UbicacionDropdown(
                       ubicacion: _neumatico!.ubicacion,
                       onChanged: (newUbicacion) {
                         setState(() {
                           _neumatico!.ubicacion = newUbicacion;
-                          _updateTipoNeumatico();
+                          _updateTipoNeumatico(); // Actualizamos el tipo de neumático según la nueva ubicación
                         });
                       },
                       patente: widget.patente,
                     ),
                     const SizedBox(height: 16),
-                    // Tipo de Neumático
+                    // Campo de texto para el tipo de neumático
                     TextFormField(
                       controller: _tipoNeumaticoController,
                       readOnly: true,
@@ -174,7 +180,7 @@ class _AsignarNeumaticoPageState extends State<AsignarNeumaticoPage> {
                       style: TextStyle(color: Colors.grey),
                     ),
                     const SizedBox(height: 16),
-                    // Botón de Guardar Cambios
+                    // Botón para guardar los cambios
                     Align(
                       alignment: Alignment.center,
                       // Cambiamos elevatedButton por nuestro widget StandarButton

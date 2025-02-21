@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class AppColors {
   static final Color? background = Colors.grey[50]; // Color de fondo
   static final Color primary = Color.fromRGBO(88, 83, 163, 1); // Color primario
-  static const Color secondary = Colors.orangeAccent;
+  static const Color secondary = Colors.orangeAccent; // Color Secundario
   static const Color surface = Colors.white; // Color para tarjetas, diálogos
   static const Color error = Colors.redAccent; // Color de error
   static const Color onPrimary = Colors.white; // Texto sobre color primario

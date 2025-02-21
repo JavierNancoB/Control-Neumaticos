@@ -5,6 +5,7 @@ import '../../../widgets/bitacora/observacion_field.dart';
 import '../../../widgets/bitacora/submit_button.dart';
 import '../../../utils/snackbar_util.dart'; // Importamos la función de snackbars
 
+// Clase principal del widget de añadir bitácora
 class AnadirBitacoraScreen extends StatefulWidget {
   final int idNeumatico;
 
@@ -14,35 +15,39 @@ class AnadirBitacoraScreen extends StatefulWidget {
   _AnadirBitacoraScreenState createState() => _AnadirBitacoraScreenState();
 }
 
+// Estado del widget AnadirBitacoraScreen
 class _AnadirBitacoraScreenState extends State<AnadirBitacoraScreen> {
-  final _formKey = GlobalKey<FormState>();
-  late int _userId;
-  int? _codigo;
-  int? _estado;
-  final TextEditingController _observacionController = TextEditingController();
-  bool _confirmadoPinchazo = false;
+  final _formKey = GlobalKey<FormState>(); // Llave para el formulario
+  late int _userId; // ID del usuario
+  int? _codigo; // Código seleccionado
+  int? _estado; // Estado del neumático
+  final TextEditingController _observacionController = TextEditingController(); // Controlador para el campo de observación
+  bool _confirmadoPinchazo = false; // Variable para confirmar pinchazo
 
   @override
   void initState() {
     super.initState();
-    _getUserId();
+    _getUserId(); // Obtener el ID del usuario al iniciar el estado
   }
 
+  // Función para obtener el ID del usuario
   Future<void> _getUserId() async {
     _userId = await BitacoraService.getUserId();
-    setState(() {});
+    setState(() {}); // Actualizar el estado después de obtener el ID
   }
 
+  // Función para enviar el formulario
   Future<void> _submitForm() async {
-    if (_formKey.currentState!.validate()) {
-      if (_codigo == 11 && !_confirmadoPinchazo) {
+    if (_formKey.currentState!.validate()) { // Validar el formulario
+      if (_codigo == 11 && !_confirmadoPinchazo) { // Verificar si el código es 11 y no se ha confirmado el pinchazo
         bool existenPinchazos = await BitacoraService.existenDosPinchazos(widget.idNeumatico);
-        if (existenPinchazos) {
+        if (existenPinchazos) { // Mostrar diálogo si existen pinchazos previos
           _mostrarDialogoPinchazos();
           return;
         }
       }
 
+      // Llamar al servicio para añadir la bitácora
       final response = await BitacoraService.addBitacora(
         widget.idNeumatico,
         _userId,
@@ -51,15 +56,17 @@ class _AnadirBitacoraScreenState extends State<AnadirBitacoraScreen> {
         _observacionController.text,
       );
 
+      // Mostrar snackbar según la respuesta del servicio
       if (response) {
         showCustomSnackBar(context, 'Bitácora añadida con éxito');
-        Navigator.pop(context);
+        Navigator.pop(context); // Cerrar la pantalla actual
       } else {
         showCustomSnackBar(context, 'Error al añadir bitácora', isError: true);
       }
     }
   }
 
+  // Función para mostrar el diálogo de confirmación de pinchazos
   void _mostrarDialogoPinchazos() {
     showDialog(
       context: context,
@@ -72,18 +79,18 @@ class _AnadirBitacoraScreenState extends State<AnadirBitacoraScreen> {
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.of(context).pop(); // Cerrar el diálogo
               },
               child: const Text('Cancelar'),
             ),
             TextButton(
               onPressed: () {
                 setState(() {
-                  _confirmadoPinchazo = true;
+                  _confirmadoPinchazo = true; // Confirmar pinchazo
                 });
-                Navigator.of(context).pop();
-                _submitForm();
-                Navigator.of(context).pop();
+                Navigator.of(context).pop(); // Cerrar el diálogo
+                _submitForm(); // Enviar el formulario
+                Navigator.of(context).pop(); // Cerrar la pantalla actual
               },
               child: const Text('Entendido'),
             ),
@@ -97,28 +104,28 @@ class _AnadirBitacoraScreenState extends State<AnadirBitacoraScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Añadir Bitácora'),
+        title: const Text('Añadir Bitácora'), // Título de la pantalla
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
-          key: _formKey,
+          key: _formKey, // Asignar la llave del formulario
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                ObservacionField(controller: _observacionController),
+                ObservacionField(controller: _observacionController), // Campo de observación
                 CodigoDropdown(
-                  selectedCodigo: _codigo,
+                  selectedCodigo: _codigo, // Código seleccionado
                   onChanged: (value) {
                     setState(() {
-                      _codigo = value;
+                      _codigo = value; // Actualizar el código seleccionado
                     });
                   },
                 ),
-                const SizedBox(height: 20),
-                SubmitButton(onPressed: _submitForm),
+                const SizedBox(height: 20), // Espacio entre widgets
+                SubmitButton(onPressed: _submitForm), // Botón para enviar el formulario
               ],
             ),
           ),

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import '../../../services/movil/historial_movil_service.dart';
 
+// Pantalla que muestra el historial de un móvil
 class HistorialMovilListScreen extends StatefulWidget {
-  final String patente;
-  final DateTime? startDate;
-  final DateTime? endDate;
-  final bool isWithDateRange;
+  final String patente; // Patente del móvil
+  final DateTime? startDate; // Fecha de inicio del rango
+  final DateTime? endDate; // Fecha de fin del rango
+  final bool isWithDateRange; // Indica si se usa un rango de fechas
 
   const HistorialMovilListScreen({
     super.key,
@@ -21,11 +22,12 @@ class HistorialMovilListScreen extends StatefulWidget {
 }
 
 class _HistorialMovilListScreenState extends State<HistorialMovilListScreen> {
-  late Future<List<Map<String, dynamic>>> _historialFuture;
+  late Future<List<Map<String, dynamic>>> _historialFuture; // Futuro que contiene el historial
 
   @override
   void initState() {
     super.initState();
+    // Inicializa el futuro según si se usa un rango de fechas o no
     _historialFuture = widget.isWithDateRange
         ? HistorialMovilService.fetchHistorialPorFechas(
             widget.patente, widget.startDate!, widget.endDate!)
@@ -49,34 +51,32 @@ class _HistorialMovilListScreenState extends State<HistorialMovilListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Historial Móvil')),
+      appBar: AppBar(title: const Text('Historial Móvil')), // Título de la pantalla
       body: FutureBuilder<List<Map<String, dynamic>>>(
-        future: _historialFuture,
+        future: _historialFuture, // Futuro que contiene el historial
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
+            // Muestra un indicador de carga mientras se espera el resultado
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
+            // Muestra un mensaje de error si ocurre un error
             return Center(child: Text("Error: ${snapshot.error}"));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            // Muestra un mensaje si no hay datos disponibles
             return const Center(child: Text("No hay historial disponible"));
           }
 
-          final historial = snapshot.data!;
+          final historial = snapshot.data!; // Datos del historial
 
           return ListView.builder(
-            itemCount: historial.length,
+            itemCount: historial.length, // Número de elementos en la lista
             itemBuilder: (context, index) {
-              final item = historial[index];
-              final codigo = item["codigo"] as int;
-              final color = _getColorByCodigo(codigo);
-              final idUsuario = item["idUsuario"] as int;
+              final item = historial[index]; // Elemento actual
+              final codigo = item["codigo"] as int; // Código del elemento
+              final color = _getColorByCodigo(codigo); // Color según el código
+              final idUsuario = item["idUsuario"] as int; // ID del usuario
 
               return GestureDetector(
-                onTap: () {
-                  // Aquí puedes agregar la lógica para navegar a la página de detalles
-                  // Por ejemplo:
-                  // Navigator.push(context, MaterialPageRoute(builder: (_) => DetallesPage()));
-                },
                 child: Card(
                   margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
                   shape: RoundedRectangleBorder(
@@ -90,7 +90,7 @@ class _HistorialMovilListScreenState extends State<HistorialMovilListScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          item["observacion"],
+                          item["observacion"], // Observación del historial
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
@@ -99,7 +99,7 @@ class _HistorialMovilListScreenState extends State<HistorialMovilListScreen> {
                         ),
                         const SizedBox(height: 8.0),
                         Text(
-                          "Fecha: ${item["fecha"]}",
+                          "Fecha: ${item["fecha"]}", // Fecha del historial
                           style: const TextStyle(
                             fontSize: 14,
                             color: Colors.black,
@@ -107,18 +107,21 @@ class _HistorialMovilListScreenState extends State<HistorialMovilListScreen> {
                         ),
                         const SizedBox(height: 8.0),
                         FutureBuilder<String>(
-                          future: HistorialMovilService.getUsuarioNombre(idUsuario),
+                          future: HistorialMovilService.getUsuarioNombre(idUsuario), // Futuro que obtiene el nombre del usuario
                           builder: (context, userSnapshot) {
                             if (userSnapshot.connectionState == ConnectionState.waiting) {
+                              // Muestra un indicador de carga mientras se espera el resultado
                               return const CircularProgressIndicator();
                             } else if (userSnapshot.hasError) {
+                              // Muestra un mensaje de error si ocurre un error
                               return Text("Error al obtener el nombre");
                             } else if (!userSnapshot.hasData || userSnapshot.data!.isEmpty) {
+                              // Muestra un mensaje si no se encuentra el usuario
                               return const Text("Usuario no encontrado");
                             }
 
                             return Text(
-                              "Usuario: ${userSnapshot.data}",
+                              "Usuario: ${userSnapshot.data}", // Nombre del usuario
                               style: const TextStyle(
                                 fontSize: 14,
                                 color: Colors.black,

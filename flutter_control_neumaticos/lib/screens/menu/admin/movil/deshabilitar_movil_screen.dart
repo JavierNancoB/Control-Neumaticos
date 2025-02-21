@@ -4,6 +4,7 @@ import '../../../../services/admin/movil/deshabilitar_movil_service.dart';
 import '../../../../widgets/button.dart';
 import '../../../../utils/snackbar_util.dart';
 
+// Clase principal que representa la página para cambiar el estado de un móvil
 class CambiarEstadoMovilPage extends StatefulWidget {
   const CambiarEstadoMovilPage({super.key});
 
@@ -11,12 +12,14 @@ class CambiarEstadoMovilPage extends StatefulWidget {
   _CambiarEstadoMovilPageState createState() => _CambiarEstadoMovilPageState();
 }
 
+// Estado de la clase principal
 class _CambiarEstadoMovilPageState extends State<CambiarEstadoMovilPage> {
-  bool isLoading = false;
-  final TextEditingController patenteController = TextEditingController();
-  final MovilService movilService = MovilService();
-  List<String> patentesSugeridas = [];
+  bool isLoading = false; // Variable para controlar el estado de carga
+  final TextEditingController patenteController = TextEditingController(); // Controlador para el campo de texto de la patente
+  final MovilService movilService = MovilService(); // Servicio para manejar las operaciones relacionadas con el móvil
+  List<String> patentesSugeridas = []; // Lista de patentes sugeridas
 
+  // Función para cargar las sugerencias de patentes
   Future<void> cargarSugerencias(String query) async {
     if (query.isEmpty) {
       setState(() {
@@ -68,6 +71,7 @@ class _CambiarEstadoMovilPageState extends State<CambiarEstadoMovilPage> {
     );
   }
 
+  // Función para cambiar el estado del camión
   Future<void> cambiarEstadoCamion(EstadoMovil estado) async {
     setState(() {
       isLoading = true;
@@ -111,6 +115,7 @@ class _CambiarEstadoMovilPageState extends State<CambiarEstadoMovilPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  // Campo de texto con autocompletado para la patente del camión
                   Autocomplete<String>(
                     optionsBuilder: (TextEditingValue textEditingValue) async {
                       await cargarSugerencias(textEditingValue.text);
@@ -135,6 +140,7 @@ class _CambiarEstadoMovilPageState extends State<CambiarEstadoMovilPage> {
                   Text('¿Qué acción desea realizar con el camión con patente ${patenteController.text}?'),
                   const SizedBox(height: 20),
                   
+                  // Botón para cambiar el estado del camión
                   StandarButton(
                     onPressed: _mostrarDialogoConfirmacion,
                     text: 'Cambiar Estado',

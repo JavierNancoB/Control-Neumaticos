@@ -12,11 +12,15 @@ class GenerarReporteScreen extends StatefulWidget {
 }
 
 class _GenerarReporteScreenState extends State<GenerarReporteScreen> {
+  // Controladores para los campos de texto de las fechas
   final TextEditingController _desdeController = TextEditingController();
   final TextEditingController _hastaController = TextEditingController();
+  // Clave global para el formulario
   final _formKey = GlobalKey<FormState>();
 
+  // Función para seleccionar una fecha
   Future<void> _selectDate(BuildContext context, TextEditingController controller, {bool isDesde = true}) async {
+    // Mostrar el selector de fecha
     DateTime? selectedDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -24,9 +28,12 @@ class _GenerarReporteScreenState extends State<GenerarReporteScreen> {
       lastDate: DateTime(2101),
     );
 
+    // Si se selecciona una fecha
     if (selectedDate != null) {
+      // Formatear la fecha seleccionada
       String formattedDate = DateFormat('yyyy-MM-dd').format(selectedDate);
 
+      // Validar y asignar la fecha seleccionada al controlador correspondiente
       if (isDesde) {
         if (_hastaController.text.isNotEmpty &&
             selectedDate.isAfter(DateTime.parse(_hastaController.text))) {
@@ -45,6 +52,7 @@ class _GenerarReporteScreenState extends State<GenerarReporteScreen> {
     }
   }
 
+  // Función para mostrar un cuadro de diálogo de error
   void _showErrorDialog(String message) {
     showDialog(
       context: context,
@@ -62,6 +70,8 @@ class _GenerarReporteScreenState extends State<GenerarReporteScreen> {
       },
     );
   }
+
+  // Función para descargar el reporte
   Future<void> _downloadReport() async {
     if (_formKey.currentState?.validate() ?? false) {
       await ReportService.downloadReport(_desdeController.text, _hastaController.text);
@@ -69,6 +79,7 @@ class _GenerarReporteScreenState extends State<GenerarReporteScreen> {
     }
   }
 
+  // Función para mostrar un cuadro de diálogo para abrir el archivo descargado
   void _showOpenFileDialog() {
     showDialog(
       context: context,
@@ -94,6 +105,7 @@ class _GenerarReporteScreenState extends State<GenerarReporteScreen> {
     );
   }
 
+  // Función para enviar el reporte por correo electrónico
   Future<void> _sendReportByEmail() async {
     if (_formKey.currentState?.validate() ?? false) {
       try {
@@ -146,6 +158,7 @@ class _GenerarReporteScreenState extends State<GenerarReporteScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              // Campo de texto para la fecha "Desde"
               TextFormField(
                 controller: _desdeController,
                 decoration: InputDecoration(
@@ -162,6 +175,7 @@ class _GenerarReporteScreenState extends State<GenerarReporteScreen> {
                     : null,
               ),
               SizedBox(height: 10),
+              // Campo de texto para la fecha "Hasta"
               TextFormField(
                 controller: _hastaController,
                 decoration: InputDecoration(
@@ -178,6 +192,7 @@ class _GenerarReporteScreenState extends State<GenerarReporteScreen> {
                     : null,
               ),
               SizedBox(height: 20),
+              // Botón para descargar el reporte
               StandarButton(
                 text: 'Descargar Reporte',
                 onPressed: () {
@@ -192,6 +207,7 @@ class _GenerarReporteScreenState extends State<GenerarReporteScreen> {
                 },
               ),
               SizedBox(height: 20),
+              // Botón para enviar el reporte por correo
               StandarButton(
                 text: 'Enviar al Correo',
                 onPressed: () {

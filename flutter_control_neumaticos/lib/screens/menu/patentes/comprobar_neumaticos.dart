@@ -6,9 +6,10 @@ import '../../../widgets/diccionario.dart';
 import '../../../services/movil/comprobar_neumatico_service.dart';
 import '../../../utils/snackbar_util.dart'; // Importa la función del snackbar
 
+// Pantalla para comprobar los neumáticos
 class ComprobarNeumaticosScreen extends StatefulWidget {
-  final List<dynamic>? neumaticosData;
-  final String patente;
+  final List<dynamic>? neumaticosData; // Datos de los neumáticos
+  final String patente; // Patente del vehículo
 
   const ComprobarNeumaticosScreen({super.key, required this.neumaticosData, required this.patente});
 
@@ -17,37 +18,39 @@ class ComprobarNeumaticosScreen extends StatefulWidget {
 }
 
 class _ComprobarNeumaticosScreenState extends State<ComprobarNeumaticosScreen> {
-  String? mensajeEstado = 'Acerca el dispositivo para leer el código NFC.';
-  bool escaneando = false;
-  Set<String> codigosEscaneados = <String>{};
+  String? mensajeEstado = 'Acerca el dispositivo para leer el código NFC.'; // Mensaje de estado inicial
+  bool escaneando = false; // Indica si se está escaneando
+  Set<String> codigosEscaneados = <String>{}; // Conjunto de códigos escaneados
 
   @override
   void initState() {
     super.initState();
-    _iniciarEscaneoNFC();
+    _iniciarEscaneoNFC(); // Inicia el escaneo NFC al iniciar la pantalla
   }
 
   @override
   void dispose() {
-    NfcManager.instance.stopSession();
+    NfcManager.instance.stopSession(); // Detiene la sesión NFC al cerrar la pantalla
     super.dispose();
   }
 
+  // Función para iniciar el escaneo NFC
   Future<void> _iniciarEscaneoNFC() async {
-    setState(() => escaneando = true);
+    setState(() => escaneando = true); // Actualiza el estado a escaneando
 
     try {
       NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
-        String? codigo = await _extractNfcData(tag);
+        String? codigo = await _extractNfcData(tag); // Extrae el código NFC del tag
         if (codigo != null) {
-          _verificarCodigo(codigo);
+          _verificarCodigo(codigo); // Verifica el código extraído
         }
       });
     } catch (e) {
-      showCustomSnackBar(context, 'Error al iniciar la sesión NFC', isError: true);
+      showCustomSnackBar(context, 'Error al iniciar la sesión NFC', isError: true); // Muestra un snackbar en caso de error
     }
   }
 
+  // Función para extraer datos del tag NFC
   Future<String?> _extractNfcData(NfcTag tag) async {
     try {
       var ndef = tag.data['ndef'];
@@ -56,46 +59,51 @@ class _ComprobarNeumaticosScreenState extends State<ComprobarNeumaticosScreen> {
         String message = String.fromCharCodes(payload);
         RegExp regExp = RegExp(r"ID:(\d+)");
         Match? match = regExp.firstMatch(message);
-        return match?.group(1);
+        return match?.group(1); // Devuelve el código extraído
       }
     } catch (e) {
-      showCustomSnackBar(context, 'Error al leer la etiqueta NFC', isError: true);
+      showCustomSnackBar(context, 'Error al leer la etiqueta NFC', isError: true); // Muestra un snackbar en caso de error
     }
     return null;
   }
 
+  // Función para verificar el código escaneado
   void _verificarCodigo(String codigo) {
     bool existe = widget.neumaticosData?.any((neumatico) => neumatico['codigo'].toString() == codigo) ?? false;
 
     setState(() {
       if (existe) {
-        mensajeEstado = 'Código válido: $codigo';
-        codigosEscaneados.add(codigo);
+        mensajeEstado = 'Código válido: $codigo'; // Actualiza el mensaje de estado si el código es válido
+        codigosEscaneados.add(codigo); // Añade el código al conjunto de escaneados
       } else {
-        mensajeEstado = 'Código $codigo no encontrado';
-        codigosEscaneados.add(codigo);
+        mensajeEstado = 'Código $codigo no encontrado'; // Actualiza el mensaje de estado si el código no es encontrado
+        codigosEscaneados.add(codigo); // Añade el código al conjunto de escaneados
       }
     });
   }
 
+  // Función para finalizar la comprobación
   Future<void> _finalizarComprobacion() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    int? idUsuario = prefs.getInt('userId');
+    int? idUsuario = prefs.getInt('userId'); // Obtiene el ID de usuario de las preferencias compartidas
 
     if (idUsuario == null) {
-      showCustomSnackBar(context, 'Error: No se encontró el ID de usuario', isError: true);
+      showCustomSnackBar(context, 'Error: No se encontró el ID de usuario', isError: true); // Muestra un snackbar en caso de error
       return;
     }
 
+    // Obtiene los códigos no escaneados
     List<String> codigosNoEscaneados = widget.neumaticosData!
         .where((neumatico) => !codigosEscaneados.contains(neumatico['codigo'].toString()))
         .map((neumatico) => neumatico['codigo'].toString())
         .toList();
 
+    // Obtiene los códigos escaneados no encontrados
     List<String> codigosEscaneadosNoEncontrados = codigosEscaneados.where((codigo) {
       return !widget.neumaticosData!.any((neumatico) => neumatico['codigo'].toString() == codigo);
     }).toList();
 
+    // Genera las observaciones
     String observaciones = '';
     if (codigosNoEscaneados.isNotEmpty) {
       observaciones += 'Neumáticos no escaneados: ${codigosNoEscaneados.join(', ')}\n';
@@ -106,6 +114,7 @@ class _ComprobarNeumaticosScreenState extends State<ComprobarNeumaticosScreen> {
 
     observaciones = observaciones.isEmpty ? 'Comprobación exitosa, ¿deseas finalizar?' : observaciones;
 
+    // Muestra un diálogo con las observaciones
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -126,7 +135,7 @@ class _ComprobarNeumaticosScreenState extends State<ComprobarNeumaticosScreen> {
                   codigosNoEscaneados: codigosNoEscaneados,
                   codigosNoEncontrados: codigosEscaneadosNoEncontrados,
                 );
-                showCustomSnackBar(context, 'Comprobación registrada correctamente');
+                showCustomSnackBar(context, 'Comprobación registrada correctamente'); // Muestra un snackbar de éxito
                 Navigator.of(context).pop();
               },
               child: const Text('Finalizar'),
@@ -198,7 +207,7 @@ class _ComprobarNeumaticosScreenState extends State<ComprobarNeumaticosScreen> {
             padding: const EdgeInsets.all(10.0),
             child: StandarButton(
               text: 'Confirmar',
-              onPressed: _finalizarComprobacion,
+              onPressed: _finalizarComprobacion, // Llama a la función para finalizar la comprobación
             ),
           ),
         ],

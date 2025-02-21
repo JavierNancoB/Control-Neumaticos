@@ -10,7 +10,10 @@ import '../screens/menu/bitacora/asignar_neumatico.dart';
 import '../../../models/config.dart';
 
 class IngresarPatenteService {
+  // URL base de la API
   static final String _baseUrl = '${Config.awsUrl}/api';
+
+  // Manejar la patente según el tipo y código proporcionados
   static Future<void> handlePatente({
     required BuildContext context,
     required String patente,
@@ -21,6 +24,7 @@ class IngresarPatenteService {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
 
+    // Si no se encuentra el token, mostrar un mensaje de error
     if (token == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('No se encontró el token de autenticación.')),
@@ -94,6 +98,7 @@ class IngresarPatenteService {
         _showAddMovilDialog(context);
       }
     } else if (patente.isEmpty) {
+      // Si la patente está vacía, navegar según el tipo
       if (tipo == 'Añadir') {
         Navigator.push(
           context,
@@ -120,8 +125,8 @@ class IngresarPatenteService {
       }
     }
   }
-  
 
+  // Obtener las patentes sugeridas según el query
   static Future<List<String>> fetchPatentesSugeridas(String query) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
@@ -145,30 +150,28 @@ class IngresarPatenteService {
   }
 
   // Comprobar si la patente existe en la API
-  // Cambiar _checkPatenteExistence a checkPatenteExistence
-    static Future<bool> checkPatenteExistence(String patente, String token) async {
-      try {
-        final url = Uri.parse('$_baseUrl/Movil/GetMovilByPatente?patente=$patente');
-        final response = await http.get(
-          url,
-          headers: {
-            'Authorization': 'Bearer $token',
-          },
-        );
+  static Future<bool> checkPatenteExistence(String patente, String token) async {
+    try {
+      final url = Uri.parse('$_baseUrl/Movil/GetMovilByPatente?patente=$patente');
+      final response = await http.get(
+        url,
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      );
 
-        if (response.statusCode == 200) {
-          final data = jsonDecode(response.body);
-          return data != null && data.isNotEmpty;
-        } else if (response.statusCode == 404) {
-          return false;
-        } else {
-          throw Exception('Error desconocido: ${response.statusCode}');
-        }
-      } catch (e) {
-        return false; // Si ocurre un error, devuelve false
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        return data != null && data.isNotEmpty;
+      } else if (response.statusCode == 404) {
+        return false;
+      } else {
+        throw Exception('Error desconocido: ${response.statusCode}');
       }
+    } catch (e) {
+      return false; // Si ocurre un error, devuelve false
     }
-
+  }
 
   // Comprobar el estado del móvil en la API
   static Future<bool> _checkEstadoMovil(String patente, String token) async {
@@ -194,6 +197,7 @@ class IngresarPatenteService {
     }
   }
 
+  // Mostrar un diálogo para añadir un nuevo móvil si la patente no existe
   static void _showAddMovilDialog(BuildContext context) {
     showDialog(
       context: context,

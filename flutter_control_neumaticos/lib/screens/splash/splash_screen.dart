@@ -25,21 +25,23 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
   void initState() {
     super.initState();
 
-    // Animación de fondo
+    // Controlador para la animación de fondo
     _backgroundController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 100), // Mantener la duración de 100 segundos para la animación de fondo
-    )..repeat(); // Sin reverse, para un movimiento continuo
+      duration: const Duration(seconds: 100), // Duración de 100 segundos para la animación de fondo
+    )..repeat(); // Repetir la animación de fondo de manera continua
 
+    // Animación de fondo que se mueve de 0 a 1 de manera lineal
     _backgroundAnimation = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(parent: _backgroundController, curve: Curves.linear),
     );
 
-    // Animación para el cambio de altura del login form
+    // Controlador para la animación de altura del formulario de login
     _heightController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 500), // Animación de altura más rápida
+      duration: const Duration(milliseconds: 500), // Duración de 500 milisegundos para la animación de altura
     );
+    // Animación de altura que va de 10 a 450
     _heightAnimation = Tween<double>(begin: 10, end: 450).animate(
       CurvedAnimation(parent: _heightController, curve: Curves.easeInOut),
     );
@@ -54,6 +56,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
 
   @override
   void dispose() {
+    // Liberar recursos de los controladores y el temporizador
     _backgroundController.dispose();
     _heightController.dispose();
     _timer.cancel();
@@ -62,8 +65,8 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width; // Ancho de la pantalla
+    final screenHeight = MediaQuery.of(context).size.height; // Altura de la pantalla
 
     // Ajustar el tamaño de los logos considerando el movimiento en diagonal
     final logoWidth = screenWidth * 0.3; // Ajustar al 30% del ancho de la pantalla
@@ -77,7 +80,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
 
     return Scaffold(
       resizeToAvoidBottomInset: true, // Habilita ajuste al teclado
-      backgroundColor: const Color.fromRGBO(88, 83, 163, 1),
+      backgroundColor: const Color.fromRGBO(88, 83, 163, 1), // Color de fondo
       body: Stack(
         children: [
           // Fondo en movimiento infinito
@@ -101,10 +104,10 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                           left: offsetX + (i * totalWidth),
                           top: offsetY + (j * totalHeight),
                           child: SvgPicture.asset(
-                            "assets/svg/logo_stroke.svg",
+                            "assets/svg/logo_stroke.svg", // Ruta del logo en formato SVG
                             width: logoWidth,
                             height: logoHeight,
-                            fit: BoxFit.cover,
+                            fit: BoxFit.cover, // Ajustar el logo al contenedor
                           ),
                         ),
                   ],
@@ -120,30 +123,30 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SvgPicture.asset(
-                    "assets/svg/logo.svg",
-                    width: 120,
+                    "assets/svg/logo.svg", // Ruta del logo principal en formato SVG
+                    width: 120, // Ancho del logo principal
                   ),
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 30), // Espacio entre el logo y el formulario
                   AnimatedBuilder(
                     animation: _heightAnimation,
                     builder: (context, child) {
                       return AnimatedContainer(
                         duration: const Duration(milliseconds: 500), // Duración de la animación
-                        width: 320,
-                        padding: const EdgeInsets.all(20),
+                        width: 320, // Ancho del contenedor del formulario
+                        padding: const EdgeInsets.all(20), // Padding interno del contenedor
                         decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
+                          color: Colors.white, // Color de fondo del contenedor
+                          borderRadius: BorderRadius.circular(20), // Bordes redondeados
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black26,
-                              blurRadius: 10,
-                              spreadRadius: 2,
+                              color: Colors.black26, // Color de la sombra
+                              blurRadius: 10, // Radio de desenfoque de la sombra
+                              spreadRadius: 2, // Radio de expansión de la sombra
                             ),
                           ],
                         ),
                         height: _heightAnimation.value, // Animar la altura
-                        child: const LoginForm(),
+                        child: const LoginForm(), // Formulario de login
                       );
                     },
                   ),

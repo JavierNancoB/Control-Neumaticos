@@ -11,8 +11,8 @@ class InhabilitarUsuarioPage extends StatefulWidget {
 }
 
 class _InhabilitarUsuarioPageState extends State<InhabilitarUsuarioPage> {
-  bool isLoading = false;
-  final TextEditingController emailController = TextEditingController();
+  bool isLoading = false; // Variable para controlar el estado de carga
+  final TextEditingController emailController = TextEditingController(); // Controlador para el campo de texto del correo electrónico
   List<String> emailSuggestions = []; // Lista para las sugerencias de correo
 
   // Método para buscar sugerencias de correos mientras el usuario escribe
@@ -20,11 +20,11 @@ class _InhabilitarUsuarioPageState extends State<InhabilitarUsuarioPage> {
     if (emailController.text.isNotEmpty) {
       var resultados = await UsuarioService.buscarUsuariosPorCorreo(emailController.text);
       setState(() {
-        emailSuggestions = resultados;
+        emailSuggestions = resultados; // Actualiza la lista de sugerencias
       });
     } else {
       setState(() {
-        emailSuggestions = [];
+        emailSuggestions = []; // Limpia la lista de sugerencias si el campo está vacío
       });
     }
   }
@@ -32,19 +32,19 @@ class _InhabilitarUsuarioPageState extends State<InhabilitarUsuarioPage> {
   // Método para modificar el estado del usuario
   Future<void> _modificarEstado(int estado) async {
     setState(() {
-      isLoading = true;
+      isLoading = true; // Muestra el indicador de carga
     });
 
     try {
       // Llama al servicio para modificar el estado del usuario
       await UsuarioService.modificarEstadoUsuario(emailController.text, estado);
-      showCustomSnackBar(context, 'Estado modificado con éxito');
+      showCustomSnackBar(context, 'Estado modificado con éxito'); // Muestra un mensaje de éxito
     } catch (e) {
       // Manejo de errores
-      showCustomSnackBar(context, 'Error: ${e.toString()}', isError: true);
+      showCustomSnackBar(context, 'Error: ${e.toString()}', isError: true); // Muestra un mensaje de error
     } finally {
       setState(() {
-        isLoading = false;
+        isLoading = false; // Oculta el indicador de carga
       });
     }
   }
@@ -53,10 +53,10 @@ class _InhabilitarUsuarioPageState extends State<InhabilitarUsuarioPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Modificar Estado del Usuario'),
+        title: const Text('Modificar Estado del Usuario'), // Título de la pantalla
       ),
       body: isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator()) // Muestra un indicador de carga si isLoading es true
           : Padding(
               padding: const EdgeInsets.all(16.0),
               child: SingleChildScrollView(  // Añadido para permitir desplazamiento
@@ -66,7 +66,7 @@ class _InhabilitarUsuarioPageState extends State<InhabilitarUsuarioPage> {
                     // Campo para ingresar el correo electrónico
                     TextField(
                       controller: emailController,
-                      onChanged: (text) => buscarUsuarios(),
+                      onChanged: (text) => buscarUsuarios(), // Llama a buscarUsuarios cuando el texto cambia
                       decoration: const InputDecoration(
                         labelText: 'Correo Electrónico',
                         border: OutlineInputBorder(),

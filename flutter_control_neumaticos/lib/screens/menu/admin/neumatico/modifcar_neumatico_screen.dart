@@ -26,8 +26,10 @@ class _ModificarNeumaticoPageState extends State<ModificarNeumaticoPage> {
   @override
   void initState() {
     super.initState();
+    // Inicializa el controlador de patente con el valor proporcionado o 'Sin Patente'
     _patenteController.text = widget.patente.isEmpty ? 'Sin Patente' : widget.patente.toUpperCase();
     
+    // Inicializa el objeto Neumatico con valores por defecto
     _neumatico = Neumatico(
       codigo: widget.nfcData,
       ubicacion: 0, // Ubicación no seleccionada por defecto
@@ -40,10 +42,12 @@ class _ModificarNeumaticoPageState extends State<ModificarNeumaticoPage> {
       estado: 1,
     );
     
+    // Inicializa el controlador de tipo de neumático con la descripción correspondiente
     _tipoNeumaticoController.text = Diccionario.obtenerDescripcion(Diccionario.tipoNeumatico, _neumatico!.tipoNeumatico);
     _loadNeumaticoData();
   }
 
+  // Carga los datos del neumático desde el servicio
   void _loadNeumaticoData() async {
     try {
       Neumatico? neumatico = await NeumaticoService.fetchNeumaticoByCodigo(widget.nfcData);
@@ -57,6 +61,7 @@ class _ModificarNeumaticoPageState extends State<ModificarNeumaticoPage> {
     }
   }
 
+  // Actualiza el tipo de neumático basado en la ubicación
   void _updateTipoNeumatico() {
     if (_neumatico != null) {
       switch (_neumatico!.ubicacion) {
@@ -94,6 +99,7 @@ class _ModificarNeumaticoPageState extends State<ModificarNeumaticoPage> {
     }
   }
 
+  // Selecciona la fecha de ingreso del neumático
   Future<void> _selectFechaIngreso(BuildContext context) async {
     final DateTime? selectedDate = await showDatePicker(
       context: context,
@@ -109,6 +115,7 @@ class _ModificarNeumaticoPageState extends State<ModificarNeumaticoPage> {
     }
   }
 
+  // Envía el formulario para modificar el neumático
   void _submitForm() async {
     if (_formKey.currentState!.validate()) {
       if (_neumatico!.ubicacion == 0) {

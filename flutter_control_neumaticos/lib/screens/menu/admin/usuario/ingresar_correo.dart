@@ -19,6 +19,7 @@ class _IngresarCorreoPageState extends State<IngresarCorreoPage> {
   final UsuarioService usuarioService = UsuarioService();
   List<String> emailSuggestions = [];
 
+  // Método para buscar usuarios por correo
   void buscarUsuarios() async {
     if (emailController.text.isNotEmpty) {
       var resultados = await usuarioService.buscarUsuariosPorCorreo(emailController.text);
@@ -32,6 +33,7 @@ class _IngresarCorreoPageState extends State<IngresarCorreoPage> {
     }
   }
 
+  // Método para realizar la acción correspondiente según el tipo de acción
   void realizarAccion() async {
     String correoIngresado = emailController.text;
 
@@ -43,7 +45,7 @@ class _IngresarCorreoPageState extends State<IngresarCorreoPage> {
 
         if (widget.actionType == 'usuario') {
           destinoPage = ModificarUsuarioPage(email: correoIngresado);
-        } else{
+        } else {
           // Redirigir a la página de selección de método de restablecimiento
           destinoPage = SeleccionarRestablecimientoPage(email: correoIngresado);
         }
@@ -71,6 +73,7 @@ class _IngresarCorreoPageState extends State<IngresarCorreoPage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              // Campo de texto para ingresar el correo electrónico
               TextField(
                 controller: emailController,
                 onChanged: (text) => buscarUsuarios(),
@@ -78,6 +81,7 @@ class _IngresarCorreoPageState extends State<IngresarCorreoPage> {
                   labelText: 'Correo Electrónico',
                 ),
               ),
+              // Lista de sugerencias de correos electrónicos
               if (emailSuggestions.isNotEmpty)
                 ListView.builder(
                   shrinkWrap: true,
@@ -92,7 +96,7 @@ class _IngresarCorreoPageState extends State<IngresarCorreoPage> {
                   },
                 ),
               SizedBox(height: 20),
-              // Cambiamos el ElevatedButton por StandarButton
+              // Botón para realizar la acción (modificar usuario o restablecer contraseña)
               StandarButton(
                 text: widget.actionType == 'usuario' ? 'Modificar Usuario' : 'Restablecer Contraseña',
                 onPressed: realizarAccion,

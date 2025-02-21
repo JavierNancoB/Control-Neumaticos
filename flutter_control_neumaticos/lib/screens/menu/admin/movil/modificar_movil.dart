@@ -4,6 +4,7 @@ import '../../../../services/admin/movil/modificar_movil.dart';
 import '../../../../widgets/button.dart';
 import '../../../../utils/snackbar_util.dart';
 
+// Página para modificar los datos de un móvil
 class ModificarMovilPage extends StatefulWidget {
   final String patente;
 
@@ -18,6 +19,7 @@ class _ModificarMovilPageState extends State<ModificarMovilPage> {
   late Movil _movil;
   bool _isLoading = true;
 
+  // Controladores para los campos de texto
   final TextEditingController _marcaController = TextEditingController();
   final TextEditingController _modeloController = TextEditingController();
   final TextEditingController _ejesController = TextEditingController();
@@ -30,6 +32,7 @@ class _ModificarMovilPageState extends State<ModificarMovilPage> {
     {'label': 'Rampla', 'value': 3, 'ejes': 2, 'neumaticos': 12},
   ];
 
+  // Método para obtener los datos del móvil por su patente
   Future<void> _fetchMovilData() async {
     try {
       Movil? movil = await movilService.getMovilByPatente(widget.patente);
@@ -48,12 +51,14 @@ class _ModificarMovilPageState extends State<ModificarMovilPage> {
     }
   }
 
+  // Método para actualizar los campos de ejes y neumáticos según el tipo de móvil seleccionado
   void _updateFieldsForTipoMovil() {
     final tipoMovil = _tiposMovil.firstWhere((tipo) => tipo['value'] == _tipoMovilSeleccionado);
     _ejesController.text = tipoMovil['ejes'].toString();
     _cantidadNeumaticosController.text = tipoMovil['neumaticos'].toString();
   }
 
+  // Método para modificar los datos del móvil
   Future<void> _modificarMovil() async {
     try {
       _movil.marca = _marcaController.text.trim();
@@ -80,7 +85,7 @@ class _ModificarMovilPageState extends State<ModificarMovilPage> {
   @override
   void initState() {
     super.initState();
-    _fetchMovilData();
+    _fetchMovilData(); // Obtener datos del móvil al iniciar la pantalla
   }
 
   @override
@@ -90,34 +95,39 @@ class _ModificarMovilPageState extends State<ModificarMovilPage> {
         title: Text('Modificar Móvil - ${widget.patente}'),
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator()) // Mostrar indicador de carga mientras se obtienen los datos
           : Padding(
               padding: const EdgeInsets.all(16.0),
               child: SingleChildScrollView(
                 child: Column(
                   children: [
+                    // Campo de texto para la marca del móvil
                     TextField(
                       controller: _marcaController,
                       decoration: const InputDecoration(labelText: 'Marca'),
                     ),
                     const SizedBox(height: 10),
+                    // Campo de texto para el modelo del móvil
                     TextField(
                       controller: _modeloController,
                       decoration: const InputDecoration(labelText: 'Modelo'),
                     ),
                     const SizedBox(height: 10),
+                    // Campo de texto para los ejes del móvil (deshabilitado)
                     TextField(
                       controller: _ejesController,
-                      enabled: false,
+                      enabled: false, // Campo deshabilitado
                       decoration: const InputDecoration(labelText: 'Ejes'),
                     ),
                     const SizedBox(height: 10),
+                    // Campo de texto para la cantidad de neumáticos del móvil (deshabilitado)
                     TextField(
                       controller: _cantidadNeumaticosController,
-                      enabled: false,
+                      enabled: false, // Campo deshabilitado
                       decoration: const InputDecoration(labelText: 'Cantidad de Neumáticos'),
                     ),
                     const SizedBox(height: 10),
+                    // Dropdown para seleccionar el tipo de móvil
                     DropdownButtonFormField<int>(
                       value: _tipoMovilSeleccionado,
                       decoration: const InputDecoration(labelText: 'Tipo de Móvil'),
@@ -135,8 +145,9 @@ class _ModificarMovilPageState extends State<ModificarMovilPage> {
                       },
                     ),
                     const SizedBox(height: 20),
+                    // Botón para guardar los cambios
                     StandarButton(
-                      onPressed: _modificarMovil,
+                      onPressed: _modificarMovil, // Llamar al método para modificar el móvil
                       text: 'Guardar Cambios',
                     ),
                   ],

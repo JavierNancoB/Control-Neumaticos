@@ -14,6 +14,7 @@ class IngresarPatentePage extends StatefulWidget {
 }
 
 class _IngresarPatentePageState extends State<IngresarPatentePage> {
+  // Controlador para el campo de texto de la patente
   final TextEditingController _patenteController = TextEditingController();
 
   @override
@@ -23,20 +24,19 @@ class _IngresarPatentePageState extends State<IngresarPatentePage> {
     _patenteController.clear();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Buscar Patente'),
+        title: Text('Buscar Patente'), // Título de la AppBar
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0), // Padding alrededor del cuerpo
         child: Column(
           children: [
-            _buildAutocompleteField(),
-            SizedBox(height: 20),
-            _buildSubmitButton(context),
+            _buildAutocompleteField(), // Campo de autocompletado para la patente
+            SizedBox(height: 20), // Espacio entre el campo y el botón
+            _buildSubmitButton(context), // Botón para enviar la patente
           ],
         ),
       ),
@@ -50,26 +50,29 @@ class _IngresarPatentePageState extends State<IngresarPatentePage> {
       children: [
         Autocomplete<String>(
           optionsBuilder: (TextEditingValue textEditingValue) async {
+            // Si el campo de texto está vacío, no mostrar sugerencias
             if (textEditingValue.text.isEmpty) {
               return const Iterable<String>.empty();
             }
             try {
+              // Obtener las patentes sugeridas desde el servicio
               return await IngresarPatenteService.fetchPatentesSugeridas(textEditingValue.text);
             } catch (e) {
               return const Iterable<String>.empty();
             }
           },
           onSelected: (String selection) {
+            // Actualizar el controlador con la selección
             _patenteController.text = selection;
           },
           fieldViewBuilder: (context, controller, focusNode, onEditingComplete) {
             return TextField(
-              controller: controller,
-              focusNode: focusNode,
+              controller: controller, // Controlador del campo de texto
+              focusNode: focusNode, // Nodo de enfoque
               decoration: const InputDecoration(
-                labelText: 'Seleccione la patente del móvil',
+                labelText: 'Seleccione la patente del móvil', // Etiqueta del campo de texto
               ),
-              onEditingComplete: onEditingComplete,
+              onEditingComplete: onEditingComplete, // Acción al completar la edición
               onChanged: (value) {
                 // Si el campo de texto está vacío, limpiar el controlador
                 if (value.isEmpty) {
@@ -79,6 +82,7 @@ class _IngresarPatentePageState extends State<IngresarPatentePage> {
             );
           },
         ),
+        // Mostrar un mensaje adicional si el tipo no es 'movil'
         if (widget.tipo != 'movil') 
           const Padding(
             padding: EdgeInsets.only(top: 8.0),
@@ -93,15 +97,14 @@ class _IngresarPatentePageState extends State<IngresarPatentePage> {
 
   /// **Botón para Enviar la Patente**
   Widget _buildSubmitButton(BuildContext context) {
-    // reemplazar ElevatedButton por StandarButton
+    // Reemplazar ElevatedButton por StandarButton
     return StandarButton(
       onPressed: () async {
-        final patente = _patenteController.text.trim();
+        final patente = _patenteController.text.trim(); // Obtener y limpiar la patente
 
         // Si la patente está vacía, no mostrar mensaje de error y continuar
         if (patente.isEmpty) {
           // Proceder igual, sin mostrar el mensaje de error.
-          // Aquí solo deberías pasar al siguiente flujo sin hacer nada adicional
           IngresarPatenteService.handlePatente(
             context: context,
             patente: patente,
@@ -113,7 +116,7 @@ class _IngresarPatentePageState extends State<IngresarPatentePage> {
 
         // Verificar si la patente existe
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        String? token = prefs.getString('token');
+        String? token = prefs.getString('token'); // Obtener el token de autenticación
         if (token == null) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('No se encontró el token de autenticación.')),
@@ -121,7 +124,8 @@ class _IngresarPatentePageState extends State<IngresarPatentePage> {
           return;
         }
 
-        bool patenteExiste = await IngresarPatenteService.checkPatenteExistence(patente, token);  // Llamada correcta al método estático
+        // Llamada al servicio para verificar la existencia de la patente
+        bool patenteExiste = await IngresarPatenteService.checkPatenteExistence(patente, token);
         if (!patenteExiste) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('La patente ingresada no existe.')),
@@ -137,7 +141,7 @@ class _IngresarPatentePageState extends State<IngresarPatentePage> {
           codigo: widget.codigo,
         );
       },
-      text: 'Ir a Modificar ${widget.tipo == 'movil' ? 'Móvil' : 'Neumático'}',
+      text: 'Ir a Modificar ${widget.tipo == 'movil' ? 'Móvil' : 'Neumático'}', // Texto del botón
     );
   }
 }

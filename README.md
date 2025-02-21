@@ -38,7 +38,7 @@ git clone https://github.com/JavierNancoB/Control-Neumaticos.git
 ### 2. Configurar la API
 En caso de no tener instalado ASP.NET Core, [haz clic aquí](./api_control_neumaticos/README.md) para seguir las instrucciones de instalación. Caso contrario, sigue los pasos a continuación:
 1. Dirígete a la carpeta [/api_control_neumaticos](/api_control_neumaticos) y [/api_correos](/api_correos).
-2. Configura la cadena de conexión a la base de datos en el archivo `appsettings.json` en ambas aplicaciones.
+2. Configura la cadena de conexión a la base de datos en el archivo `appsettings.json` en la API principal y en la secundaria configura la conexión al servidor de mensajeria email, en ambas se tiene un ejemplo de como debe estar el app settings.
 3. Ejecuta ambas APIs utilizando Visual Studio o la CLI de .NET:
 
    ```bash
@@ -48,7 +48,7 @@ En caso de no tener instalado ASP.NET Core, [haz clic aquí](./api_control_neuma
 ### 3. Configurar la aplicación Flutter
 En caso de no tener instalado Flutter, [haz clic aquí](./flutter_control_neumaticos/README.md) para seguir las instrucciones de instalación. Caso contrario, sigue los pasos a continuación:
 1. Dirígete a la carpeta [/flutter_control_neumaticos](/flutter_control_neumaticos).
-2. Asegúrate de tener Flutter configurado.
+2. Asegúrate de tener Flutter configurado, debes ajustar la url de tu api en [config.dart](./flutter_control_neumaticos/lib/models/config_ejemplo.dart). y particularmente cambiar el nombre de config_ejemplo.dart a solo config.dart.
 3. Ejecuta la aplicación:
 
    ```bash
