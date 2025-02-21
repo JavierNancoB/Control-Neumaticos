@@ -21,7 +21,7 @@ Sigue estos pasos para configurar y ejecutar la aplicación:
 Ejecuta el siguiente comando en la terminal:
 ```bash
   git clone https://github.com/JavierNancoB/Control-Neumaticos
-  cd flutter-app
+  cd flutter_control_neumaticos
 ```
 
 ### 3. Instalar Dependencias
@@ -35,7 +35,7 @@ Para ejecutar la aplicación en un dispositivo físico o emulador, usa:
 ```bash
   flutter run
 ```
-Si estás usando APIs locales, asegúrate de que ADB esté ejecutándose correctamente:
+Si estás usando APIs locales, asegúrate de que ADB esté ejecutándose correctamente, reemplaza 8000 por el puerto que estas utilizando para tu API.:
 ```bash
   adb reverse tcp:8000 tcp:8000
 ```
