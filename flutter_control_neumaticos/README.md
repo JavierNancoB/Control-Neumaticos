@@ -166,7 +166,6 @@ La clase Config es un modelo simple que almacena la URL base del servidor de la 
 
 #### Modelo de Temas o [app_colors.dart](./lib/models/temas/app_colors.dart) y [app_themes.dart](./lib/models/temas/app_themes.dart)
 La clase AppColors define una paleta de colores centralizada para la aplicación, asegurando coherencia visual en toda la interfaz. La clase AppTheme define el tema global de la aplicación utilizando la paleta de colores y la tipografía Figtree.
----
 
 ## Widgets [(./widgets)](./lib/widgets/)
 Aquí en su mayoria se encuentra el mayor contenido reutilizable de la aplicación, cosas como el StandarButton que es casi el unico boton perteneciente y diccionario que se utiliza para traducir lo que nos entrega la api para un formato más amigable para el usuario, los revisaremos a continuación:
