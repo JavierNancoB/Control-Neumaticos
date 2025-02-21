@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../../../models/movil_modificar.dart'; // Asegúrate de tener un modelo 'Movil'.
+import '../../../models/admin/movil_modificar.dart'; // Asegúrate de tener un modelo 'Movil'.
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../models/config.dart';
 

@@ -1,8 +1,9 @@
 // Pantalla de Añadir Móvil
 import 'package:flutter/material.dart';
-import '../../../../models/movil.dart';
+import '../../../../models/admin/movil.dart';
 import '../../../../services/admin/movil/anadir_movil_service.dart';
 import '../../../../widgets/button.dart';
+import '../../../../utils/snackbar_util.dart';
 
 class AnadirMovilPage extends StatefulWidget {
   const AnadirMovilPage({super.key});
@@ -35,27 +36,21 @@ class _AnadirMovilPageState extends State<AnadirMovilPage> {
 
     // Validar la patente
     if (patente.isEmpty || marca.isEmpty || modelo.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Por favor, completa todos los campos')),
-      );
+      showCustomSnackBar(context, 'Por favor, completa todos los campos', isError: true);
       return;
     }
 
     // Validación de la patente (4 letras y 2 números o 2 letras y 4 números)
     final patenteRegex = RegExp(r'^[A-Za-z]{4}\d{2}$|^[A-Za-z]{2}\d{4}$');
     if (!patenteRegex.hasMatch(patente)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Patenente inválida. Debe ser en formato ABCD12 o AB1234')),
-      );
+      showCustomSnackBar(context, 'Patente inválida. Debe ser en formato ABCD12 o AB1234', isError: true);
       return;
     }
 
     // Validar que no haya caracteres no alfanuméricos
     final alphanumericRegex = RegExp(r'^[A-Za-z0-9]+$');
     if (!alphanumericRegex.hasMatch(patente)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('La patente solo puede contener letras y números.')),
-      );
+      showCustomSnackBar(context, 'La patente solo puede contener letras y números.', isError: true);
       return;
     }
 
@@ -76,15 +71,11 @@ class _AnadirMovilPageState extends State<AnadirMovilPage> {
       await MovilService.crearMovil(movil);
 
       // Si la creación fue exitosa
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Móvil creado con éxito')),
-      );
+      showCustomSnackBar(context, 'Móvil creado con éxito');
       Navigator.pop(context); // Regresa a la página anterior
     } catch (e) {
       // Manejo de errores
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: ${e.toString()}')),
-      );
+      showCustomSnackBar(context, 'Error: ${e.toString()}', isError: true);
     }
   }
 

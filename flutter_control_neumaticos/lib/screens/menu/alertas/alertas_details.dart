@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';  // Importa intl para formatear la fecha
 import '../../../services/alertas/alerta_details_service.dart';
 import '../../menu/bitacora/informacion_neumatico.dart';
-import '../../../models/usuario_alertas.dart';
+import '../../../models/admin/usuario_alertas.dart';
 import '../../../widgets/diccionario.dart';
 import '../../../widgets/button.dart';
 
@@ -18,11 +19,8 @@ class _AlertDetailPageState extends State<AlertDetailPage> {
   final AlertaDetailsService _alertaService = AlertaDetailsService();
   Map<String, dynamic>? alerta;
   Map<String, dynamic>? neumatico;
-  Usuario? usuarioCreador;
   Usuario? usuarioLeido;
   Usuario? usuarioAtendido;
-  Usuario? usuarioFechaLeido;
-  Usuario? usuarioFechaAtendido;
 
   @override
   void initState() {
@@ -34,7 +32,6 @@ class _AlertDetailPageState extends State<AlertDetailPage> {
     try {
       final fetchedAlerta = await _alertaService.getAlertaById(widget.alertaId);
       final fetchedNeumatico = await _alertaService.getNeumaticoById(fetchedAlerta['iD_NEUMATICO']);
-      Usuario? creador;
       Usuario? leido;
       Usuario? atendido;
 
@@ -48,82 +45,38 @@ class _AlertDetailPageState extends State<AlertDetailPage> {
       setState(() {
         alerta = fetchedAlerta;
         neumatico = fetchedNeumatico;
-        usuarioCreador = creador;
         usuarioLeido = leido;
         usuarioAtendido = atendido;
       });
     } catch (e) {
-      await showDialog<void>(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("Error"),
-            content: Text("Ha ocurrido un error al intentar cargar los datos de la alerta."),
-            actions: <Widget>[
-              TextButton(
-                child: Text('Aceptar'),
-                onPressed: () {
-                  Navigator.of(context).pop(); // Cierra el diálogo
-                },
-              ),
-            ],
-          );
-        },
-      );
+      _mostrarError("Ha ocurrido un error al intentar cargar los datos de la alerta.");
     }
   }
 
-  // Función para mostrar la alerta de confirmación
-  Future<void> _mostrarConfirmacion(String accion, int estado) async {
-    return showDialog<void>(
+  Future<void> _mostrarError(String mensaje) async {
+    showDialog(
       context: context,
-      barrierDismissible: false, // El diálogo no se puede cerrar tocando fuera de él
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Confirmar acción"),
-          content: Text("¿Estás seguro de que deseas marcar como '$accion'?"),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Cancelar'),
-              onPressed: () {
-                Navigator.of(context).pop(); // Cierra el diálogo
-              },
-            ),
-            TextButton(
-              child: Text('Aceptar'),
-              onPressed: () {
-                _cambiarEstado(estado); // Cambia el estado al confirmado
-                Navigator.of(context).pop(); // Cierra el diálogo
-              },
-            ),
-          ],
-        );
-      },
+      builder: (context) => AlertDialog(
+        title: Text("Error"),
+        content: Text(mensaje),
+        actions: [
+          TextButton(
+            child: Text("Aceptar"),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+        ],
+      ),
     );
   }
 
-  Future<void> _cambiarEstado(int estado) async {
+  // Función para formatear la fecha
+  String formatDate(String date) {
     try {
-      await _alertaService.cambiarEstadoAlerta(widget.alertaId, estado);
-      _fetchData(); // Recargar los datos para reflejar el cambio
+      final DateTime parsedDate = DateTime.parse(date);
+      final DateFormat formatter = DateFormat('dd/MM/yyyy HH:mm'); // El formato que desees
+      return formatter.format(parsedDate);
     } catch (e) {
-      await showDialog<void>(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("Error"),
-            content: Text("Ha ocurrido un error al intentar cambiar el estado de la alerta."),
-            actions: <Widget>[
-              TextButton(
-                child: Text('Aceptar'),
-                onPressed: () {
-                  Navigator.of(context).pop(); // Cierra el diálogo
-                },
-              ),
-            ],
-          );
-        },
-      );
+      return date; // Si ocurre un error, se regresa la fecha original
     }
   }
 
@@ -135,62 +88,112 @@ class _AlertDetailPageState extends State<AlertDetailPage> {
           ? Center(child: CircularProgressIndicator())
           : Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Center(  // Esto centra todo el contenido
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,  // Esto asegura que la columna ocupe solo el espacio necesario
-                  crossAxisAlignment: CrossAxisAlignment.center, // Centra todo en el eje horizontal
-                  children: [
-                    Text("Alerta ID: ${alerta!['id']}", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                    SizedBox(height: 8),
-                    Text("Código de Alerta: ${Diccionario.obtenerDescripcion(Diccionario.codigoAlerta, alerta!['codigO_ALERTA'])}", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                    SizedBox(height: 8),
-                    Text("Fecha de Ingreso: ${alerta!['fechA_INGRESO']}", style: TextStyle(fontSize: 16)),
-                    SizedBox(height: 8),
-                    Text("Estado de Alerta: ${Diccionario.obtenerDescripcion(Diccionario.estadoAlerta, alerta!['estadO_ALERTA'])}", style: TextStyle(fontSize: 16)),
-                    SizedBox(height: 8),
-                    Text("Código de Neumático: ${neumatico!['codigo']}", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                    SizedBox(height: 16),
-                    if (usuarioLeido != null)
-                      Text("Leído por: ${usuarioLeido!.nombres} ${usuarioLeido!.apellidos}", style: TextStyle(fontSize: 16)),
-                    if (alerta!['fechA_LEIDO'] != null)
-                      Text("Fecha de Leído: ${alerta!['fechA_LEIDO']}", style: TextStyle(fontSize: 16)),
-                    SizedBox(height: 8),
-                    if (usuarioAtendido != null)
-                      Text("Atendido por: ${usuarioAtendido!.nombres} ${usuarioAtendido!.apellidos}", style: TextStyle(fontSize: 16)),
-                    if (alerta!['fechA_ATENDIDO'] != null)
-                      Text("Fecha de Atendido: ${alerta!['fechA_ATENDIDO']}", style: TextStyle(fontSize: 16)),
-                    SizedBox(height: 16),
-                    StandarButton(
-                      text: "Ver Información del Neumático",
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => InformacionNeumatico(nfcData: neumatico!['codigo'].toString()),
-                          ),
-                        );
-                      },
-                    ),
-                    SizedBox(height: 16),
-                    // Botones con separación uniforme
-                    StandarButton(
-                      text: "Marcar Pendiente",
-                      onPressed: () => _mostrarConfirmacion("Pendiente", 1),
-                    ),
-                    SizedBox(height: 16),
-                    StandarButton(
-                      text: "Marcar Leído",
-                      onPressed: () => _mostrarConfirmacion("Leído", 2),
-                    ),
-                    SizedBox(height: 16),
-                    StandarButton(
-                      text: "Marcar Atendido",
-                      onPressed: () => _mostrarConfirmacion("Atendido", 3),
-                    ),
-                  ],
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  _buildAlertInfo(),
+                  SizedBox(height: 16),
+                  _buildUserInfo(),
+                  SizedBox(height: 16),
+                  _buildActions(),
+                ],
               ),
             ),
     );
+  }
+
+  Widget _buildAlertInfo() {
+    return Card(
+      elevation: 4,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("ALERTA: ${Diccionario.obtenerDescripcion(Diccionario.codigoAlerta, alerta!['codigO_ALERTA'])}",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            SizedBox(height: 8),
+            Text("Fecha Ingreso: ${formatDate(alerta!['fechA_INGRESO'])}", style: TextStyle(fontSize: 16)),
+            SizedBox(height: 8),
+            Text("Estado: ${Diccionario.obtenerDescripcion(Diccionario.estadoAlerta, alerta!['estadO_ALERTA'])}",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildUserInfo() {
+    return Card(
+      elevation: 4,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (usuarioLeido != null)
+              Text("Leído por: ${usuarioLeido!.nombres} ${usuarioLeido!.apellidos}",
+                  style: TextStyle(fontSize: 16)),
+            if (alerta!['fechA_LEIDO'] != null)
+              Text("Fecha de Leído: ${formatDate(alerta!['fechA_LEIDO'])}", style: TextStyle(fontSize: 16)),
+            SizedBox(height: 8),
+            if (usuarioAtendido != null)
+              Text("Atendido por: ${usuarioAtendido!.nombres} ${usuarioAtendido!.apellidos}",
+                  style: TextStyle(fontSize: 16)),
+            if (alerta!['fechA_ATENDIDO'] != null)
+              Text("Fecha de Atendido: ${formatDate(alerta!['fechA_ATENDIDO'])}", style: TextStyle(fontSize: 16)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildActions() {
+    return Column(
+      children: [
+        StandarButton(
+          text: "Ver Información del Neumático",
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => InformacionNeumatico(nfcData: neumatico!['codigo'].toString()),
+            ),
+          ),
+        ),
+        SizedBox(height: 16),
+        StandarButton(text: "Marcar Pendiente", onPressed: () => _mostrarConfirmacion("Pendiente", 1)),
+        SizedBox(height: 16),
+        StandarButton(text: "Marcar Leído", onPressed: () => _mostrarConfirmacion("Leído", 2)),
+        SizedBox(height: 16),
+        StandarButton(text: "Marcar Atendido", onPressed: () => _mostrarConfirmacion("Atendido", 3)),
+      ],
+    );
+  }
+
+  Future<void> _mostrarConfirmacion(String accion, int estado) async {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Confirmar acción"),
+        content: Text("¿Estás seguro de que deseas marcar como '$accion'?"),
+        actions: [
+          TextButton(child: Text("Cancelar"), onPressed: () => Navigator.of(context).pop()),
+          TextButton(
+            child: Text("Aceptar"),
+            onPressed: () async {
+              await _cambiarEstado(estado);  // Cambiar estado
+              Navigator.of(context).pop();  // Cerrar el dialogo
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _cambiarEstado(int estado) async {
+    await _alertaService.cambiarEstadoAlerta(widget.alertaId, estado);
+    _fetchData();  // Actualizar datos después de cam
   }
 }

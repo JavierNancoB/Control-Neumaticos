@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../services/admin/usuarios/deshabilitar__usuario_service.dart';
 import '../../../../widgets/button.dart';
+import '../../../../utils/snackbar_util.dart';
 
 class InhabilitarUsuarioPage extends StatefulWidget {
   const InhabilitarUsuarioPage({super.key});
@@ -37,16 +38,10 @@ class _InhabilitarUsuarioPageState extends State<InhabilitarUsuarioPage> {
     try {
       // Llama al servicio para modificar el estado del usuario
       await UsuarioService.modificarEstadoUsuario(emailController.text, estado);
-
-      // Mensaje de éxito
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Estado modificado con éxito')),
-      );
+      showCustomSnackBar(context, 'Estado modificado con éxito');
     } catch (e) {
       // Manejo de errores
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: ${e.toString()}')),
-      );
+      showCustomSnackBar(context, 'Error: ${e.toString()}', isError: true);
     } finally {
       setState(() {
         isLoading = false;

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../../../models/neumatico_modifcar.dart';
+import '../../../models/admin/neumatico_modifcar.dart';
 import '../../../../services/admin/neumaticos/modificar_neumatico.dart';
 import '../../../../widgets/admin/neumatico/ubicacion_dropdown.dart';
 import '../../../../widgets/diccionario.dart';
 import '../../../../widgets/button.dart';
+import '../../../utils/snackbar_util.dart';
 
 class AsignarNeumaticoPage extends StatefulWidget {
   final String patente;
@@ -108,22 +109,16 @@ class _AsignarNeumaticoPageState extends State<AsignarNeumaticoPage> {
   void _submitForm() async {
     if (_formKey.currentState!.validate()) {
       if (_neumatico!.ubicacion == 0) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Debe seleccionar una ubicación válida.')),
-        );
+        showCustomSnackBar(context, 'Debe seleccionar una ubicación válida.', isError: true);
         return;
       }
 
       try {
         await NeumaticoService().modificarNeumatico(_neumatico!, widget.patente);
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Neumático modificado con éxito')),
-        );
+        showCustomSnackBar(context, 'Neumático modificado con éxito');
         Navigator.pop(context);
       } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error al modificar los datos: $e')),
-        );
+        showCustomSnackBar(context, 'Error al modificar los datos: $e', isError: true);
       }
     }
   }

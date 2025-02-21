@@ -1,8 +1,8 @@
 import 'dart:convert'; // Importa la librería para convertir objetos en formato JSON.
 import 'package:http/http.dart' as http; // Importa la librería para realizar solicitudes HTTP.
 import 'package:shared_preferences/shared_preferences.dart'; // Importa la librería para acceder a las preferencias compartidas (datos locales).
-import '../../models/alertas.dart'; // Importa el modelo de alerta.
-import '../../models/movil.dart'; // Importa el modelo de móvil.
+import '../../models/menu/alertas.dart'; // Importa el modelo de alerta.
+import '../../models/admin/movil.dart'; // Importa el modelo de móvil.
 import '../../../models/config.dart';
 
 class AlertaService {

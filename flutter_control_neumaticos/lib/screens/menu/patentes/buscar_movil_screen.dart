@@ -119,45 +119,40 @@ class _PatentePageState extends State<PatentePage> {
             _patenteController.text = selection;
             _fetchMovilData(selection);
           },
-fieldViewBuilder: (context, controller, focusNode, onEditingComplete) {
-  return TextField(
-    controller: controller,
-    focusNode: focusNode,
-    textAlign: TextAlign.center, // Centra el texto que escribes
-    decoration: InputDecoration(
-      labelText: 'Seleccione Patente del Movil',
-      labelStyle: const TextStyle(
-        fontSize: 16,
-        
-      ),
-      alignLabelWithHint: true, // Alinea el label con el hint
-      floatingLabelBehavior: FloatingLabelBehavior.auto,
-      filled: true,
-      fillColor: Colors.white,
-      border: UnderlineInputBorder(
-        borderRadius: BorderRadius.circular(20),
-        borderSide: BorderSide.none,
-      ),
-      focusedBorder: UnderlineInputBorder(
-        borderRadius: BorderRadius.circular(20),
-        borderSide: const BorderSide(color: Color.fromRGBO(88, 83, 162, 1), width: 2),
-      ),
-      contentPadding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0), // Ajuste vertical para centrar el label
-      suffixIcon: _isLoading
-          ? const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: CircularProgressIndicator(strokeWidth: 2),
-            )
-          : const SizedBox(width: 24),
-    ),
-    onEditingComplete: onEditingComplete,
-  );
-},
-
-
-
-
-
+          fieldViewBuilder: (context, controller, focusNode, onEditingComplete) {
+            return TextField(
+              controller: controller,
+              focusNode: focusNode,
+              textAlign: TextAlign.center, // Centra el texto que escribes
+              decoration: InputDecoration(
+                labelText: 'Seleccione Patente del Movil',
+                labelStyle: const TextStyle(
+                  fontSize: 16,
+                  
+                ),
+                alignLabelWithHint: true, // Alinea el label con el hint
+                floatingLabelBehavior: FloatingLabelBehavior.auto,
+                filled: true,
+                fillColor: Colors.white,
+                border: UnderlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide: BorderSide.none,
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide: const BorderSide(color: Color.fromRGBO(88, 83, 162, 1), width: 2),
+                ),
+                contentPadding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0), // Ajuste vertical para centrar el label
+                suffixIcon: _isLoading
+                    ? const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : const SizedBox(width: 24),
+              ),
+              onEditingComplete: onEditingComplete,
+            );
+          },
         ),
         const SizedBox(height: 16),
 

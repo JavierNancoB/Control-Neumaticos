@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'reestablecer_passw_page.dart'; // Asegúrate de importar la página de restablecimiento de contraseña
+import '../../../../widgets/button.dart';
 
 class SeleccionarRestablecimientoPage extends StatelessWidget {
   final String email;
@@ -10,18 +11,19 @@ class SeleccionarRestablecimientoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Seleccionar Método de Restablecimiento'),
+        title: Text('Reestablecer Contraseña'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             Text(
-              'Selecciona cómo deseas restablecer la contraseña para el correo: $email',
+              '¿Cómo prefieres restablecer la contraseña para el correo $email?',
               style: TextStyle(fontSize: 18),
             ),
             SizedBox(height: 20),
-            ElevatedButton(
+            // Reemplazamos elevados por StandarButton
+            StandarButton(
               onPressed: () {
                 // Redirigir al endpoint de clave automática
                 Navigator.push(
@@ -35,10 +37,11 @@ class SeleccionarRestablecimientoPage extends StatelessWidget {
                   ),
                 );
               },
-              child: Text('Restablecer Automáticamente'),
+              text: 'Restablecer Automáticamente',
             ),
             SizedBox(height: 20),
-            ElevatedButton(
+            // Reemplazamos elevados por StandarButton
+            StandarButton(
               onPressed: () {
                 // Redirigir al endpoint de clave manual
                 Navigator.push(
@@ -52,7 +55,7 @@ class SeleccionarRestablecimientoPage extends StatelessWidget {
                   ),
                 );
               },
-              child: Text('Ingresar Clave Manualmente'),
+              text: 'Ingresar Clave Manualmente',
             ),
           ],
         ),

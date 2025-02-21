@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../models/bitacora_models.dart';
-import '../../models/usuario_alertas.dart';
+import '../../models/menu/bitacora_models.dart';
+import '../../models/admin/usuario_alertas.dart';
 
 class BitacoraDetailsWidget extends StatelessWidget {
   final Bitacora bitacora;

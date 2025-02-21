@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pentacrom_neumaticos_2/widgets/button.dart';
 import '../../../../services/admin/usuarios/modificar_usaurio.dart';
-import '../../../../models/usuario_modifcar.dart';
+import '../../../../models/admin/usuario_modifcar.dart';
+import '../../../../utils/snackbar_util.dart';
 
 
 class ModificarUsuarioPage extends StatefulWidget {
@@ -57,9 +58,7 @@ class _ModificarUsuarioPageState extends State<ModificarUsuarioPage> {
         });
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error al cargar los datos del usuario'), backgroundColor: Colors.red),
-      );
+      showCustomSnackBar(context, 'Error al cargar los datos del usuario', isError: true);
     }
   }
 
@@ -79,20 +78,14 @@ class _ModificarUsuarioPageState extends State<ModificarUsuarioPage> {
       // Llamada al servicio para guardar cambios
       bool success = await usuarioService.modificarDatosUsuario(_usuario, widget.email);
       if (success) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Datos modificados con éxito'), backgroundColor: Colors.green),
-        );
+        showCustomSnackBar(context, 'Datos modificados con éxito');
         // Regresar a la página anterior si los cambios son exitosos
         Navigator.pop(context);
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error al modificar los datos'), backgroundColor: Colors.red),
-        );
+        showCustomSnackBar(context, 'Error al modificar los datos', isError: true);
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error al guardar los cambios'), backgroundColor: Colors.red),
-      );
+      showCustomSnackBar(context, 'Error al guardar los cambios', isError: true);
     }
   }
 

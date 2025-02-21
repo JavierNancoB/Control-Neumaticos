@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../models/movil_estado.dart';
+import '../models/admin/movil_estado.dart';
 
 class EstadoButton extends StatelessWidget {
   final String texto;

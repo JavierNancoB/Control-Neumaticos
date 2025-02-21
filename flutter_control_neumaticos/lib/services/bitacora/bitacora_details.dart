@@ -1,8 +1,8 @@
 import 'dart:convert'; // Importa la librería para convertir objetos en formato JSON.
 import 'package:http/http.dart' as http; // Importa la librería para realizar solicitudes HTTP.
 import 'package:shared_preferences/shared_preferences.dart'; // Importa la librería para acceder a las preferencias compartidas (datos locales).
-import '../../models/bitacora_models.dart'; // Importa el modelo de la bitácora.
-import '../../models/usuario_alertas.dart'; // Importa el modelo de usuario.
+import '../../models/menu/bitacora_models.dart'; // Importa el modelo de la bitácora.
+import '../../models/admin/usuario_alertas.dart'; // Importa el modelo de usuario.
 import '../../../models/config.dart';
 
 class BitacoraServices {

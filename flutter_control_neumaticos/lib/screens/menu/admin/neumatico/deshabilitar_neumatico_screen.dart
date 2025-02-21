@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../services/admin/neumaticos/deshabilitar_neumatico_service.dart';
 import '../../../../widgets/button.dart';
+import '../../../../utils/snackbar_util.dart';
 
 class InhabilitarNeumaticoPage extends StatefulWidget {
   final String nfcData;
@@ -76,16 +77,10 @@ class _InhabilitarNeumaticoPageState extends State<InhabilitarNeumaticoPage> {
       // Llamada al servicio para modificar el estado del neumático con confirmacionMovil
       await DeshabilitarNeumaticoService.modificarEstadoNeumatico(
           widget.nfcData, estado, desasignarMovil);
-
-      // Mostrar mensaje de éxito
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Estado modificado con éxito')),
-      );
+      showCustomSnackBar(context, 'Estado modificado con éxito');
     } catch (e) {
+      showCustomSnackBar(context, 'Error: ${e.toString()}', isError: true);
       // Manejo de errores
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: ${e.toString()}')),
-      );
     } finally {
       setState(() {
         isLoading = false;
@@ -101,7 +96,6 @@ class _InhabilitarNeumaticoPageState extends State<InhabilitarNeumaticoPage> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            // El retroceso se maneja con la flecha del dispositivo, no se bloquea
             Navigator.pop(context); // Regresa a la pantalla anterior
           },
         ),
@@ -110,33 +104,37 @@ class _InhabilitarNeumaticoPageState extends State<InhabilitarNeumaticoPage> {
           ? const Center(child: CircularProgressIndicator())
           : Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    '¿Desea habilitar o inhabilitar el neumático?',
-                    style: TextStyle(fontSize: 18),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 20),
+              child: Center(  // Usar Center para asegurar que todo el contenido esté centrado
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center, // Centrado vertical
+                  crossAxisAlignment: CrossAxisAlignment.center, // Centrado horizontal
+                  children: [
+                    const Text(
+                      '¿Desea habilitar o inhabilitar el neumático?',
+                      style: TextStyle(fontSize: 18),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 20),
 
-                  // Columna para botones, uno debajo del otro
-                  Column(
-                    children: [
-                      StandarButton(
-                        onPressed: () => _mostrarDialogoConfirmacion(1), // Estado "habilitado"
-                        text: 'Habilitar',
-                        color: Colors.green, // Ajusta el color si lo deseas
-                      ),
-                      const SizedBox(height: 10), // Espaciado entre botones
-                      StandarButton(
-                        onPressed: () => _mostrarDialogoConfirmacion(2), // Estado "inhabilitado"
-                        text: 'Inhabilitar',
-                        color: Colors.red, // Ajusta el color si lo deseas
-                      ),
-                    ],
-                  ),
-                ],
+                    // Columna para botones, uno debajo del otro
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center, // Asegura que los botones estén centrados
+                      children: [
+                        StandarButton(
+                          onPressed: () => _mostrarDialogoConfirmacion(1), // Estado "habilitado"
+                          text: 'Habilitar',
+                          color: Colors.green, // Ajusta el color si lo deseas
+                        ),
+                        const SizedBox(height: 10), // Espaciado entre botones
+                        StandarButton(
+                          onPressed: () => _mostrarDialogoConfirmacion(2), // Estado "inhabilitado"
+                          text: 'Inhabilitar',
+                          color: Colors.red, // Ajusta el color si lo deseas
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
     );

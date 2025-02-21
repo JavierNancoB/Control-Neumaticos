@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pentacrom_neumaticos_2/screens/splash/splash_screen.dart';
-import 'models/app_themes.dart';
+import 'models/temas/app_themes.dart';
 
 void main() {
   runApp(const MyApp());

@@ -1,7 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../models/neumatico_crear.dart';
+import '../../../models/admin/neumatico_crear.dart';
 import '../../../models/config.dart';
 
 class NeumaticoService {

@@ -291,7 +291,11 @@ namespace api_control_neumaticos.Services.IExcelService
             { 23, "MODIFICACIÓN DE EJES DE MÓVIL" },
             { 24, "MODIFICACIÓN DE CÓDIGO DE MÓVIL" },
             { 25, "MODIFICACIÓN DE CANTIDAD DE RUEDAS" },
-            { 26, "DESHABILITACIÓN DE MÓVIL" }
+            { 26, "DESHABILITACIÓN DE MÓVIL" },
+            { 27, "COMPROBACION DE NEUMATICOS EN MOVIL"},
+            { 28, "NO SE COMPROBÓ ASIGNAMIENTO DE NEUMATICO"},
+            { 29, "TRANSICIÓN A BODEGA"},
+            { 30, "TRANSICIÓN A REPUESTO"}
         };
     }
 }

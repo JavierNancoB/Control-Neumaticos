@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../../../models/usuario_modifcar.dart';
+import '../../../models/admin/usuario_modifcar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../models/config.dart';
 

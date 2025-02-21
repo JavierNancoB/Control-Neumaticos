@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'correo_text_field.dart';
 import '../../services/contrasena/recover_password_service.dart'; // Importar el servicio
 import '../button.dart';
+import '../../utils/snackbar_util.dart'; // Importar el CustomScaffold
 
 class RecuperarContrasenaForm extends StatefulWidget {
   const RecuperarContrasenaForm({super.key});
@@ -18,22 +19,15 @@ class _RecuperarContrasenaFormState extends State<RecuperarContrasenaForm> {
     final correo = _correoController.text;
 
     if (correo.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Por favor, ingresa tu correo electrónico.')),
-      );
+      showCustomSnackBar(context, 'Por favor, ingresa tu correo electrónico.', isError: true);
       return;
     }
 
     try {
       await _recoverPasswordService.enviarSolicitud(correo);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Solicitud de recuperación enviada con éxito.')),
-      );
+      showCustomSnackBar(context, 'Solicitud de recuperación enviada con éxito.');
     } catch (e) {
-      // Mostrar el error obtenido del servicio
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(e.toString())),
-      );
+      showCustomSnackBar(context, e.toString(), isError: true);
     }
   }
 

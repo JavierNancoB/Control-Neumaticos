@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:pentacrom_neumaticos_2/widgets/button.dart';
-import '../../../../models/neumatico_modifcar.dart';
+import '../../../../models/admin/neumatico_modifcar.dart';
 import '../../../../services/admin/neumaticos/modificar_neumatico.dart';
 import '../../../../widgets/admin/neumatico/ubicacion_dropdown.dart';
 import '../../../../widgets/diccionario.dart';
+import '../../../../utils/snackbar_util.dart';
 
 class ModificarNeumaticoPage extends StatefulWidget {
   final String patente;
@@ -52,9 +53,7 @@ class _ModificarNeumaticoPageState extends State<ModificarNeumaticoPage> {
         _updateTipoNeumatico();
       });
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error al cargar los datos del neumático: $e')),
-      );
+      showCustomSnackBar(context, 'Error al cargar los datos del neumático: $e', isError: true);
     }
   }
 
@@ -113,22 +112,16 @@ class _ModificarNeumaticoPageState extends State<ModificarNeumaticoPage> {
   void _submitForm() async {
     if (_formKey.currentState!.validate()) {
       if (_neumatico!.ubicacion == 0) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Debe seleccionar una ubicación válida.')),
-        );
+        showCustomSnackBar(context, 'Debe seleccionar una ubicación válida.', isError: true);
         return;
       }
 
       try {
         await NeumaticoService().modificarNeumatico(_neumatico!, widget.patente);
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Neumático modificado con éxito')),
-        );
+        showCustomSnackBar(context, 'Neumático modificado con éxito');
         Navigator.pop(context);
       } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error al modificar los datos: $e')),
-        );
+        showCustomSnackBar(context, 'Error al modificar los datos: $e', isError: true);
       }
     }
   }

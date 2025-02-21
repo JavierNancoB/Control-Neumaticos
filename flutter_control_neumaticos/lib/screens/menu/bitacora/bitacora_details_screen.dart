@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../models/bitacora_models.dart';
-import '../../../models/usuario_alertas.dart';  // Asegúrate de tener el modelo de Usuario
+import '../../../models/menu/bitacora_models.dart';
+import '../../../models/admin/usuario_alertas.dart';  // Asegúrate de tener el modelo de Usuario
 import '../../../services/bitacora/bitacora_details.dart';
 import '../../../widgets/diccionario.dart';
 

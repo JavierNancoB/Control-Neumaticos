@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../../models/movil_modificar.dart';
+import '../../../../models/admin/movil_modificar.dart';
 import '../../../../services/admin/movil/modificar_movil.dart';
 import '../../../../widgets/button.dart';
+import '../../../../utils/snackbar_util.dart';
 
 class ModificarMovilPage extends StatefulWidget {
   final String patente;
@@ -43,9 +44,7 @@ class _ModificarMovilPageState extends State<ModificarMovilPage> {
         });
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Error al cargar los datos del móvil'), backgroundColor: Colors.red),
-      );
+      showCustomSnackBar(context, e.toString(), isError: true);
     }
   }
 
@@ -68,19 +67,13 @@ class _ModificarMovilPageState extends State<ModificarMovilPage> {
       bool success = await movilService.modificarDatosMovil(widget.patente, _movil);
 
       if (success) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Móvil modificado con éxito'), backgroundColor: Colors.green),
-        );
+        showCustomSnackBar(context, 'Móvil modificado con éxito');
         Navigator.pop(context); // Regresa a la pantalla anterior después de éxito
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Error al modificar el móvil'), backgroundColor: Colors.red),
-        );
+        showCustomSnackBar(context, 'Error al modificar el móvil', isError: true);
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Error al modificar los datos del móvil'), backgroundColor: Colors.red),
-      );
+      showCustomSnackBar(context, e.toString(), isError: true);
     }
   }
 

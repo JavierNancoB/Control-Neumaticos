@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../../../models/usuario.dart';
+import '../../../../models/admin/usuario.dart';
 import '../../../../services/admin/usuarios/anadir_usuario_service.dart';
 import 'package:email_validator/email_validator.dart';
 import '../../../../widgets/button.dart';
+import '../../../../utils/snackbar_util.dart';
 
 class AnadirUsuarioPage extends StatefulWidget {
   const AnadirUsuarioPage({super.key});
@@ -24,10 +25,9 @@ class _AnadirUsuarioPageState extends State<AnadirUsuarioPage> {
   final List<String> _perfiles = ['ADMINISTRADOR', 'JEFE DE PLANTA'];
   final List<String> _estados = ['HABILITADO', 'DESHABILITADO'];
 
-  bool _isPasswordVisible = false; // Controlar visibilidad de la contraseña
-  bool _isRepetirClaveVisible = false; // Controlar visibilidad de "repetir contraseña"
+  bool _isPasswordVisible = false;
+  bool _isRepetirClaveVisible = false;
 
-  // Método para guardar el usuario
   Future<void> _guardarUsuario() async {
     final String nombres = _nombresController.text;
     final String apellidos = _apellidosController.text;
@@ -37,57 +37,41 @@ class _AnadirUsuarioPageState extends State<AnadirUsuarioPage> {
     final int codigoPerfil = _perfiles.indexOf(_perfilSeleccionado) + 1;
     final int codigoEstado = _estadoSeleccionado == 'HABILITADO' ? 1 : 2;
 
-    // Validaciones
     if (nombres.isEmpty || apellidos.isEmpty || correo.isEmpty || clave.isEmpty || repetirClave.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Por favor, completa todos los campos')),
-      );
+      showCustomSnackBar(context, 'Por favor, completa todos los campos');
       return;
     }
 
     if (!EmailValidator.validate(correo)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Por favor, ingresa un correo válido')),
-      );
+      showCustomSnackBar(context, 'Por favor, ingresa un correo válido');
       return;
     }
 
     if (clave.length < 8) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('La contraseña debe tener al menos 8 caracteres')),
-      );
+      showCustomSnackBar(context, 'La contraseña debe tener al menos 8 caracteres');
       return;
     }
 
     if (!RegExp(r'^(?=.*[A-Z])').hasMatch(clave)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('La contraseña debe tener al menos una letra mayúscula')),
-      );
+      showCustomSnackBar(context, 'La contraseña debe tener al menos una letra mayúscula');
       return;
     }
 
     if (!RegExp(r'^(?=.*\d)').hasMatch(clave)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('La contraseña debe tener al menos un número')),
-      );
+      showCustomSnackBar(context, 'La contraseña debe tener al menos un número');
       return;
     }
 
     if (!RegExp(r'^(?=.*[!@#$%^&*(),.?":{}|<>])').hasMatch(clave)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('La contraseña debe tener al menos un carácter especial')),
-      );
+      showCustomSnackBar(context, 'La contraseña debe tener al menos un carácter especial');
       return;
     }
 
     if (clave != repetirClave) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Las contraseñas no coinciden')),
-      );
+      showCustomSnackBar(context, 'Las contraseñas no coinciden');
       return;
     }
 
-    // Crear un nuevo usuario
     final usuario = Usuario(
       nombres: nombres,
       apellidos: apellidos,
@@ -95,23 +79,15 @@ class _AnadirUsuarioPageState extends State<AnadirUsuarioPage> {
       clave: clave,
       perfil: codigoPerfil,
       estado: codigoEstado,
-      bodega: 1, // Cambiar según sea necesario
+      bodega: 1,
     );
 
     try {
-      // Llamar al servicio para crear el usuario
       await UsuarioService.crearUsuario(usuario);
-
-      // Si la creación fue exitosa
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Usuario creado con éxito')),
-      );
-      Navigator.pop(context); // Regresa a la página anterior
+      showCustomSnackBar(context, 'Usuario creado con éxito');
+      Navigator.pop(context);
     } catch (e) {
-      // Manejo de errores
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: ${e.toString()}')),
-      );
+      showCustomSnackBar(context, 'Error: ${e.toString()}', isError: true);
     }
   }
 
@@ -189,24 +165,6 @@ class _AnadirUsuarioPageState extends State<AnadirUsuarioPage> {
                   ),
                 ),
                 obscureText: !_isPasswordVisible,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'La contraseña no puede estar vacía';
-                  }
-                  if (value.length < 8) {
-                    return 'La contraseña debe tener al menos 8 caracteres';
-                  }
-                  if (!RegExp(r'^(?=.*[A-Z])').hasMatch(value)) {
-                    return 'La contraseña debe tener al menos una letra mayúscula';
-                  }
-                  if (!RegExp(r'^(?=.*\d)').hasMatch(value)) {
-                    return 'La contraseña debe tener al menos un número';
-                  }
-                  if (!RegExp(r'^(?=.*[!@#$%^&*(),.?":{}|<>])').hasMatch(value)) {
-                    return 'La contraseña debe tener al menos un carácter especial';
-                  }
-                  return null;
-                },
               ),
               const SizedBox(height: 10),
               TextFormField(
@@ -225,18 +183,8 @@ class _AnadirUsuarioPageState extends State<AnadirUsuarioPage> {
                   ),
                 ),
                 obscureText: !_isRepetirClaveVisible,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, repite la contraseña';
-                  }
-                  if (value != _claveController.text) {
-                    return 'Las contraseñas no coinciden';
-                  }
-                  return null;
-                },
               ),
               const SizedBox(height: 20),
-              // reemplazamos el ElevatedButton por StandarButton
               StandarButton(
                 onPressed: _guardarUsuario,
                 text: 'Guardar Usuario',

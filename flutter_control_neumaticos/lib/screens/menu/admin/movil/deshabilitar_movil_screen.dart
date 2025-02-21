@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../../models/movil_estado.dart';
+import '../../../../models/admin/movil_estado.dart';
 import '../../../../services/admin/movil/deshabilitar_movil_service.dart';
 import '../../../../widgets/button.dart';
+import '../../../../utils/snackbar_util.dart';
 
 class CambiarEstadoMovilPage extends StatefulWidget {
   const CambiarEstadoMovilPage({super.key});
@@ -30,7 +31,7 @@ class _CambiarEstadoMovilPageState extends State<CambiarEstadoMovilPage> {
         patentesSugeridas = sugerencias;
       });
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
+      showCustomSnackBar(context, e.toString(), isError: true);
     }
   }
 
@@ -78,7 +79,7 @@ class _CambiarEstadoMovilPageState extends State<CambiarEstadoMovilPage> {
       setState(() {
         isLoading = false;
       });
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Por favor, ingrese una patente')));
+      showCustomSnackBar(context, 'Por favor, ingrese una patente', isError: true);
       return;
     }
 
@@ -86,10 +87,10 @@ class _CambiarEstadoMovilPageState extends State<CambiarEstadoMovilPage> {
       bool success = await movilService.cambiarEstadoMovil(patente, estado);
 
       if (success) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Estado modificado con éxito')));
+        showCustomSnackBar(context, 'Estado modificado con éxito');
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
+      showCustomSnackBar(context, e.toString(), isError: true);
     } finally {
       setState(() {
         isLoading = false;

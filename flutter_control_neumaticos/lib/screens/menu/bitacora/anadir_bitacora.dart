@@ -3,7 +3,7 @@ import '../../../services/bitacora/bitacora_service.dart';
 import '../../../widgets/bitacora/codigo_dropdown.dart';
 import '../../../widgets/bitacora/observacion_field.dart';
 import '../../../widgets/bitacora/submit_button.dart';
-
+import '../../../utils/snackbar_util.dart'; // Importamos la función de snackbars
 
 class AnadirBitacoraScreen extends StatefulWidget {
   final int idNeumatico;
@@ -20,7 +20,7 @@ class _AnadirBitacoraScreenState extends State<AnadirBitacoraScreen> {
   int? _codigo;
   int? _estado;
   final TextEditingController _observacionController = TextEditingController();
-  bool _confirmadoPinchazo = false; // Flag para evitar múltiples diálogos
+  bool _confirmadoPinchazo = false;
 
   @override
   void initState() {
@@ -35,17 +35,14 @@ class _AnadirBitacoraScreenState extends State<AnadirBitacoraScreen> {
 
   Future<void> _submitForm() async {
     if (_formKey.currentState!.validate()) {
-      // Verificar si el código es 11 (pinchazo) y si no ha sido confirmado aún
       if (_codigo == 11 && !_confirmadoPinchazo) {
         bool existenPinchazos = await BitacoraService.existenDosPinchazos(widget.idNeumatico);
-
         if (existenPinchazos) {
           _mostrarDialogoPinchazos();
           return;
         }
       }
 
-      // Si el usuario ya confirmó o no es pinchazo, proceder con el envío
       final response = await BitacoraService.addBitacora(
         widget.idNeumatico,
         _userId,
@@ -55,14 +52,10 @@ class _AnadirBitacoraScreenState extends State<AnadirBitacoraScreen> {
       );
 
       if (response) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Bitácora añadida con éxito')),
-        );
+        showCustomSnackBar(context, 'Bitácora añadida con éxito');
         Navigator.pop(context);
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Error al añadir bitácora')),
-        );
+        showCustomSnackBar(context, 'Error al añadir bitácora', isError: true);
       }
     }
   }
@@ -79,17 +72,17 @@ class _AnadirBitacoraScreenState extends State<AnadirBitacoraScreen> {
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(); // Cerrar diálogo
+                Navigator.of(context).pop();
               },
               child: const Text('Cancelar'),
             ),
             TextButton(
               onPressed: () {
                 setState(() {
-                  _confirmadoPinchazo = true; // Marcar que el usuario aceptó
+                  _confirmadoPinchazo = true;
                 });
-                Navigator.of(context).pop(); // Cerrar el diálogo
-                _submitForm(); // Reintentar el envío sin mostrar el diálogo otra vez
+                Navigator.of(context).pop();
+                _submitForm();
                 Navigator.of(context).pop();
               },
               child: const Text('Entendido'),
@@ -99,8 +92,6 @@ class _AnadirBitacoraScreenState extends State<AnadirBitacoraScreen> {
       },
     );
   }
-
-
 
   @override
   Widget build(BuildContext context) {

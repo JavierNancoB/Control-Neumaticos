@@ -89,10 +89,6 @@ class OptionActions extends StatelessWidget {
     return Container(
       width: 250,
       margin: const EdgeInsets.only(bottom: 20),
-      //child: ElevatedButton(
-        //onPressed: () => _navigateToAction(context, action == 'Gestionar' ? 'Modificar' : action),
-        //child: Text('$action $option'),
-      //),
       child: StandarButton(
         text: '$action $option',
         onPressed: () => _navigateToAction(context, action == 'Gestionar' ? 'Modificar' : action),

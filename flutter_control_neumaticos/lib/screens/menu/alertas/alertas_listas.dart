@@ -1,6 +1,6 @@
 // screens/alert_list_page.dart
 import 'package:flutter/material.dart';
-import '../../../models/alertas.dart';
+import '../../../models/menu/alertas.dart';
 import '../../../services/alertas/alertas_service.dart';
 import 'alertas_details.dart';
 import '../../../widgets/diccionario.dart';

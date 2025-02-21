@@ -7,6 +7,7 @@ import '../../widgets/login/forgot_password_link.dart';
 import '../../services/auth_service.dart';
 import '../../screens/menu/menu_screen.dart';
 import '../../screens/login/recover_password.dart';
+import '../../utils/snackbar_util.dart'; // Importa la función del snackbar
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -49,15 +50,7 @@ class _LoginFormState extends State<LoginForm> {
     final String password = _passwordController.text;
 
     if (username.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'Por favor, llena todos los campos',
-            style: TextStyle(color: Colors.white), // Texto blanco
-          ),
-          backgroundColor: Colors.red, // Fondo rojo
-        ),
-      );
+      showCustomSnackBar(context, 'Por favor, llena todos los campos.', isError: true);
       setState(() {
         _isLoading = false;
       });
@@ -67,18 +60,7 @@ class _LoginFormState extends State<LoginForm> {
     var response = await _authService.login(username, password);
 
     if (response['error'] != null) {
-      if (response['error'] != null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              response['error'],
-              style: TextStyle(color: Colors.white), // Texto blanco
-            ),
-            backgroundColor: Colors.red, // Fondo rojo
-          ),
-        );
-      }
-
+      showCustomSnackBar(context, response['error'], isError: true);
     } else {
       String token = response['token'];
       int? userId = response['iD_USUARIO'];
@@ -90,12 +72,10 @@ class _LoginFormState extends State<LoginForm> {
       String nombreUsuario = response['nombres'];
 
       await _authService.saveTokenAndUserId(
-        token, userId ?? 0, perfil ?? 0, correo, date, contrasenaTemporal ?? '', nombreUsuario);
+          token, userId ?? 0, perfil ?? 0, correo, date, contrasenaTemporal ?? '', nombreUsuario);
 
       if (userId == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('ID de usuario no disponible, pero puedes continuar.')),
-        );
+        showCustomSnackBar(context, 'ID de usuario no disponible, pero puedes continuar.');
       }
 
       await _authService.saveUserData(username, password, _rememberMe);

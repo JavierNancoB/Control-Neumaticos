@@ -3,6 +3,7 @@ import 'modificar_usuario_screen.dart';
 import 'seleccionar_restablecimiento_page.dart';
 import '../../../../services/admin/usuarios/ingresar_correo_service.dart';
 import '../../../../widgets/button.dart';
+import '../../../../utils/snackbar_util.dart';
 
 class IngresarCorreoPage extends StatefulWidget {
   final String actionType;
@@ -52,14 +53,10 @@ class _IngresarCorreoPageState extends State<IngresarCorreoPage> {
           MaterialPageRoute(builder: (context) => destinoPage),
         );
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Usuario invalido, por favor ingrese un correo existente y habilitado')),
-        );
+        showCustomSnackBar(context, 'Usuario invalido, por favor ingrese un correo existente y habilitado', isError: true);
       }
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Por favor, ingrese un correo válido')),
-      );
+      showCustomSnackBar(context, 'Por favor, ingrese un correo valido', isError: true);
     }
   }
 

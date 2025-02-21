@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../../../models/neumatico_crear.dart';
+import '../../../../models/admin/neumatico_crear.dart';
 import '../../../../widgets/admin/neumatico/ubicacion_dropdown.dart';
 import '../../../../services/admin/neumaticos/anadir_neumatico_service.dart';
 import '../../../../widgets/diccionario.dart';
 import '../../../../widgets/button.dart';
+import '../../../../utils/snackbar_util.dart';
 
 class AnadirNeumaticoScreen extends StatefulWidget {
   final String patente;
@@ -58,16 +59,11 @@ class _AnadirNeumaticoScreenState extends State<AnadirNeumaticoScreen> {
     if (_formKey.currentState!.validate()) {
       try {
         await NeumaticoService.addNeumatico(_neumatico, widget.patente);
-        
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Neumático añadido correctamente'), backgroundColor: Colors.green),
-        );
+        showCustomSnackBar(context, 'Neumático añadido correctamente');
 
         Navigator.pop(context); // Regresa a la pantalla anterior tras éxito
       } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error al añadir el neumático: $e'), backgroundColor: Colors.red),
-        );
+        showCustomSnackBar(context, 'Error al añadir el neumático: $e', isError: true);
       }
     }
   }
