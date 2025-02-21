@@ -1,7 +1,13 @@
 # Aplicación Flutter - Gestión de Neumáticos
 
 ## Introducción
-Esta aplicación Flutter está diseñada para dispositivos Android y permite la gestión eficiente de neumáticos mediante el uso de chips NFC. Los administradores pueden llevar un registro detallado del historial de cada neumático, registrar kilometraje, tipos de neumáticos y recibir alertas de seguridad.
+Esta aplicación Flutter está diseñada para dispositivos Android y posteriormente para IOS, permite la gestión eficiente de neumáticos mediante el uso de chips NFC. Los administradores pueden llevar un registro detallado del historial de cada neumático, registrar kilometraje, tipos de neumáticos y recibir alertas de seguridad.
+
+## Tecnologías Utilizadas
+- **Flutter 3.29.0** • channel stable • [Repositorio oficial](https://github.com/flutter/flutter.git)
+- **Dart 3.7.0**
+- **DevTools 2.42.2**
+- **Motor de Flutter:** revision f73bfc4522
 
 ## Instalación
 Sigue estos pasos para configurar y ejecutar la aplicación:
@@ -9,6 +15,7 @@ Sigue estos pasos para configurar y ejecutar la aplicación:
 ### 1. Requisitos Previos
 - Tener **Flutter** instalado en tu sistema. Consulta la [documentación oficial](https://flutter.dev/docs/get-started/install) para la configuración.
 - Disponer de un **emulador o un dispositivo Android** conectado para pruebas.
+- Tener instalado **Android Debug Bridge (ADB)** para trabajar con APIs locales.
 
 ### 2. Clonar el Repositorio
 Ejecuta el siguiente comando en la terminal:
@@ -27,6 +34,26 @@ Dentro de la carpeta del proyecto, ejecuta:
 Para ejecutar la aplicación en un dispositivo físico o emulador, usa:
 ```bash
   flutter run
+```
+Si estás usando APIs locales, asegúrate de que ADB esté ejecutándose correctamente:
+```bash
+  adb reverse tcp:8000 tcp:8000
+```
+
+---
+
+## Generar APK
+Para generar un archivo APK listo para pruebas, ejecuta:
+```bash
+  flutter build apk --release
+```
+Si deseas generar una APK en modo debug:
+```bash
+  flutter build apk --debug
+```
+Para obtener una APK en modo perfil:
+```bash
+  flutter build apk --profile
 ```
 
 ---
