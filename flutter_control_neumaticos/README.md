@@ -105,10 +105,10 @@ Podemos buscar la información de un movil a tarves de su patente, [patente_scre
 #### Bitacora.
 Nos redigirá a la pagina [lector NFC](./lib/screens/nfc/nfc_reader.dart), nos permitirá leer los chips y reedirigirnos a [informacion_neumatica.dart](./lib/screens/menu/bitacora/informacion_neumatico.dart).
 
-<div style="display: flex; gap: 10px;">
-  <img src="assets/readme/bitacora/flutter_01.png" width="200">
-  <img src="assets/readme/bitacora/flutter_02.png" width="200">
-  <img src="assets/readme/bitacora/flutter_03.png" width="200">
+<div style="display: flex; gap: 20px;">
+  <img src="assets/readme/bitacora/flutter_01.png" width="150">
+  <img src="assets/readme/bitacora/flutter_02.png" width="150">
+  <img src="assets/readme/bitacora/flutter_03.png" width="150">
 </div>
 
 #### Alertas.
