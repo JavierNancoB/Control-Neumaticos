@@ -77,7 +77,7 @@ Para ejecutar la aplicación en un dispositivo físico o emulador, usa:
 ### **1. Login**
 La pantalla de inicio de sesión permite a los usuarios autenticarse, cabe resaltar que muchas de las caracteristicas que se ven aqui si bien se arman en screens, estan construidas en la carpeta widgets.
 
-<img src="assets/readme/Screenshot_login.png" width="300">
+<img src="assets/readme/Screenshot_login.png" width="200">
 
 #### **Elementos Principales:**
 - **UsernameField:** Campo de entrada para el usuario.
@@ -95,12 +95,12 @@ La pantalla de inicio de sesión permite a los usuarios autenticarse, cabe resal
 ### **2. Menú Principal**
 El menú proporciona acceso a las principales funcionalidades:
 
-<img src="assets/readme/Screenshot_menu.png" width="300">
+<img src="assets/readme/Screenshot_menu.png" width="200">
 
 #### Información Patentes.
 Podemos buscar la información de un movil a tarves de su patente, [buscar_movil_screen.dart](./lib/screens/menu/patentes/buscar_movil_screen.dart)
 
-<img src="assets/readme/patente/Screenshot_patente.png" width="300">
+<img src="assets/readme/patente/Screenshot_patente.png" width="200">
 
 #### Bitacora.
 Nos redigirá a la pagina [lector NFC](./lib/screens/nfc/nfc_reader.dart), nos permitirá leer los chips y reedirigirnos a [informacion_neumatica.dart](./lib/screens/menu/bitacora/informacion_neumatico.dart).
