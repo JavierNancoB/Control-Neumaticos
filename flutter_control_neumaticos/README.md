@@ -159,11 +159,13 @@ La última opcion nos permite reestablecer nuestra contraseña, al momento de ha
 El objetivo de services es recibir y mandar toda la logica a traves de solicitudes a la API. La mayoria de models y services trabajan en conjunto, principalmente es cuando se hace la solicitud a la api y la respuesta de aquella es un .JSON, con el fin de ordenar en variables los datos que nos llega de la solicitud se crean ciertos models. A continuacion se mostraran algunos services y models más importantes:
 
 #### Servicio de autenticacion o [auth_service.dart](./lib/services/auth_service.dart)
+El AuthService es el servicio encargado de manejar la autenticación de usuarios en la aplicación. Su función principal es comunicarse con el backend para validar credenciales, gestionar errores de conexión y almacenar información relevante del usuario en SharedPreferences para su uso en otras partes de la aplicación.
 
 #### Modelo de Configuracion de Endpoint o [config.dart](./lib/models/config_ejemplo.dart)
+La clase Config es un modelo simple que almacena la URL base del servidor de la API. Su propósito principal es centralizar la configuración del endpoint, facilitando los cambios sin necesidad de modificar múltiples archivos dentro del código, un dato sumamente relevante es que en el repositorio hay un config de ejemplo el cual debe ser cambiado por un endpoint donde la API este corriendo y sea accesible desde el dispositivo.
 
 #### Modelo de Temas o [app_colors.dart](./lib/models/temas/app_colors.dart) y [app_themes.dart](./lib/models/temas/app_themes.dart)
-
+La clase AppColors define una paleta de colores centralizada para la aplicación, asegurando coherencia visual en toda la interfaz. La clase AppTheme define el tema global de la aplicación utilizando la paleta de colores y la tipografía Figtree.
 ---
 
 ## Widgets [(./widgets)](./lib/widgets/)
@@ -184,7 +186,7 @@ Este botón se usa para crear interfaces limpias y consistentes, ayudando a mant
 El widget Diccionario es una clase estática que contiene varios diccionarios (mapas) con valores clave-valor. Cada diccionario mapea un número entero a una descripción legible que se utiliza en la aplicación. Los diccionarios cubren diversas categorías, como tipos de perfiles de usuario, estados de objetos (neumáticos, móviles, alertas), ubicaciones de neumáticos y eventos en una bitácora.
 
 La clase también proporciona un método estático obtenerDescripcion() que permite obtener una descripción legible a partir de una clave en cualquier diccionario. Si la clave no existe en el diccionario, devuelve un valor por defecto de "Desconocido".
----
+
 
 ## Utils [(./utils/)](./lib/utils/)
 Por el momento solo encontraremos el de snackbar.
@@ -194,8 +196,6 @@ La función personalizada showCustomSnackBar permite mostrar un SnackBar con un 
 
 La función utiliza el ScaffoldMessenger.of(context) para mostrar el SnackBar en la pantalla. El SnackBar tiene el mensaje proporcionado y siempre muestra el texto en color blanco, sin importar el color de fondo.
 
-En resumen, showCustomSnackBar proporciona una forma rápida y reutilizable de mostrar mensajes breves en la parte inferior de la pantalla, con colores diferenciados para indicar si es un mensaje de error o de éxito. Esto mejora la experiencia del usuario al recibir notificaciones visuales claras y consistentes.
----
 
 ## Contacto
 Para consultas o soporte, contactar javiernancob@gmail.com.

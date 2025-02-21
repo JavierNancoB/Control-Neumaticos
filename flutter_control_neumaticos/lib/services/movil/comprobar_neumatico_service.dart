@@ -13,14 +13,11 @@ class HistorialMovilService {
     try {
       // Obtener SharedPreferences
       final prefs = await SharedPreferences.getInstance();
-      print('SharedPreferences obtenidas');
 
       // Intentar obtener el ID de usuario
       int? idUsuario = prefs.getInt('userId');
-      print('IDUsuario recuperado: $idUsuario');
 
       if (idUsuario == null) {
-        print('Error: IDUsuario no encontrado en SharedPreferences');
         throw Exception('IDUsuario no encontrado en SharedPreferences');
       }
 
@@ -42,7 +39,6 @@ class HistorialMovilService {
       }
 
       String observacion = observaciones.isEmpty ? 'Sin novedad' : observaciones.join(' | ');
-      print('Observación: $observacion');
 
       final Map<String, dynamic> payload = {
         'IDUsuario': idUsuario.toString(),
@@ -52,7 +48,6 @@ class HistorialMovilService {
         'OBSERVACION': observacion,
       };
 
-      print('Payload preparado: $payload');
 
       // Enviar solicitud POST
       final response = await http.post(
@@ -61,14 +56,11 @@ class HistorialMovilService {
         body: jsonEncode(payload),
       );
 
-      print('Respuesta del servidor: ${response.body}');
 
       if (response.statusCode != 201) {
-        print('Error en respuesta: ${response.body}');
         throw Exception('Error al registrar historial: ${response.body}');
       }
     } catch (e) {
-      print('Error en HistorialMovilService: $e');
       throw Exception('Error en HistorialMovilService: $e');
     }
   }
