@@ -119,9 +119,16 @@ Nos redigirá a la pagina [lector NFC](./lib/screens/nfc/nfc_reader.dart), nos p
 #### Alertas.
 Alertas en caso de existir algun tipo de alerta pendiente o leida se mostrara en el menú principal de color amarillo indicando que existen alertas pendientes. La opcion de alertas nos dará 2 opciones:
 - **Alertas Pendientes:** Recaen aquí tanto las alertas pendientes como leidas. 
-- **Alertas Atendidas:** Para mayor facilidad se mostraran solamente las últimas 50 alertas atendidas.
+- **Alertas Atendidas:** Por configuración de la API y para mayor facilidad se mostraran solamente las últimas 50 alertas atendidas.
 
 Para mayor información sobre la opción Alertas: [alertas_menu.dart](./lib/screens/menu/alertas/alertas_menu.dart).
+
+<div style="display: flex; gap: 20px;">
+  <img src="assets/readme/alertas/flutter_01.png" width="150">
+  <img src="assets/readme/alertas/flutter_02.png" width="150">
+  <img src="assets/readme/alertas/flutter_03.png" width="150">
+  <img src="assets/readme/alertas/flutter_04.png" width="150">
+</div>
 
 #### Stock.
 Stock se encarga de mostrarnos todos los neumaticos que no esten asignados a ningun vehiculo o que su ubicacion sea BODEGA, [stock_page.dart](./lib/screens/menu/stock/stock_page.dart).
