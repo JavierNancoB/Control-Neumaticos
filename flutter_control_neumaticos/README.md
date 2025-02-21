@@ -1,7 +1,7 @@
 # Aplicación Flutter - Gestión de Neumáticos
 
 ## Introducción
-Esta aplicación Flutter está diseñada para dispositivos Android y posteriormente para IOS, permite la gestión eficiente de neumáticos mediante el uso de chips NFC. Los administradores pueden llevar un registro detallado del historial de cada neumático, registrar kilometraje, tipos de neumáticos y recibir alertas de seguridad.
+Esta aplicación Flutter está diseñada para la gestión eficiente de neumáticos mediante el uso de chips NFC. Los administradores pueden llevar un registro detallado del historial de cada neumático, registrar kilometraje, tipos de neumáticos y recibir alertas de seguridad. Aplicación disponible para Android y posteriormente para IOS.
 
 ## Tecnologías Utilizadas
 - **Flutter 3.29.0** • channel stable • [Repositorio oficial](https://github.com/flutter/flutter.git)
@@ -82,25 +82,25 @@ Para obtener una APK en modo perfil:
 
 ## 📦 Dependencias del Proyecto
 
-| Dependencia              | Versión   | Descripción |
-|--------------------------|----------|-------------|
-| `flutter`               | SDK      | Framework principal para la app. |
-| `cupertino_icons`       | ^1.0.8   | Íconos estilo iOS para Flutter. |
-| `nfc_manager`           | ^3.5.0   | Permite leer y escribir etiquetas NFC. |
-| `pin_code_fields`       | ^8.0.1   | Campos de entrada para códigos PIN/OTP. |
-| `http`                  | ^1.3.0   | Cliente HTTP para realizar peticiones a APIs. |
-| `shared_preferences`    | ^2.3.5   | Almacenamiento local de datos clave-valor. |
-| `intl`                  | ^0.20.2  | Soporte para formatos de fecha, hora y número. |
-| `email_validator`       | ^3.0.0   | Valida direcciones de correo electrónico. |
-| `path_provider`         | ^2.1.5   | Obtiene rutas de almacenamiento en el dispositivo. |
-| `permission_handler`    | ^11.3.1  | Maneja permisos de usuario en iOS/Android. |
-| `open_file`             | ^3.5.10  | Abre archivos con apps predeterminadas del sistema. |
-| `flutter_dotenv`        | ^5.2.1   | Carga variables de entorno desde un archivo `.env`. |
-| `flutter_svg`           | ^2.0.17  | Renderiza imágenes SVG en Flutter. |
-| `flutter_native_splash` | ^2.4.5   | Configura una pantalla de carga personalizada. |
-| `flutter_launcher_icons`| ^0.14.3  | Personaliza los íconos de la app en iOS/Android. |
-| `google_fonts`          | ^6.2.1   | Permite usar fuentes de Google fácilmente. |
 
+| Dependencia              | Versión   | Descripción | Enlace |
+|--------------------------|----------|-------------|--------|
+| `flutter`                | SDK      | Framework principal para la app. | [Flutter SDK](https://flutter.dev/docs) |
+| `cupertino_icons`        | ^1.0.8   | Íconos estilo iOS para Flutter. | [cupertino_icons](https://pub.dev/packages/cupertino_icons) |
+| `nfc_manager`            | ^3.5.0   | Permite leer y escribir etiquetas NFC. | [nfc_manager](https://pub.dev/packages/nfc_manager) |
+| `pin_code_fields`        | ^8.0.1   | Campos de entrada para códigos PIN/OTP. | [pin_code_fields](https://pub.dev/packages/pin_code_fields) |
+| `http`                   | ^1.3.0   | Cliente HTTP para realizar peticiones a APIs. | [http](https://pub.dev/packages/http) |
+| `shared_preferences`     | ^2.3.5   | Almacenamiento local de datos clave-valor. | [shared_preferences](https://pub.dev/packages/shared_preferences) |
+| `intl`                   | ^0.20.2  | Soporte para formatos de fecha, hora y número. | [intl](https://pub.dev/packages/intl) |
+| `email_validator`        | ^3.0.0   | Valida direcciones de correo electrónico. | [email_validator](https://pub.dev/packages/email_validator) |
+| `path_provider`          | ^2.1.5   | Obtiene rutas de almacenamiento en el dispositivo. | [path_provider](https://pub.dev/packages/path_provider) |
+| `permission_handler`     | ^11.3.1  | Maneja permisos de usuario en iOS/Android. | [permission_handler](https://pub.dev/packages/permission_handler) |
+| `open_file`              | ^3.5.10  | Abre archivos con apps predeterminadas del sistema. | [open_file](https://pub.dev/packages/open_file) |
+| `flutter_dotenv`         | ^5.2.1   | Carga variables de entorno desde un archivo `.env`. | [flutter_dotenv](https://pub.dev/packages/flutter_dotenv) |
+| `flutter_svg`            | ^2.0.17  | Renderiza imágenes SVG en Flutter. | [flutter_svg](https://pub.dev/packages/flutter_svg) |
+| `flutter_native_splash`  | ^2.4.5   | Configura una pantalla de carga personalizada. | [flutter_native_splash](https://pub.dev/packages/flutter_native_splash) |
+| `flutter_launcher_icons` | ^0.14.3  | Personaliza los íconos de la app en iOS/Android. | [flutter_launcher_icons](https://pub.dev/packages/flutter_launcher_icons) |
+| `google_fonts`           | ^6.2.1   | Permite usar fuentes de Google fácilmente. | [google_fonts](https://pub.dev/packages/google_fonts) |
 
 ---
 
