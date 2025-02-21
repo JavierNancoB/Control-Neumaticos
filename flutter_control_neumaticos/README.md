@@ -146,9 +146,12 @@ Todas las pantallas de administracion se crean en base a [admin_menu_screen.dart
 #### Generar Reportes.
 Podemos generar un archivo excel con la informacion de usuarios, moviles y neumaticos. Este archivo debe ser filtrado entre 2 fechas. Más información en [generar_reporte_screen.dart](./lib/screens/menu/Reportes/generar_reporte_screen.dart).
 
+<img src="assets/readme/reporte/flutter_01.png" width="150">
+
 #### Reestablecer Contraseña.
 La última opcion nos permite reestablecer nuestra contraseña, al momento de hacerlo nos devolveremos al inicio de sesión y tendremos que entrar con nuestras credenciales nuevamente. esta opción es la unica que no se bloquea cuando el administrador reestablece nuestra contraseña, esto con el fin de que lo primero que vea el usaurio al momento de entrar cuando su contraseña sea reestablecida por el administrador sea reestablecer por parte del usuario la contraseña. [reestablecer_passw_page.dart](./lib/screens/menu/admin/usuario/reestablecer_passw_page.dart).
 
+<img src="assets/readme/reestablecerContraseña/flutter_01.png" width="150">
 ---
 
 ## Contacto
