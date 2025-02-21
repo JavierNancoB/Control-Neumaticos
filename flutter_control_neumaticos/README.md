@@ -79,8 +79,8 @@ Cabe resaltar que muchas de las caracteristicas que se ven aqui si bien se arman
 La pantalla de inicio de sesión permite a los usuarios autenticarse, esta pantalla se crea junto con [splash_screen.dart](./lib/screens/splash/splash_screen.dart), en esta pantalla encontraras todo lo relacionado a la animación de inicio como al formulario de inicio de sesión.
 
 <div style="display: flex; gap: 20px;">
-  <img src="assets/readme/Screenshot_login.png" width="150">
   <img src="assets/readme/Screenshot_prelogin.png" width="150">
+  <img src="assets/readme/Screenshot_login.png" width="150">
 </div>
 
 #### **Elementos Principales:**
